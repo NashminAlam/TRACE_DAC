@@ -1,0 +1,615 @@
+{
+  "IP": "ahb_m_wishbone",
+  "Assets": [
+    {
+      "Asset_Name": "AHB address bus (HADDR)",
+      "Functionality": "Carries the 32-bit address from the AHB master; the address is registered (rHADDR) and forwarded to the Wishbone side as wb_adr_o.",
+      "Security Objective": "Integrity",
+      "Justification": "If altered, transactions could target unintended locations on the Wishbone bus, causing misdirected reads/writes. Correctness of the address directly determines which slave location is accessed.",
+      "CWE-IDs": [
+        "CWE-1317",
+        "CWE-1311",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1317": "The AHB address bus (HADDR) could be exploited if the AHB2WB bridge fails to enforce proper access control, allowing unauthorized transactions to target unintended Wishbone slave locations.",
+        "CWE-1311": "Improper translation of security attributes by the AHB2WB bridge could lead to incorrect classification of transactions, allowing unauthorized access to Wishbone slave resources.",
+        "CWE-1262": "If the AHB address bus lacks proper access control, untrusted software could manipulate the address to access or modify critical Wishbone slave registers, compromising system integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1317 by manipulating the AHB address bus (HADDR) to introduce unauthorized modifications, compromising the integrity of the address and causing transactions to target unintended Wishbone slave locations.",
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1317 by intercepting and altering the registered AHB address (rHADDR) during synchronization, leading to integrity violations where transactions are misdirected to incorrect Wishbone addresses."
+          }
+        },
+        "CWE-1311": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 could exploit CWE-1311 by manipulating the AHB address bus (HADDR) to introduce incorrect address values, thereby compromising the integrity of transactions and causing them to target unintended Wishbone slave locations.",
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1311 by intercepting and altering the registered address (rHADDR) during its transition to the Wishbone side, leading to unauthorized access and misdirected data transactions, thus violating the integrity of the address bus."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 could exploit CWE-1262 by manipulating the AHB address bus (HADDR) to introduce incorrect address values, compromising the integrity of the address and causing transactions to target unintended locations on the Wishbone bus."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122",
+        "CAPEC-545",
+        "CAPEC-180",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1317] CAPEC-122 can exploit CWE-1317 by manipulating the AHB address bus (HADDR) to introduce unauthorized modifications, compromising the integrity of the address and causing transactions to target unintended Wishbone slave locations.",
+        "CAPEC-545": "[CWE-1317] CAPEC-545 can exploit CWE-1317 by intercepting and altering the registered AHB address (rHADDR) during synchronization, leading to integrity violations where transactions are misdirected to incorrect Wishbone addresses. [CWE-1311] CAPEC-545 could exploit CWE-1311 by intercepting and altering the registered address (rHADDR) during its transition to the Wishbone side, leading to unauthorized access and misdirected data transactions, thus violating the integrity of the address bus.",
+        "CAPEC-180": "[CWE-1311] CAPEC-180 could exploit CWE-1311 by manipulating the AHB address bus (HADDR) to introduce incorrect address values, thereby compromising the integrity of transactions and causing them to target unintended Wishbone slave locations.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 could exploit CWE-1262 by manipulating the AHB address bus (HADDR) to introduce incorrect address values, compromising the integrity of the address and causing transactions to target unintended locations on the Wishbone bus."
+      }
+    },
+    {
+      "Asset_Name": "AHB write data bus (HWDATA)",
+      "Functionality": "Carries 32-bit write data from the AHB master; directly forwarded to the Wishbone bus as wb_dat_o during write operations.",
+      "Security Objective": "Integrity",
+      "Justification": "Corruption of this data leads to incorrect values being written on the Wishbone side. Protecting the correctness of write data is essential to prevent unintended data modification.",
+      "CWE-IDs": [
+        "CWE-1317",
+        "CWE-1311",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1317": "Improper access control in the AHB2WB bridge could allow unauthorized modifications to the HWDATA, compromising data integrity during write operations.",
+        "CWE-1311": "Incorrect translation of security attributes by the AHB2WB bridge could misclassify transactions, leading to unauthorized write operations on the Wishbone side.",
+        "CWE-1262": "Improper access control for the HWDATA register interface could allow unauthorized agents to modify write data, violating the integrity of data transferred to the Wishbone bus."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1317 by manipulating the AHB write data bus (HWDATA) to introduce incorrect data values during synchronization delays, compromising the integrity of data forwarded to the Wishbone bus.",
+            "CAPEC-121": "CAPEC-121 targets CWE-1317 by intercepting and altering the HWDATA signal during its registration phase, leading to unauthorized data modification and violating the integrity of the data transferred to the Wishbone bus."
+          }
+        },
+        "CWE-1311": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 could exploit CWE-1311 by manipulating the AHB write data bus (HWDATA) to introduce incorrect data values during synchronization delays, compromising the integrity of data transferred to the Wishbone bus.",
+            "CAPEC-121": "CAPEC-121 could exploit CWE-1311 by intercepting and altering the HWDATA signals during the synchronization phase, leading to unauthorized data modification and violating the integrity of the data written to the Wishbone bus."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the AHB write data bus (HWDATA) to introduce incorrect data values during synchronization delays, compromising the integrity of data transferred to the Wishbone bus.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1262 by intercepting and altering the HWDATA signal during its registration phase, leading to unauthorized data modification and violating the integrity of the data written to the Wishbone bus."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122",
+        "CAPEC-121",
+        "CAPEC-180",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1317] CAPEC-122 can exploit CWE-1317 by manipulating the AHB write data bus (HWDATA) to introduce incorrect data values during synchronization delays, compromising the integrity of data forwarded to the Wishbone bus.",
+        "CAPEC-121": "[CWE-1317] CAPEC-121 targets CWE-1317 by intercepting and altering the HWDATA signal during its registration phase, leading to unauthorized data modification and violating the integrity of the data transferred to the Wishbone bus. [CWE-1311] CAPEC-121 could exploit CWE-1311 by intercepting and altering the HWDATA signals during the synchronization phase, leading to unauthorized data modification and violating the integrity of the data written to the Wishbone bus. [CWE-1262] CAPEC-121 can exploit CWE-1262 by intercepting and altering the HWDATA signal during its registration phase, leading to unauthorized data modification and violating the integrity of the data written to the Wishbone bus.",
+        "CAPEC-180": "[CWE-1311] CAPEC-180 could exploit CWE-1311 by manipulating the AHB write data bus (HWDATA) to introduce incorrect data values during synchronization delays, compromising the integrity of data transferred to the Wishbone bus.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the AHB write data bus (HWDATA) to introduce incorrect data values during synchronization delays, compromising the integrity of data transferred to the Wishbone bus."
+      }
+    },
+    {
+      "Asset_Name": "AHB write control (HWRITE)",
+      "Functionality": "Indicates whether the current transaction is a write or read; registered and used to derive master_wants_write/read, which in turn drive Wishbone control (wb_we_o, wb_stb_o, wb_cyc_o).",
+      "Security Objective": "Integrity",
+      "Justification": "Manipulating this control flips the operation type, turning a read into a write or vice versa, which can cause data corruption or unauthorized modification. It defines the fundamental semantics of each transaction.",
+      "CWE-IDs": [
+        "CWE-1317",
+        "CWE-1280",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1317": "The AHB write control (HWRITE) could be manipulated to perform unauthorized write operations, leading to data corruption or unauthorized modification, similar to improper access control in fabric bridges.",
+        "CWE-1280": "If the access control check for HWRITE is implemented after the operation, it could allow unauthorized write operations before the system verifies permissions, leading to data corruption.",
+        "CWE-1262": "Improper access control for the HWRITE signal could allow unauthorized agents to manipulate the transaction type, leading to breaches in integrity by altering the intended read/write operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1317 by manipulating the AHB write control (HWRITE) signal to alter transaction types, thereby compromising the integrity of the data flow between AHB and Wishbone by causing unauthorized writes or reads."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "By exploiting CWE-1280, an attacker could manipulate the HWRITE signal to alter the transaction type, leveraging CAPEC-180 to compromise the integrity of the AHB2WB module by causing unauthorized data writes or reads."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the HWRITE signal to alter the intended transaction type, thereby compromising the integrity of the AHB2WB module by causing unauthorized data writes or reads."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122",
+        "CAPEC-180",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1317] CAPEC-122 can exploit CWE-1317 by manipulating the AHB write control (HWRITE) signal to alter transaction types, thereby compromising the integrity of the data flow between AHB and Wishbone by causing unauthorized writes or reads.",
+        "CAPEC-180": "[CWE-1280] By exploiting CWE-1280, an attacker could manipulate the HWRITE signal to alter the transaction type, leveraging CAPEC-180 to compromise the integrity of the AHB2WB module by causing unauthorized data writes or reads.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the HWRITE signal to alter the intended transaction type, thereby compromising the integrity of the AHB2WB module by causing unauthorized data writes or reads."
+      }
+    },
+    {
+      "Asset_Name": "AHB slave-select control (HSEL)",
+      "Functionality": "Selects this bridge as the active AHB slave; registered (rHSEL) and used to qualify transaction intent (master_wants_read/write).",
+      "Security Objective": "Integrity",
+      "Justification": "If this signal is falsified, transactions may be spuriously generated or suppressed, leading to unauthorized accesses or missed operations. It determines whether this module should respond to a given AHB cycle.",
+      "CWE-IDs": [
+        "CWE-1317",
+        "CWE-1276",
+        "CWE-1311"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1317": "The HSEL signal, if improperly controlled, could allow unauthorized access to the AHB2WB bridge, leading to improper access control in the fabric bridge.",
+        "CWE-1276": "Incorrect connection or configuration of the HSEL signal could lead to unauthorized transactions being processed, violating the integrity of the system.",
+        "CWE-1311": "Improper translation of security attributes could occur if the HSEL signal is not correctly managed, leading to unauthorized access or privilege escalation."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1317 by manipulating the HSEL signal to falsify the selection of the AHB2WB bridge, compromising the integrity of transaction intent and potentially leading to unauthorized access or missed operations."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1311": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1311 by manipulating the HSEL signal to create unauthorized AHB transactions, compromising the integrity of the AHB slave-select control and leading to unauthorized accesses or missed operations."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1317] CAPEC-122 can exploit CWE-1317 by manipulating the HSEL signal to falsify the selection of the AHB2WB bridge, compromising the integrity of transaction intent and potentially leading to unauthorized access or missed operations.",
+        "CAPEC-180": "[CWE-1311] CAPEC-180 can exploit CWE-1311 by manipulating the HSEL signal to create unauthorized AHB transactions, compromising the integrity of the AHB slave-select control and leading to unauthorized accesses or missed operations."
+      }
+    },
+    {
+      "Asset_Name": "AHB ready input (HREADY)",
+      "Functionality": "Indicates that the AHB bus is ready; used to qualify when AHB inputs are captured into internal registers.",
+      "Security Objective": "Availability",
+      "Justification": "If this signal is held low or incorrectly toggled, the module cannot capture requests, stalling progress. Availability of this handshake is necessary to sustain forward progress of transactions.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1317",
+        "CWE-1318"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The HREADY signal, if incorrectly connected or left unconnected, can prevent the AHB2WB module from capturing requests, leading to a denial of service.",
+        "CWE-1317": "Improper access control in the AHB2WB bridge could allow unauthorized transactions to proceed, affecting the availability of the HREADY signal and stalling the system.",
+        "CWE-1318": "If the AHB2WB bridge lacks support for security features, it may fail to enforce proper transaction handling, impacting the availability of the HREADY signal."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1317 by manipulating the HREADY signal to remain low, thereby causing a denial of service by preventing the AHB2WB module from capturing requests and maintaining transaction availability."
+          }
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating the HREADY signal to remain low, thereby preventing the AHB2WB module from capturing requests and stalling transaction progress, which directly impacts the availability of the AHB ready input."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1317] CAPEC-122 can exploit CWE-1317 by manipulating the HREADY signal to remain low, thereby causing a denial of service by preventing the AHB2WB module from capturing requests and maintaining transaction availability.",
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating the HREADY signal to remain low, thereby preventing the AHB2WB module from capturing requests and stalling transaction progress, which directly impacts the availability of the AHB ready input."
+      }
+    },
+    {
+      "Asset_Name": "Wishbone acknowledge input (wb_ack_i)",
+      "Functionality": "Acknowledges completion on the Wishbone side; combined with internal cycle state to generate HREADYOUT for the AHB master.",
+      "Security Objective": "Availability",
+      "Justification": "If suppressed or forced, the AHB side may stall indefinitely or complete prematurely, breaking protocol progress. System forward progress depends on accurate acknowledgment of Wishbone completion.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1317",
+        "CWE-1429"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The wb_ack_i signal, if incorrectly connected or suppressed, can lead to a failure in acknowledging Wishbone transactions, causing the AHB master to stall indefinitely, impacting system availability.",
+        "CWE-1317": "Improper access control in the AHB2WB bridge could allow unauthorized manipulation of the wb_ack_i signal, leading to premature or stalled AHB transactions, affecting system availability.",
+        "CWE-1429": "If the wb_ack_i signal is suppressed without feedback, the system may not detect transaction completion failures, leading to undetected stalls or premature completions, impacting availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "By exploiting CWE-1317, CAPEC-122 can manipulate the Wishbone acknowledge input (wb_ack_i) to create a denial of service condition, compromising the availability of the AHB2WB module by causing indefinite stalling or premature completion on the AHB side.",
+            "CAPEC-545": "CAPEC-545 leverages CWE-1317 by tampering with the Wishbone acknowledge input (wb_ack_i) to disrupt the synchronization mechanism, potentially leading to incorrect HREADYOUT signaling and violating the availability objective by stalling or misguiding the AHB master."
+          }
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122",
+        "CAPEC-545"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1317] By exploiting CWE-1317, CAPEC-122 can manipulate the Wishbone acknowledge input (wb_ack_i) to create a denial of service condition, compromising the availability of the AHB2WB module by causing indefinite stalling or premature completion on the AHB side.",
+        "CAPEC-545": "[CWE-1317] CAPEC-545 leverages CWE-1317 by tampering with the Wishbone acknowledge input (wb_ack_i) to disrupt the synchronization mechanism, potentially leading to incorrect HREADYOUT signaling and violating the availability objective by stalling or misguiding the AHB master."
+      }
+    },
+    {
+      "Asset_Name": "AHB read data bus (HRDATA)",
+      "Functionality": "Outputs 32-bit read data to the AHB master; directly driven from wb_dat_i when the transaction completes.",
+      "Security Objective": "Availability",
+      "Justification": "The master relies on this output to complete read operations; if unavailable when required, reads cannot complete successfully. Ensuring this path is available aligns with correct completion semantics.",
+      "CWE-IDs": [
+        "CWE-1317",
+        "CWE-1276",
+        "CWE-1318"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1317": "Improper access control in the AHB2WB bridge could allow unauthorized transactions to disrupt the availability of the HRDATA bus, preventing successful read operations.",
+        "CWE-1276": "Incorrect connections between the AHB2WB module and its parent system could lead to availability issues on the HRDATA bus, causing read operations to fail.",
+        "CWE-1318": "Missing support for security features in the AHB2WB bridge could result in unauthorized access that disrupts the availability of the HRDATA bus, impacting read operation completion."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122 could exploit CWE-1317 by manipulating the timing of the wb_ack_i signal to cause a denial of service on the HRDATA path, thereby impacting the availability of read data to the AHB master.",
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1317 by injecting faults into the control logic that manages HREADYOUT, potentially causing the HRDATA path to become unavailable and disrupting the completion of read operations."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 could exploit CWE-1318 by manipulating the synchronization mechanism between the AHB and Wishbone buses, potentially causing the HRDATA path to become unavailable, thus violating the availability objective of the AHB read data bus."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122",
+        "CAPEC-545",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1317] CAPEC-122 could exploit CWE-1317 by manipulating the timing of the wb_ack_i signal to cause a denial of service on the HRDATA path, thereby impacting the availability of read data to the AHB master.",
+        "CAPEC-545": "[CWE-1317] CAPEC-545 could exploit CWE-1317 by injecting faults into the control logic that manages HREADYOUT, potentially causing the HRDATA path to become unavailable and disrupting the completion of read operations.",
+        "CAPEC-180": "[CWE-1318] CAPEC-180 could exploit CWE-1318 by manipulating the synchronization mechanism between the AHB and Wishbone buses, potentially causing the HRDATA path to become unavailable, thus violating the availability objective of the AHB read data bus."
+      }
+    },
+    {
+      "Asset_Name": "AHB ready output (HREADYOUT)",
+      "Functionality": "Indicates to the AHB master that the slave is ready to complete the transfer; driven high based on Wishbone acknowledgment and internal cycle state.",
+      "Security Objective": "Availability",
+      "Justification": "If this line is held low or asserted prematurely, the master may stall or latch invalid data. It is the primary availability handshake controlling forward progress on the AHB side.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1317",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The HREADYOUT signal could be incorrectly connected or configured, leading to incorrect synchronization between AHB and Wishbone, causing availability issues.",
+        "CWE-1317": "Improper access control in the AHB2WB bridge could allow unauthorized transactions to proceed, affecting the availability of the HREADYOUT signal.",
+        "CWE-1245": "Improper FSM handling in the AHB2WB module could lead to incorrect state transitions, causing the HREADYOUT signal to be asserted or de-asserted incorrectly, impacting system availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1317 by manipulating the HREADYOUT signal to remain low, thereby causing a denial of service by stalling the AHB master and violating the availability objective of the asset."
+          }
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the HREADYOUT signal to remain low, causing a denial of service by stalling the AHB master and violating the availability objective of ensuring forward progress in the AHB2WB module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122",
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1317] CAPEC-122 can exploit CWE-1317 by manipulating the HREADYOUT signal to remain low, thereby causing a denial of service by stalling the AHB master and violating the availability objective of the asset.",
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the HREADYOUT signal to remain low, causing a denial of service by stalling the AHB master and violating the availability objective of ensuring forward progress in the AHB2WB module."
+      }
+    },
+    {
+      "Asset_Name": "Wishbone address output (wb_adr_o)",
+      "Functionality": "32-bit address sent to the Wishbone slave; derived from the registered AHB address.",
+      "Security Objective": "Integrity",
+      "Justification": "An incorrect address results in operations targeting unintended locations on the Wishbone bus. Maintaining address correctness is fundamental to safe read/write targeting.",
+      "CWE-IDs": [
+        "CWE-1317",
+        "CWE-1311",
+        "CWE-1276"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1317": "The Wishbone address output (wb_adr_o) could be exploited if the AHB2WB bridge fails to enforce proper access control, allowing unauthorized transactions to target unintended Wishbone slave addresses.",
+        "CWE-1311": "Improper translation of security attributes by the AHB2WB bridge could lead to incorrect privilege levels being assigned to transactions, resulting in unauthorized access to sensitive Wishbone slave resources.",
+        "CWE-1276": "Incorrect connections or misconfigurations in the AHB2WB module could lead to the Wishbone address output being improperly routed, causing operations to target unintended locations on the Wishbone bus."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122 could exploit CWE-1317 by manipulating the AHB2WB module's control logic to alter the registered AHB address, leading to incorrect Wishbone address outputs (wb_adr_o) and compromising the integrity of targeted operations.",
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1317 by introducing a timing discrepancy in the AHB2WB module's signal synchronization, causing the Wishbone address output (wb_adr_o) to be derived from an incorrect AHB address, thus violating the integrity of address targeting."
+          }
+        },
+        "CWE-1311": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 could exploit CWE-1311 by manipulating the control logic to alter the registered AHB address, leading to incorrect Wishbone address outputs (wb_adr_o) and compromising the integrity of targeted operations on the Wishbone bus."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122",
+        "CAPEC-545",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1317] CAPEC-122 could exploit CWE-1317 by manipulating the AHB2WB module's control logic to alter the registered AHB address, leading to incorrect Wishbone address outputs (wb_adr_o) and compromising the integrity of targeted operations.",
+        "CAPEC-545": "[CWE-1317] CAPEC-545 could exploit CWE-1317 by introducing a timing discrepancy in the AHB2WB module's signal synchronization, causing the Wishbone address output (wb_adr_o) to be derived from an incorrect AHB address, thus violating the integrity of address targeting.",
+        "CAPEC-180": "[CWE-1311] CAPEC-180 could exploit CWE-1311 by manipulating the control logic to alter the registered AHB address, leading to incorrect Wishbone address outputs (wb_adr_o) and compromising the integrity of targeted operations on the Wishbone bus."
+      }
+    },
+    {
+      "Asset_Name": "Wishbone write data output (wb_dat_o)",
+      "Functionality": "32-bit data driven to the Wishbone slave during writes; sourced from HWDATA.",
+      "Security Objective": "Integrity",
+      "Justification": "Any corruption on this path directly modifies the data written to downstream slaves. Ensuring correct data delivery prevents unintended state changes.",
+      "CWE-IDs": [
+        "CWE-1317",
+        "CWE-1311",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1317": "The AHB2WB module acts as a fabric bridge and improper access control could allow unauthorized writes to the Wishbone slave, compromising data integrity.",
+        "CWE-1311": "Improper translation of security attributes by the AHB2WB bridge could lead to misclassification of transactions, allowing unauthorized data writes to the Wishbone slave.",
+        "CWE-1262": "Improper access control for the Wishbone interface could allow unauthorized modification of the wb_dat_o signal, directly affecting data integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1317 by manipulating the control logic to improperly register AHB signals, leading to integrity violations in the Wishbone write data output (wb_dat_o) by altering the data sourced from HWDATA.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1317 by inducing synchronization errors between AHB and Wishbone protocols, potentially corrupting the integrity of the Wishbone write data output (wb_dat_o) during data transfer."
+          }
+        },
+        "CWE-1311": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1311 by manipulating the control logic of the AHB2WB module to improperly register or alter the HWDATA signal, leading to integrity violations in the wb_dat_o output, which directly impacts the data integrity objective of the Wishbone write data path."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the control logic that determines the Wishbone write enable signal (wb_we_o), potentially causing unauthorized data corruption on the wb_dat_o path, thereby compromising the integrity of data written to downstream slaves."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122",
+        "CAPEC-545",
+        "CAPEC-180",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1317] CAPEC-122 can exploit CWE-1317 by manipulating the control logic to improperly register AHB signals, leading to integrity violations in the Wishbone write data output (wb_dat_o) by altering the data sourced from HWDATA.",
+        "CAPEC-545": "[CWE-1317] CAPEC-545 targets CWE-1317 by inducing synchronization errors between AHB and Wishbone protocols, potentially corrupting the integrity of the Wishbone write data output (wb_dat_o) during data transfer.",
+        "CAPEC-180": "[CWE-1311] CAPEC-180 can exploit CWE-1311 by manipulating the control logic of the AHB2WB module to improperly register or alter the HWDATA signal, leading to integrity violations in the wb_dat_o output, which directly impacts the data integrity objective of the Wishbone write data path.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the control logic that determines the Wishbone write enable signal (wb_we_o), potentially causing unauthorized data corruption on the wb_dat_o path, thereby compromising the integrity of data written to downstream slaves."
+      }
+    },
+    {
+      "Asset_Name": "Wishbone byte select (wb_sel_o)",
+      "Functionality": "Byte-lane select on the Wishbone bus; driven active when a cycle/strobe is active (this design asserts all lanes during active transfers).",
+      "Security Objective": "Integrity",
+      "Justification": "Incorrect byte-lane selection causes partial or misaligned writes/reads, corrupting data. Correct control over which bytes participate in a transfer is critical to data integrity.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1311",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The Wishbone byte select (wb_sel_o) could be incorrectly connected, leading to misaligned or partial data transfers, compromising data integrity.",
+        "CWE-1311": "Improper translation of security attributes by the AHB2WB bridge could misclassify transactions, allowing unauthorized access to data via the Wishbone byte select.",
+        "CWE-1262": "Improper access control for the Wishbone byte select could allow unauthorized manipulation of byte-lane selection, leading to data corruption."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1311": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "By exploiting CWE-1311, CAPEC-180 could manipulate the control logic of the AHB2WB module to improperly assert wb_sel_o, leading to incorrect byte-lane selection and compromising data integrity during Wishbone transactions.",
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1311 by introducing faults in the signal registration process, causing wb_sel_o to be incorrectly driven, which results in partial or misaligned data transfers and violates the integrity of the Wishbone bus communication."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the Wishbone byte select (wb_sel_o) signal to cause incorrect byte-lane selection, leading to data corruption and violating the integrity of data transfers between the AHB and Wishbone buses."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-545",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1311] By exploiting CWE-1311, CAPEC-180 could manipulate the control logic of the AHB2WB module to improperly assert wb_sel_o, leading to incorrect byte-lane selection and compromising data integrity during Wishbone transactions.",
+        "CAPEC-545": "[CWE-1311] CAPEC-545 could exploit CWE-1311 by introducing faults in the signal registration process, causing wb_sel_o to be incorrectly driven, which results in partial or misaligned data transfers and violates the integrity of the Wishbone bus communication.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the Wishbone byte select (wb_sel_o) signal to cause incorrect byte-lane selection, leading to data corruption and violating the integrity of data transfers between the AHB and Wishbone buses."
+      }
+    },
+    {
+      "Asset_Name": "Wishbone write enable (wb_we_o)",
+      "Functionality": "Indicates a write cycle to the Wishbone slave; asserted when the AHB side intends a write.",
+      "Security Objective": "Integrity",
+      "Justification": "Flipping this control can turn reads into writes or writes into reads, causing unintended data modification. It defines the operation direction for each Wishbone transaction.",
+      "CWE-IDs": [
+        "CWE-1317",
+        "CWE-1311",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1317": "The Wishbone write enable signal (wb_we_o) could be exploited if the AHB2WB bridge fails to enforce proper access control, allowing unauthorized writes to the Wishbone slave.",
+        "CWE-1311": "Improper translation of security attributes by the AHB2WB bridge could lead to incorrect classification of transactions, allowing unauthorized writes via the wb_we_o signal.",
+        "CWE-1262": "If the AHB2WB module does not enforce access control on the wb_we_o signal, untrusted software could manipulate this signal to perform unauthorized writes, compromising data integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1317 by manipulating the Wishbone write enable signal (wb_we_o) to alter the intended operation direction, compromising the integrity of data transactions between the AHB and Wishbone interfaces."
+          }
+        },
+        "CWE-1311": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1311 by manipulating the Wishbone write enable (wb_we_o) signal to alter the intended operation direction, compromising the integrity of the data transfer by turning legitimate read operations into unauthorized writes."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the Wishbone write enable signal (wb_we_o) to alter the intended operation direction, compromising the integrity of data transactions between the AHB and Wishbone interfaces."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122",
+        "CAPEC-180",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1317] CAPEC-122 can exploit CWE-1317 by manipulating the Wishbone write enable signal (wb_we_o) to alter the intended operation direction, compromising the integrity of data transactions between the AHB and Wishbone interfaces.",
+        "CAPEC-180": "[CWE-1311] CAPEC-180 can exploit CWE-1311 by manipulating the Wishbone write enable (wb_we_o) signal to alter the intended operation direction, compromising the integrity of the data transfer by turning legitimate read operations into unauthorized writes.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the Wishbone write enable signal (wb_we_o) to alter the intended operation direction, compromising the integrity of data transactions between the AHB and Wishbone interfaces."
+      }
+    }
+  ]
+}
