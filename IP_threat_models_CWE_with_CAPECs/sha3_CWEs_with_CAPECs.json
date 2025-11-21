@@ -1,0 +1,1443 @@
+{
+  "IP": "sha3",
+  "Assets": [
+    {
+      "Asset_Name": "Input padded data block (in) in f_permutation module",
+      "Functionality": "576-bit input that is absorbed into the Keccak state on acceptance by XORing into the upper portion of the state.",
+      "Security Objective": "Confidentiality",
+      "Justification": "This signal carries message-derived data that an integrator may consider secret. Exposure of this value or unintended propagation can leak user data that directly influences the permutation state.",
+      "CWE-IDs": [
+        "CWE-1431",
+        "CWE-1276",
+        "CWE-1240",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1431": "The f_permutation module could inadvertently expose intermediate cryptographic states through its outputs, compromising the confidentiality of the input padded data block.",
+        "CWE-1276": "Incorrect connections between the f_permutation module and other system components could lead to unintended exposure of the input padded data block, violating confidentiality.",
+        "CWE-1240": "If the Keccak permutation is implemented with risky cryptographic primitives, it could lead to exposure of sensitive data within the input padded data block.",
+        "CWE-1220": "Insufficient granularity in access control could allow unauthorized access to the input padded data block, leading to potential data leakage."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1431 by manipulating the input padded data block in the f_permutation module to cause unintended propagation of confidential data, thereby violating the confidentiality of the message-derived data."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1276 by manipulating the input padded data block in the f_permutation module to cause unintended propagation of confidential data, potentially leaking sensitive information through side-channel analysis during the XOR operation with the Keccak state."
+          }
+        },
+        "CWE-1240": {
+          "CAPEC-IDs": [
+            "CAPEC-97",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "CAPEC-97 can exploit CWE-1240 by manipulating the input data flow to the f_permutation module, potentially causing the exposure of the 576-bit input padded data block, thereby compromising its confidentiality.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1240 by intercepting or altering the control signals such as in_ready or ack, which could lead to unauthorized access or leakage of the confidential 576-bit input padded data block in the f_permutation module."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 could exploit CWE-1220 by manipulating the input data flow to the f_permutation module, potentially causing the exposure of the 576-bit input padded data block, thus compromising its confidentiality by leaking sensitive message-derived data.",
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1220 by introducing unexpected input sequences to the f_permutation module, leading to unintended propagation or exposure of the 576-bit input padded data block, thereby violating its confidentiality objective."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-545",
+        "CAPEC-97",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-545": "[CWE-1431] CAPEC-545 can exploit CWE-1431 by manipulating the input padded data block in the f_permutation module to cause unintended propagation of confidential data, thereby violating the confidentiality of the message-derived data. [CWE-1276] CAPEC-545 can exploit CWE-1276 by manipulating the input padded data block in the f_permutation module to cause unintended propagation of confidential data, potentially leaking sensitive information through side-channel analysis during the XOR operation with the Keccak state. [CWE-1240] CAPEC-545 targets CWE-1240 by intercepting or altering the control signals such as in_ready or ack, which could lead to unauthorized access or leakage of the confidential 576-bit input padded data block in the f_permutation module. [CWE-1220] CAPEC-545 could exploit CWE-1220 by introducing unexpected input sequences to the f_permutation module, leading to unintended propagation or exposure of the 576-bit input padded data block, thereby violating its confidentiality objective.",
+        "CAPEC-97": "[CWE-1240] CAPEC-97 can exploit CWE-1240 by manipulating the input data flow to the f_permutation module, potentially causing the exposure of the 576-bit input padded data block, thereby compromising its confidentiality.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 could exploit CWE-1220 by manipulating the input data flow to the f_permutation module, potentially causing the exposure of the 576-bit input padded data block, thus compromising its confidentiality by leaking sensitive message-derived data."
+      }
+    },
+    {
+      "Asset_Name": "Permutation state output bus (out) in f_permutation module",
+      "Functionality": "1600-bit Keccak state updated each cycle when update is asserted and provided to downstream logic as the permutation result.",
+      "Security Objective": "Confidentiality",
+      "Justification": "The bus reveals the full internal state after rounds, which is derived from the input message. Observing this state can disclose message-related information or internal sponge state that an integrator may wish to protect.",
+      "CWE-IDs": [
+        "CWE-1431",
+        "CWE-1258",
+        "CWE-1244"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1431": "The permutation state output bus in the f_permutation module exposes the full internal state after rounds, potentially leaking sensitive information derived from the input message.",
+        "CWE-1258": "If sensitive intermediate values on the permutation state output bus are not cleared before entering debug mode, they could be exposed through debug interfaces.",
+        "CWE-1244": "The permutation state output bus may be exposed to unsafe debug access levels, allowing unauthorized access to sensitive cryptographic states."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545, which involves side-channel attacks, can exploit CWE-1431 by observing the permutation state output bus in the f_permutation module to infer confidential information about the internal Keccak state, thereby compromising the confidentiality of the cryptographic process."
+          }
+        },
+        "CWE-1258": {
+          "CAPEC-IDs": [
+            "CAPEC-37",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-37": "CAPEC-37 can exploit CWE-1258 by manipulating the control signals such as 'in_ready' and 'ack' to induce incorrect state transitions in the 'f_permutation' module, potentially exposing the 1600-bit permutation state output bus and compromising confidentiality.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1258 by leveraging side-channel analysis on the 'f_permutation' module's output bus, observing variations in the 1600-bit state to infer sensitive information about the internal sponge state, thus breaching confidentiality."
+          }
+        },
+        "CWE-1244": {
+          "CAPEC-IDs": [
+            "CAPEC-114",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-114": "CAPEC-114 can exploit CWE-1244 by manipulating the control signals such as 'in_ready' and 'ack' to induce incorrect state transitions in the 'f_permutation' module, potentially exposing the 1600-bit permutation state output bus and compromising its confidentiality.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1244 by leveraging timing discrepancies in the 'f_permutation' module's state machine, allowing an attacker to infer the internal permutation state from the timing of the 'out_ready' signal, thus breaching the confidentiality of the permutation state output bus."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-545",
+        "CAPEC-37",
+        "CAPEC-114"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-545": "[CWE-1431] CAPEC-545, which involves side-channel attacks, can exploit CWE-1431 by observing the permutation state output bus in the f_permutation module to infer confidential information about the internal Keccak state, thereby compromising the confidentiality of the cryptographic process. [CWE-1258] CAPEC-545 targets CWE-1258 by leveraging side-channel analysis on the 'f_permutation' module's output bus, observing variations in the 1600-bit state to infer sensitive information about the internal sponge state, thus breaching confidentiality. [CWE-1244] CAPEC-545 targets CWE-1244 by leveraging timing discrepancies in the 'f_permutation' module's state machine, allowing an attacker to infer the internal permutation state from the timing of the 'out_ready' signal, thus breaching the confidentiality of the permutation state output bus.",
+        "CAPEC-37": "[CWE-1258] CAPEC-37 can exploit CWE-1258 by manipulating the control signals such as 'in_ready' and 'ack' to induce incorrect state transitions in the 'f_permutation' module, potentially exposing the 1600-bit permutation state output bus and compromising confidentiality.",
+        "CAPEC-114": "[CWE-1244] CAPEC-114 can exploit CWE-1244 by manipulating the control signals such as 'in_ready' and 'ack' to induce incorrect state transitions in the 'f_permutation' module, potentially exposing the 1600-bit permutation state output bus and compromising its confidentiality."
+      }
+    },
+    {
+      "Asset_Name": "Input data ready handshake (in_ready) in f_permutation module",
+      "Functionality": "Indicates availability of input data and, together with calc, determines when the module accepts new data.",
+      "Security Objective": "Availability",
+      "Justification": "If held low or manipulated, the module cannot begin processing, blocking the pipeline. This directly enables denial-of-service by preventing data absorption.",
+      "CWE-IDs": [
+        "CWE-1248",
+        "CWE-1276",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1248": "Semiconductor defects could cause the in_ready signal to be stuck low, preventing the f_permutation module from processing input data and leading to a denial of service.",
+        "CWE-1276": "Incorrect connections or misconfigurations could cause the in_ready signal to be improperly tied, preventing the module from recognizing available input data and causing a denial of service.",
+        "CWE-1245": "Improper FSM implementation could lead to the f_permutation module not transitioning to the correct state when in_ready is asserted, blocking data processing and causing a denial of service."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1248": {
+          "CAPEC-IDs": [
+            "CAPEC-624"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-624": "CAPEC-624 can exploit CWE-1248 by manipulating the 'in_ready' signal in the 'f_permutation' module to remain low, thereby preventing the module from accepting new data and achieving a denial-of-service by blocking the data processing pipeline, which compromises the availability of the cryptographic function."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the 'in_ready' signal in the 'f_permutation' module to remain low, thereby causing a denial-of-service by preventing the module from accepting new input data and blocking the processing pipeline, which compromises the availability of the cryptographic function."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-624",
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-624": "[CWE-1248] CAPEC-624 can exploit CWE-1248 by manipulating the 'in_ready' signal in the 'f_permutation' module to remain low, thereby preventing the module from accepting new data and achieving a denial-of-service by blocking the data processing pipeline, which compromises the availability of the cryptographic function.",
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the 'in_ready' signal in the 'f_permutation' module to remain low, thereby causing a denial-of-service by preventing the module from accepting new input data and blocking the processing pipeline, which compromises the availability of the cryptographic function."
+      }
+    },
+    {
+      "Asset_Name": "Output data ready handshake (out_ready) in f_permutation module",
+      "Functionality": "Asserted only at the final round to signal that the output state is valid.",
+      "Security Objective": "Availability",
+      "Justification": "Downstream logic relies on this flag to know when to consume results. If suppressed or spoofed, consumers may stall indefinitely or read invalid results, impacting service availability.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1245",
+        "CWE-1276",
+        "CWE-1248"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The out_ready signal's behavior must strictly adhere to specifications; deviations could lead to denial of service by causing downstream logic to stall or process invalid data.",
+        "CWE-1245": "Improper FSM handling in the f_permutation module could lead to incorrect assertion of the out_ready signal, causing system instability or denial of service.",
+        "CWE-1276": "Incorrect connections of the out_ready signal could result in it being improperly asserted or suppressed, leading to downstream logic failures and service availability issues.",
+        "CWE-1248": "Semiconductor defects affecting the out_ready signal could cause it to be stuck, leading to denial of service by preventing downstream logic from functioning correctly."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the 'out_ready' signal in the 'f_permutation' module to falsely indicate the completion of the final round, leading to premature consumption of invalid results and impacting the availability of the cryptographic service."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1248": {
+          "CAPEC-IDs": [
+            "CAPEC-624"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-624": "CAPEC-624 can exploit CWE-1248 by manipulating the state machine logic to prematurely assert the 'out_ready' signal in the f_permutation module, thereby causing downstream logic to process incomplete or invalid data, which undermines the availability of the cryptographic service."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-624"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the 'out_ready' signal in the 'f_permutation' module to falsely indicate the completion of the final round, leading to premature consumption of invalid results and impacting the availability of the cryptographic service.",
+        "CAPEC-624": "[CWE-1248] CAPEC-624 can exploit CWE-1248 by manipulating the state machine logic to prematurely assert the 'out_ready' signal in the f_permutation module, thereby causing downstream logic to process incomplete or invalid data, which undermines the availability of the cryptographic service."
+      }
+    },
+    {
+      "Asset_Name": "Input acceptance acknowledge (ack) in f_permutation module",
+      "Functionality": "Signals to the upstream that the current input has been consumed in the cycle it is accepted.",
+      "Security Objective": "Availability",
+      "Justification": "Incorrect acknowledgment can cause the producer to resend or drop data, leading to pipeline stalls or data loss. This can be exploited to degrade or halt operation.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1245",
+        "CWE-1429"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The ack signal in the f_permutation module may not behave as specified, leading to incorrect acknowledgment and potential denial of service by causing pipeline stalls or data loss.",
+        "CWE-1245": "Improper FSM implementation in the f_permutation module could lead to incorrect state transitions, causing the ack signal to malfunction and disrupt data flow, resulting in denial of service.",
+        "CWE-1429": "If the ack signal fails to provide feedback for unexecuted operations, it could silently discard valid inputs, leading to undetected pipeline stalls or data loss, impacting system availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the 'ack' signal in the f_permutation module to create incorrect acknowledgments, leading to pipeline stalls or data loss, thereby compromising the availability of the system."
+          }
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the 'ack' signal in the f_permutation module to create incorrect acknowledgments, leading to pipeline stalls or data loss, thereby compromising the availability of the system."
+      }
+    },
+    {
+      "Asset_Name": "First round constant (rc1) in f_permutation module",
+      "Functionality": "Round constant generated from i and fed into the round transformation.",
+      "Security Objective": "Integrity",
+      "Justification": "Incorrect constant values change the iota step and thus the algorithm\u2019s correctness. Tampering yields an invalid permutation that compromises result integrity.",
+      "CWE-IDs": [
+        "CWE-1221",
+        "CWE-1240",
+        "CWE-440",
+        "CWE-1276"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1221": "Incorrect default values for the round constant could lead to incorrect iota step execution, compromising the integrity of the permutation process.",
+        "CWE-1240": "Using a risky implementation of the cryptographic primitive could lead to incorrect round constants, affecting the integrity of the permutation.",
+        "CWE-440": "Deviation from expected behavior in generating round constants could allow attackers to manipulate the permutation process, compromising integrity.",
+        "CWE-1276": "Improper connections of the round constant signals could lead to incorrect values being used in the permutation, affecting the algorithm's integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 exploits CWE-1221 by manipulating the 'i' input to the rconst2in1 module, causing incorrect round constants to be generated, which compromises the integrity of the iota step in the Keccak permutation.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1221 by introducing faults in the combinational logic of the rconst2in1 module, leading to the generation of incorrect rc1 values that undermine the integrity of the cryptographic process."
+          }
+        },
+        "CWE-1240": {
+          "CAPEC-IDs": [
+            "CAPEC-97"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "CAPEC-97 can exploit CWE-1240 by manipulating the input index 'i' to generate incorrect 'rc1' values in the 'f_permutation' module, thereby compromising the integrity of the Keccak permutation process and resulting in an invalid cryptographic output."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 can exploit CWE-440 by introducing a fault during the generation of the first round constant (rc1) in the f_permutation module, thereby compromising the integrity of the Keccak permutation process and resulting in an incorrect cryptographic output."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-166",
+        "CAPEC-545",
+        "CAPEC-97"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-166": "[CWE-1221] CAPEC-166 exploits CWE-1221 by manipulating the 'i' input to the rconst2in1 module, causing incorrect round constants to be generated, which compromises the integrity of the iota step in the Keccak permutation.",
+        "CAPEC-545": "[CWE-1221] CAPEC-545 targets CWE-1221 by introducing faults in the combinational logic of the rconst2in1 module, leading to the generation of incorrect rc1 values that undermine the integrity of the cryptographic process. [CWE-440] CAPEC-545 can exploit CWE-440 by introducing a fault during the generation of the first round constant (rc1) in the f_permutation module, thereby compromising the integrity of the Keccak permutation process and resulting in an incorrect cryptographic output.",
+        "CAPEC-97": "[CWE-1240] CAPEC-97 can exploit CWE-1240 by manipulating the input index 'i' to generate incorrect 'rc1' values in the 'f_permutation' module, thereby compromising the integrity of the Keccak permutation process and resulting in an invalid cryptographic output."
+      }
+    },
+    {
+      "Asset_Name": "Second round constant (rc2) in f_permutation module",
+      "Functionality": "Second round constant generated from i and used by the round transformation.",
+      "Security Objective": "Integrity",
+      "Justification": "Like rc1, this constant determines correct round behavior. Any modification results in erroneous transformation steps, violating algorithm integrity.",
+      "CWE-IDs": [
+        "CWE-1221",
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1240"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1221": "Incorrect defaults for the round constant rc2 could lead to erroneous transformations, compromising the integrity of the cryptographic process.",
+        "CWE-1276": "Improper connections of rc2 within the f_permutation module could lead to incorrect round transformations, violating algorithm integrity.",
+        "CWE-440": "If rc2 behaves differently from its specification, it could lead to unexpected transformations, undermining the integrity of the cryptographic process.",
+        "CWE-1240": "A risky implementation of the cryptographic primitive using rc2 could expose the system to integrity attacks if the constant is not securely handled."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 exploits CWE-1221 by manipulating the second round constant (rc2) in the f_permutation module to introduce erroneous transformation steps, thereby compromising the integrity of the Keccak permutation process.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1221 by injecting faults into the generation of the second round constant (rc2) within the f_permutation module, leading to incorrect round transformations and violating the integrity of the cryptographic algorithm."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1240": {
+          "CAPEC-IDs": [
+            "CAPEC-97"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "CAPEC-97 can exploit CWE-1240 by manipulating the second round constant (rc2) in the f_permutation module, compromising the integrity of the Keccak permutation process and leading to incorrect cryptographic transformations."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-166",
+        "CAPEC-545",
+        "CAPEC-97"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-166": "[CWE-1221] CAPEC-166 exploits CWE-1221 by manipulating the second round constant (rc2) in the f_permutation module to introduce erroneous transformation steps, thereby compromising the integrity of the Keccak permutation process.",
+        "CAPEC-545": "[CWE-1221] CAPEC-545 targets CWE-1221 by injecting faults into the generation of the second round constant (rc2) within the f_permutation module, leading to incorrect round transformations and violating the integrity of the cryptographic algorithm.",
+        "CAPEC-97": "[CWE-1240] CAPEC-97 can exploit CWE-1240 by manipulating the second round constant (rc2) in the f_permutation module, compromising the integrity of the Keccak permutation process and leading to incorrect cryptographic transformations."
+      }
+    },
+    {
+      "Asset_Name": "Input message data chunk (in[63:0]) in keccak module",
+      "Functionality": "Carries the 64-bit message segment into the keccak top module, which is padded and permuted to produce the hash.",
+      "Security Objective": "Confidentiality",
+      "Justification": "This port conveys raw message content that may be considered sensitive by an integrator. If observed or leaked during processing, it would directly expose user data.",
+      "CWE-IDs": [
+        "CWE-1431",
+        "CWE-1276",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1431": "The input message data chunk could expose sensitive intermediate states if improperly handled during the cryptographic operations, leading to potential leakage of sensitive information.",
+        "CWE-1276": "Incorrect connections between the keccak module and its parent system could lead to unintended exposure of sensitive input data, violating confidentiality.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized access to the input message data chunk, leading to potential data leakage."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1431 by manipulating the input message data chunk (in[63:0]) in the keccak module to induce incorrect padding or permutation, potentially leading to the exposure of sensitive data and violating the confidentiality objective."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1276 by manipulating the input message data chunk in the keccak module to induce a fault during the permutation process, potentially leaking sensitive information and compromising the confidentiality of the input data."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 could exploit CWE-1220 by manipulating the input message data chunk in the keccak module to bypass input validation, potentially leading to unauthorized access to sensitive data and compromising confidentiality.",
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1220 by leveraging timing discrepancies during the padding process in the keccak module to infer sensitive information from the input message data chunk, thus breaching confidentiality."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-545",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-545": "[CWE-1431] CAPEC-545 could exploit CWE-1431 by manipulating the input message data chunk (in[63:0]) in the keccak module to induce incorrect padding or permutation, potentially leading to the exposure of sensitive data and violating the confidentiality objective. [CWE-1276] CAPEC-545 could exploit CWE-1276 by manipulating the input message data chunk in the keccak module to induce a fault during the permutation process, potentially leaking sensitive information and compromising the confidentiality of the input data. [CWE-1220] CAPEC-545 could exploit CWE-1220 by leveraging timing discrepancies during the padding process in the keccak module to infer sensitive information from the input message data chunk, thus breaching confidentiality.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 could exploit CWE-1220 by manipulating the input message data chunk in the keccak module to bypass input validation, potentially leading to unauthorized access to sensitive data and compromising confidentiality."
+      }
+    },
+    {
+      "Asset_Name": "Last-chunk indicator (is_last) in keccak module",
+      "Functionality": "Marks that the current input word is the final piece of the message, driving the padder to finalize padding and end data collection.",
+      "Security Objective": "Integrity",
+      "Justification": "Incorrect assertion or deassertion will cause the wrong padding to be applied and produce an incorrect hash for the same message. The correctness of message termination is integral to accurate hashing.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The 'is_last' signal in the keccak module could be incorrectly connected, leading to improper padding and incorrect hash results, violating integrity.",
+        "CWE-440": "If the 'is_last' signal does not behave as specified, it could cause unexpected behavior in the padding process, resulting in incorrect hash outputs.",
+        "CWE-1221": "Incorrect default settings for the 'is_last' signal could lead to improper termination of message processing, affecting the integrity of the hash."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the 'is_last' signal in the keccak module to incorrectly assert or deassert the last-chunk indicator, compromising the integrity of the hash by causing incorrect padding and thus an incorrect hash output."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the 'is_last' signal in the keccak module to incorrectly assert or deassert the last-chunk indicator, compromising the integrity of the hash by causing incorrect padding and thus an incorrect hash output."
+      }
+    },
+    {
+      "Asset_Name": "Input valid/ready handshake from source (in_ready) in keccak module",
+      "Functionality": "Indicates to the keccak module that a new 64-bit input chunk is available to be accepted and processed.",
+      "Security Objective": "Availability",
+      "Justification": "If this signal is suppressed or spuriously toggled, the module may miss inputs or stall, preventing forward progress in hashing. Correct behavior of this handshake is required to maintain data flow.",
+      "CWE-IDs": [
+        "CWE-1248",
+        "CWE-1276",
+        "CWE-440"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1248": "Semiconductor defects in the in_ready signal could cause it to be stuck, leading to missed inputs or stalling, impacting availability.",
+        "CWE-1276": "Incorrect connections of the in_ready signal could lead to improper data flow, causing the keccak module to miss inputs or stall.",
+        "CWE-440": "If the in_ready signal behaves differently from its specification, it could lead to unexpected stalling or missed inputs, affecting availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1248": {
+          "CAPEC-IDs": [
+            "CAPEC-624"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-624": "CAPEC-624 can exploit CWE-1248 by manipulating the 'in_ready' signal in the keccak module, causing incorrect state transitions that disrupt the availability of the hashing process by either stalling or missing input data chunks."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-624"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-624": "[CWE-1248] CAPEC-624 can exploit CWE-1248 by manipulating the 'in_ready' signal in the keccak module, causing incorrect state transitions that disrupt the availability of the hashing process by either stalling or missing input data chunks."
+      }
+    },
+    {
+      "Asset_Name": "Digest output (out[511:0]) in keccak module",
+      "Functionality": "Presents the 512-bit hash result after permutation and byte reordering.",
+      "Security Objective": "Availability",
+      "Justification": "Downstream consumers rely on the digest to proceed; if this output is not provided or is withheld, system operations depending on the hash cannot complete. Ensuring its availability is essential to service continuity.",
+      "CWE-IDs": [
+        "CWE-1248",
+        "CWE-440",
+        "CWE-1276",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1248": "Semiconductor defects in the keccak module could lead to permanent faults in the digest output, causing denial of service by preventing the hash result from being available.",
+        "CWE-440": "If the keccak module behaves differently from its specification, it could result in the digest output not being produced as expected, leading to denial of service for dependent operations.",
+        "CWE-1276": "Incorrect connections between the keccak module and its parent system could prevent the digest output from being correctly generated or transmitted, causing availability issues.",
+        "CWE-1245": "Improper FSMs in the keccak module could lead to incorrect state transitions, preventing the digest output from being generated, thus affecting availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1248": {
+          "CAPEC-IDs": [
+            "CAPEC-624"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-624": "CAPEC-624 could exploit CWE-1248 by manipulating the state machines or control signals within the keccak module to disrupt the availability of the digest output, thereby preventing downstream consumers from receiving the necessary 512-bit hash result."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the control signals such as 'in_ready' or 'ack' to disrupt the state machine in the 'keccak' module, potentially causing a denial of service that affects the availability of the digest output, which is critical for downstream operations."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-624",
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-624": "[CWE-1248] CAPEC-624 could exploit CWE-1248 by manipulating the state machines or control signals within the keccak module to disrupt the availability of the digest output, thereby preventing downstream consumers from receiving the necessary 512-bit hash result.",
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the control signals such as 'in_ready' or 'ack' to disrupt the state machine in the 'keccak' module, potentially causing a denial of service that affects the availability of the digest output, which is critical for downstream operations."
+      }
+    },
+    {
+      "Asset_Name": "Output data valid indicator (out_ready) in keccak module",
+      "Functionality": "Indicates when the 512-bit hash on out is valid, driven after internal timing/counter conditions are met.",
+      "Security Objective": "Availability",
+      "Justification": "If withheld or asserted at the wrong time, consumers may miss valid results or wait indefinitely, causing a stall. It gates consumption of the hash, so its availability behavior must be reliable.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1276",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The out_ready signal's incorrect behavior could lead to a denial of service by violating expected behavior, causing consumers to miss valid results or wait indefinitely.",
+        "CWE-1276": "Incorrect connections between the keccak module and its parent system could lead to improper signaling of the out_ready indicator, causing availability issues.",
+        "CWE-1245": "Improper FSMs in the keccak module could result in incorrect sequencing of operations, leading to the out_ready signal being asserted at the wrong time, causing system stalls."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the 'out_ready' signal in the 'keccak' module to create a race condition, potentially causing the signal to be withheld or asserted at incorrect times, thus impacting the availability of the hash output and leading to a stall in the system."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the 'out_ready' signal in the 'keccak' module to create a race condition, potentially causing the signal to be withheld or asserted at incorrect times, thus impacting the availability of the hash output and leading to a stall in the system."
+      }
+    },
+    {
+      "Asset_Name": "Permutation input acknowledge (f_ack) in keccak module",
+      "Functionality": "Acknowledges acceptance of the padded block by the permutation engine, enabling the padder/source to advance.",
+      "Security Objective": "Availability",
+      "Justification": "Blocking or spoofing this acknowledge can halt progress by preventing the upstream from sending the next block or causing mis-synchronization. It is essential to liveness of the dataflow.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections between the keccak module and its child blocks could disrupt the f_ack signal, leading to denial of service by preventing the padder from advancing.",
+        "CWE-440": "If the f_ack signal behaves differently from its specification, it could cause unexpected halts in data flow, leading to denial of service.",
+        "CWE-1245": "Improper FSM handling in the keccak module could lead to incorrect state transitions, causing the f_ack signal to fail and halting data processing."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the f_ack signal in the keccak module to create a race condition, disrupting the availability of the permutation input acknowledgment and causing a denial of service by preventing the padder from advancing."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the f_ack signal in the keccak module to create a race condition, disrupting the availability of the permutation input acknowledgment and causing a denial of service by preventing the padder from advancing."
+      }
+    },
+    {
+      "Asset_Name": "Permutation output ready indicator (f_out_ready) in keccak module",
+      "Functionality": "Signals that the permutation engine has produced a valid 1600-bit state output.",
+      "Security Objective": "Availability",
+      "Justification": "If this readiness is not communicated correctly, the top-level will not extract or present the result, causing stalls. It gates the transition from computation to result extraction.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1276",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The f_out_ready signal must adhere to expected behavior to ensure the keccak module transitions correctly from computation to result extraction, preventing denial of service.",
+        "CWE-1276": "Incorrect connections of the f_out_ready signal could lead to improper communication of readiness, causing the keccak module to stall and fail to transition to result extraction.",
+        "CWE-1245": "Improper FSM handling in the keccak module could lead to incorrect signaling of f_out_ready, causing the system to enter unintended states and stall the output process."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74, which involves manipulating timing and control signals, could exploit CWE-1245 by disrupting the f_out_ready signal in the keccak module, thereby affecting the availability of the permutation output and causing the system to stall during the transition from computation to result extraction."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74, which involves manipulating timing and control signals, could exploit CWE-1245 by disrupting the f_out_ready signal in the keccak module, thereby affecting the availability of the permutation output and causing the system to stall during the transition from computation to result extraction."
+      }
+    },
+    {
+      "Asset_Name": "Padded data output bus (out) in padder module",
+      "Functionality": "576-bit buffered, padded message block shifted in 64-bit chunks (v1) and provided to f_permutation when the buffer becomes full.",
+      "Security Objective": "Confidentiality",
+      "Justification": "This bus contains the padded message bits; observing it reveals the underlying message content prior to permutation. In environments requiring confidentiality, exposure of this output at the module boundary can leak sensitive plaintext.",
+      "CWE-IDs": [
+        "CWE-1431",
+        "CWE-1276",
+        "CWE-1318"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1431": "The padded data output bus in the padder module exposes intermediate cryptographic states, allowing attackers to observe sensitive message content before permutation.",
+        "CWE-1276": "Incorrect connections between the padder module and the f_permutation module could lead to unintended exposure of sensitive data if the confidentiality of the data bus is compromised.",
+        "CWE-1318": "The lack of security features in the on-chip bus could allow unauthorized access to the padded data output bus, leading to potential data leakage."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1431 by leveraging side-channel analysis to infer the padded data on the 576-bit output bus in the padder module, potentially compromising the confidentiality of the underlying message content before it undergoes permutation."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1276 by leveraging side-channel analysis to infer the padded message content on the 576-bit 'out' bus in the padder module, thereby compromising the confidentiality of the data before it undergoes permutation."
+          }
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by leveraging a side-channel attack to monitor the 576-bit padded data output bus in the padder module, potentially revealing sensitive plaintext data before it undergoes permutation, thus compromising confidentiality.",
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1318 by injecting faults into the padder module to manipulate the padded data output bus, potentially causing leakage of sensitive information by altering the data flow and exposing the underlying message content."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-545",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-545": "[CWE-1431] CAPEC-545 can exploit CWE-1431 by leveraging side-channel analysis to infer the padded data on the 576-bit output bus in the padder module, potentially compromising the confidentiality of the underlying message content before it undergoes permutation. [CWE-1276] CAPEC-545 can exploit CWE-1276 by leveraging side-channel analysis to infer the padded message content on the 576-bit 'out' bus in the padder module, thereby compromising the confidentiality of the data before it undergoes permutation. [CWE-1318] CAPEC-545 can exploit CWE-1318 by injecting faults into the padder module to manipulate the padded data output bus, potentially causing leakage of sensitive information by altering the data flow and exposing the underlying message content.",
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by leveraging a side-channel attack to monitor the 576-bit padded data output bus in the padder module, potentially revealing sensitive plaintext data before it undergoes permutation, thus compromising confidentiality."
+      }
+    },
+    {
+      "Asset_Name": "Input message data word (in) in padder module",
+      "Functionality": "64-bit input data chunk from the user; used directly as v1 when not the last word and contributes to the padded block.",
+      "Security Objective": "Confidentiality, Integrity",
+      "Justification": "It carries raw message bytes; exposure reveals the message. Any tampering alters the padded block and thus the hash computation, violating correctness.",
+      "CWE-IDs": [
+        "CWE-441",
+        "CWE-1223",
+        "CWE-1190"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-441": "The padder module could act as an unintended intermediary, allowing unauthorized access to raw message data if not properly controlled.",
+        "CWE-1223": "A race condition could allow unauthorized modification of the input data word before it is padded, compromising the integrity of the hash computation.",
+        "CWE-1190": "If the padder module is enabled too early in the boot phase, it could allow unauthorized access to input data before security configurations are fully established."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-441": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 can exploit CWE-441 by manipulating the input message data word in the padder module, potentially altering the padding process and compromising the confidentiality and integrity of the hash computation."
+          }
+        },
+        "CWE-1223": {
+          "CAPEC-IDs": [
+            "CAPEC-26",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-26": "CAPEC-26 could exploit CWE-1223 by manipulating the input message data word in the padder module to bypass integrity checks, potentially altering the padded block and compromising the hash computation's correctness.",
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1223 by intercepting and modifying the input message data word in the padder module, thereby breaching confidentiality and integrity by exposing raw message bytes and altering the resulting hash."
+          }
+        },
+        "CWE-1190": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1190 by manipulating the input message data word in the padder module to introduce unauthorized modifications, compromising the integrity of the padded block and the resulting hash computation.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1190 by intercepting and exposing the input message data word in the padder module, violating the confidentiality of the raw message bytes and potentially altering the integrity of the hash output."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-545",
+        "CAPEC-26",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-545": "[CWE-441] CAPEC-545 can exploit CWE-441 by manipulating the input message data word in the padder module, potentially altering the padding process and compromising the confidentiality and integrity of the hash computation. [CWE-1223] CAPEC-545 could exploit CWE-1223 by intercepting and modifying the input message data word in the padder module, thereby breaching confidentiality and integrity by exposing raw message bytes and altering the resulting hash. [CWE-1190] CAPEC-545 targets CWE-1190 by intercepting and exposing the input message data word in the padder module, violating the confidentiality of the raw message bytes and potentially altering the integrity of the hash output.",
+        "CAPEC-26": "[CWE-1223] CAPEC-26 could exploit CWE-1223 by manipulating the input message data word in the padder module to bypass integrity checks, potentially altering the padded block and compromising the hash computation's correctness.",
+        "CAPEC-180": "[CWE-1190] CAPEC-180 exploits CWE-1190 by manipulating the input message data word in the padder module to introduce unauthorized modifications, compromising the integrity of the padded block and the resulting hash computation."
+      }
+    },
+    {
+      "Asset_Name": "Last-chunk indicator (is_last) in padder module",
+      "Functionality": "Marks the last data segment; sets state and selects between raw input and padded word (v0) for v1.",
+      "Security Objective": "Integrity",
+      "Justification": "Tampering causes incorrect padding or premature termination of input ingestion, producing an invalid padded block and incorrect hash processing.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The 'is_last' signal in the padder module could be incorrectly connected, leading to improper handling of the last data segment and resulting in incorrect padding and hash processing.",
+        "CWE-440": "If the 'is_last' signal does not behave as expected, it could lead to violations in the expected behavior of the padding process, causing incorrect hash outputs and potential security bypass.",
+        "CWE-1221": "Incorrect default handling of the 'is_last' signal could lead to insecure states upon reset, causing improper termination of input ingestion and incorrect hash processing."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 can exploit CWE-440 by manipulating the 'is_last' signal in the padder module to disrupt the integrity of the padding process, leading to incorrect hash outputs by causing premature termination or incorrect padding of the input data."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the 'is_last' signal in the padder module to cause incorrect padding, thereby compromising the integrity of the hash output by prematurely terminating input ingestion."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-545",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-545": "[CWE-440] CAPEC-545 can exploit CWE-440 by manipulating the 'is_last' signal in the padder module to disrupt the integrity of the padding process, leading to incorrect hash outputs by causing premature termination or incorrect padding of the input data.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the 'is_last' signal in the padder module to cause incorrect padding, thereby compromising the integrity of the hash output by prematurely terminating input ingestion."
+      }
+    },
+    {
+      "Asset_Name": "Upstream readiness indicator (in_ready) in padder module",
+      "Functionality": "Handshaking input indicating that an input word is available; used in accept = (~state) & in_ready & (~buffer_full).",
+      "Security Objective": "Availability",
+      "Justification": "If suppressed or forced, the padder will either stall or accept data at the wrong time, preventing timely formation of padded blocks and causing denial-of-service.",
+      "CWE-IDs": [
+        "CWE-1248",
+        "CWE-1276",
+        "CWE-440"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1248": "Semiconductor defects could cause the 'in_ready' signal to be stuck, leading to denial of service by stalling or mis-timing the padder module's operation.",
+        "CWE-1276": "Incorrect connections of the 'in_ready' signal could lead to improper data flow control, causing the padder module to malfunction and potentially result in denial of service.",
+        "CWE-440": "If the 'in_ready' signal behaves differently than specified, it could cause the padder module to accept data at incorrect times, leading to denial of service by disrupting the expected data processing sequence."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1248": {
+          "CAPEC-IDs": [
+            "CAPEC-624"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-624": "CAPEC-624 can exploit CWE-1248 by manipulating the 'in_ready' signal in the padder module to either suppress or force its state, causing the padder to stall or process data incorrectly, thus violating the availability objective by inducing a denial-of-service condition."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-624"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-624": "[CWE-1248] CAPEC-624 can exploit CWE-1248 by manipulating the 'in_ready' signal in the padder module to either suppress or force its state, causing the padder to stall or process data incorrectly, thus violating the availability objective by inducing a denial-of-service condition."
+      }
+    },
+    {
+      "Asset_Name": "Padded block ready indicator (out_ready) in padder module",
+      "Functionality": "Signals when a 576-bit padded block is ready (wired to buffer_full).",
+      "Security Objective": "Availability",
+      "Justification": "Downstream logic relies on this to fetch valid data; corrupting it can make the consumer read invalid data or miss ready data, effectively halting the pipeline.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connection of the 'out_ready' signal in the padder module could lead to incorrect data flow, causing downstream logic to miss valid data and halt the pipeline.",
+        "CWE-440": "If the 'out_ready' signal behaves differently than specified, it could cause the system to process invalid data, leading to a denial of service.",
+        "CWE-1245": "Faulty FSMs in the padder module could lead to incorrect signaling of 'out_ready', causing the system to enter unintended states and disrupt data availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the 'out_ready' signal in the 'padder' module to falsely indicate the availability of a 576-bit padded block, thereby disrupting the availability of valid data and potentially halting the pipeline."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the 'out_ready' signal in the 'padder' module to falsely indicate the availability of a 576-bit padded block, thereby disrupting the availability of valid data and potentially halting the pipeline."
+      }
+    },
+    {
+      "Asset_Name": "Permutation acknowledgment (f_ack) in padder module",
+      "Functionality": "Acknowledgment from f_permutation; used to clear/hold the buffer length counter i and control when the padder can start filling a new block.",
+      "Security Objective": "Availability",
+      "Justification": "If spoofed or blocked, the padder may prematurely reset or never reset its buffer fill state, causing repeated or missing blocks and stalling the pipeline.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1276",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The f_ack signal in the padder module could be exploited if it behaves differently from its specification, causing unexpected buffer resets or stalls, leading to denial of service.",
+        "CWE-1276": "Incorrect connections between the f_ack signal and other components could lead to improper buffer management, causing the padder to malfunction and disrupt data flow.",
+        "CWE-1245": "Improper FSM handling in the padder module could allow an attacker to manipulate the f_ack signal, causing the padder to enter unintended states, resulting in denial of service."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the 'f_ack' signal in the padder module to disrupt the availability of the buffer length counter, causing the padder to either prematurely reset or fail to reset, leading to repeated or missing blocks and stalling the pipeline."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the 'f_ack' signal in the padder module to disrupt the availability of the buffer length counter, causing the padder to either prematurely reset or fail to reset, leading to repeated or missing blocks and stalling the pipeline."
+      }
+    },
+    {
+      "Asset_Name": "Padding completion flag (done) in padder module",
+      "Functionality": "Set when state=1 and out_ready=1; prevents further buffer updates once a final padded block is produced.",
+      "Security Objective": "Availability",
+      "Justification": "Forcing done early inhibits buffer filling, blocking further operation. Keeping it asserted can permanently stall the padder, enabling denial-of-service.",
+      "CWE-IDs": [
+        "CWE-1248",
+        "CWE-440",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1248": "An attacker could exploit semiconductor defects to force the 'done' flag to remain asserted, causing a denial of service by stalling the padder module.",
+        "CWE-440": "If the 'done' flag behaves differently from its specification, an attacker could exploit this to prevent further buffer updates, causing a denial of service.",
+        "CWE-1245": "Improper FSM handling could allow an attacker to manipulate the state transitions, prematurely setting the 'done' flag and stalling the padder module."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1248": {
+          "CAPEC-IDs": [
+            "CAPEC-624"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-624": "CAPEC-624 can exploit CWE-1248 by manipulating the 'done' flag in the padder module to prematurely signal padding completion, thereby preventing further buffer updates and achieving a denial-of-service by stalling the padder, which compromises the availability of the cryptographic process."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the 'done' flag in the padder module to prematurely indicate padding completion, thereby preventing further buffer updates and achieving a denial-of-service by stalling the padder, which aligns with the security objective of availability."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-624",
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-624": "[CWE-1248] CAPEC-624 can exploit CWE-1248 by manipulating the 'done' flag in the padder module to prematurely signal padding completion, thereby preventing further buffer updates and achieving a denial-of-service by stalling the padder, which compromises the availability of the cryptographic process.",
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the 'done' flag in the padder module to prematurely indicate padding completion, thereby preventing further buffer updates and achieving a denial-of-service by stalling the padder, which aligns with the security objective of availability."
+      }
+    },
+    {
+      "Asset_Name": "Input message data word (in) in padder1 module",
+      "Functionality": "64-bit data chunk to be padded; depending on byte_num, the upper bytes of this word are passed through to the output while the next byte is set to 0x01 and the remaining bytes to 0.",
+      "Security Objective": "Confidentiality, Integrity",
+      "Justification": "This port carries raw message bytes prior to hashing, which an integrator may treat as confidential. Any unauthorized modification changes the padded message and thus the resulting hash, violating data integrity.",
+      "CWE-IDs": [
+        "CWE-1271",
+        "CWE-1231",
+        "CWE-1223"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1271": "The padder1 module's input message data word could be vulnerable if registers are not initialized securely on reset, potentially exposing raw message data to unauthorized access.",
+        "CWE-1231": "If the padder1 module's configuration allows modification of lock bits post-initialization, it could lead to unauthorized changes in the padding process, affecting data integrity.",
+        "CWE-1223": "A race condition could allow unauthorized modification of the padder1 module's configuration before trusted components set it, compromising the integrity of the padded message."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1271": {
+          "CAPEC-IDs": [
+            "CAPEC-74",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 could exploit CWE-1271 by manipulating the input message data word in the padder1 module to bypass input validation, potentially leading to unauthorized access to confidential data or alteration of the hash output, thus compromising confidentiality and integrity.",
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1271 by introducing crafted inputs to the padder1 module that cause incorrect padding, resulting in a hash collision or leakage of sensitive information, thereby violating the confidentiality and integrity of the input message data."
+          }
+        },
+        "CWE-1231": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 could exploit CWE-1231 by manipulating the input message data word in the padder1 module to bypass integrity checks, allowing unauthorized modifications that alter the padded message and compromise the resulting hash's integrity.",
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1231 by intercepting and altering the input message data word in the padder1 module, breaching confidentiality and integrity by exposing raw message bytes and modifying the padded output, thus affecting the final hash."
+          }
+        },
+        "CWE-1223": {
+          "CAPEC-IDs": [
+            "CAPEC-26",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-26": "CAPEC-26 could exploit CWE-1223 by intercepting and modifying the 'in' signal in the padder1 module, compromising the confidentiality and integrity of the input message data word before it is padded and hashed.",
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1223 by injecting unauthorized data into the 'in' signal of the padder1 module, leading to incorrect padding and a resultant hash that violates the integrity of the original message."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-545",
+        "CAPEC-680",
+        "CAPEC-26"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1271] CAPEC-74 could exploit CWE-1271 by manipulating the input message data word in the padder1 module to bypass input validation, potentially leading to unauthorized access to confidential data or alteration of the hash output, thus compromising confidentiality and integrity.",
+        "CAPEC-545": "[CWE-1271] CAPEC-545 could exploit CWE-1271 by introducing crafted inputs to the padder1 module that cause incorrect padding, resulting in a hash collision or leakage of sensitive information, thereby violating the confidentiality and integrity of the input message data. [CWE-1231] CAPEC-545 could exploit CWE-1231 by intercepting and altering the input message data word in the padder1 module, breaching confidentiality and integrity by exposing raw message bytes and modifying the padded output, thus affecting the final hash. [CWE-1223] CAPEC-545 could exploit CWE-1223 by injecting unauthorized data into the 'in' signal of the padder1 module, leading to incorrect padding and a resultant hash that violates the integrity of the original message.",
+        "CAPEC-680": "[CWE-1231] CAPEC-680 could exploit CWE-1231 by manipulating the input message data word in the padder1 module to bypass integrity checks, allowing unauthorized modifications that alter the padded message and compromise the resulting hash's integrity.",
+        "CAPEC-26": "[CWE-1223] CAPEC-26 could exploit CWE-1223 by intercepting and modifying the 'in' signal in the padder1 module, compromising the confidentiality and integrity of the input message data word before it is padded and hashed."
+      }
+    },
+    {
+      "Asset_Name": "Padded output data word (out) in padder1 module",
+      "Functionality": "64-bit padded word combining the valid portion of 'in' with the 0x01 marker and trailing zeros, forwarded to the higher-level padder/buffer.",
+      "Security Objective": "Confidentiality, Availability",
+      "Justification": "It contains message bytes (potentially confidential) directly propagated to downstream logic; exposure here can leak the original input data. If this output is corrupted or becomes unavailable, the padding path is blocked and subsequent permutation cannot proceed, impacting module availability.",
+      "CWE-IDs": [
+        "CWE-1234",
+        "CWE-441",
+        "CWE-1190"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1234": "The padder1 module's output could be exposed to unauthorized modification if debug or internal modes allow bypassing of security locks, compromising confidentiality and availability.",
+        "CWE-441": "The padder1 module could act as an unintended intermediary, allowing unauthorized access to confidential data if it forwards padded data without verifying the source, leading to data leakage.",
+        "CWE-1190": "If the padder1 module is enabled too early in the boot phase, it could allow unauthorized access to confidential data before security configurations are fully established, compromising confidentiality."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1234": {
+          "CAPEC-IDs": [
+            "CAPEC-176",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-176": "CAPEC-176 could exploit CWE-1234 by manipulating the input data to the padder1 module, potentially causing the padded output data word to leak confidential information or become unavailable, thus violating the confidentiality and availability objectives of the asset.",
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1234 by introducing faults during the padding process in the padder1 module, leading to incorrect or unavailable padded output data, thereby compromising the confidentiality and availability of the asset."
+          }
+        },
+        "CWE-441": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 can exploit CWE-441 by manipulating the input data to the padder1 module, causing it to generate incorrect padded output data, which could lead to unauthorized access to confidential information or disrupt the availability of the Keccak permutation process."
+          }
+        },
+        "CWE-1190": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 could exploit CWE-1190 by manipulating the padder1 module's input to cause incorrect padding, potentially leaking confidential message bytes or disrupting the availability of the padded output data word.",
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1190 by introducing faults during the padding process in the padder1 module, leading to the exposure of confidential data or blocking the padding path, thus affecting the availability of the cryptographic operation."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-176",
+        "CAPEC-545",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-176": "[CWE-1234] CAPEC-176 could exploit CWE-1234 by manipulating the input data to the padder1 module, potentially causing the padded output data word to leak confidential information or become unavailable, thus violating the confidentiality and availability objectives of the asset.",
+        "CAPEC-545": "[CWE-1234] CAPEC-545 could exploit CWE-1234 by introducing faults during the padding process in the padder1 module, leading to incorrect or unavailable padded output data, thereby compromising the confidentiality and availability of the asset. [CWE-441] CAPEC-545 can exploit CWE-441 by manipulating the input data to the padder1 module, causing it to generate incorrect padded output data, which could lead to unauthorized access to confidential information or disrupt the availability of the Keccak permutation process. [CWE-1190] CAPEC-545 could exploit CWE-1190 by introducing faults during the padding process in the padder1 module, leading to the exposure of confidential data or blocking the padding path, thus affecting the availability of the cryptographic operation.",
+        "CAPEC-180": "[CWE-1190] CAPEC-180 could exploit CWE-1190 by manipulating the padder1 module's input to cause incorrect padding, potentially leaking confidential message bytes or disrupting the availability of the padded output data word."
+      }
+    },
+    {
+      "Asset_Name": "First round constant output (rc1) in rconst2in1 module",
+      "Functionality": "64-bit round constant derived combinationally from i; fed into the round2in1 module as round_const_1 for Keccak\u2019s iota step.",
+      "Security Objective": "Integrity, Availability",
+      "Justification": "rc1 determines part of the round transformation; corruption changes the permutation result, compromising correctness (integrity). If rc1 is unavailable or stuck, the round function cannot proceed as intended, degrading module operation (availability).",
+      "CWE-IDs": [
+        "CWE-1271",
+        "CWE-1231",
+        "CWE-1223"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1271": "If the rc1 output is not initialized correctly on reset, it could lead to incorrect round constants being used, compromising the integrity of the permutation process.",
+        "CWE-1231": "If the mechanism to prevent modification of rc1 after initialization is inadequate, an attacker could alter the round constant, affecting the integrity of the cryptographic operation.",
+        "CWE-1223": "A race condition could allow an attacker to modify the rc1 value before it is securely set, leading to unauthorized changes in the permutation process and compromising integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1271": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74, which involves manipulating hardware logic, could exploit CWE-1271 by altering the combinational logic that generates rc1 in the rconst2in1 module, thereby compromising the integrity and availability of the round transformation in the Keccak permutation process."
+          }
+        },
+        "CWE-1231": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1231 by manipulating the combinational logic that derives the first round constant (rc1) in the rconst2in1 module, potentially altering its integrity and availability, thereby affecting the correctness of the Keccak permutation process."
+          }
+        },
+        "CWE-1223": {
+          "CAPEC-IDs": [
+            "CAPEC-26",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-26": "CAPEC-26 could exploit CWE-1223 by manipulating the input index 'i' in the rconst2in1 module to generate incorrect 'rc1' values, thereby compromising the integrity of the round transformation in the Keccak permutation process.",
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1223 by inducing a fault in the combinational logic of the rconst2in1 module, causing 'rc1' to become unavailable or stuck, thus affecting the availability of the round transformation in the Keccak permutation."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-680",
+        "CAPEC-26",
+        "CAPEC-545"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1271] CAPEC-74, which involves manipulating hardware logic, could exploit CWE-1271 by altering the combinational logic that generates rc1 in the rconst2in1 module, thereby compromising the integrity and availability of the round transformation in the Keccak permutation process.",
+        "CAPEC-680": "[CWE-1231] CAPEC-680 can exploit CWE-1231 by manipulating the combinational logic that derives the first round constant (rc1) in the rconst2in1 module, potentially altering its integrity and availability, thereby affecting the correctness of the Keccak permutation process.",
+        "CAPEC-26": "[CWE-1223] CAPEC-26 could exploit CWE-1223 by manipulating the input index 'i' in the rconst2in1 module to generate incorrect 'rc1' values, thereby compromising the integrity of the round transformation in the Keccak permutation process.",
+        "CAPEC-545": "[CWE-1223] CAPEC-545 could exploit CWE-1223 by inducing a fault in the combinational logic of the rconst2in1 module, causing 'rc1' to become unavailable or stuck, thus affecting the availability of the round transformation in the Keccak permutation."
+      }
+    },
+    {
+      "Asset_Name": "Second round constant output (rc2) in rconst2in1 module",
+      "Functionality": "64-bit round constant derived combinationally from i; fed into the round2in1 module as round_const_2 for the subsequent iota application within two-round processing.",
+      "Security Objective": "Integrity, Availability",
+      "Justification": "rc2 is essential to compute the specified round transformation; modification yields incorrect cryptographic transformation (integrity). Loss or stalling of rc2 prevents correct round progression, impacting overall module operation (availability).",
+      "CWE-IDs": [
+        "CWE-1271",
+        "CWE-1233",
+        "CWE-1231"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1271": "If rc2 is not initialized correctly on reset, it could lead to incorrect cryptographic transformations, impacting integrity and availability.",
+        "CWE-1233": "The absence of lock bit protection for rc2 could allow unauthorized modification, leading to incorrect round transformations and compromising integrity.",
+        "CWE-1231": "If the lock bit for rc2 can be modified after initialization, it could allow unauthorized changes to the round constants, affecting the integrity of the cryptographic process."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1271": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 could exploit CWE-1271 by manipulating the combinational logic that derives the second round constant (rc2) in the rconst2in1 module, thereby compromising the integrity of the cryptographic transformation and potentially stalling the round progression, affecting the availability of the Keccak permutation process."
+          }
+        },
+        "CWE-1233": {
+          "CAPEC-IDs": [
+            "CAPEC-176",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-176": "CAPEC-176 can exploit CWE-1233 by manipulating the input index 'i' to generate incorrect values for the second round constant 'rc2' in the rconst2in1 module, compromising the integrity of the cryptographic transformation.",
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1233 by introducing faults in the combinational logic that derives 'rc2', leading to incorrect or stalled round constants, thereby affecting the availability of the round transformation process."
+          }
+        },
+        "CWE-1231": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 could exploit CWE-1231 by manipulating the input index 'i' to the rconst2in1 module, causing incorrect generation of the second round constant 'rc2', thereby compromising the integrity of the cryptographic transformation.",
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1231 by introducing faults in the combinational logic that derives 'rc2', leading to incorrect or stalled round constant generation, thus affecting both the integrity and availability of the cryptographic process."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-176",
+        "CAPEC-545",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1271] CAPEC-74 could exploit CWE-1271 by manipulating the combinational logic that derives the second round constant (rc2) in the rconst2in1 module, thereby compromising the integrity of the cryptographic transformation and potentially stalling the round progression, affecting the availability of the Keccak permutation process.",
+        "CAPEC-176": "[CWE-1233] CAPEC-176 can exploit CWE-1233 by manipulating the input index 'i' to generate incorrect values for the second round constant 'rc2' in the rconst2in1 module, compromising the integrity of the cryptographic transformation.",
+        "CAPEC-545": "[CWE-1233] CAPEC-545 can exploit CWE-1233 by introducing faults in the combinational logic that derives 'rc2', leading to incorrect or stalled round constants, thereby affecting the availability of the round transformation process. [CWE-1231] CAPEC-545 could exploit CWE-1231 by introducing faults in the combinational logic that derives 'rc2', leading to incorrect or stalled round constant generation, thus affecting both the integrity and availability of the cryptographic process.",
+        "CAPEC-680": "[CWE-1231] CAPEC-680 could exploit CWE-1231 by manipulating the input index 'i' to the rconst2in1 module, causing incorrect generation of the second round constant 'rc2', thereby compromising the integrity of the cryptographic transformation."
+      }
+    },
+    {
+      "Asset_Name": "Keccak state input bus (in) in round2in1 module",
+      "Functionality": "1600-bit input state to the two-round Keccak transformation; it is decomposed into 5x5 lanes and feeds theta, rho, pi, chi, and iota steps.",
+      "Security Objective": "Confidentiality",
+      "Justification": "This bus carries the full internal Keccak state derived from the message being hashed. Disclosure of this value can reveal message-related material or internal state that an integrator may wish to keep confidential.",
+      "CWE-IDs": [
+        "CWE-1431",
+        "CWE-1276",
+        "CWE-1318"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1431": "The Keccak state input bus in the round2in1 module could expose sensitive intermediate cryptographic states if driven to outputs, compromising confidentiality.",
+        "CWE-1276": "Incorrect connections between the round2in1 module and other system components could lead to unintended exposure of the Keccak state input bus, violating confidentiality.",
+        "CWE-1318": "If the on-chip fabric or bus lacks proper security features, the Keccak state input bus could be accessed without appropriate privilege checks, leading to unauthorized data exposure."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1431 by manipulating the Keccak state input bus in the round2in1 module to cause an incorrect computation of the cryptographic transformation, potentially leading to the exposure of confidential internal state information."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1276 by manipulating the Keccak state input bus in the round2in1 module to induce a fault during the two-round transformation, potentially leaking confidential internal state information through differential analysis."
+          }
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180, which involves exploiting a shared resource, could exploit CWE-1318 by allowing an attacker to access the Keccak state input bus during the round2in1 module's operation, potentially compromising the confidentiality of the internal state derived from the message being hashed.",
+            "CAPEC-545": "CAPEC-545, which involves side-channel attacks, could exploit CWE-1318 by analyzing power consumption or electromagnetic emissions from the round2in1 module to infer the 1600-bit Keccak state input, thereby breaching the confidentiality of the hashed message's internal state."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-545",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-545": "[CWE-1431] CAPEC-545 could exploit CWE-1431 by manipulating the Keccak state input bus in the round2in1 module to cause an incorrect computation of the cryptographic transformation, potentially leading to the exposure of confidential internal state information. [CWE-1276] CAPEC-545 can exploit CWE-1276 by manipulating the Keccak state input bus in the round2in1 module to induce a fault during the two-round transformation, potentially leaking confidential internal state information through differential analysis. [CWE-1318] CAPEC-545, which involves side-channel attacks, could exploit CWE-1318 by analyzing power consumption or electromagnetic emissions from the round2in1 module to infer the 1600-bit Keccak state input, thereby breaching the confidentiality of the hashed message's internal state.",
+        "CAPEC-180": "[CWE-1318] CAPEC-180, which involves exploiting a shared resource, could exploit CWE-1318 by allowing an attacker to access the Keccak state input bus during the round2in1 module's operation, potentially compromising the confidentiality of the internal state derived from the message being hashed."
+      }
+    },
+    {
+      "Asset_Name": "Keccak two-round output state (out) in round2in1 module",
+      "Functionality": "1600-bit output state after applying two rounds of Keccak (including iota with provided round constants); forwarded to subsequent rounds or modules.",
+      "Security Objective": "Confidentiality",
+      "Justification": "The output is a transformed internal state still derived from the input message. If exposed, it may leak intermediate state that an integrator may consider confidential in certain deployment scenarios.",
+      "CWE-IDs": [
+        "CWE-1431",
+        "CWE-1240",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1431": "The Keccak two-round output state in the round2in1 module could expose intermediate cryptographic states if driven to hardware outputs, risking confidentiality.",
+        "CWE-1240": "The implementation of the Keccak permutation may use cryptographic primitives that are risky if not properly vetted, potentially exposing sensitive data.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized access to the intermediate state of the Keccak permutation, compromising confidentiality."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1431 by manipulating the control signals or input data flow to the round2in1 module, potentially causing the exposure of the Keccak two-round output state, thereby compromising the confidentiality of the intermediate cryptographic state."
+          }
+        },
+        "CWE-1240": {
+          "CAPEC-IDs": [
+            "CAPEC-97",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "CAPEC-97 exploits CWE-1240 by leveraging improper access control to intercept the Keccak two-round output state in the round2in1 module, potentially compromising the confidentiality of the intermediate cryptographic state.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1240 by manipulating the control signals within the Keccak architecture to gain unauthorized access to the two-round output state in the round2in1 module, risking exposure of confidential cryptographic transformations."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the control signals such as 'in_ready' and 'ack' to induce a race condition in the 'round2in1' module, potentially exposing the confidential 1600-bit Keccak two-round output state.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1220 by leveraging improper synchronization between the 'padder' and 'f_permutation' modules to access the intermediate 1600-bit output state in 'round2in1', compromising its confidentiality."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-545",
+        "CAPEC-97",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-545": "[CWE-1431] CAPEC-545 could exploit CWE-1431 by manipulating the control signals or input data flow to the round2in1 module, potentially causing the exposure of the Keccak two-round output state, thereby compromising the confidentiality of the intermediate cryptographic state. [CWE-1240] CAPEC-545 targets CWE-1240 by manipulating the control signals within the Keccak architecture to gain unauthorized access to the two-round output state in the round2in1 module, risking exposure of confidential cryptographic transformations. [CWE-1220] CAPEC-545 targets CWE-1220 by leveraging improper synchronization between the 'padder' and 'f_permutation' modules to access the intermediate 1600-bit output state in 'round2in1', compromising its confidentiality.",
+        "CAPEC-97": "[CWE-1240] CAPEC-97 exploits CWE-1240 by leveraging improper access control to intercept the Keccak two-round output state in the round2in1 module, potentially compromising the confidentiality of the intermediate cryptographic state.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the control signals such as 'in_ready' and 'ack' to induce a race condition in the 'round2in1' module, potentially exposing the confidential 1600-bit Keccak two-round output state."
+      }
+    },
+    {
+      "Asset_Name": "Round constant for iota (round 1 of the two-round block) (round_const_1) in round2in1 module",
+      "Functionality": "64-bit round constant XORed into lane g[0][0] during the iota step of the first round.",
+      "Security Objective": "Integrity",
+      "Justification": "The correct round constant is required to maintain the specified Keccak round behavior. Corruption or substitution undermines the algorithm\u2019s transformation and compromises the correctness of the permutation.",
+      "CWE-IDs": [
+        "CWE-1221",
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1240"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1221": "Incorrect default values for round constants could lead to insecure states, compromising the integrity of the permutation process.",
+        "CWE-1276": "Improper connections of the round constant to the round transformation module could lead to incorrect permutation behavior, violating integrity.",
+        "CWE-440": "Deviation from expected behavior in the use of round constants during the iota step could allow attackers to bypass intended cryptographic transformations.",
+        "CWE-1240": "A risky implementation of the cryptographic primitive using incorrect round constants could compromise the integrity of the hash function."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the round_const_1 signal in the round2in1 module to introduce incorrect round constants during the iota step, thereby compromising the integrity of the Keccak permutation process.",
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1221 by intercepting and altering the round_const_1 value in the round2in1 module, leading to unauthorized modifications that undermine the integrity of the cryptographic transformation in the SHA-3 implementation."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 can exploit CWE-440 by introducing a malicious modification to the round_const_1 value in the round2in1 module, thereby compromising the integrity of the iota step in the Keccak permutation and undermining the correctness of the cryptographic transformation."
+          }
+        },
+        "CWE-1240": {
+          "CAPEC-IDs": [
+            "CAPEC-97"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "CAPEC-97 can exploit CWE-1240 by manipulating the round_const_1 signal in the round2in1 module to introduce incorrect round constants during the iota step, thereby compromising the integrity of the Keccak permutation process."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-166",
+        "CAPEC-545",
+        "CAPEC-97"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the round_const_1 signal in the round2in1 module to introduce incorrect round constants during the iota step, thereby compromising the integrity of the Keccak permutation process.",
+        "CAPEC-545": "[CWE-1221] CAPEC-545 can exploit CWE-1221 by intercepting and altering the round_const_1 value in the round2in1 module, leading to unauthorized modifications that undermine the integrity of the cryptographic transformation in the SHA-3 implementation. [CWE-440] CAPEC-545 can exploit CWE-440 by introducing a malicious modification to the round_const_1 value in the round2in1 module, thereby compromising the integrity of the iota step in the Keccak permutation and undermining the correctness of the cryptographic transformation.",
+        "CAPEC-97": "[CWE-1240] CAPEC-97 can exploit CWE-1240 by manipulating the round_const_1 signal in the round2in1 module to introduce incorrect round constants during the iota step, thereby compromising the integrity of the Keccak permutation process."
+      }
+    },
+    {
+      "Asset_Name": "Round constant for iota (round 2 of the two-round block) (round_const_2) in round2in1 module",
+      "Functionality": "64-bit round constant XORed into lane gg[0][0] during the iota step of the second round.",
+      "Security Objective": "Integrity",
+      "Justification": "Using the intended round constant is essential for adherence to the Keccak specification. Any alteration would change the round function and invalidate the cryptographic transformation.",
+      "CWE-IDs": [
+        "CWE-1221",
+        "CWE-440",
+        "CWE-1276"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1221": "Incorrect default values for round constants could lead to unintended cryptographic transformations, compromising the integrity of the Keccak permutation.",
+        "CWE-440": "Deviation from the expected behavior of using the correct round constant in the iota step could allow attackers to alter the cryptographic transformation, violating integrity.",
+        "CWE-1276": "Incorrect connections of the round constant signal could result in the use of wrong constants, affecting the integrity of the cryptographic process."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the round_const_2 signal in the round2in1 module to introduce an incorrect round constant during the iota step, thereby compromising the integrity of the cryptographic transformation in the Keccak permutation."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the round_const_2 signal in the round2in1 module to introduce an incorrect round constant during the iota step, thereby compromising the integrity of the cryptographic transformation in the Keccak permutation."
+      }
+    }
+  ]
+}

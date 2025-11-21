@@ -1,0 +1,149 @@
+{
+  "IP": "simple_gpio",
+  "Assets": [
+    {
+      "Asset_Name": "WISHBONE write enable (we_i)",
+      "Functionality": "Qualifies a bus access as a write, enabling updates to the selected register when combined with cyc_i and stb_i.",
+      "Security Objective": "Integrity",
+      "Justification": "Spurious or glitched assertion of write enable can corrupt the control or line registers. Preserving the correctness of write qualification is essential to prevent unauthorized modification of sensitive configuration and output state.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "The WISHBONE write enable (we_i) signal could be exploited to improperly access and modify control or line registers if access controls are not enforced, compromising the integrity of the GPIO configuration.",
+        "CWE-1220": "Insufficient granularity in access control could allow unauthorized write operations to the GPIO registers, leading to unauthorized modifications of the control or line registers.",
+        "CWE-1280": "If access control checks are implemented after the WISHBONE write enable signal is processed, unauthorized writes could occur before the system verifies permissions, compromising register integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 exploits CWE-1262 by manipulating the WISHBONE write enable (we_i) signal through electromagnetic interference, potentially causing unauthorized writes that compromise the integrity of the control or line registers in the simple_gpio module.",
+            "CAPEC-74": "CAPEC-74 exploits CWE-1262 by inducing faults in the WISHBONE write enable (we_i) signal using power supply manipulation, leading to unintended register writes that violate the integrity of the GPIO configuration and output state."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the WISHBONE write enable (we_i) signal through electromagnetic interference, leading to unauthorized register modifications that compromise the integrity of the GPIO configuration.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1220 by inducing faults in the WISHBONE write enable (we_i) signal timing, causing unintended writes to the control or line registers and violating the integrity of the GPIO module's state."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by inducing a fault in the WISHBONE write enable (we_i) signal, leading to unauthorized modifications of the control or line registers, thereby compromising the integrity of the GPIO configuration.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1280 by intercepting and manipulating the WISHBONE write enable (we_i) signal to inject unauthorized write operations, thus corrupting the integrity of the control or line registers in the simple_gpio module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 exploits CWE-1262 by manipulating the WISHBONE write enable (we_i) signal through electromagnetic interference, potentially causing unauthorized writes that compromise the integrity of the control or line registers in the simple_gpio module.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 exploits CWE-1262 by inducing faults in the WISHBONE write enable (we_i) signal using power supply manipulation, leading to unintended register writes that violate the integrity of the GPIO configuration and output state. [CWE-1220] CAPEC-74 can exploit CWE-1220 by inducing faults in the WISHBONE write enable (we_i) signal timing, causing unintended writes to the control or line registers and violating the integrity of the GPIO module's state. [CWE-1280] CAPEC-74 can exploit CWE-1280 by intercepting and manipulating the WISHBONE write enable (we_i) signal to inject unauthorized write operations, thus corrupting the integrity of the control or line registers in the simple_gpio module.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the WISHBONE write enable (we_i) signal through electromagnetic interference, leading to unauthorized register modifications that compromise the integrity of the GPIO configuration. [CWE-1280] CAPEC-180 can exploit CWE-1280 by inducing a fault in the WISHBONE write enable (we_i) signal, leading to unauthorized modifications of the control or line registers, thereby compromising the integrity of the GPIO configuration."
+      }
+    },
+    {
+      "Asset_Name": "WISHBONE acknowledge (ack_o)",
+      "Functionality": "Signals completion of a WISHBONE transaction one cycle after a valid access.",
+      "Security Objective": "Availability",
+      "Justification": "The bus master waits for ack_o to complete transactions. Withheld or malformed acknowledgments can stall the bus or prematurely terminate transfers, impacting the module\u2019s ability to serve requests.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connection of the ack_o signal could lead to incorrect or missing acknowledgments, stalling the bus and impacting availability.",
+        "CWE-440": "If the ack_o signal behaves differently than specified, it could cause unexpected bus behavior, leading to denial of service.",
+        "CWE-1221": "Incorrect default settings for the ack_o signal could result in it not being asserted correctly, affecting transaction completion and availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-440 by causing a denial of service through manipulating the WISHBONE acknowledge signal (ack_o), thereby impacting the availability of the simple_gpio module by stalling or prematurely terminating bus transactions."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the WISHBONE acknowledge signal (ack_o) to create a race condition, potentially delaying or withholding acknowledgments, thus impacting the availability of the Simple GPIO module by stalling bus transactions."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-440] CAPEC-74 can exploit CWE-440 by causing a denial of service through manipulating the WISHBONE acknowledge signal (ack_o), thereby impacting the availability of the simple_gpio module by stalling or prematurely terminating bus transactions.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the WISHBONE acknowledge signal (ack_o) to create a race condition, potentially delaying or withholding acknowledgments, thus impacting the availability of the Simple GPIO module by stalling bus transactions."
+      }
+    },
+    {
+      "Asset_Name": "WISHBONE strobe (stb_i)",
+      "Functionality": "Qualifies a data transfer within a bus cycle alongside cyc_i.",
+      "Security Objective": "Availability",
+      "Justification": "Correct strobing is required for accesses to be recognized. Disrupting stb_i prevents transactions from completing, effectively denying service to the module.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1221",
+        "CWE-440"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "An incorrect connection of the WISHBONE strobe signal could prevent proper transaction recognition, leading to denial of service.",
+        "CWE-1221": "Incorrect default settings for the strobe signal could result in the GPIO module failing to recognize valid transactions, impacting availability.",
+        "CWE-440": "If the strobe signal does not behave as expected, it could lead to unrecognized transactions, causing denial of service by preventing data transfers."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the WISHBONE strobe signal (stb_i) to create a race condition, disrupting the timing and availability of data transfers, thereby denying service to the simple_gpio module."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the WISHBONE strobe signal (stb_i) to create a race condition, disrupting the timing and availability of data transfers, thereby denying service to the simple_gpio module."
+      }
+    }
+  ]
+}

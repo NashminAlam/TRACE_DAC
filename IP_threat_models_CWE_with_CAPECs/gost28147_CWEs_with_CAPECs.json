@@ -1,0 +1,337 @@
+{
+  "IP": "gost28147",
+  "Assets": [
+    {
+      "Asset_Name": "Cipher key input (key)",
+      "Functionality": "Provides the 256-bit secret key that is stored into internal registers and used in all rounds.",
+      "Security Objective": "Confidentiality",
+      "Justification": "The key is the primary secret for the block cipher. Exposure would directly defeat the confidentiality guarantees of the encryption scheme.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1240",
+        "CWE-1272"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for register interfaces could allow unauthorized access to the cipher key input, compromising its confidentiality.",
+        "CWE-1240": "Using a cryptographic primitive with a risky implementation could expose the cipher key to vulnerabilities, undermining its confidentiality.",
+        "CWE-1272": "Sensitive information, such as the cipher key, may not be cleared before transitions, risking exposure during debug or power state changes."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-116"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 could exploit CWE-1262 by manipulating the synchronous reset signal to improperly initialize the cipher key registers, potentially exposing the 256-bit secret key and compromising its confidentiality.",
+            "CAPEC-116": "CAPEC-116 could exploit CWE-1262 by intercepting and altering the clock signal to disrupt the timing of key loading operations, leading to leakage or exposure of the cipher key, thus violating its confidentiality."
+          }
+        },
+        "CWE-1240": {
+          "CAPEC-IDs": [
+            "CAPEC-97",
+            "CAPEC-116"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "CAPEC-97 can exploit CWE-1240 by leveraging improper isolation of shared resources in the gost_28147_89 module, potentially allowing an attacker to access the 256-bit cipher key input, thereby compromising the confidentiality of the encryption scheme.",
+            "CAPEC-116": "CAPEC-116 can exploit CWE-1240 by manipulating the synchronization of the gost_28147_89 module's clock signal, potentially causing leakage of the 256-bit cipher key input and undermining the confidentiality objective of the encryption process."
+          }
+        },
+        "CWE-1272": {
+          "CAPEC-IDs": [
+            "CAPEC-37",
+            "CAPEC-116"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-37": "CAPEC-37 exploits CWE-1272 by leveraging the predictable cycle counter 'i' to infer the internal state transitions of the gost_28147_89 module, potentially revealing the 256-bit cipher key and compromising its confidentiality.",
+            "CAPEC-116": "CAPEC-116 exploits CWE-1272 by manipulating the synchronous reset signal 'rst' to induce fault conditions during key loading, potentially exposing the 256-bit cipher key and violating its confidentiality."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-116",
+        "CAPEC-97",
+        "CAPEC-37"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 could exploit CWE-1262 by manipulating the synchronous reset signal to improperly initialize the cipher key registers, potentially exposing the 256-bit secret key and compromising its confidentiality.",
+        "CAPEC-116": "[CWE-1262] CAPEC-116 could exploit CWE-1262 by intercepting and altering the clock signal to disrupt the timing of key loading operations, leading to leakage or exposure of the cipher key, thus violating its confidentiality. [CWE-1240] CAPEC-116 can exploit CWE-1240 by manipulating the synchronization of the gost_28147_89 module's clock signal, potentially causing leakage of the 256-bit cipher key input and undermining the confidentiality objective of the encryption process. [CWE-1272] CAPEC-116 exploits CWE-1272 by manipulating the synchronous reset signal 'rst' to induce fault conditions during key loading, potentially exposing the 256-bit cipher key and violating its confidentiality.",
+        "CAPEC-97": "[CWE-1240] CAPEC-97 can exploit CWE-1240 by leveraging improper isolation of shared resources in the gost_28147_89 module, potentially allowing an attacker to access the 256-bit cipher key input, thereby compromising the confidentiality of the encryption scheme.",
+        "CAPEC-37": "[CWE-1272] CAPEC-37 exploits CWE-1272 by leveraging the predictable cycle counter 'i' to infer the internal state transitions of the gost_28147_89 module, potentially revealing the 256-bit cipher key and compromising its confidentiality."
+      }
+    },
+    {
+      "Asset_Name": "S-box selection control (select)",
+      "Functionality": "Determines which predefined S-box configuration is applied by the Sbox(...) substitution at each encryption round.",
+      "Security Objective": "Integrity",
+      "Justification": "This control signal specifies the algorithm variant in operation. Any alteration compromises the intended semantics, causing non-compliance and producing faulty results even with a valid key and plaintext.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The S-box selection control signal could be incorrectly connected or configured, leading to unintended S-box usage and compromising the integrity of the encryption process.",
+        "CWE-440": "If the S-box selection behaves differently from the specification, it could result in unexpected encryption behavior, violating the expected integrity of the cryptographic operation.",
+        "CWE-1221": "Incorrect default settings for the S-box selection could lead to insecure states upon initialization, affecting the integrity of the encryption process."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-116"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-116": "CAPEC-116 could exploit CWE-1276 by manipulating the 'select' signal to alter the S-box configuration, thereby compromising the integrity of the encryption process and resulting in non-compliant and faulty cryptographic outputs."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the 'select' signal to alter the S-box configuration, thereby compromising the integrity of the encryption process and resulting in non-compliant and faulty cryptographic outputs."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-116",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-116": "[CWE-1276] CAPEC-116 could exploit CWE-1276 by manipulating the 'select' signal to alter the S-box configuration, thereby compromising the integrity of the encryption process and resulting in non-compliant and faulty cryptographic outputs.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the 'select' signal to alter the S-box configuration, thereby compromising the integrity of the encryption process and resulting in non-compliant and faulty cryptographic outputs."
+      }
+    },
+    {
+      "Asset_Name": "Plaintext input (pdata)",
+      "Functionality": "Carries the 64-bit plaintext block that is loaded into internal state and processed.",
+      "Security Objective": "Confidentiality",
+      "Justification": "Plaintext may contain user data that an integrator intends to keep secret. Leakage of this input, or of the internal state it seeds, would expose sensitive information.",
+      "CWE-IDs": [
+        "CWE-1431",
+        "CWE-1262",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1431": "The plaintext input (pdata) could be exposed if intermediate cryptographic states or results are inadvertently driven to output interfaces, compromising confidentiality.",
+        "CWE-1262": "Improper access control on the register interface could allow unauthorized access to the plaintext input, leading to potential leakage of sensitive information.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to access the plaintext input, risking data leakage and compromising confidentiality."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-116"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-116": "CAPEC-116 can exploit CWE-1431 by manipulating the synchronous reset signal to improperly initialize the gost_28147_89 module, potentially leaking the plaintext input (pdata) during the reset process, thereby compromising its confidentiality."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-116"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the S-box selection input to induce incorrect cryptographic transformations, potentially revealing patterns in the plaintext input (pdata) and compromising its confidentiality.",
+            "CAPEC-116": "CAPEC-116 can exploit CWE-1262 by tampering with the key loading process to introduce predictable key values, thereby weakening the encryption and risking exposure of the plaintext input (pdata) intended to remain confidential."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-116"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the synchronous reset signal to improperly initialize the gost_28147_89 module, potentially exposing the plaintext input (pdata) and compromising its confidentiality.",
+            "CAPEC-116": "CAPEC-116 leverages CWE-1220 by inducing a race condition through the clock signal, causing incorrect processing of the plaintext input (pdata) and risking the leakage of sensitive information."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-116",
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-116": "[CWE-1431] CAPEC-116 can exploit CWE-1431 by manipulating the synchronous reset signal to improperly initialize the gost_28147_89 module, potentially leaking the plaintext input (pdata) during the reset process, thereby compromising its confidentiality. [CWE-1262] CAPEC-116 can exploit CWE-1262 by tampering with the key loading process to introduce predictable key values, thereby weakening the encryption and risking exposure of the plaintext input (pdata) intended to remain confidential. [CWE-1220] CAPEC-116 leverages CWE-1220 by inducing a race condition through the clock signal, causing incorrect processing of the plaintext input (pdata) and risking the leakage of sensitive information.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the S-box selection input to induce incorrect cryptographic transformations, potentially revealing patterns in the plaintext input (pdata) and compromising its confidentiality.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the synchronous reset signal to improperly initialize the gost_28147_89 module, potentially exposing the plaintext input (pdata) and compromising its confidentiality."
+      }
+    },
+    {
+      "Asset_Name": "Ciphertext output (cdata)",
+      "Functionality": "Outputs the 64-bit encrypted/decrypted result once processing completes.",
+      "Security Objective": "Availability",
+      "Justification": "Downstream components rely on timely access to this output after completion. If this path is blocked or corrupted, system operation that depends on processed data can be denied.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1221",
+        "CWE-440"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connections between the gost_28147_89 module and its parent system could block or corrupt the cdata output, impacting availability.",
+        "CWE-1221": "Incorrect default values for registers or parameters in the gost_28147_89 module could lead to insecure states, affecting the availability of the cdata output.",
+        "CWE-440": "Violations of expected behavior in the gost_28147_89 module could result in the cdata output not being produced as specified, impacting availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1276 by manipulating the synchronous reset signal to disrupt the availability of the 'cdata' output, causing a denial of service in the gost_28147_89 module by preventing timely access to the encrypted/decrypted result."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 could exploit CWE-1221 by manipulating the synchronous reset signal to induce a race condition, potentially delaying the availability of the ciphertext output (cdata) and thereby impacting the system's ability to access processed data in a timely manner."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-150",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-150": "[CWE-1276] CAPEC-150 can exploit CWE-1276 by manipulating the synchronous reset signal to disrupt the availability of the 'cdata' output, causing a denial of service in the gost_28147_89 module by preventing timely access to the encrypted/decrypted result.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 could exploit CWE-1221 by manipulating the synchronous reset signal to induce a race condition, potentially delaying the availability of the ciphertext output (cdata) and thereby impacting the system's ability to access processed data in a timely manner."
+      }
+    },
+    {
+      "Asset_Name": "Operation completion indicator (done)",
+      "Functionality": "Signals that 32 rounds have completed and the output data is valid for capture.",
+      "Security Objective": "Availability",
+      "Justification": "This handshake governs when consumers can read valid results. If suppressed or spuriously asserted, it can cause denial-of-service or mis-synchronization in the larger system.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1429"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "If the 'done' signal is incorrectly connected or not properly integrated with the parent system, it could lead to mis-synchronization or denial of service by failing to indicate the completion of encryption/decryption operations.",
+        "CWE-440": "A violation of expected behavior in the 'done' signal could result in the system misinterpreting the completion status, causing denial of service or incorrect data handling.",
+        "CWE-1429": "If the 'done' signal fails to provide feedback when operations are not executed as expected, it could lead to undetected errors or denial of service by not alerting the system to incomplete or failed operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [],
+      "Justification of Related CAPEC-IDs": {}
+    },
+    {
+      "Asset_Name": "Internal key storage array (K)",
+      "Functionality": "Holds eight 32-bit words of the cipher key used for round operations.",
+      "Security Objective": "Confidentiality",
+      "Justification": "This register array contains the live secret key material used in all rounds. Disclosure of its contents compromises the confidentiality of all protected data.",
+      "CWE-IDs": [
+        "CWE-1431",
+        "CWE-1262",
+        "CWE-1243"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1431": "The internal key storage array could inadvertently expose sensitive cryptographic keys if intermediate states or results are driven to outputs, compromising confidentiality.",
+        "CWE-1262": "Improper access control for the register interface could allow unauthorized access to the internal key storage array, leading to potential exposure of cryptographic keys.",
+        "CWE-1243": "Sensitive cryptographic keys stored in the internal key storage array may not be adequately protected during debug operations, risking unauthorized access through debug interfaces."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-116"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-116": "CAPEC-116, which involves exploiting improper access control, could exploit CWE-1431 by allowing unauthorized access to the internal key storage array (K) in the gost_28147_89 module, thereby compromising the confidentiality of the cipher key used in encryption and decryption operations."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-116"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the synchronous reset signal to improperly initialize the internal key storage array (K), potentially exposing the secret key material and compromising confidentiality.",
+            "CAPEC-116": "CAPEC-116 can exploit CWE-1262 by inducing a fault during the key loading process, causing the internal key storage array (K) to store incorrect or predictable values, thereby undermining the confidentiality of the encryption process."
+          }
+        },
+        "CWE-1243": {
+          "CAPEC-IDs": [
+            "CAPEC-116"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-116": "CAPEC-116, which involves exploiting improper access control, could exploit CWE-1243 by allowing unauthorized access to the internal key storage array (K) in the gost_28147_89 module, thereby compromising the confidentiality of the cipher key and all protected data."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-116",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-116": "[CWE-1431] CAPEC-116, which involves exploiting improper access control, could exploit CWE-1431 by allowing unauthorized access to the internal key storage array (K) in the gost_28147_89 module, thereby compromising the confidentiality of the cipher key used in encryption and decryption operations. [CWE-1262] CAPEC-116 can exploit CWE-1262 by inducing a fault during the key loading process, causing the internal key storage array (K) to store incorrect or predictable values, thereby undermining the confidentiality of the encryption process. [CWE-1243] CAPEC-116, which involves exploiting improper access control, could exploit CWE-1243 by allowing unauthorized access to the internal key storage array (K) in the gost_28147_89 module, thereby compromising the confidentiality of the cipher key and all protected data.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the synchronous reset signal to improperly initialize the internal key storage array (K), potentially exposing the secret key material and compromising confidentiality."
+      }
+    },
+    {
+      "Asset_Name": "Completion flag register (r_done)",
+      "Functionality": "Internal register that asserts when all rounds are finished and drives the done output.",
+      "Security Objective": "Availability",
+      "Justification": "This internal readiness state gates when outputs are considered valid. Corrupting it can prevent consumers from observing completion or cause false completions.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connections between the r_done register and the done signal could prevent the completion flag from being correctly asserted, leading to availability issues.",
+        "CWE-440": "If the r_done register does not behave as specified, it could lead to premature or delayed assertion of the done signal, causing availability issues.",
+        "CWE-1245": "Improper FSM handling related to the r_done register could result in incorrect state transitions, affecting the availability of the done signal."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the completion flag register (r_done) to falsely assert completion, thereby compromising the availability of the gost_28147_89 module's output by either delaying or prematurely signaling the readiness of the ciphertext."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the completion flag register (r_done) to falsely assert completion, thereby compromising the availability of the gost_28147_89 module's output by either delaying or prematurely signaling the readiness of the ciphertext."
+      }
+    }
+  ]
+}

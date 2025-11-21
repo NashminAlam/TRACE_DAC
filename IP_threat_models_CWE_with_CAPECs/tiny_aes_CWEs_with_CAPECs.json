@@ -1,0 +1,773 @@
+{
+  "IP": "tiny_aes",
+  "Assets": [
+    {
+      "Asset_Name": "Encryption key input (key) in aes_128 module",
+      "Functionality": "Provides the 128-bit cipher key used for the initial AddRoundKey and fed into the key expansion pipeline.",
+      "Security Objective": "Confidentiality",
+      "Justification": "This port carries the long-term secret used to protect data. Disclosure of the key compromises all encrypted data regardless of algorithmic strength.",
+      "CWE-IDs": [
+        "CWE-1431",
+        "CWE-1240",
+        "CWE-1258",
+        "CWE-1243"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1431": "The encryption key input in the aes_128 module could be exposed if intermediate cryptographic states are inadvertently driven to output interfaces, compromising confidentiality.",
+        "CWE-1240": "If the AES implementation in the aes_128 module is risky or flawed, it could lead to predictable encryption keys, compromising the confidentiality of the encrypted data.",
+        "CWE-1258": "Uncleared debug information could expose the encryption key input if it is not properly cleared from internal registers during debug mode, leading to unauthorized access.",
+        "CWE-1243": "Sensitive non-volatile information, such as the encryption key input, may not be adequately protected during debug operations, risking exposure through debug interfaces."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1431 by leveraging timing discrepancies during the key expansion process in the aes_128 module to infer the 128-bit encryption key, thereby compromising the confidentiality of the key input asset."
+          }
+        },
+        "CWE-1240": {
+          "CAPEC-IDs": [
+            "CAPEC-97",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "CAPEC-97 exploits CWE-1240 by leveraging improper isolation of shared resources in the aes_128 module, potentially allowing an attacker to infer the encryption key through side-channel analysis, thereby compromising the confidentiality of the key input.",
+            "CAPEC-680": "CAPEC-680 exploits CWE-1240 by manipulating the timing of operations within the aes_128 module to induce faults, which can reveal information about the encryption key, thus breaching the confidentiality of the key input."
+          }
+        },
+        "CWE-1258": {
+          "CAPEC-IDs": [
+            "CAPEC-37",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-37": "CAPEC-37 can exploit CWE-1258 by manipulating the encryption key input in the aes_128 module to cause an unexpected state transition, potentially leading to the exposure of the key, thereby compromising the confidentiality of the encrypted data.",
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1258 by introducing malicious modifications to the key expansion process in the aes_128 module, resulting in the unauthorized disclosure of the encryption key and violating the confidentiality objective of the asset."
+          }
+        },
+        "CWE-1243": {
+          "CAPEC-IDs": [
+            "CAPEC-116",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-116": "CAPEC-116 can exploit CWE-1243 by manipulating the encryption key input in the aes_128 module to cause an out-of-bounds read, potentially leaking the confidential key and compromising data confidentiality.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1243 by inducing an out-of-bounds read in the key expansion process of the aes_128 module, which could expose the encryption key and violate its confidentiality objective."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-121",
+        "CAPEC-97",
+        "CAPEC-680",
+        "CAPEC-37",
+        "CAPEC-545",
+        "CAPEC-116"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-121": "[CWE-1431] CAPEC-121 can exploit CWE-1431 by leveraging timing discrepancies during the key expansion process in the aes_128 module to infer the 128-bit encryption key, thereby compromising the confidentiality of the key input asset.",
+        "CAPEC-97": "[CWE-1240] CAPEC-97 exploits CWE-1240 by leveraging improper isolation of shared resources in the aes_128 module, potentially allowing an attacker to infer the encryption key through side-channel analysis, thereby compromising the confidentiality of the key input.",
+        "CAPEC-680": "[CWE-1240] CAPEC-680 exploits CWE-1240 by manipulating the timing of operations within the aes_128 module to induce faults, which can reveal information about the encryption key, thus breaching the confidentiality of the key input.",
+        "CAPEC-37": "[CWE-1258] CAPEC-37 can exploit CWE-1258 by manipulating the encryption key input in the aes_128 module to cause an unexpected state transition, potentially leading to the exposure of the key, thereby compromising the confidentiality of the encrypted data.",
+        "CAPEC-545": "[CWE-1258] CAPEC-545 could exploit CWE-1258 by introducing malicious modifications to the key expansion process in the aes_128 module, resulting in the unauthorized disclosure of the encryption key and violating the confidentiality objective of the asset. [CWE-1243] CAPEC-545 targets CWE-1243 by inducing an out-of-bounds read in the key expansion process of the aes_128 module, which could expose the encryption key and violate its confidentiality objective.",
+        "CAPEC-116": "[CWE-1243] CAPEC-116 can exploit CWE-1243 by manipulating the encryption key input in the aes_128 module to cause an out-of-bounds read, potentially leaking the confidential key and compromising data confidentiality."
+      }
+    },
+    {
+      "Asset_Name": "Plaintext state input (state) in aes_128 module",
+      "Functionality": "Provides the 128-bit plaintext block to be encrypted; sampled and combined with the key at the first cycle.",
+      "Security Objective": "Confidentiality",
+      "Justification": "This input can contain user/application data intended to be kept secret prior to encryption. Exposure of this value defeats the purpose of using the AES engine.",
+      "CWE-IDs": [
+        "CWE-1431",
+        "CWE-1240",
+        "CWE-1276"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1431": "The plaintext state input could be exposed if intermediate cryptographic states are inadvertently driven to outputs, compromising confidentiality.",
+        "CWE-1240": "If the AES implementation in the module is risky or flawed, it could lead to exposure of the plaintext state input, undermining confidentiality.",
+        "CWE-1276": "Incorrect connections between the AES module and the parent system could expose the plaintext state input, violating confidentiality."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1431 by manipulating the synchronous clock signal in the aes_128 module to cause incorrect encryption operations, potentially exposing the plaintext state input and violating its confidentiality."
+          }
+        },
+        "CWE-1240": {
+          "CAPEC-IDs": [
+            "CAPEC-97",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "CAPEC-97 exploits CWE-1240 by manipulating the timing of the clock signal in the aes_128 module to infer the plaintext state input, thereby compromising its confidentiality.",
+            "CAPEC-680": "CAPEC-680 leverages CWE-1240 by inducing faults in the clock synchronization of the aes_128 module, potentially revealing the plaintext state input through differential fault analysis, thus breaching its confidentiality."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1276 by manipulating the timing of the AES-128 encryption process to infer the plaintext state input, thereby compromising the confidentiality of the data intended to be kept secret."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-97",
+        "CAPEC-545"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1431] CAPEC-680 can exploit CWE-1431 by manipulating the synchronous clock signal in the aes_128 module to cause incorrect encryption operations, potentially exposing the plaintext state input and violating its confidentiality. [CWE-1240] CAPEC-680 leverages CWE-1240 by inducing faults in the clock synchronization of the aes_128 module, potentially revealing the plaintext state input through differential fault analysis, thus breaching its confidentiality.",
+        "CAPEC-97": "[CWE-1240] CAPEC-97 exploits CWE-1240 by manipulating the timing of the clock signal in the aes_128 module to infer the plaintext state input, thereby compromising its confidentiality.",
+        "CAPEC-545": "[CWE-1276] CAPEC-545 can exploit CWE-1276 by manipulating the timing of the AES-128 encryption process to infer the plaintext state input, thereby compromising the confidentiality of the data intended to be kept secret."
+      }
+    },
+    {
+      "Asset_Name": "Ciphertext output (out) in aes_128 module",
+      "Functionality": "Produces the 128-bit encrypted output after 10 rounds; it is the primary data product of the module.",
+      "Security Objective": "Availability",
+      "Justification": "If this output is blocked or disrupted, the encryption service is effectively denied to the system using the core. Ensuring it is produced and observable is essential for correct system operation.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1248",
+        "CWE-1318"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connections between the aes_128 module and its parent system could disrupt the availability of the ciphertext output, leading to a denial of encryption service.",
+        "CWE-1248": "Semiconductor defects in the aes_128 module could cause faults in the ciphertext output, resulting in a denial of service by preventing correct encryption operations.",
+        "CWE-1318": "Missing support for security features in the on-chip fabric could lead to unauthorized access or disruption of the aes_128 module's ciphertext output, affecting its availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1248": {
+          "CAPEC-IDs": [
+            "CAPEC-624"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-624": "CAPEC-624 can exploit CWE-1248 by manipulating the timing of the AES-128 module's operations to disrupt the availability of the ciphertext output, thereby denying the encryption service to the system."
+          }
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating the synchronization of the clock signal in the aes_128 module, potentially disrupting the availability of the ciphertext output by causing timing discrepancies that prevent the completion of the encryption rounds.",
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1318 by introducing faults during the key expansion process in the expand_key_128 module, leading to incorrect round keys and ultimately affecting the availability of the correct ciphertext output."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-624",
+        "CAPEC-180",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-624": "[CWE-1248] CAPEC-624 can exploit CWE-1248 by manipulating the timing of the AES-128 module's operations to disrupt the availability of the ciphertext output, thereby denying the encryption service to the system.",
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating the synchronization of the clock signal in the aes_128 module, potentially disrupting the availability of the ciphertext output by causing timing discrepancies that prevent the completion of the encryption rounds.",
+        "CAPEC-680": "[CWE-1318] CAPEC-680 can exploit CWE-1318 by introducing faults during the key expansion process in the expand_key_128 module, leading to incorrect round keys and ultimately affecting the availability of the correct ciphertext output."
+      }
+    },
+    {
+      "Asset_Name": "Key input to key expansion (in) in aes_128 module",
+      "Functionality": "Supplies the 128-bit cipher key to the key schedule logic that generates round keys.",
+      "Security Objective": "Confidentiality",
+      "Justification": "It directly carries the secret key material. Any leakage here compromises all derived round keys and the security of the AES operation.",
+      "CWE-IDs": [
+        "CWE-1431",
+        "CWE-1240",
+        "CWE-1276"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1431": "The key input to key expansion could inadvertently expose intermediate cryptographic states if not properly isolated, compromising confidentiality.",
+        "CWE-1240": "If the AES implementation in the key expansion uses risky or incorrect cryptographic primitives, it could lead to key exposure and compromise confidentiality.",
+        "CWE-1276": "Improper connections between the key expansion module and the parent system could lead to unauthorized access to the key input, violating confidentiality."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1431": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1240": {
+          "CAPEC-IDs": [
+            "CAPEC-97",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "CAPEC-97 exploits CWE-1240 by leveraging improper isolation of the 'in' signal in the aes_128 module, potentially allowing an attacker to manipulate or observe the key input during key expansion, thereby compromising the confidentiality of the AES operation.",
+            "CAPEC-545": "CAPEC-545 exploits CWE-1240 by targeting the lack of secure boundaries around the 'in' signal in the aes_128 module, enabling side-channel attacks that could extract the 128-bit cipher key, thus breaching the confidentiality of the encryption process."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1276 by manipulating the timing of the key input to the key expansion module in the aes_128 design, potentially allowing an attacker to infer the secret key through side-channel analysis, thereby compromising the confidentiality of the AES operation."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-97",
+        "CAPEC-545"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-97": "[CWE-1240] CAPEC-97 exploits CWE-1240 by leveraging improper isolation of the 'in' signal in the aes_128 module, potentially allowing an attacker to manipulate or observe the key input during key expansion, thereby compromising the confidentiality of the AES operation.",
+        "CAPEC-545": "[CWE-1240] CAPEC-545 exploits CWE-1240 by targeting the lack of secure boundaries around the 'in' signal in the aes_128 module, enabling side-channel attacks that could extract the 128-bit cipher key, thus breaching the confidentiality of the encryption process. [CWE-1276] CAPEC-545 can exploit CWE-1276 by manipulating the timing of the key input to the key expansion module in the aes_128 design, potentially allowing an attacker to infer the secret key through side-channel analysis, thereby compromising the confidentiality of the AES operation."
+      }
+    },
+    {
+      "Asset_Name": "Round constant input (rcon) in aes_128 module",
+      "Functionality": "Feeds the round constant used in the key schedule\u2019s transformations.",
+      "Security Objective": "Integrity",
+      "Justification": "Corruption or manipulation of this control constant produces incorrect round keys and breaks functional correctness, potentially enabling attacks that induce predictable or weak keys.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1221",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The round constant input (rcon) could be incorrectly connected within the aes_128 module, leading to incorrect key expansion and potential security policy violations.",
+        "CWE-1221": "Incorrect default values for the round constant (rcon) could lead to insecure key expansion, compromising the integrity of the AES encryption process.",
+        "CWE-1262": "Improper access control for the rcon input could allow unauthorized manipulation, resulting in incorrect key schedules and weakened encryption."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "By exploiting CWE-1221, an attacker could manipulate the round constant input (rcon) in the aes_128 module, leading to incorrect key expansion and compromising the integrity of the encryption process, as described in CAPEC-166."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the round constant input (rcon) in the aes_128 module, thereby compromising the integrity of the key schedule and generating predictable or weak keys.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1262 by injecting malicious values into the round constant input (rcon) of the aes_128 module, leading to incorrect round keys and undermining the integrity of the encryption process."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-166",
+        "CAPEC-680",
+        "CAPEC-545"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-166": "[CWE-1221] By exploiting CWE-1221, an attacker could manipulate the round constant input (rcon) in the aes_128 module, leading to incorrect key expansion and compromising the integrity of the encryption process, as described in CAPEC-166.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the round constant input (rcon) in the aes_128 module, thereby compromising the integrity of the key schedule and generating predictable or weak keys.",
+        "CAPEC-545": "[CWE-1262] CAPEC-545 targets CWE-1262 by injecting malicious values into the round constant input (rcon) of the aes_128 module, leading to incorrect round keys and undermining the integrity of the encryption process."
+      }
+    },
+    {
+      "Asset_Name": "Expanded key outputs (registered and combinational) (out_1, out_2) in aes_128 module",
+      "Functionality": "Expose the 128-bit expanded round key result to downstream AES rounds (registered form via out_1 and combinational via out_2).",
+      "Security Objective": "Confidentiality",
+      "Justification": "These outputs contain round keys derived from the secret key. Disclosure of round keys reveals or severely constrains the master key space, undermining encryption security.",
+      "CWE-IDs": [
+        "CWE-1431",
+        "CWE-1258",
+        "CWE-1244"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1431": "The expanded key outputs (out_1, out_2) expose intermediate cryptographic states, which can be monitored to extract sensitive information, compromising the confidentiality of the AES encryption process.",
+        "CWE-1258": "If debug interfaces are not properly cleared, they may expose the expanded key outputs, allowing attackers to retrieve sensitive cryptographic material through debug access.",
+        "CWE-1244": "The expanded key outputs could be exposed to unsafe debug access levels, allowing unauthorized agents to access sensitive cryptographic keys if debug protections are not enforced."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 could exploit CWE-1431 by manipulating the timing of the AES-128 module's operations to infer the expanded round keys (out_1, out_2), thereby compromising the confidentiality of the encryption process by revealing sensitive key information."
+          }
+        },
+        "CWE-1258": {
+          "CAPEC-IDs": [
+            "CAPEC-37",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-37": "CAPEC-37 can exploit CWE-1258 by manipulating the AES-128 module's input signals to cause incorrect key expansion, potentially leaking the expanded round keys (out_1, out_2) and compromising the confidentiality of the encryption process.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1258 by inducing faults during the key expansion process in the aes_128 module, leading to the exposure of sensitive expanded round keys (out_1, out_2) and undermining the confidentiality of the encryption key."
+          }
+        },
+        "CWE-1244": {
+          "CAPEC-IDs": [
+            "CAPEC-114",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-114": "CAPEC-114 exploits CWE-1244 by leveraging a timing attack to infer the expanded round keys (out_1, out_2) in the aes_128 module, compromising the confidentiality of the encryption process by revealing key-dependent timing variations.",
+            "CAPEC-545": "CAPEC-545 exploits CWE-1244 by using a side-channel attack to monitor power consumption patterns during key expansion, potentially exposing the expanded round keys (out_1, out_2) and undermining the confidentiality of the AES encryption."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-37",
+        "CAPEC-545",
+        "CAPEC-114"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1431] CAPEC-680 could exploit CWE-1431 by manipulating the timing of the AES-128 module's operations to infer the expanded round keys (out_1, out_2), thereby compromising the confidentiality of the encryption process by revealing sensitive key information.",
+        "CAPEC-37": "[CWE-1258] CAPEC-37 can exploit CWE-1258 by manipulating the AES-128 module's input signals to cause incorrect key expansion, potentially leaking the expanded round keys (out_1, out_2) and compromising the confidentiality of the encryption process.",
+        "CAPEC-545": "[CWE-1258] CAPEC-545 targets CWE-1258 by inducing faults during the key expansion process in the aes_128 module, leading to the exposure of sensitive expanded round keys (out_1, out_2) and undermining the confidentiality of the encryption key. [CWE-1244] CAPEC-545 exploits CWE-1244 by using a side-channel attack to monitor power consumption patterns during key expansion, potentially exposing the expanded round keys (out_1, out_2) and undermining the confidentiality of the AES encryption.",
+        "CAPEC-114": "[CWE-1244] CAPEC-114 exploits CWE-1244 by leveraging a timing attack to infer the expanded round keys (out_1, out_2) in the aes_128 module, compromising the confidentiality of the encryption process by revealing key-dependent timing variations."
+      }
+    },
+    {
+      "Asset_Name": "Round input state (state_in) in round module",
+      "Functionality": "128-bit input state for this AES round; split into s0\u2013s3 and transformed via table lookups and XOR with the round key.",
+      "Security Objective": "Confidentiality, Integrity",
+      "Justification": "This signal can carry plaintext (at the beginning of the pipeline) or intermediate states that are functions of the secret key, which may be considered sensitive. If altered, it changes the produced ciphertext, violating correctness of operation.",
+      "CWE-IDs": [
+        "CWE-1234",
+        "CWE-441",
+        "CWE-1223"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1234": "The round input state could be modified if debug modes allow override of locks, leading to unauthorized changes in the encryption process.",
+        "CWE-441": "The round input state could be exploited by an intermediary component to perform unauthorized actions, compromising the confidentiality and integrity of the encryption.",
+        "CWE-1223": "A race condition could allow unauthorized modification of the round input state before it is securely initialized, affecting the integrity of the encryption process."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1234": {
+          "CAPEC-IDs": [
+            "CAPEC-176",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-176": "CAPEC-176 can exploit CWE-1234 by manipulating the 'state_in' signal in the 'one_round' module to alter intermediate states, compromising the confidentiality and integrity of the AES encryption process.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1234 by injecting faults into the 'state_in' signal during the AES round transformations, potentially revealing sensitive key-dependent information and violating the confidentiality objective."
+          }
+        },
+        "CWE-441": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 exploits CWE-441 by manipulating the round input state (state_in) in the one_round module to inject malicious data, compromising the confidentiality and integrity of the AES encryption process by altering intermediate states that depend on the secret key."
+          }
+        },
+        "CWE-1223": {
+          "CAPEC-IDs": [
+            "CAPEC-26",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-26": "CAPEC-26 exploits CWE-1223 by manipulating the 'state_in' signal in the 'one_round' module to introduce unauthorized modifications, potentially compromising the confidentiality and integrity of the AES encryption process by altering intermediate states derived from the secret key.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1223 by intercepting and tampering with the 'state_in' signal during its transformation phase, thereby undermining the confidentiality and integrity of the encryption by exposing or altering sensitive intermediate states linked to the secret key."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-176",
+        "CAPEC-545",
+        "CAPEC-26"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-176": "[CWE-1234] CAPEC-176 can exploit CWE-1234 by manipulating the 'state_in' signal in the 'one_round' module to alter intermediate states, compromising the confidentiality and integrity of the AES encryption process.",
+        "CAPEC-545": "[CWE-1234] CAPEC-545 targets CWE-1234 by injecting faults into the 'state_in' signal during the AES round transformations, potentially revealing sensitive key-dependent information and violating the confidentiality objective. [CWE-441] CAPEC-545 exploits CWE-441 by manipulating the round input state (state_in) in the one_round module to inject malicious data, compromising the confidentiality and integrity of the AES encryption process by altering intermediate states that depend on the secret key. [CWE-1223] CAPEC-545 targets CWE-1223 by intercepting and tampering with the 'state_in' signal during its transformation phase, thereby undermining the confidentiality and integrity of the encryption by exposing or altering sensitive intermediate states linked to the secret key.",
+        "CAPEC-26": "[CWE-1223] CAPEC-26 exploits CWE-1223 by manipulating the 'state_in' signal in the 'one_round' module to introduce unauthorized modifications, potentially compromising the confidentiality and integrity of the AES encryption process by altering intermediate states derived from the secret key."
+      }
+    },
+    {
+      "Asset_Name": "Round key input (key) in round module",
+      "Functionality": "128-bit round subkey used for AddRoundKey in the round computation.",
+      "Security Objective": "Confidentiality",
+      "Justification": "This is the encryption secret for the round; exposure enables key recovery or reduces security of the cipher. It is XORed directly into the round state, so secrecy is essential.",
+      "CWE-IDs": [
+        "CWE-1431",
+        "CWE-1240",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1431": "The round key input in the AES module could be exposed through hardware outputs, compromising confidentiality by allowing attackers to extract sensitive cryptographic keys.",
+        "CWE-1240": "If the AES implementation in the module is flawed or risky, it could lead to exposure of the round key, compromising the confidentiality of the encryption process.",
+        "CWE-1262": "Improper access control on the round key registers could allow unauthorized access, leading to potential exposure of the encryption keys and compromising confidentiality."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1431 by leveraging side-channel analysis to infer the 128-bit round subkey during the AddRoundKey operation, compromising the confidentiality of the encryption key in the round module."
+          }
+        },
+        "CWE-1240": {
+          "CAPEC-IDs": [
+            "CAPEC-97",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "CAPEC-97 exploits CWE-1240 by leveraging side-channel analysis to infer the round key input in the round module, compromising the confidentiality of the encryption process by exposing the secret key through unintended information leakage.",
+            "CAPEC-545": "CAPEC-545 exploits CWE-1240 by manipulating the timing of operations within the AES-128 module to deduce the round key input, thereby breaching the confidentiality of the encryption key through timing-based side-channel attacks."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by leveraging side-channel analysis to infer the round key input in the round module, compromising the confidentiality of the encryption process.",
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1262 by introducing fault injections during the round key processing, potentially revealing the round key input and undermining the confidentiality of the AES encryption."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-545",
+        "CAPEC-97",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-545": "[CWE-1431] CAPEC-545 can exploit CWE-1431 by leveraging side-channel analysis to infer the 128-bit round subkey during the AddRoundKey operation, compromising the confidentiality of the encryption key in the round module. [CWE-1240] CAPEC-545 exploits CWE-1240 by manipulating the timing of operations within the AES-128 module to deduce the round key input, thereby breaching the confidentiality of the encryption key through timing-based side-channel attacks. [CWE-1262] CAPEC-545 can exploit CWE-1262 by introducing fault injections during the round key processing, potentially revealing the round key input and undermining the confidentiality of the AES encryption.",
+        "CAPEC-97": "[CWE-1240] CAPEC-97 exploits CWE-1240 by leveraging side-channel analysis to infer the round key input in the round module, compromising the confidentiality of the encryption process by exposing the secret key through unintended information leakage.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by leveraging side-channel analysis to infer the round key input in the round module, compromising the confidentiality of the encryption process."
+      }
+    },
+    {
+      "Asset_Name": "Round output state (state_out) in round module",
+      "Functionality": "128-bit result of the round (registered) forwarded to the next stage of AES.",
+      "Security Objective": "Availability",
+      "Justification": "If this output is blocked or corrupted in availability, the encryption pipeline cannot progress and the AES operation fails. Downstream rounds require this value each cycle to maintain throughput.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1248",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "If the round output state (state_out) is incorrectly connected, it could block or corrupt the data flow, halting the AES encryption pipeline and affecting availability.",
+        "CWE-1248": "Semiconductor defects in the round output state logic could lead to permanent faults, disrupting the encryption process and causing denial of service.",
+        "CWE-1245": "Improper FSM handling in the round module could lead to incorrect state transitions, causing the AES pipeline to enter an unintended state and fail to progress."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1248": {
+          "CAPEC-IDs": [
+            "CAPEC-624"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-624": "CAPEC-624 can exploit CWE-1248 by manipulating the round output state (state_out) in the one_round module to introduce a race condition, thereby disrupting the availability of the 128-bit result needed for subsequent AES rounds, ultimately causing the encryption pipeline to fail."
+          }
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the timing of the round output state (state_out) in the one_round module, causing a delay or corruption that disrupts the availability of the encryption pipeline, thereby preventing the AES operation from progressing as required."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-624",
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-624": "[CWE-1248] CAPEC-624 can exploit CWE-1248 by manipulating the round output state (state_out) in the one_round module to introduce a race condition, thereby disrupting the availability of the 128-bit result needed for subsequent AES rounds, ultimately causing the encryption pipeline to fail.",
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the timing of the round output state (state_out) in the one_round module, causing a delay or corruption that disrupts the availability of the encryption pipeline, thereby preventing the AES operation from progressing as required."
+      }
+    },
+    {
+      "Asset_Name": "Final-round input state (state_in) in round module",
+      "Functionality": "128-bit input state to the final AES round; split into s0\u2013s3, substituted via S4 and combined.",
+      "Security Objective": "Confidentiality, Integrity",
+      "Justification": "This final-round state is still sensitive as it is a direct function of plaintext and key. Any modification changes the final ciphertext, violating correctness.",
+      "CWE-IDs": [
+        "CWE-1231",
+        "CWE-1233",
+        "CWE-1223"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1231": "The final-round input state could be vulnerable if lock bits meant to secure its configuration are improperly modifiable, allowing unauthorized changes to the encryption process.",
+        "CWE-1233": "The absence of lock bit protection for the final-round input state could allow unauthorized modifications, compromising the confidentiality and integrity of the encryption output.",
+        "CWE-1223": "A race condition could allow an unauthorized entity to modify the final-round input state before it is securely configured, leading to incorrect encryption results."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1231": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1231 by manipulating the final-round input state (state_in) in the round module to introduce incorrect data transformations, thereby compromising the confidentiality and integrity of the AES encryption process.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1231 by intercepting and altering the final-round input state (state_in) in the round module, leading to unauthorized modifications that affect the correctness of the final ciphertext, thus breaching the asset's security objectives."
+          }
+        },
+        "CWE-1233": {
+          "CAPEC-IDs": [
+            "CAPEC-176",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-176": "CAPEC-176 can exploit CWE-1233 by manipulating the final-round input state (state_in) in the round module to introduce unauthorized modifications, compromising the confidentiality and integrity of the AES encryption process.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1233 by intercepting and altering the final-round input state (state_in) in the round module, potentially leading to incorrect ciphertext output and violating the integrity of the encryption operation."
+          }
+        },
+        "CWE-1223": {
+          "CAPEC-IDs": [
+            "CAPEC-26",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-26": "CAPEC-26 could exploit CWE-1223 by manipulating the final-round input state (state_in) to introduce unauthorized modifications, thereby compromising the confidentiality and integrity of the AES encryption process.",
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1223 by intercepting and altering the final-round input state (state_in) during its transformation, leading to unauthorized changes in the ciphertext and violating the integrity of the encryption."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-545",
+        "CAPEC-176",
+        "CAPEC-26"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1231] CAPEC-680 can exploit CWE-1231 by manipulating the final-round input state (state_in) in the round module to introduce incorrect data transformations, thereby compromising the confidentiality and integrity of the AES encryption process.",
+        "CAPEC-545": "[CWE-1231] CAPEC-545 targets CWE-1231 by intercepting and altering the final-round input state (state_in) in the round module, leading to unauthorized modifications that affect the correctness of the final ciphertext, thus breaching the asset's security objectives. [CWE-1233] CAPEC-545 targets CWE-1233 by intercepting and altering the final-round input state (state_in) in the round module, potentially leading to incorrect ciphertext output and violating the integrity of the encryption operation. [CWE-1223] CAPEC-545 could exploit CWE-1223 by intercepting and altering the final-round input state (state_in) during its transformation, leading to unauthorized changes in the ciphertext and violating the integrity of the encryption.",
+        "CAPEC-176": "[CWE-1233] CAPEC-176 can exploit CWE-1233 by manipulating the final-round input state (state_in) in the round module to introduce unauthorized modifications, compromising the confidentiality and integrity of the AES encryption process.",
+        "CAPEC-26": "[CWE-1223] CAPEC-26 could exploit CWE-1223 by manipulating the final-round input state (state_in) to introduce unauthorized modifications, thereby compromising the confidentiality and integrity of the AES encryption process."
+      }
+    },
+    {
+      "Asset_Name": "Final-round key input (key_in) in round module",
+      "Functionality": "128-bit key for the final round used in AddRoundKey.",
+      "Security Objective": "Confidentiality",
+      "Justification": "It is secret key material; disclosure directly compromises encryption security. It is XORed with substituted bytes to produce the final ciphertext.",
+      "CWE-IDs": [
+        "CWE-1431",
+        "CWE-1240",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1431": "The final-round key input could be exposed if intermediate cryptographic states are inadvertently driven to output interfaces, compromising confidentiality.",
+        "CWE-1240": "If the AES implementation in the final round uses a risky cryptographic primitive or flawed logic, it could lead to key exposure and compromise encryption security.",
+        "CWE-1262": "Improper access control for the register interface could allow unauthorized access to the final-round key input, leading to potential key exposure and compromise of confidentiality."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1431 by leveraging a timing attack to infer the final-round key input (key_in) in the AES-128 module, thereby compromising the confidentiality of the encryption process by revealing secret key material."
+          }
+        },
+        "CWE-1240": {
+          "CAPEC-IDs": [
+            "CAPEC-97",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "CAPEC-97 can exploit CWE-1240 by leveraging a side-channel attack to infer the final-round key input (key_in) through power analysis, thereby compromising the confidentiality of the AES-128 encryption process.",
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1240 by introducing a fault during the final round of AES-128 encryption, potentially revealing the final-round key input (key_in) through differential fault analysis, thus breaching the confidentiality of the encryption."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the final-round key input (key_in) in the round module to induce incorrect encryption operations, potentially revealing the confidential key material through side-channel analysis.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1262 by introducing faults during the final round's AddRoundKey operation, which could lead to the exposure of the final-round key input (key_in) and compromise the confidentiality of the encryption process."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-545",
+        "CAPEC-97",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-545": "[CWE-1431] CAPEC-545 could exploit CWE-1431 by leveraging a timing attack to infer the final-round key input (key_in) in the AES-128 module, thereby compromising the confidentiality of the encryption process by revealing secret key material. [CWE-1240] CAPEC-545 can exploit CWE-1240 by introducing a fault during the final round of AES-128 encryption, potentially revealing the final-round key input (key_in) through differential fault analysis, thus breaching the confidentiality of the encryption. [CWE-1262] CAPEC-545 targets CWE-1262 by introducing faults during the final round's AddRoundKey operation, which could lead to the exposure of the final-round key input (key_in) and compromise the confidentiality of the encryption process.",
+        "CAPEC-97": "[CWE-1240] CAPEC-97 can exploit CWE-1240 by leveraging a side-channel attack to infer the final-round key input (key_in) through power analysis, thereby compromising the confidentiality of the AES-128 encryption process.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the final-round key input (key_in) in the round module to induce incorrect encryption operations, potentially revealing the confidential key material through side-channel analysis."
+      }
+    },
+    {
+      "Asset_Name": "Ciphertext output (state_out) in round module",
+      "Functionality": "128-bit final encrypted output registered at the end of the final round.",
+      "Security Objective": "Availability",
+      "Justification": "System operation depends on timely production of ciphertext; if this output is unavailable, encryption service is effectively denied. It is the culmination of all pipeline stages.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1248",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connections between the AES module and its parent system could disrupt the availability of the ciphertext output, leading to a denial of encryption service.",
+        "CWE-1248": "Semiconductor defects in the AES logic could cause faults in the final encrypted output, resulting in a denial of service by preventing the correct ciphertext from being produced.",
+        "CWE-1221": "Incorrect default settings in the AES module's registers could lead to insecure states that prevent the timely production of the ciphertext output, affecting system availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1248": {
+          "CAPEC-IDs": [
+            "CAPEC-624"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-624": "CAPEC-624 could exploit CWE-1248 by manipulating the timing of the AES-128 module's clock signal to disrupt the synchronous operation, potentially causing delays or unavailability of the ciphertext output, thereby impacting the availability of the encryption service."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the timing of the clock signal to disrupt the synchronous operation of the AES-128 module, potentially causing delays or failures in the availability of the ciphertext output (state_out) at the end of the final round, thereby denying the encryption service."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-624",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-624": "[CWE-1248] CAPEC-624 could exploit CWE-1248 by manipulating the timing of the AES-128 module's clock signal to disrupt the synchronous operation, potentially causing delays or unavailability of the ciphertext output, thereby impacting the availability of the encryption service.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the timing of the clock signal to disrupt the synchronous operation of the AES-128 module, potentially causing delays or failures in the availability of the ciphertext output (state_out) at the end of the final round, thereby denying the encryption service."
+      }
+    },
+    {
+      "Asset_Name": "AES state word input (state) in table module",
+      "Functionality": "32-bit input word of the AES state fed to table lookups to generate round-transformation partial results.",
+      "Security Objective": "Confidentiality",
+      "Justification": "This signal carries intermediate AES state which is a function of plaintext and key. Exposure of this value can leak key-dependent material, so it must be protected from observation.",
+      "CWE-IDs": [
+        "CWE-1431",
+        "CWE-1258",
+        "CWE-1244"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1431": "The AES state word input in the table module could be exposed if intermediate cryptographic states are inadvertently driven to hardware outputs, leading to potential leakage of sensitive information.",
+        "CWE-1258": "If debug information is not properly cleared, intermediate AES state values could be exposed through debug interfaces, compromising the confidentiality of the cryptographic process.",
+        "CWE-1244": "The AES state word input may be exposed to unsafe debug access levels if the debug interface is misconfigured, allowing unauthorized access to sensitive cryptographic material."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1431 by leveraging side-channel analysis to observe the AES state word input in the table module, potentially revealing confidential intermediate state information that is a function of both the plaintext and the encryption key."
+          }
+        },
+        "CWE-1258": {
+          "CAPEC-IDs": [
+            "CAPEC-37",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-37": "CAPEC-37 can exploit CWE-1258 by manipulating the AES state word input in the table module to cause an out-of-bounds read, potentially exposing confidential intermediate state values that are key-dependent.",
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1258 by inducing an out-of-bounds read in the AES state word input within the table module, thereby compromising the confidentiality of the intermediate state by revealing sensitive data linked to the encryption key."
+          }
+        },
+        "CWE-1244": {
+          "CAPEC-IDs": [
+            "CAPEC-114",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-114": "CAPEC-114 can exploit CWE-1244 by manipulating the AES state word input in the table module to cause an unintended information exposure, compromising the confidentiality of the intermediate AES state which is a function of the plaintext and key.",
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1244 by inducing a fault in the AES state word input during table lookup operations, potentially revealing key-dependent material and violating the confidentiality of the encryption process."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-37",
+        "CAPEC-545",
+        "CAPEC-114"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1431] CAPEC-680 can exploit CWE-1431 by leveraging side-channel analysis to observe the AES state word input in the table module, potentially revealing confidential intermediate state information that is a function of both the plaintext and the encryption key.",
+        "CAPEC-37": "[CWE-1258] CAPEC-37 can exploit CWE-1258 by manipulating the AES state word input in the table module to cause an out-of-bounds read, potentially exposing confidential intermediate state values that are key-dependent.",
+        "CAPEC-545": "[CWE-1258] CAPEC-545 can exploit CWE-1258 by inducing an out-of-bounds read in the AES state word input within the table module, thereby compromising the confidentiality of the intermediate state by revealing sensitive data linked to the encryption key. [CWE-1244] CAPEC-545 can exploit CWE-1244 by inducing a fault in the AES state word input during table lookup operations, potentially revealing key-dependent material and violating the confidentiality of the encryption process.",
+        "CAPEC-114": "[CWE-1244] CAPEC-114 can exploit CWE-1244 by manipulating the AES state word input in the table module to cause an unintended information exposure, compromising the confidentiality of the intermediate AES state which is a function of the plaintext and key."
+      }
+    },
+    {
+      "Asset_Name": "Table lookup partial results (p0, p1, p2, p3) in table module",
+      "Functionality": "32-bit words produced by table_lookup that implement combined SubBytes/ShiftRows/MixColumns path for each state word.",
+      "Security Objective": "Confidentiality, Integrity",
+      "Justification": "They are key-dependent intermediates; leaking them aids side-channel/DFAs, and altering them corrupts the round transformation.",
+      "CWE-IDs": [
+        "CWE-441",
+        "CWE-1190",
+        "CWE-1234"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-441": "The table lookup module could act as an unintended intermediary, allowing unauthorized access to key-dependent intermediates, leading to data exfiltration or unauthorized modification.",
+        "CWE-1190": "If the table lookup module is enabled too early in the boot phase, it could allow unauthorized access to sensitive intermediate results before security configurations are fully established.",
+        "CWE-1234": "Debug or internal modes could potentially allow the override of protections on the table lookup module, exposing key-dependent intermediates to unauthorized access or modification."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-441": {
+          "CAPEC-IDs": [
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-121": "CAPEC-121 exploits CWE-441 by leveraging the exposure of table lookup partial results (p0, p1, p2, p3) in the table module to infer key-dependent intermediates, compromising the confidentiality and integrity of the AES-128 encryption process."
+          }
+        },
+        "CWE-1190": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1190 by leveraging the unauthorized access to the table lookup partial results (p0, p1, p2, p3) to perform a side-channel attack, compromising the confidentiality of the AES encryption process in the tiny_aes module.",
+            "CAPEC-121": "CAPEC-121 exploits CWE-1190 by manipulating the table lookup partial results (p0, p1, p2, p3) to inject faults, thereby corrupting the integrity of the AES encryption rounds in the tiny_aes module."
+          }
+        },
+        "CWE-1234": {
+          "CAPEC-IDs": [
+            "CAPEC-176",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-176": "CAPEC-176 can exploit CWE-1234 by manipulating the table lookup partial results (p0, p1, p2, p3) to alter the integrity of the AES-128 encryption process, potentially leading to incorrect encryption outputs.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1234 by intercepting the table lookup partial results (p0, p1, p2, p3) to compromise the confidentiality of the AES-128 encryption, as these intermediates are key-dependent and their exposure could facilitate side-channel attacks."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-121",
+        "CAPEC-180",
+        "CAPEC-176"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-121": "[CWE-441] CAPEC-121 exploits CWE-441 by leveraging the exposure of table lookup partial results (p0, p1, p2, p3) in the table module to infer key-dependent intermediates, compromising the confidentiality and integrity of the AES-128 encryption process. [CWE-1190] CAPEC-121 exploits CWE-1190 by manipulating the table lookup partial results (p0, p1, p2, p3) to inject faults, thereby corrupting the integrity of the AES encryption rounds in the tiny_aes module. [CWE-1234] CAPEC-121 can exploit CWE-1234 by intercepting the table lookup partial results (p0, p1, p2, p3) to compromise the confidentiality of the AES-128 encryption, as these intermediates are key-dependent and their exposure could facilitate side-channel attacks.",
+        "CAPEC-180": "[CWE-1190] CAPEC-180 exploits CWE-1190 by leveraging the unauthorized access to the table lookup partial results (p0, p1, p2, p3) to perform a side-channel attack, compromising the confidentiality of the AES encryption process in the tiny_aes module.",
+        "CAPEC-176": "[CWE-1234] CAPEC-176 can exploit CWE-1234 by manipulating the table lookup partial results (p0, p1, p2, p3) to alter the integrity of the AES-128 encryption process, potentially leading to incorrect encryption outputs."
+      }
+    }
+  ]
+}

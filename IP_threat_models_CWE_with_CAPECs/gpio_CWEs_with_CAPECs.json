@@ -1,0 +1,449 @@
+{
+  "IP": "gpio",
+  "Assets": [
+    {
+      "Asset_Name": "Read address bus (sb_araddr)",
+      "Functionality": "Selects which internal resource is read (gpio_odr or gpio_i) via sb_araddr[2].",
+      "Security Objective": "Integrity",
+      "Justification": "Corruption or spoofing of the read address can cause the system to read unintended resources, leading to incorrect behavior. Preserving its integrity ensures the correct register or pin state is returned.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the sb_araddr register interface could allow unauthorized modification of the read address, leading to incorrect resource access.",
+        "CWE-1220": "Insufficient granularity of access control on the sb_araddr could allow unauthorized agents to read unintended resources, compromising system integrity.",
+        "CWE-1280": "If access control checks on sb_araddr are implemented after access, it could allow unauthorized reading of sensitive resources before checks are enforced."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 exploits CWE-1262 by manipulating the sb_araddr to alter the read address, potentially causing the gpio module to access unintended resources and violate the integrity of the read operation.",
+            "CAPEC-74": "CAPEC-74 exploits CWE-1262 by injecting malicious data into the sb_araddr, which can corrupt the read address and lead to unauthorized access to gpio_odr or gpio_i, compromising the integrity of the system's read functionality."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the sb_araddr signal to alter the read address, potentially causing the gpio module to access unintended resources and violate the integrity of the read operation.",
+            "CAPEC-74": "CAPEC-74 targets CWE-1220 by injecting unauthorized values into the sb_araddr bus, leading to the corruption of the read address and compromising the integrity of the data retrieved from the gpio module."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the sb_araddr signal to corrupt the read address, thereby violating the integrity of the GPIO module's read operations and causing unintended resources to be accessed.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1280 by spoofing the sb_araddr signal, leading to unauthorized access to internal resources and compromising the integrity of the GPIO module's read functionality."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 exploits CWE-1262 by manipulating the sb_araddr to alter the read address, potentially causing the gpio module to access unintended resources and violate the integrity of the read operation.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 exploits CWE-1262 by injecting malicious data into the sb_araddr, which can corrupt the read address and lead to unauthorized access to gpio_odr or gpio_i, compromising the integrity of the system's read functionality. [CWE-1220] CAPEC-74 targets CWE-1220 by injecting unauthorized values into the sb_araddr bus, leading to the corruption of the read address and compromising the integrity of the data retrieved from the gpio module. [CWE-1280] CAPEC-74 can exploit CWE-1280 by spoofing the sb_araddr signal, leading to unauthorized access to internal resources and compromising the integrity of the GPIO module's read functionality.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the sb_araddr signal to alter the read address, potentially causing the gpio module to access unintended resources and violate the integrity of the read operation. [CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the sb_araddr signal to corrupt the read address, thereby violating the integrity of the GPIO module's read operations and causing unintended resources to be accessed."
+      }
+    },
+    {
+      "Asset_Name": "Read data valid handshake (sb_rvalid)",
+      "Functionality": "Indicates when read data on sb_rdata is valid.",
+      "Security Objective": "Availability",
+      "Justification": "If this signal is not asserted when data is ready, the master cannot complete reads even if data is computed. This can be leveraged to stall the read channel, reducing availability.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1429"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The sb_rvalid signal, if incorrectly connected or left unconnected, could prevent the master from recognizing valid read data, leading to a denial of service by stalling the read channel.",
+        "CWE-440": "If the gpio module's behavior deviates from its specification, such as not asserting sb_rvalid when data is ready, it could be exploited to cause a denial of service by preventing the completion of read operations.",
+        "CWE-1429": "The lack of feedback when sb_rvalid is not asserted could allow an attacker to repeatedly attempt reads without detection, causing system instability or denial of service by stalling the read channel."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-440 by manipulating the sb_rvalid signal to remain deasserted, thereby stalling the read channel and compromising the availability of the GPIO module's read data functionality."
+          }
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-440] CAPEC-74 can exploit CWE-440 by manipulating the sb_rvalid signal to remain deasserted, thereby stalling the read channel and compromising the availability of the GPIO module's read data functionality."
+      }
+    },
+    {
+      "Asset_Name": "Read data ready handshake (sb_rready)",
+      "Functionality": "From the master, indicates readiness to accept read data, allowing the module to drop sb_rvalid.",
+      "Security Objective": "Availability",
+      "Justification": "If this input is not properly observed or is blocked, the read transaction cannot complete and the interface may be held in a busy state. Ensuring its availability prevents bus deadlock and read starvation.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1429"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connection of the sb_rready signal could lead to unobserved readiness, causing read transaction deadlock and impacting availability.",
+        "CWE-440": "If the gpio module does not behave as specified, such as not properly handling sb_rready, it could lead to unexpected behavior and denial of service.",
+        "CWE-1429": "Lack of feedback for unexecuted read operations due to sb_rready not being observed could result in undetected failures and system instability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [],
+      "Justification of Related CAPEC-IDs": {}
+    },
+    {
+      "Asset_Name": "Read data bus (sb_rdata)",
+      "Functionality": "Carries the 32-bit read data, returning either zero-padded gpio_odr or gpio_i based on the selected address.",
+      "Security Objective": "Availability",
+      "Justification": "The system depends on this path to receive GPIO states; if the data is not delivered, the read path is ineffective. Availability of this data channel is necessary to maintain functional behavior.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections between the GPIO module and the system bus could lead to unavailability of the read data bus, disrupting the delivery of GPIO states.",
+        "CWE-440": "Deviations in the GPIO module's behavior from its specification could result in the read data bus failing to deliver expected GPIO states, impacting system availability.",
+        "CWE-1221": "Incorrect default settings in the GPIO module's registers could prevent the read data bus from functioning correctly, leading to a denial of service."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1276 by manipulating the sb_arvalid and sb_arready signals to create a denial of service condition, thereby disrupting the availability of the sb_rdata path and preventing the delivery of GPIO states."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 could exploit CWE-440 by causing a denial of service on the sb_rdata bus, disrupting the availability of GPIO state data and rendering the read path ineffective, which is critical for maintaining the system's functional behavior."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the sb_araddr signal to induce a race condition, potentially causing the sb_rdata bus to deliver incorrect or delayed data, thus compromising the availability of GPIO state information.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1221 by flooding the sb_arvalid signal with rapid read requests, overwhelming the read data path and leading to a denial of service, thereby affecting the availability of the sb_rdata bus."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1276] CAPEC-74 can exploit CWE-1276 by manipulating the sb_arvalid and sb_arready signals to create a denial of service condition, thereby disrupting the availability of the sb_rdata path and preventing the delivery of GPIO states. [CWE-440] CAPEC-74 could exploit CWE-440 by causing a denial of service on the sb_rdata bus, disrupting the availability of GPIO state data and rendering the read path ineffective, which is critical for maintaining the system's functional behavior. [CWE-1221] CAPEC-74 can exploit CWE-1221 by flooding the sb_arvalid signal with rapid read requests, overwhelming the read data path and leading to a denial of service, thereby affecting the availability of the sb_rdata bus.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the sb_araddr signal to induce a race condition, potentially causing the sb_rdata bus to deliver incorrect or delayed data, thus compromising the availability of GPIO state information."
+      }
+    },
+    {
+      "Asset_Name": "Read address valid handshake (sb_arvalid)",
+      "Functionality": "Asserted when a read address is provided; once acknowledged, the module latches the address and readies the corresponding data.",
+      "Security Objective": "Availability",
+      "Justification": "If this signal is blocked or manipulated, read operations cannot begin or may be falsely triggered, causing stalls or unintended accesses. The module\u2019s capacity to deliver read responses relies on its correct assertion.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The sb_arvalid signal, if incorrectly connected or left unconnected, could prevent the GPIO module from acknowledging read requests, leading to availability issues.",
+        "CWE-440": "If the sb_arvalid signal behaves differently from its specification, it could cause unexpected read operations, leading to unintended behavior and potential denial of service.",
+        "CWE-1221": "Incorrect default settings for the sb_arvalid signal could lead to the GPIO module being unable to properly initiate read operations, affecting system availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-440 by manipulating the sb_arvalid signal to create a race condition, thereby disrupting the availability of the GPIO module's read operations by causing unintended read address latching or stalling the read process."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "By exploiting CWE-1221, CAPEC-166 can manipulate the sb_arvalid signal timing, causing the GPIO module to miss valid read requests and thus compromising its availability by stalling read operations.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1221 by introducing noise or interference to the sb_arvalid signal, leading to false triggering or blocking of read operations, thereby affecting the module's ability to maintain availability."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-440] CAPEC-74 can exploit CWE-440 by manipulating the sb_arvalid signal to create a race condition, thereby disrupting the availability of the GPIO module's read operations by causing unintended read address latching or stalling the read process. [CWE-1221] CAPEC-74 can exploit CWE-1221 by introducing noise or interference to the sb_arvalid signal, leading to false triggering or blocking of read operations, thereby affecting the module's ability to maintain availability.",
+        "CAPEC-166": "[CWE-1221] By exploiting CWE-1221, CAPEC-166 can manipulate the sb_arvalid signal timing, causing the GPIO module to miss valid read requests and thus compromising its availability by stalling read operations."
+      }
+    },
+    {
+      "Asset_Name": "Write data valid handshake (sb_wvalid)",
+      "Functionality": "Indicates the bus master is presenting valid write data and address.",
+      "Security Objective": "Availability",
+      "Justification": "Without a valid indication, the module will not capture write requests, preventing updates to the output register. The result is an inability to change GPIO outputs, reducing the module\u2019s availability.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1221",
+        "CWE-440"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The gpio module's sb_wvalid signal could be improperly connected, leading to a failure in capturing write requests and reducing availability.",
+        "CWE-1221": "Incorrect default values for the gpio module's registers could prevent proper initialization, leading to a failure in capturing valid write requests and reducing availability.",
+        "CWE-440": "If the gpio module's behavior deviates from its specification, such as not properly handling sb_wvalid, it could lead to unexpected behavior and reduced availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1276 by manipulating the sb_wvalid signal to create a race condition, thereby disrupting the availability of the GPIO module by preventing it from capturing valid write requests and updating the output register."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "By exploiting CWE-1221, CAPEC-166 can manipulate the sb_wvalid signal timing to create a race condition, causing the GPIO module to miss valid write requests and thus compromising its availability.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1221 by introducing unexpected delays in the sb_wvalid signal, leading to improper synchronization and preventing the GPIO module from updating its output register, thereby affecting its availability."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-440 by causing a denial of service through repeated manipulation of the sb_wvalid signal, preventing the GPIO module from capturing write requests and thus impacting its availability."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1276] CAPEC-74 can exploit CWE-1276 by manipulating the sb_wvalid signal to create a race condition, thereby disrupting the availability of the GPIO module by preventing it from capturing valid write requests and updating the output register. [CWE-1221] CAPEC-74 can exploit CWE-1221 by introducing unexpected delays in the sb_wvalid signal, leading to improper synchronization and preventing the GPIO module from updating its output register, thereby affecting its availability. [CWE-440] CAPEC-74 can exploit CWE-440 by causing a denial of service through repeated manipulation of the sb_wvalid signal, preventing the GPIO module from capturing write requests and thus impacting its availability.",
+        "CAPEC-166": "[CWE-1221] By exploiting CWE-1221, CAPEC-166 can manipulate the sb_wvalid signal timing to create a race condition, causing the GPIO module to miss valid write requests and thus compromising its availability."
+      }
+    },
+    {
+      "Asset_Name": "Write data ready handshake (sb_wready)",
+      "Functionality": "Signals the module is ready to accept write data; driven high in this design.",
+      "Security Objective": "Availability",
+      "Justification": "If this signal were unavailable at integration, masters would not issue writes, effectively blocking configuration of GPIO outputs. Thus, it is essential for progress of the write channel.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The sb_wready signal, if incorrectly connected or not properly integrated with the parent system, could lead to a failure in write operations, impacting the availability of the GPIO module.",
+        "CWE-440": "If the sb_wready signal does not behave as expected according to the specification, it could lead to a denial of service by preventing the GPIO module from accepting write data.",
+        "CWE-1221": "Incorrect default settings or parameters for the sb_wready signal could result in the GPIO module being unavailable for write operations, affecting system configuration and availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "By exploiting CWE-1221, an attacker could manipulate the sb_wready signal to remain high indefinitely, leveraging CAPEC-166 to cause a denial of service by overwhelming the GPIO module with continuous write requests, thus compromising the availability of the write data ready handshake.",
+            "CAPEC-74": "Using CAPEC-74, an attacker could exploit CWE-1221 by injecting malicious signals to disrupt the sb_wready line, causing it to falsely indicate readiness and potentially leading to a buffer overflow, thereby affecting the availability of the GPIO module's write functionality."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-166",
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-166": "[CWE-1221] By exploiting CWE-1221, an attacker could manipulate the sb_wready signal to remain high indefinitely, leveraging CAPEC-166 to cause a denial of service by overwhelming the GPIO module with continuous write requests, thus compromising the availability of the write data ready handshake.",
+        "CAPEC-74": "[CWE-1221] Using CAPEC-74, an attacker could exploit CWE-1221 by injecting malicious signals to disrupt the sb_wready line, causing it to falsely indicate readiness and potentially leading to a buffer overflow, thereby affecting the availability of the GPIO module's write functionality."
+      }
+    },
+    {
+      "Asset_Name": "Write address bus (sb_waddr)",
+      "Functionality": "Selects the target of a write; sb_waddr[2]==0 updates the output data register.",
+      "Security Objective": "Integrity",
+      "Justification": "Tampering with the write address can redirect writes to unintended locations (or prevent intended updates), altering system behavior. Preserving its integrity ensures correct destination and prevents unauthorized state changes.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the write address bus (sb_waddr) could allow unauthorized writes, compromising the integrity of the GPIO output data register.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to modify the write address bus (sb_waddr), leading to unintended updates to the GPIO output data register.",
+        "CWE-1280": "Access control checks implemented after asset access could allow unauthorized writes to the GPIO output data register via the write address bus (sb_waddr) before permissions are verified."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 exploits CWE-1262 by manipulating the sb_waddr bus to redirect write operations, compromising the integrity of the GPIO module by causing unauthorized updates to the gpio_odr register.",
+            "CAPEC-74": "CAPEC-74 leverages CWE-1262 by injecting malicious data into the sb_waddr bus, potentially altering the intended write address and undermining the integrity of the GPIO module's output data handling."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the sb_waddr signal to redirect writes to unintended locations, compromising the integrity of the GPIO module's output data register.",
+            "CAPEC-74": "CAPEC-74 leverages CWE-1220 by intercepting and altering the sb_waddr signal, potentially preventing intended updates and causing unauthorized state changes in the GPIO module."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1280 by manipulating the sb_waddr signal to redirect write operations, compromising the integrity of the GPIO module by causing unauthorized state changes.",
+            "CAPEC-74": "CAPEC-74 leverages CWE-1280 by intercepting and altering the sb_waddr signal, potentially rerouting writes to unintended locations, thereby violating the integrity of the GPIO module's operation."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 exploits CWE-1262 by manipulating the sb_waddr bus to redirect write operations, compromising the integrity of the GPIO module by causing unauthorized updates to the gpio_odr register.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 leverages CWE-1262 by injecting malicious data into the sb_waddr bus, potentially altering the intended write address and undermining the integrity of the GPIO module's output data handling. [CWE-1220] CAPEC-74 leverages CWE-1220 by intercepting and altering the sb_waddr signal, potentially preventing intended updates and causing unauthorized state changes in the GPIO module. [CWE-1280] CAPEC-74 leverages CWE-1280 by intercepting and altering the sb_waddr signal, potentially rerouting writes to unintended locations, thereby violating the integrity of the GPIO module's operation.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the sb_waddr signal to redirect writes to unintended locations, compromising the integrity of the GPIO module's output data register. [CWE-1280] CAPEC-180 exploits CWE-1280 by manipulating the sb_waddr signal to redirect write operations, compromising the integrity of the GPIO module by causing unauthorized state changes."
+      }
+    },
+    {
+      "Asset_Name": "Write data bus (sb_wdata)",
+      "Functionality": "Provides the 32-bit data for writes; lower 16 bits drive gpio_odr when addressed.",
+      "Security Objective": "Integrity",
+      "Justification": "Corrupted write data would directly change GPIO output states incorrectly, potentially driving external pins to unsafe values. The integrity of this data is critical to maintain correct and safe output behavior.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the write data bus (sb_wdata) could allow unauthorized modification of GPIO output states, compromising data integrity.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to write to the GPIO output register via sb_wdata, leading to incorrect GPIO states.",
+        "CWE-1221": "Incorrect register defaults or module parameters could lead to insecure initial states for the GPIO output register, allowing sb_wdata to drive unsafe GPIO values."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the sb_wdata bus to introduce incorrect data values, compromising the integrity of the GPIO output states by driving them to unsafe levels.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1262 by intercepting and altering the sb_wdata during transmission, leading to unauthorized changes in GPIO outputs and violating the integrity of the data intended for gpio_odr."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the sb_wdata bus to inject incorrect data into the gpio_odr register, compromising the integrity of GPIO outputs and potentially driving external pins to unsafe states.",
+            "CAPEC-74": "CAPEC-74 leverages CWE-1220 by intercepting and altering the sb_wdata bus during write operations, leading to unauthorized changes in GPIO output states and violating the integrity of the data intended for gpio_odr."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the sb_wdata bus to introduce inconsistent data states, thereby compromising the integrity of the GPIO output by driving external pins to unsafe values.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1221 by intercepting and altering the sb_wdata during transmission, leading to unauthorized modifications of the GPIO output register and violating the integrity of the output data."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-180",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the sb_wdata bus to introduce incorrect data values, compromising the integrity of the GPIO output states by driving them to unsafe levels.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 can exploit CWE-1262 by intercepting and altering the sb_wdata during transmission, leading to unauthorized changes in GPIO outputs and violating the integrity of the data intended for gpio_odr. [CWE-1220] CAPEC-74 leverages CWE-1220 by intercepting and altering the sb_wdata bus during write operations, leading to unauthorized changes in GPIO output states and violating the integrity of the data intended for gpio_odr. [CWE-1221] CAPEC-74 can exploit CWE-1221 by intercepting and altering the sb_wdata during transmission, leading to unauthorized modifications of the GPIO output register and violating the integrity of the output data.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the sb_wdata bus to inject incorrect data into the gpio_odr register, compromising the integrity of GPIO outputs and potentially driving external pins to unsafe states.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the sb_wdata bus to introduce inconsistent data states, thereby compromising the integrity of the GPIO output by driving external pins to unsafe values."
+      }
+    }
+  ]
+}

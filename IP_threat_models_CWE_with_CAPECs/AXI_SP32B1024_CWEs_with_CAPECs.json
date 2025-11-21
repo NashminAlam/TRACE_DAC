@@ -1,0 +1,465 @@
+{
+  "IP": "AXI_SP32B1024",
+  "Assets": [
+    {
+      "Asset_Name": "AXI write address (axi_awaddr)",
+      "Functionality": "Carries the AXI write address; its low 10 bits are captured on the falling edge to drive the memory address bus A for write accesses.",
+      "Security Objective": "Integrity",
+      "Justification": "If this address is modified, writes can target unintended memory locations and corrupt data. Ensuring its correctness preserves the integrity of where data is stored.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the AXI write address (axi_awaddr) could allow unauthorized modification, leading to unintended memory writes and data corruption.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to modify the AXI write address, compromising the integrity of memory operations.",
+        "CWE-1280": "Access control checks implemented after accessing the AXI write address could allow unauthorized writes to unintended memory locations before verification, leading to data corruption."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the AXI write address (axi_awaddr) to alter the low 10 bits during the falling edge capture, potentially redirecting writes to unintended memory locations and compromising data integrity."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the AXI write address (axi_awaddr) to bypass the intended address validation, leading to unauthorized memory writes and compromising the integrity of the data storage.",
+            "CAPEC-680": "CAPEC-680 targets CWE-1220 by injecting malicious inputs into the AXI write address (axi_awaddr), potentially causing the module to misinterpret the address and write data to unintended locations, thereby violating the integrity of the memory operations."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the AXI write address (axi_awaddr) during its capture on the falling edge, potentially redirecting writes to unintended memory locations and compromising data integrity.",
+            "CAPEC-680": "CAPEC-680 targets CWE-1280 by intercepting and altering the AXI write address (axi_awaddr) signal, leading to unauthorized memory writes and violating the integrity of the intended storage location."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the AXI write address (axi_awaddr) to alter the low 10 bits during the falling edge capture, potentially redirecting writes to unintended memory locations and compromising data integrity. [CWE-1220] CAPEC-680 targets CWE-1220 by injecting malicious inputs into the AXI write address (axi_awaddr), potentially causing the module to misinterpret the address and write data to unintended locations, thereby violating the integrity of the memory operations. [CWE-1280] CAPEC-680 targets CWE-1280 by intercepting and altering the AXI write address (axi_awaddr) signal, leading to unauthorized memory writes and violating the integrity of the intended storage location.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the AXI write address (axi_awaddr) to bypass the intended address validation, leading to unauthorized memory writes and compromising the integrity of the data storage. [CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the AXI write address (axi_awaddr) during its capture on the falling edge, potentially redirecting writes to unintended memory locations and compromising data integrity."
+      }
+    },
+    {
+      "Asset_Name": "AXI read address (axi_araddr)",
+      "Functionality": "Carries the AXI read address; its low 10 bits are captured on the falling edge to drive the memory address bus A for read accesses.",
+      "Security Objective": "Integrity",
+      "Justification": "Corruption of the read address causes the module to fetch from the wrong location, breaking the correctness of read operations. Maintaining its integrity is essential for correct data selection.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1280",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "The AXI read address (axi_araddr) could be tampered with if improper access control allows unauthorized software to modify the address register, leading to incorrect data being fetched.",
+        "CWE-1280": "If access control checks are implemented after the read address is accessed, unauthorized components could temporarily gain access to the read address, leading to potential data corruption.",
+        "CWE-1220": "Insufficient granularity in access control could allow unauthorized agents to access or modify the AXI read address, compromising the integrity of read operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the AXI read address (axi_araddr) to introduce incorrect address values, thereby violating the integrity of the read operation and causing the AXI_SP32B1024 module to access unintended memory locations."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1280 by manipulating the axi_araddr signal to introduce incorrect read addresses, thereby violating the integrity of the memory access and causing the AXI_SP32B1024 module to fetch data from unintended memory locations.",
+            "CAPEC-680": "CAPEC-680 targets CWE-1280 by intercepting and altering the axi_araddr signal during its capture on the falling edge, leading to unauthorized memory reads and compromising the integrity of the data retrieval process in the AXI_SP32B1024 module."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the axi_araddr signal to introduce race conditions, potentially corrupting the integrity of the read address and causing the AXI_SP32B1024 module to fetch data from incorrect memory locations.",
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1220 by injecting malicious inputs into the axi_araddr signal path, leading to improper synchronization and corruption of the read address, thereby violating the integrity of the data retrieval process in the AXI_SP32B1024 module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the AXI read address (axi_araddr) to introduce incorrect address values, thereby violating the integrity of the read operation and causing the AXI_SP32B1024 module to access unintended memory locations. [CWE-1280] CAPEC-680 targets CWE-1280 by intercepting and altering the axi_araddr signal during its capture on the falling edge, leading to unauthorized memory reads and compromising the integrity of the data retrieval process in the AXI_SP32B1024 module. [CWE-1220] CAPEC-680 can exploit CWE-1220 by injecting malicious inputs into the axi_araddr signal path, leading to improper synchronization and corruption of the read address, thereby violating the integrity of the data retrieval process in the AXI_SP32B1024 module.",
+        "CAPEC-180": "[CWE-1280] CAPEC-180 exploits CWE-1280 by manipulating the axi_araddr signal to introduce incorrect read addresses, thereby violating the integrity of the memory access and causing the AXI_SP32B1024 module to fetch data from unintended memory locations. [CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the axi_araddr signal to introduce race conditions, potentially corrupting the integrity of the read address and causing the AXI_SP32B1024 module to fetch data from incorrect memory locations."
+      }
+    },
+    {
+      "Asset_Name": "AXI write data (axi_wdata)",
+      "Functionality": "Provides the data for write transactions; captured into DP and used to form the memory data bus D according to byte strobes.",
+      "Security Objective": "Integrity",
+      "Justification": "Tampering leads to incorrect values being written into memory. Integrity of write data is necessary to protect stored contents from unintended modification.",
+      "CWE-IDs": [
+        "CWE-1280",
+        "CWE-1220",
+        "CWE-1262",
+        "CWE-1299"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1280": "An attacker could exploit a race condition where the AXI write data (axi_wdata) is captured before access control checks are completed, leading to unauthorized modification of memory contents.",
+        "CWE-1220": "The AXI write data (axi_wdata) could be accessed by unauthorized agents if the access control lacks sufficient granularity, allowing unintended modifications to memory.",
+        "CWE-1262": "Improper access control on the AXI interface could allow untrusted software to tamper with axi_wdata, compromising the integrity of the data written to memory.",
+        "CWE-1299": "If alternate paths to the memory interface are not equally protected, an attacker could bypass access controls and modify axi_wdata, leading to unauthorized memory writes."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1280 by manipulating the AXI write data (axi_wdata) during its capture into the DP register, leading to unauthorized modification of memory contents and compromising data integrity.",
+            "CAPEC-680": "CAPEC-680 targets CWE-1280 by intercepting and altering the axi_wdata signal before it is processed by the AXI_SP32B1024 module, resulting in the integrity breach of the data written to memory."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the axi_wstrb signals to bypass integrity checks, allowing unauthorized modification of axi_wdata, thus compromising the integrity of the data written to memory.",
+            "CAPEC-680": "CAPEC-680 leverages CWE-1220 by injecting malicious data into axi_wdata during a write transaction, exploiting insufficient validation mechanisms to alter memory contents and violate data integrity."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the AXI write data (axi_wdata) to bypass integrity checks, leading to unauthorized modification of memory contents in the AXI_SP32B1024 module."
+          }
+        },
+        "CWE-1299": {
+          "CAPEC-IDs": [
+            "CAPEC-456",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-456": "CAPEC-456 could exploit CWE-1299 by manipulating the axi_wstrb signal to bypass byte-level integrity checks, leading to unauthorized modifications of axi_wdata during write transactions in the AXI_SP32B1024 module.",
+            "CAPEC-680": "CAPEC-680 could exploit CWE-1299 by intercepting and altering the axi_wdata signal during its capture into the DP register, compromising the integrity of the data written to memory in the AXI_SP32B1024 module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-680",
+        "CAPEC-456"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1280] CAPEC-180 exploits CWE-1280 by manipulating the AXI write data (axi_wdata) during its capture into the DP register, leading to unauthorized modification of memory contents and compromising data integrity. [CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the axi_wstrb signals to bypass integrity checks, allowing unauthorized modification of axi_wdata, thus compromising the integrity of the data written to memory.",
+        "CAPEC-680": "[CWE-1280] CAPEC-680 targets CWE-1280 by intercepting and altering the axi_wdata signal before it is processed by the AXI_SP32B1024 module, resulting in the integrity breach of the data written to memory. [CWE-1220] CAPEC-680 leverages CWE-1220 by injecting malicious data into axi_wdata during a write transaction, exploiting insufficient validation mechanisms to alter memory contents and violate data integrity. [CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the AXI write data (axi_wdata) to bypass integrity checks, leading to unauthorized modification of memory contents in the AXI_SP32B1024 module. [CWE-1299] CAPEC-680 could exploit CWE-1299 by intercepting and altering the axi_wdata signal during its capture into the DP register, compromising the integrity of the data written to memory in the AXI_SP32B1024 module.",
+        "CAPEC-456": "[CWE-1299] CAPEC-456 could exploit CWE-1299 by manipulating the axi_wstrb signal to bypass byte-level integrity checks, leading to unauthorized modifications of axi_wdata during write transactions in the AXI_SP32B1024 module."
+      }
+    },
+    {
+      "Asset_Name": "AXI write byte strobes (axi_wstrb)",
+      "Functionality": "Selects which byte lanes are updated during a write; controls the per-byte muxing between DP and Q to form D.",
+      "Security Objective": "Integrity",
+      "Justification": "Manipulating strobes can mask intended updates or enable unintended partial writes. Correct strobes are needed to ensure only the intended bytes are modified.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the register interface could allow unauthorized manipulation of axi_wstrb, leading to unintended byte writes and compromising data integrity.",
+        "CWE-1220": "Insufficient granularity of access control could permit unauthorized agents to manipulate axi_wstrb, resulting in partial writes and data corruption.",
+        "CWE-1280": "Access control checks implemented after asset access could allow axi_wstrb to be manipulated before validation, enabling unauthorized partial writes."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the AXI write byte strobes (axi_wstrb) to bypass integrity checks, allowing unauthorized partial writes that compromise the intended byte-level updates in the AXI_SP32B1024 module."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the AXI write byte strobes (axi_wstrb) to bypass integrity checks, allowing unauthorized partial writes that compromise the intended byte-level updates in the AXI_SP32B1024 module.",
+            "CAPEC-680": "CAPEC-680 targets CWE-1220 by injecting malicious control signals into the AXI write byte strobes (axi_wstrb), potentially altering the integrity of data transactions by enabling unintended byte modifications in the AXI_SP32B1024 module."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the AXI write byte strobes (axi_wstrb) to perform unauthorized partial writes, thereby compromising the integrity of the intended data updates in the AXI_SP32B1024 module.",
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1280 by intercepting and altering the AXI write byte strobes (axi_wstrb) to mask or modify specific byte lanes, undermining the integrity of data transactions in the AXI_SP32B1024 module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the AXI write byte strobes (axi_wstrb) to bypass integrity checks, allowing unauthorized partial writes that compromise the intended byte-level updates in the AXI_SP32B1024 module. [CWE-1220] CAPEC-680 targets CWE-1220 by injecting malicious control signals into the AXI write byte strobes (axi_wstrb), potentially altering the integrity of data transactions by enabling unintended byte modifications in the AXI_SP32B1024 module. [CWE-1280] CAPEC-680 can exploit CWE-1280 by intercepting and altering the AXI write byte strobes (axi_wstrb) to mask or modify specific byte lanes, undermining the integrity of data transactions in the AXI_SP32B1024 module.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the AXI write byte strobes (axi_wstrb) to bypass integrity checks, allowing unauthorized partial writes that compromise the intended byte-level updates in the AXI_SP32B1024 module. [CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the AXI write byte strobes (axi_wstrb) to perform unauthorized partial writes, thereby compromising the integrity of the intended data updates in the AXI_SP32B1024 module."
+      }
+    },
+    {
+      "Asset_Name": "Chip enable to memory (CEN)",
+      "Functionality": "Active-low enable gate for the memory, asserted during read or write activity; derived from read/write state flags.",
+      "Security Objective": "Integrity",
+      "Justification": "Improper assertion/deassertion can block legitimate accesses or enable unintended ones. Correct control prevents unauthorized memory activity and preserves controlled operation.",
+      "CWE-IDs": [
+        "CWE-1280",
+        "CWE-1276",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1280": "The CEN signal could be improperly asserted after memory access, allowing unauthorized memory operations before access control checks are enforced.",
+        "CWE-1276": "Incorrect connections of the CEN signal to the memory block could lead to unauthorized memory access, violating security policies.",
+        "CWE-1220": "Insufficient granularity in access control for the CEN signal could allow unauthorized agents to enable or disable memory access, compromising integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the control logic to improperly assert or deassert the CEN signal, compromising the integrity of memory access control in the AXI_SP32B1024 module."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1276 by manipulating the control logic to improperly assert or deassert the CEN signal, compromising the integrity of memory access control in the AXI_SP32B1024 module."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the control logic to improperly assert the CEN signal, thereby compromising the integrity of memory access control in the AXI_SP32B1024 module.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1220 by injecting unauthorized control signals that lead to incorrect deassertion of the CEN signal, disrupting legitimate memory operations and violating the integrity objective of the AXI_SP32B1024 module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-121"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the control logic to improperly assert or deassert the CEN signal, compromising the integrity of memory access control in the AXI_SP32B1024 module. [CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the control logic to improperly assert the CEN signal, thereby compromising the integrity of memory access control in the AXI_SP32B1024 module.",
+        "CAPEC-121": "[CWE-1276] CAPEC-121 can exploit CWE-1276 by manipulating the control logic to improperly assert or deassert the CEN signal, compromising the integrity of memory access control in the AXI_SP32B1024 module. [CWE-1220] CAPEC-121 can exploit CWE-1220 by injecting unauthorized control signals that lead to incorrect deassertion of the CEN signal, disrupting legitimate memory operations and violating the integrity objective of the AXI_SP32B1024 module."
+      }
+    },
+    {
+      "Asset_Name": "Write enable to memory (WEN)",
+      "Functionality": "Active-low write enable for the memory, asserted during the write data phase.",
+      "Security Objective": "Integrity",
+      "Justification": "Glitches or tampering can cause spurious writes or lost writes. Ensuring correct WEN timing prevents unintended modification of memory.",
+      "CWE-IDs": [
+        "CWE-1280",
+        "CWE-1262",
+        "CWE-1276"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1280": "The WEN signal could be exploited if access control checks are performed after the write enable is asserted, allowing unauthorized writes to memory.",
+        "CWE-1262": "Improper access control on the WEN signal could allow unauthorized entities to assert the write enable, leading to unintended memory modifications.",
+        "CWE-1276": "Incorrect connections or configurations of the WEN signal to the memory block could lead to unauthorized write operations, violating memory integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1280 by introducing glitches in the WEN signal timing, potentially causing unauthorized memory writes and compromising the integrity of the AXI_SP32B1024 module's memory operations.",
+            "CAPEC-680": "CAPEC-680 targets CWE-1280 by manipulating the control logic of the AXI_SP32B1024 module to alter the WEN signal, leading to unintended write operations and violating the integrity of the memory data."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the timing of the WEN signal in the AXI_SP32B1024 module, potentially causing unintended memory writes and compromising the integrity of the memory data."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1276 by introducing glitches in the WEN signal timing, causing unintended memory writes and compromising the integrity of the AXI_SP32B1024 module's memory operations."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1280] CAPEC-180 exploits CWE-1280 by introducing glitches in the WEN signal timing, potentially causing unauthorized memory writes and compromising the integrity of the AXI_SP32B1024 module's memory operations.",
+        "CAPEC-680": "[CWE-1280] CAPEC-680 targets CWE-1280 by manipulating the control logic of the AXI_SP32B1024 module to alter the WEN signal, leading to unintended write operations and violating the integrity of the memory data. [CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the timing of the WEN signal in the AXI_SP32B1024 module, potentially causing unintended memory writes and compromising the integrity of the memory data. [CWE-1276] CAPEC-680 can exploit CWE-1276 by introducing glitches in the WEN signal timing, causing unintended memory writes and compromising the integrity of the AXI_SP32B1024 module's memory operations."
+      }
+    },
+    {
+      "Asset_Name": "AXI write data valid (axi_wvalid)",
+      "Functionality": "Indicates from the master that write data is present; initiates the write data phase.",
+      "Security Objective": "Availability",
+      "Justification": "Blocking or mis-signaling this prevents completion of writes, stalling the bus. Availability depends on accurate data-phase initiation.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1318",
+        "CWE-1429"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connection of the axi_wvalid signal could prevent the AXI_SP32B1024 module from recognizing valid write data, stalling the bus and impacting availability.",
+        "CWE-1318": "Lack of support for security features in the AXI bus could allow unauthorized transactions to proceed, affecting the availability of the axi_wvalid signal by not enforcing proper access control.",
+        "CWE-1429": "If the axi_wvalid signal is not properly monitored, unexecuted write operations could go unnoticed, leading to silent failures and impacting system availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1276 by manipulating the axi_wvalid signal to create a denial-of-service condition, thereby preventing the AXI_SP32B1024 module from initiating the write data phase and compromising the availability of the memory interface."
+          }
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating the axi_wvalid signal to create a denial of service condition, thereby preventing the AXI_SP32B1024 module from initiating the write data phase and compromising the availability of the memory interface."
+          }
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1276] CAPEC-680 can exploit CWE-1276 by manipulating the axi_wvalid signal to create a denial-of-service condition, thereby preventing the AXI_SP32B1024 module from initiating the write data phase and compromising the availability of the memory interface.",
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating the axi_wvalid signal to create a denial of service condition, thereby preventing the AXI_SP32B1024 module from initiating the write data phase and compromising the availability of the memory interface."
+      }
+    },
+    {
+      "Asset_Name": "AXI read data valid (axi_rvalid)",
+      "Functionality": "From the slave, indicates read data is available; driven by reading2.",
+      "Security Objective": "Availability",
+      "Justification": "Incorrect assertion prevents data transfer or causes timing mismatches. This signal is central to making read data available to the master.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connection of the axi_rvalid signal could prevent the AXI master from receiving read data, leading to availability issues.",
+        "CWE-440": "If the axi_rvalid signal behaves inconsistently with its specification, it could cause denial of service by not signaling data availability correctly.",
+        "CWE-1245": "Faulty FSM logic in handling the axi_rvalid signal could lead to incorrect state transitions, causing the signal to fail in indicating data readiness, impacting availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the AXI read data valid (axi_rvalid) signal to create a race condition, disrupting the availability of read data to the master and causing timing mismatches in the AXI_SP32B1024 module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the AXI read data valid (axi_rvalid) signal to create a race condition, disrupting the availability of read data to the master and causing timing mismatches in the AXI_SP32B1024 module."
+      }
+    },
+    {
+      "Asset_Name": "AXI read data bus (axi_rdata)",
+      "Functionality": "Read data returned to the AXI master; directly driven from Q (memory output).",
+      "Security Objective": "Availability",
+      "Justification": "If unavailable or corrupted in timing, the master cannot obtain data, resulting in service denial. Delivering this data is the primary purpose of a read.",
+      "CWE-IDs": [
+        "CWE-1318",
+        "CWE-1276",
+        "CWE-1429"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1318": "The AXI read data bus (axi_rdata) could be compromised if the on-chip fabric does not support security features, leading to unauthorized access or denial of service.",
+        "CWE-1276": "Incorrect connections between the AXI_SP32B1024 module and its parent system could result in the axi_rdata being improperly routed, causing availability issues.",
+        "CWE-1429": "If the AXI read data bus (axi_rdata) silently discards operations without feedback, it could lead to undetected data corruption or denial of service."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 could exploit CWE-1318 by manipulating the AXI read data bus (axi_rdata) timing to cause data unavailability or corruption, thereby denying the AXI master access to the required data and compromising the availability objective."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1318] CAPEC-180 could exploit CWE-1318 by manipulating the AXI read data bus (axi_rdata) timing to cause data unavailability or corruption, thereby denying the AXI master access to the required data and compromising the availability objective."
+      }
+    }
+  ]
+}

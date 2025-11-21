@@ -1,0 +1,2767 @@
+{
+  "IP": "keymgr",
+  "Assets": [
+    {
+      "Asset_Name": "KMAC masking configuration indicator (kmac_en_masking_i) in keymgr module",
+      "Functionality": "Indicates whether KMAC operates in masking mode; used by design assertions to ensure the integration\u2019s masking configuration matches the key manager\u2019s expectation.",
+      "Security Objective": "Integrity",
+      "Justification": "Misrepresentation of this configuration can hide an integration error that weakens side-channel protections. Even though it does not drive functional logic, its correctness is essential to maintain the intended protection configuration.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The kmac_en_masking_i signal, if incorrectly connected, could lead to a misrepresentation of the masking configuration, undermining side-channel protections.",
+        "CWE-440": "A deviation in the expected behavior of the kmac_en_masking_i signal could allow attackers to bypass masking protections, leading to unintended exposure of cryptographic operations.",
+        "CWE-1221": "Incorrect default settings for the kmac_en_masking_i parameter could result in insecure states that compromise the integrity of side-channel protection mechanisms."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-121": "By exploiting CWE-1276, an attacker could manipulate the kmac_en_masking_i signal to misrepresent the KMAC masking configuration, potentially undermining the integrity of side-channel protections by causing the system to operate in an unintended mode."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "CAPEC-682 can exploit CWE-440 by manipulating the kmac_en_masking_i signal to misrepresent the masking configuration, thereby compromising the integrity of the key manager's side-channel protection expectations."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "By exploiting CWE-1221, CAPEC-166 could manipulate the kmac_en_masking_i signal to misrepresent the masking configuration, undermining the integrity of side-channel protections by causing the key manager to operate under false security assumptions.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1221 by injecting faults into the kmac_en_masking_i signal, leading to incorrect masking mode operations that compromise the integrity of the key manager's side-channel defense mechanisms."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-121",
+        "CAPEC-682",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-121": "[CWE-1276] By exploiting CWE-1276, an attacker could manipulate the kmac_en_masking_i signal to misrepresent the KMAC masking configuration, potentially undermining the integrity of side-channel protections by causing the system to operate in an unintended mode. [CWE-1221] CAPEC-121 can exploit CWE-1221 by injecting faults into the kmac_en_masking_i signal, leading to incorrect masking mode operations that compromise the integrity of the key manager's side-channel defense mechanisms.",
+        "CAPEC-682": "[CWE-440] CAPEC-682 can exploit CWE-440 by manipulating the kmac_en_masking_i signal to misrepresent the masking configuration, thereby compromising the integrity of the key manager's side-channel protection expectations.",
+        "CAPEC-166": "[CWE-1221] By exploiting CWE-1221, CAPEC-166 could manipulate the kmac_en_masking_i signal to misrepresent the masking configuration, undermining the integrity of side-channel protections by causing the key manager to operate under false security assumptions."
+      }
+    },
+    {
+      "Asset_Name": "Key input valid (key_vld) in keymgr module",
+      "Functionality": "Aggregate validity of the key inputs/selection for all operations.",
+      "Security Objective": "Availability",
+      "Justification": "If forced low, no operations can proceed; if falsely high, operations may proceed with bad inputs. Correct availability avoids deadlock while preventing misuse.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1245",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connections in the keymgr module could force the key_vld signal low or high, disrupting key operations and availability.",
+        "CWE-1245": "Improper FSMs in the keymgr could lead to incorrect state transitions, causing the key_vld signal to be misinterpreted, affecting availability.",
+        "CWE-1221": "Incorrect register defaults in the keymgr could set key_vld to an insecure state by default, impacting system availability and operation."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the 'key_vld' signal in the keymgr module to falsely indicate valid key inputs, thereby compromising the availability of operations by either preventing legitimate operations or allowing operations with invalid keys."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the 'key_vld' signal in the keymgr module to falsely indicate valid key inputs, thereby compromising the availability of the system by allowing operations to proceed with invalid or malicious inputs, which could lead to deadlock or misuse."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the 'key_vld' signal in the keymgr module to falsely indicate valid key inputs, thereby compromising the availability of operations by either preventing legitimate operations or allowing operations with invalid keys.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the 'key_vld' signal in the keymgr module to falsely indicate valid key inputs, thereby compromising the availability of the system by allowing operations to proceed with invalid or malicious inputs, which could lead to deadlock or misuse."
+      }
+    },
+    {
+      "Asset_Name": "Configuration global enable input (en_i) in keymgr_cfg_en module",
+      "Functionality": "Gates the entire configuration enable path: qualifies initialization, participates in disabling (vld_dis), and directly gates the output out_o.",
+      "Security Objective": "Integrity",
+      "Justification": "This input determines whether configuration can proceed and when initialization state should be cleared. If modified, it can illegitimately allow or block configuration changes, directly impacting the correctness of control operations.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1262",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The configuration global enable input (en_i) could be incorrectly connected, allowing unauthorized configuration changes, impacting the integrity of control operations.",
+        "CWE-1262": "Improper access control on the configuration enable path could allow unauthorized software to modify the configuration, leading to integrity violations.",
+        "CWE-1220": "Insufficient granularity in access control for the configuration enable input could allow unauthorized agents to enable or disable configurations, compromising system integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the 'en_i' signal in the keymgr_cfg_en module to bypass integrity checks, allowing unauthorized configuration changes that compromise the integrity of the key management operations.",
+            "CAPEC-682": "CAPEC-682 targets CWE-1262 by intercepting and altering the 'en_i' input to disrupt the initialization and disabling processes, potentially enabling unauthorized configuration changes that undermine the integrity of the key manager's control operations."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the 'en_i' input in the keymgr_cfg_en module to bypass integrity checks, allowing unauthorized configuration changes that compromise the correctness of control operations.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1220 by intercepting and altering the 'en_i' signal to disrupt the initialization and disable processes, undermining the integrity of the configuration path and potentially leading to incorrect system behavior."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-682",
+        "CAPEC-180",
+        "CAPEC-121"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the 'en_i' signal in the keymgr_cfg_en module to bypass integrity checks, allowing unauthorized configuration changes that compromise the integrity of the key management operations.",
+        "CAPEC-682": "[CWE-1262] CAPEC-682 targets CWE-1262 by intercepting and altering the 'en_i' input to disrupt the initialization and disabling processes, potentially enabling unauthorized configuration changes that undermine the integrity of the key manager's control operations.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the 'en_i' input in the keymgr_cfg_en module to bypass integrity checks, allowing unauthorized configuration changes that compromise the correctness of control operations.",
+        "CAPEC-121": "[CWE-1220] CAPEC-121 can exploit CWE-1220 by intercepting and altering the 'en_i' signal to disrupt the initialization and disable processes, undermining the integrity of the configuration path and potentially leading to incorrect system behavior."
+      }
+    },
+    {
+      "Asset_Name": "Lifecycle enable control (en_i) in keymgr_ctrl module",
+      "Functionality": "Global enable from lifecycle gates whether the controller accepts operations and influences state transitions and wiping.",
+      "Security Objective": "Integrity",
+      "Justification": "If an attacker can tamper with this enable, they can force the module to accept/ignore operations or trigger wipes outside policy. Preserving the correctness of this control input is necessary to maintain intended control flow.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1262",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The lifecycle enable control signal (en_i) could be improperly connected, allowing unauthorized operations or state transitions, violating the integrity of the key manager's control flow.",
+        "CWE-1262": "Improper access control for the lifecycle enable control signal could allow unauthorized tampering, leading to unintended acceptance or rejection of operations, compromising the integrity of the key manager.",
+        "CWE-1220": "Insufficient granularity in access control for the lifecycle enable control signal could allow unauthorized agents to manipulate key manager operations, affecting the integrity of state transitions and control flow."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the lifecycle enable control (en_i) in the keymgr_ctrl module to bypass integrity checks, allowing unauthorized state transitions or wipes, thereby compromising the intended control flow and security objective of the asset."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the lifecycle enable control (en_i) in the keymgr_ctrl module to bypass integrity checks, allowing unauthorized state transitions and operations that compromise the intended control flow.",
+            "CAPEC-682": "CAPEC-682 targets CWE-1220 by injecting faults into the lifecycle enable control (en_i) signal, potentially causing the keymgr_ctrl module to erroneously accept or ignore operations, thus undermining the integrity of the control flow."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180",
+        "CAPEC-682"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the lifecycle enable control (en_i) in the keymgr_ctrl module to bypass integrity checks, allowing unauthorized state transitions or wipes, thereby compromising the intended control flow and security objective of the asset.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the lifecycle enable control (en_i) in the keymgr_ctrl module to bypass integrity checks, allowing unauthorized state transitions and operations that compromise the intended control flow.",
+        "CAPEC-682": "[CWE-1220] CAPEC-682 targets CWE-1220 by injecting faults into the lifecycle enable control (en_i) signal, potentially causing the keymgr_ctrl module to erroneously accept or ignore operations, thus undermining the integrity of the control flow."
+      }
+    },
+    {
+      "Asset_Name": "Operation start strobe (op_start_i) in keymgr_ctrl module",
+      "Functionality": "Starts an operation (advance, generate, etc.) when asserted in conjunction with op_i.",
+      "Security Objective": "Integrity",
+      "Justification": "Initiating an operation is a sensitive control action; unauthorized assertions could cause unintended key updates or outputs. Integrity ensures operations only start under authorized conditions.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1280",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections between the keymgr_ctrl module and other system components could allow unauthorized assertions of op_start_i, leading to unintended key operations.",
+        "CWE-1280": "If access control checks for op_start_i are implemented after the operation starts, unauthorized components could initiate sensitive operations before being blocked.",
+        "CWE-1262": "Improper access control on the op_start_i interface could allow unauthorized software to trigger key operations, compromising the integrity of cryptographic processes."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 could exploit CWE-1280 by manipulating the op_start_i signal in the keymgr_ctrl module to unauthorizedly initiate operations, compromising the integrity of key management processes.",
+            "CAPEC-121": "CAPEC-121 could exploit CWE-1280 by injecting malicious inputs into the op_start_i signal path, leading to unauthorized operation starts and undermining the integrity of cryptographic key updates."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 could exploit CWE-1262 by manipulating the operation start strobe (op_start_i) to initiate unauthorized operations in the keymgr_ctrl module, compromising the integrity of key management processes.",
+            "CAPEC-121": "CAPEC-121 could exploit CWE-1262 by injecting unauthorized control signals into the op_start_i input, leading to unintended key operations and violating the integrity of the key management system."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-121",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1280] CAPEC-180 could exploit CWE-1280 by manipulating the op_start_i signal in the keymgr_ctrl module to unauthorizedly initiate operations, compromising the integrity of key management processes.",
+        "CAPEC-121": "[CWE-1280] CAPEC-121 could exploit CWE-1280 by injecting malicious inputs into the op_start_i signal path, leading to unauthorized operation starts and undermining the integrity of cryptographic key updates. [CWE-1262] CAPEC-121 could exploit CWE-1262 by injecting unauthorized control signals into the op_start_i input, leading to unintended key operations and violating the integrity of the key management system.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 could exploit CWE-1262 by manipulating the operation start strobe (op_start_i) to initiate unauthorized operations in the keymgr_ctrl module, compromising the integrity of key management processes."
+      }
+    },
+    {
+      "Asset_Name": "KMAC operation done indicator (kmac_done_i) in keymgr_ctrl module",
+      "Functionality": "Indicates completion of a KMAC operation to the op-state FSM.",
+      "Security Objective": "Availability",
+      "Justification": "If this handshake is blocked or forged, operations can be stalled or prematurely finished, causing denial of service or inconsistent behavior. Availability of this signal is needed to make forward progress.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1245",
+        "CWE-440"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connection of the KMAC operation done indicator could lead to incorrect signaling, causing denial of service by stalling or prematurely finishing operations.",
+        "CWE-1245": "Faulty FSM implementations in the keymgr_ctrl module could lead to incorrect state transitions, causing the KMAC operation done indicator to signal incorrectly, resulting in denial of service.",
+        "CWE-440": "If the KMAC operation done indicator behaves differently from its specification, it could lead to unexpected system behavior, causing denial of service by stalling or prematurely finishing operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "By exploiting CWE-1245, an attacker could manipulate the KMAC operation done indicator (kmac_done_i) in the keymgr_ctrl module to create a race condition, potentially blocking or forging the signal and thereby compromising the availability of the system by stalling or prematurely completing operations."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] By exploiting CWE-1245, an attacker could manipulate the KMAC operation done indicator (kmac_done_i) in the keymgr_ctrl module to create a race condition, potentially blocking or forging the signal and thereby compromising the availability of the system by stalling or prematurely completing operations."
+      }
+    },
+    {
+      "Asset_Name": "External entropy input (shares) (entropy_i) in keymgr_ctrl module",
+      "Functionality": "Per-share PRNG entropy consumed to randomize/wipe key shares and for advance operations.",
+      "Security Objective": "Integrity",
+      "Justification": "Quality and correctness of entropy are essential to key strength and correct masking. Modification degrades cryptographic soundness and integrity of generated keys.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1221",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections between the entropy input and the key manager could allow incorrect or insecure entropy to be used, compromising the integrity of key generation.",
+        "CWE-1221": "Incorrect default values for registers or module parameters related to entropy input could lead to insecure states, affecting the integrity of key generation and masking operations.",
+        "CWE-1262": "Improper access control on the entropy input interface could allow unauthorized modification of entropy data, degrading the integrity of cryptographic operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the external entropy input (entropy_i) in the keymgr_ctrl module to introduce incorrect entropy values, thereby compromising the integrity of the key generation process and degrading the cryptographic soundness of the keys."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the external entropy input (entropy_i) in the keymgr_ctrl module to introduce incorrect entropy values, thereby compromising the integrity of the key generation process and degrading the cryptographic soundness of the system."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-166",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the external entropy input (entropy_i) in the keymgr_ctrl module to introduce incorrect entropy values, thereby compromising the integrity of the key generation process and degrading the cryptographic soundness of the keys.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the external entropy input (entropy_i) in the keymgr_ctrl module to introduce incorrect entropy values, thereby compromising the integrity of the key generation process and degrading the cryptographic soundness of the system."
+      }
+    },
+    {
+      "Asset_Name": "PRNG reseed done (prng_reseed_done_i) in keymgr_ctrl module",
+      "Functionality": "Indicates a reseed event completed (used to drive PRNG behavior after disable/invalid).",
+      "Security Objective": "Availability",
+      "Justification": "If withheld or spoofed, the reseed progression can stall or behave incorrectly, impacting forward progress and shutdown behavior. Availability of this handshake is required for safe transitions.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connections between the PRNG reseed signal and the key manager could prevent reseed completion from being recognized, stalling key operations and impacting availability.",
+        "CWE-440": "If the PRNG reseed signal behaves differently from its specification, it could lead to unexpected system behavior, affecting the availability of cryptographic operations.",
+        "CWE-1245": "Improper FSM handling in the key manager could lead to incorrect state transitions, causing the PRNG reseed signal to be ignored or mishandled, impacting system availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the 'prng_reseed_done_i' signal to create a race condition that disrupts the availability of the reseed event, potentially stalling the PRNG behavior and impacting the key manager's ability to safely transition states."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the 'prng_reseed_done_i' signal to create a race condition that disrupts the availability of the reseed event, potentially stalling the PRNG behavior and impacting the key manager's ability to safely transition states."
+      }
+    },
+    {
+      "Asset_Name": "PRNG reseed acknowledge (prng_reseed_ack_i) in keymgr_ctrl module",
+      "Functionality": "Acknowledges a reseed request to advance into randomization.",
+      "Security Objective": "Availability",
+      "Justification": "Blocking this ack prevents the controller from entering randomization, stalling initialization. Availability ensures reseed sequencing completes.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connections in the keymgr module could prevent the prng_reseed_ack_i signal from properly acknowledging reseed requests, stalling randomization and affecting availability.",
+        "CWE-440": "If the prng_reseed_ack_i signal behaves differently from its specification, it could fail to trigger reseeding, leading to a denial of service by stalling key manager initialization.",
+        "CWE-1221": "Incorrect default settings for the prng_reseed_ack_i signal could lead to it not acknowledging reseed requests, impacting the availability of the key manager's randomization process."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the prng_reseed_ack_i signal to create a race condition, thereby blocking the reseed acknowledgment and compromising the availability of the keymgr_ctrl module's randomization process."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the prng_reseed_ack_i signal to create a race condition, thereby blocking the reseed acknowledgment and compromising the availability of the keymgr_ctrl module's randomization process."
+      }
+    },
+    {
+      "Asset_Name": "Operation done output (op_done_o) in keymgr_ctrl module",
+      "Functionality": "Indicates completion of an operation to software.",
+      "Security Objective": "Availability",
+      "Justification": "If this signal is suppressed or stuck, software cannot reliably observe completion, leading to hangs or timeouts. Ensuring availability prevents DoS at the software interface.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1248"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The op_done_o signal could be incorrectly connected or left unconnected, preventing the software from receiving operation completion notifications, leading to potential denial of service.",
+        "CWE-440": "If the op_done_o signal behaves differently from its specification, such as not signaling completion correctly, it could cause software to hang or timeout, impacting system availability.",
+        "CWE-1248": "Semiconductor defects could cause the op_done_o signal to be stuck, preventing the software from detecting operation completion and leading to a denial of service."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1248": {
+          "CAPEC-IDs": [
+            "CAPEC-624"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-624": "CAPEC-624 can exploit CWE-1248 by manipulating the keymgr_ctrl module's state transitions to cause the op_done_o signal to become stuck or suppressed, thereby violating the availability objective by preventing software from detecting operation completion."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-624"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-624": "[CWE-1248] CAPEC-624 can exploit CWE-1248 by manipulating the keymgr_ctrl module's state transitions to cause the op_done_o signal to become stuck or suppressed, thereby violating the availability objective by preventing software from detecting operation completion."
+      }
+    },
+    {
+      "Asset_Name": "Data valid during KMAC update (data_valid_o) in keymgr_ctrl module",
+      "Functionality": "Marks KMAC data valid phase during KeyUpdateKmac.",
+      "Security Objective": "Availability",
+      "Justification": "Correct assertion ensures consumers know when data are usable; if unavailable or incorrect, operations may stall or mis-consume data. Availability guarantees liveness of the data phase.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connections in the keymgr_ctrl module could lead to the data_valid_o signal being improperly asserted, causing availability issues during KMAC updates.",
+        "CWE-440": "If the keymgr_ctrl module behaves differently from its specification, the data_valid_o signal may not correctly indicate the valid phase, leading to potential stalls or incorrect data consumption.",
+        "CWE-1245": "Improper FSM implementation in the keymgr_ctrl module could result in incorrect state transitions, affecting the availability of the data_valid_o signal during KMAC operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the timing or sequence of inputs to the keymgr_ctrl module, causing the data_valid_o signal to incorrectly assert or deassert during the KMAC update phase, thereby impacting the availability of valid data and potentially stalling operations."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the timing or sequence of inputs to the keymgr_ctrl module, causing the data_valid_o signal to incorrectly assert or deassert during the KMAC update phase, thereby impacting the availability of valid data and potentially stalling operations."
+      }
+    },
+    {
+      "Asset_Name": "Sideload select error (sideload_sel_err_i) in keymgr_ctrl module",
+      "Functionality": "Error with sideload destination selection.",
+      "Security Objective": "Integrity",
+      "Justification": "Ensures only valid sideload destinations are selected. Integrity prevents routing errors that could expose or drop keys.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1262",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The sideload select error could result from incorrect connections between the key manager and its parent system, leading to improper routing and potential exposure of keys.",
+        "CWE-1262": "Improper access control for the sideload selection interface could allow unauthorized modification of sideload destinations, compromising key integrity.",
+        "CWE-1220": "Insufficient granularity in access control could allow unauthorized agents to select invalid sideload destinations, risking key exposure or loss."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "CAPEC-682 can exploit CWE-1276 by manipulating the sideload_sel_err_i signal in the keymgr_ctrl module to induce incorrect sideload destination selection, thereby compromising the integrity of key routing and potentially exposing cryptographic keys to unauthorized destinations."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 exploits CWE-1262 by manipulating the sideload_sel_err_i signal in the keymgr_ctrl module to improperly select sideload destinations, compromising the integrity of key routing and potentially exposing cryptographic keys.",
+            "CAPEC-682": "CAPEC-682 targets CWE-1262 by inducing errors in the sideload destination selection process within the keymgr_ctrl module, leading to unauthorized key access and violating the integrity of the key management system."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the sideload_sel_err_i signal in the keymgr_ctrl module to bypass integrity checks, leading to unauthorized sideload destination selection and potential exposure of cryptographic keys.",
+            "CAPEC-682": "CAPEC-682 targets CWE-1220 by inducing faults in the sideload_sel_err_i signal processing, compromising the integrity of sideload destination selection and potentially allowing incorrect routing of keys within the keymgr_ctrl module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-682",
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-682": "[CWE-1276] CAPEC-682 can exploit CWE-1276 by manipulating the sideload_sel_err_i signal in the keymgr_ctrl module to induce incorrect sideload destination selection, thereby compromising the integrity of key routing and potentially exposing cryptographic keys to unauthorized destinations. [CWE-1262] CAPEC-682 targets CWE-1262 by inducing errors in the sideload destination selection process within the keymgr_ctrl module, leading to unauthorized key access and violating the integrity of the key management system. [CWE-1220] CAPEC-682 targets CWE-1220 by inducing faults in the sideload_sel_err_i signal processing, compromising the integrity of sideload destination selection and potentially allowing incorrect routing of keys within the keymgr_ctrl module.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 exploits CWE-1262 by manipulating the sideload_sel_err_i signal in the keymgr_ctrl module to improperly select sideload destinations, compromising the integrity of key routing and potentially exposing cryptographic keys.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the sideload_sel_err_i signal in the keymgr_ctrl module to bypass integrity checks, leading to unauthorized sideload destination selection and potential exposure of cryptographic keys."
+      }
+    },
+    {
+      "Asset_Name": "Data enable FSM error (data_fsm_err) in keymgr_ctrl module",
+      "Functionality": "Error from the data enable FSM controlling data_hw_en_o/data_sw_en_o.",
+      "Security Objective": "Integrity",
+      "Justification": "Controls when data can be observed; corruption could allow data leakage or DoS. Integrity ensures proper gating according to protocol.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1276",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The data enable FSM error could lead to unexpected behavior if the FSM does not adhere to its specified protocol, allowing unauthorized data access or modification.",
+        "CWE-1276": "Improper connections between the data enable FSM and other components could result in incorrect data gating, potentially allowing unauthorized data observation or modification.",
+        "CWE-1280": "If access control checks for the data enable FSM are implemented after data access, it could allow unauthorized components to temporarily access sensitive data before being blocked."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "CAPEC-682 exploits CWE-440 by manipulating the data enable FSM in the keymgr_ctrl module to induce improper state transitions, compromising the integrity of data gating and potentially leading to unauthorized data leakage or denial of service."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "CAPEC-682 can exploit CWE-1276 by manipulating the data enable FSM in the keymgr_ctrl module to induce errors in data_hw_en_o/data_sw_en_o, compromising the integrity of data gating and potentially leading to unauthorized data leakage or denial of service."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the data enable FSM in the keymgr_ctrl module to induce errors in data_hw_en_o/data_sw_en_o, compromising the integrity of data gating and potentially leading to unauthorized data leakage or denial of service.",
+            "CAPEC-682": "CAPEC-682 targets CWE-1280 by injecting faults into the data enable FSM of the keymgr_ctrl module, disrupting the integrity of data flow control and allowing for unauthorized observation or manipulation of sensitive data."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-682",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-682": "[CWE-440] CAPEC-682 exploits CWE-440 by manipulating the data enable FSM in the keymgr_ctrl module to induce improper state transitions, compromising the integrity of data gating and potentially leading to unauthorized data leakage or denial of service. [CWE-1276] CAPEC-682 can exploit CWE-1276 by manipulating the data enable FSM in the keymgr_ctrl module to induce errors in data_hw_en_o/data_sw_en_o, compromising the integrity of data gating and potentially leading to unauthorized data leakage or denial of service. [CWE-1280] CAPEC-682 targets CWE-1280 by injecting faults into the data enable FSM of the keymgr_ctrl module, disrupting the integrity of data flow control and allowing for unauthorized observation or manipulation of sensitive data.",
+        "CAPEC-180": "[CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the data enable FSM in the keymgr_ctrl module to induce errors in data_hw_en_o/data_sw_en_o, compromising the integrity of data gating and potentially leading to unauthorized data leakage or denial of service."
+      }
+    },
+    {
+      "Asset_Name": "Hardware vs. software path selector (multi-bit boolean) (hw_sel_i) in keymgr_data_en_state module",
+      "Functionality": "Selects which data path (hardware or software) is enabled when an id/gen operation is requested; invalid/ambiguous values cause the path to be disabled.",
+      "Security Objective": "Integrity",
+      "Justification": "This selector determines which sink is authorized to receive enabled data. Tampering could redirect enablement to the wrong path or force disablement, violating intended control over where data may flow.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1262",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The hardware vs. software path selector could be incorrectly connected, allowing unauthorized data path enablement, violating integrity.",
+        "CWE-1262": "Improper access control on the path selector could allow unauthorized software to manipulate the data path, leading to integrity breaches.",
+        "CWE-1220": "Insufficient granularity in access control could allow unauthorized agents to enable or disable data paths, compromising data flow integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1276 by manipulating the multi-bit boolean selector 'hw_sel_i' in the keymgr_data_en_state module to introduce invalid or ambiguous values, thereby disabling the intended data path and compromising the integrity of the data flow control."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the hw_sel_i signal to introduce invalid or ambiguous values, thereby disabling the intended data path and compromising the integrity of the data flow control in the keymgr_data_en_state module.",
+            "CAPEC-121": "CAPEC-121 targets CWE-1262 by injecting faults into the hw_sel_i signal, potentially causing unauthorized path selection or disablement, which undermines the integrity of the data path selection process in the keymgr_data_en_state module."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the hw_sel_i signal in the keymgr_data_en_state module to introduce invalid or ambiguous values, thereby disabling the intended data path and compromising the integrity of data flow control.",
+            "CAPEC-121": "CAPEC-121 targets CWE-1220 by injecting faults into the hw_sel_i signal, causing unauthorized path selection or forced disablement, which undermines the integrity of the data path selection process in the keymgr_data_en_state module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-121",
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-121": "[CWE-1276] CAPEC-121 can exploit CWE-1276 by manipulating the multi-bit boolean selector 'hw_sel_i' in the keymgr_data_en_state module to introduce invalid or ambiguous values, thereby disabling the intended data path and compromising the integrity of the data flow control. [CWE-1262] CAPEC-121 targets CWE-1262 by injecting faults into the hw_sel_i signal, potentially causing unauthorized path selection or disablement, which undermines the integrity of the data path selection process in the keymgr_data_en_state module. [CWE-1220] CAPEC-121 targets CWE-1220 by injecting faults into the hw_sel_i signal, causing unauthorized path selection or forced disablement, which undermines the integrity of the data path selection process in the keymgr_data_en_state module.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the hw_sel_i signal to introduce invalid or ambiguous values, thereby disabling the intended data path and compromising the integrity of the data flow control in the keymgr_data_en_state module.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the hw_sel_i signal in the keymgr_data_en_state module to introduce invalid or ambiguous values, thereby disabling the intended data path and compromising the integrity of data flow control."
+      }
+    },
+    {
+      "Asset_Name": "Advance operation enable (adv_en_i) in keymgr_data_en_state module",
+      "Functionality": "Forces the FSM into the disable state during an advance operation and keeps data disabled until the completion sequence is observed.",
+      "Security Objective": "Integrity",
+      "Justification": "This control decides when data must not be enabled during advance operations. If modified, it could disable data at the wrong time or permit enablement when prohibited, breaking correct control semantics.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The adv_en_i signal could be incorrectly connected, leading to unauthorized enablement or disablement of data paths, violating integrity by allowing unintended data operations.",
+        "CWE-440": "If the adv_en_i signal behaves differently from its specification, it could enable data paths during prohibited times, bypassing expected control semantics and compromising integrity.",
+        "CWE-1280": "The adv_en_i signal might allow data access before proper checks are enforced, leading to unauthorized data operations and integrity breaches."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "CAPEC-682 can exploit CWE-440 by manipulating the 'adv_en_i' signal in the keymgr_data_en_state module to force the FSM into an incorrect state, thereby compromising the integrity of the data enablement control and allowing unauthorized data operations during advance sequences."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the 'adv_en_i' signal in the keymgr_data_en_state module to force the FSM into an incorrect disable state, thereby compromising the integrity of the data enablement process during advance operations.",
+            "CAPEC-682": "CAPEC-682 targets CWE-1280 by injecting faults into the 'adv_en_i' control logic, potentially causing unauthorized data enablement or disablement, which undermines the integrity of the key management operations."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-682",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-682": "[CWE-440] CAPEC-682 can exploit CWE-440 by manipulating the 'adv_en_i' signal in the keymgr_data_en_state module to force the FSM into an incorrect state, thereby compromising the integrity of the data enablement control and allowing unauthorized data operations during advance sequences. [CWE-1280] CAPEC-682 targets CWE-1280 by injecting faults into the 'adv_en_i' control logic, potentially causing unauthorized data enablement or disablement, which undermines the integrity of the key management operations.",
+        "CAPEC-180": "[CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the 'adv_en_i' signal in the keymgr_data_en_state module to force the FSM into an incorrect disable state, thereby compromising the integrity of the data enablement process during advance operations."
+      }
+    },
+    {
+      "Asset_Name": "Identity operation enable (id_en_i) in keymgr_data_en_state module",
+      "Functionality": "Requests a non-advance operation that may enable data, steering to HwEn/SwEn based on the selector.",
+      "Security Objective": "Integrity",
+      "Justification": "It is a gate to enter enable states for data. Unauthorized assertion or suppression would directly change whether the data path is activated, altering sensitive control behavior.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1280",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The id_en_i signal could be incorrectly connected, allowing unauthorized assertion or suppression, which would alter the enable states for data paths, violating integrity.",
+        "CWE-1280": "If access control checks for id_en_i are implemented after the signal is accessed, unauthorized components might temporarily enable or disable data paths, compromising integrity.",
+        "CWE-1262": "Improper access control on the id_en_i interface could allow unauthorized software to manipulate the enable states of data paths, leading to integrity breaches."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "CAPEC-682 can exploit CWE-1276 by manipulating the 'id_en_i' signal in the keymgr_data_en_state module to unauthorizedly assert or suppress the enablement of data paths, thereby compromising the integrity of the control behavior by altering the intended state transitions."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1280 by manipulating the 'id_en_i' signal in the keymgr_data_en_state module to unauthorizedly assert or suppress the identity operation enable, thereby compromising the integrity of the data path activation control.",
+            "CAPEC-682": "CAPEC-682 targets CWE-1280 by injecting faults into the 'id_en_i' signal processing, potentially causing unauthorized state transitions that undermine the integrity of the data path enablement in the keymgr_data_en_state module."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 could exploit CWE-1262 by manipulating the id_en_i signal in the keymgr_data_en_state module to bypass integrity checks, thereby enabling unauthorized data paths and compromising the integrity of sensitive control behavior.",
+            "CAPEC-682": "CAPEC-682 could exploit CWE-1262 by injecting faults into the id_en_i signal, causing unauthorized assertion or suppression that alters the activation state of data paths, thus undermining the integrity of the key manager's operations."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-682",
+        "CAPEC-180",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-682": "[CWE-1276] CAPEC-682 can exploit CWE-1276 by manipulating the 'id_en_i' signal in the keymgr_data_en_state module to unauthorizedly assert or suppress the enablement of data paths, thereby compromising the integrity of the control behavior by altering the intended state transitions. [CWE-1280] CAPEC-682 targets CWE-1280 by injecting faults into the 'id_en_i' signal processing, potentially causing unauthorized state transitions that undermine the integrity of the data path enablement in the keymgr_data_en_state module. [CWE-1262] CAPEC-682 could exploit CWE-1262 by injecting faults into the id_en_i signal, causing unauthorized assertion or suppression that alters the activation state of data paths, thus undermining the integrity of the key manager's operations.",
+        "CAPEC-180": "[CWE-1280] CAPEC-180 exploits CWE-1280 by manipulating the 'id_en_i' signal in the keymgr_data_en_state module to unauthorizedly assert or suppress the identity operation enable, thereby compromising the integrity of the data path activation control.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 could exploit CWE-1262 by manipulating the id_en_i signal in the keymgr_data_en_state module to bypass integrity checks, thereby enabling unauthorized data paths and compromising the integrity of sensitive control behavior."
+      }
+    },
+    {
+      "Asset_Name": "Operation completion indicator (op_done_i) in keymgr_data_en_state module",
+      "Functionality": "Transitions HwEn/SwEn/Dis to the Wait state where outputs are deasserted, shaping the completion sequence before returning to Idle.",
+      "Security Objective": "Availability",
+      "Justification": "This input is required for the FSM to make progress to completion and clear enable signals. If withheld or spoofed, the system can stall in an active or disabled state, impacting liveness of operations.",
+      "CWE-IDs": [
+        "CWE-1245",
+        "CWE-1276",
+        "CWE-440"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1245": "Improper FSMs in hardware logic can lead to the operation completion indicator causing the FSM to stall in an unintended state, impacting availability by preventing the system from progressing to completion.",
+        "CWE-1276": "Incorrect connections between the operation completion indicator and the parent system can result in the FSM not receiving the necessary signals to transition states, leading to a stall and affecting system availability.",
+        "CWE-440": "A violation of expected behavior in the FSM due to incorrect handling of the operation completion indicator can cause the system to behave unpredictably, potentially stalling operations and impacting availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the operation completion indicator (op_done_i) in the keymgr_data_en_state module to prevent the FSM from transitioning to the Wait state, thereby stalling the system and impacting the availability of operations."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the operation completion indicator (op_done_i) in the keymgr_data_en_state module to prevent the FSM from transitioning to the Wait state, thereby stalling the system and impacting the availability of operations."
+      }
+    },
+    {
+      "Asset_Name": "Operation start indicator (op_start_i) in keymgr_data_en_state module",
+      "Functionality": "Controls exit from the Wait state; only when deasserted does the FSM return to Idle to allow the next operation.",
+      "Security Objective": "Availability",
+      "Justification": "If stuck asserted, the module cannot return to Idle and no new operation can start, causing a denial of service. Correct assertion/deassertion is necessary for forward progress.",
+      "CWE-IDs": [
+        "CWE-1245",
+        "CWE-440",
+        "CWE-1248"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1245": "Improper FSMs in the keymgr_data_en_state module could lead to the operation start indicator being stuck, causing denial of service by preventing state transitions.",
+        "CWE-440": "A violation of expected behavior in the FSM could result in the operation start indicator not deasserting as specified, leading to a denial of service.",
+        "CWE-1248": "Semiconductor defects could cause the operation start indicator to be permanently asserted, preventing the FSM from returning to Idle and causing denial of service."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the operation start indicator (op_start_i) in the keymgr_data_en_state module to remain asserted, thereby preventing the FSM from returning to Idle and causing a denial of service, which compromises the availability of the key manager's operations."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1248": {
+          "CAPEC-IDs": [
+            "CAPEC-624"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-624": "CAPEC-624 can exploit CWE-1248 by manipulating the 'op_start_i' signal in the keymgr_data_en_state module to remain asserted, thereby preventing the FSM from transitioning to the Idle state and causing a denial of service, which violates the availability objective of the asset."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-624"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the operation start indicator (op_start_i) in the keymgr_data_en_state module to remain asserted, thereby preventing the FSM from returning to Idle and causing a denial of service, which compromises the availability of the key manager's operations.",
+        "CAPEC-624": "[CWE-1248] CAPEC-624 can exploit CWE-1248 by manipulating the 'op_start_i' signal in the keymgr_data_en_state module to remain asserted, thereby preventing the FSM from transitioning to the Idle state and causing a denial of service, which violates the availability objective of the asset."
+      }
+    },
+    {
+      "Asset_Name": "FSM error flag (fsm_err_o) in keymgr_data_en_state module",
+      "Functionality": "Asserted in the default case to indicate illegal/invalid FSM state detection (sparse-encoded FSM).",
+      "Security Objective": "Integrity",
+      "Justification": "Accurate error reporting is essential to detect and react to illegal control states. If this signal is suppressed or spuriously asserted, fault detection/handling can be bypassed or mis-triggered, undermining control integrity.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1220",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The FSM error flag (fsm_err_o) is crucial for detecting illegal states; if the FSM behaves unexpectedly, it could bypass error detection, compromising control integrity.",
+        "CWE-1220": "Insufficient granularity in access control could allow unauthorized agents to manipulate the FSM error flag, leading to undetected illegal state transitions.",
+        "CWE-1280": "If access control checks are implemented after the FSM error flag is accessed, unauthorized components could exploit this timing to bypass state integrity checks."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the FSM error flag (fsm_err_o) in the keymgr_data_en_state module to bypass or mis-trigger fault detection, thereby compromising the integrity of control state error reporting."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the FSM error flag (fsm_err_o) in the keymgr_data_en_state module to either suppress or falsely assert error conditions, thereby compromising the integrity of error reporting and allowing illegal FSM states to persist undetected."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the FSM error flag (fsm_err_o) in the keymgr_data_en_state module to bypass or mis-trigger fault detection, thereby compromising the integrity of control state error reporting. [CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the FSM error flag (fsm_err_o) in the keymgr_data_en_state module to either suppress or falsely assert error conditions, thereby compromising the integrity of error reporting and allowing illegal FSM states to persist undetected."
+      }
+    },
+    {
+      "Asset_Name": "Sideload selection error (sideload_sel_err_i) in keymgr_err module",
+      "Functionality": "Indicates an illegal sideload key selection; contributes to synchronous fault collection (SyncFaultSideSel).",
+      "Security Objective": "Integrity",
+      "Justification": "Misreporting this condition could allow improper key selection to pass undetected or wrongly block valid selection, corrupting control over key routing. The integrity of this signal is critical to safe key usage policy enforcement.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The sideload selection error can result from incorrect connections between the key manager and other modules, leading to improper key selection and integrity violations.",
+        "CWE-440": "If the sideload selection error causes the key manager to behave differently from its specification, it could allow improper key routing, violating expected behavior and compromising integrity.",
+        "CWE-1262": "Improper access control for the sideload selection signal could allow unauthorized modifications, leading to incorrect key routing and integrity breaches."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "CAPEC-682 can exploit CWE-1276 by manipulating the sideload_sel_err_i signal in the keymgr_err module to misreport illegal sideload key selections, thereby compromising the integrity of key routing and violating the security objective of ensuring correct key usage policy enforcement."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "CAPEC-682 can exploit CWE-440 by manipulating the sideload_sel_err_i signal in the keymgr_err module to misreport illegal sideload key selections, thereby compromising the integrity of key routing and violating the security objective of ensuring safe key usage policy enforcement."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the sideload_sel_err_i signal to misreport illegal sideload key selections, thereby compromising the integrity of key routing within the keymgr_err module.",
+            "CAPEC-682": "CAPEC-682 targets CWE-1262 by inducing faults in the sideload_sel_err_i signal processing, potentially allowing unauthorized key selections to bypass detection and undermining the integrity of the key management system."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-682",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-682": "[CWE-1276] CAPEC-682 can exploit CWE-1276 by manipulating the sideload_sel_err_i signal in the keymgr_err module to misreport illegal sideload key selections, thereby compromising the integrity of key routing and violating the security objective of ensuring correct key usage policy enforcement. [CWE-440] CAPEC-682 can exploit CWE-440 by manipulating the sideload_sel_err_i signal in the keymgr_err module to misreport illegal sideload key selections, thereby compromising the integrity of key routing and violating the security objective of ensuring safe key usage policy enforcement. [CWE-1262] CAPEC-682 targets CWE-1262 by inducing faults in the sideload_sel_err_i signal processing, potentially allowing unauthorized key selections to bypass detection and undermining the integrity of the key management system.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the sideload_sel_err_i signal to misreport illegal sideload key selections, thereby compromising the integrity of key routing within the keymgr_err module."
+      }
+    },
+    {
+      "Asset_Name": "Register file integrity error (regfile_intg_err_i) in keymgr_err module",
+      "Functionality": "Signals integrity faults in the register file; contributes to AsyncFaultRegIntg and fault_o.",
+      "Security Objective": "Integrity",
+      "Justification": "Suppressing or fabricating this flag undermines the trust in configuration/state storage correctness. Accurate fault capture is required to prevent operation under corrupted state.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1221",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for register interfaces can allow unauthorized manipulation of the register file integrity error signal, undermining the integrity of the key manager's state.",
+        "CWE-1221": "Incorrect register defaults or module parameters could lead to insecure initial states, potentially allowing the register file integrity error signal to be improperly set or ignored.",
+        "CWE-1280": "Access control checks implemented after asset access could allow unauthorized access to the register file integrity error signal before proper validation, leading to potential integrity breaches."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the register file integrity error signal (regfile_intg_err_i) in the keymgr_err module to suppress or fabricate integrity faults, thereby compromising the integrity of configuration/state storage and undermining the security objective of accurate fault capture."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the register file integrity error signal (regfile_intg_err_i) in the keymgr_err module to inject faults that compromise the integrity of configuration/state storage, thereby undermining the system's ability to accurately capture and respond to corrupted states."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180, which involves exploiting race conditions, can target CWE-1280 by manipulating timing discrepancies in the keymgr_err module to suppress or fabricate the regfile_intg_err_i signal, thereby compromising the integrity of register file fault detection and undermining the trust in configuration/state storage correctness."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-166",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the register file integrity error signal (regfile_intg_err_i) in the keymgr_err module to suppress or fabricate integrity faults, thereby compromising the integrity of configuration/state storage and undermining the security objective of accurate fault capture.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the register file integrity error signal (regfile_intg_err_i) in the keymgr_err module to inject faults that compromise the integrity of configuration/state storage, thereby undermining the system's ability to accurately capture and respond to corrupted states.",
+        "CAPEC-180": "[CWE-1280] CAPEC-180, which involves exploiting race conditions, can target CWE-1280 by manipulating timing discrepancies in the keymgr_err module to suppress or fabricate the regfile_intg_err_i signal, thereby compromising the integrity of register file fault detection and undermining the trust in configuration/state storage correctness."
+      }
+    },
+    {
+      "Asset_Name": "Control FSM integrity error (ctrl_fsm_err_i) in keymgr_err module",
+      "Functionality": "Contributes to aggregated FSM integrity fault (AsyncFaultFsmIntg) that is propagated to fault_o.",
+      "Security Objective": "Integrity",
+      "Justification": "If this flag is tampered, control FSM faults may go undetected or be falsely raised, leading to unsafe or stalled behavior. The system relies on its integrity to enforce FSM safety mechanisms.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1276",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The control FSM integrity error could lead to unexpected behavior if the FSM deviates from its specified operation, allowing attackers to bypass security mechanisms or trigger unintended states.",
+        "CWE-1276": "Incorrect connections between the key manager's FSM and other modules could allow faults to go undetected or be falsely raised, compromising the integrity of the FSM's operation.",
+        "CWE-1220": "Insufficient granularity in access control could allow unauthorized agents to manipulate the FSM integrity error flag, leading to undetected faults or false alarms, thereby compromising system integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "CAPEC-682 can exploit CWE-1276 by manipulating the control FSM integrity error signal (ctrl_fsm_err_i) in the keymgr_err module, potentially allowing an attacker to bypass FSM integrity checks and compromise the system's integrity by causing undetected or false FSM faults."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the control FSM integrity error signal (ctrl_fsm_err_i) in the keymgr_err module, potentially allowing an attacker to bypass FSM safety mechanisms and compromise the integrity of the system's fault detection processes.",
+            "CAPEC-682": "CAPEC-682 targets CWE-1220 by injecting faults into the control FSM integrity error signal (ctrl_fsm_err_i) within the keymgr_err module, which could lead to undetected or falsely raised FSM faults, undermining the integrity of the system's fault management and safety enforcement."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-682",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-682": "[CWE-1276] CAPEC-682 can exploit CWE-1276 by manipulating the control FSM integrity error signal (ctrl_fsm_err_i) in the keymgr_err module, potentially allowing an attacker to bypass FSM integrity checks and compromise the system's integrity by causing undetected or false FSM faults. [CWE-1220] CAPEC-682 targets CWE-1220 by injecting faults into the control FSM integrity error signal (ctrl_fsm_err_i) within the keymgr_err module, which could lead to undetected or falsely raised FSM faults, undermining the integrity of the system's fault management and safety enforcement.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the control FSM integrity error signal (ctrl_fsm_err_i) in the keymgr_err module, potentially allowing an attacker to bypass FSM safety mechanisms and compromise the integrity of the system's fault detection processes."
+      }
+    },
+    {
+      "Asset_Name": "Operation done strobe (op_done_i) in keymgr_err module",
+      "Functionality": "Marks operation completion, clears latched sync error/fault accumulators, and gates the transfer of final status into error_o/fault_o.",
+      "Security Objective": "Availability",
+      "Justification": "If unavailable or forced, completion processing and final error propagation are blocked or mis-timed, impeding system progress or causing premature resets. Ensuring its availability prevents operational stall or misreporting at completion.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connections in the key manager could prevent the operation done strobe from signaling completion, leading to blocked error propagation and system stalls.",
+        "CWE-440": "Deviations from expected behavior in the key manager's operation done strobe could result in mis-timed error handling, causing denial of service.",
+        "CWE-1245": "Improper FSM handling in the key manager could lead to incorrect state transitions, preventing the operation done strobe from clearing errors and causing system instability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "By exploiting CWE-1245, CAPEC-74 could manipulate the operation done strobe (op_done_i) in the keymgr_err module to induce a race condition, potentially blocking or mis-timing the completion processing and error propagation, thus impacting the availability of the system.",
+            "CAPEC-682": "CAPEC-682 could exploit CWE-1245 by introducing a time-of-check to time-of-use (TOCTOU) vulnerability in the operation done strobe (op_done_i), leading to incorrect timing in error handling and completion signaling, thereby affecting the availability and reliability of the key manager's operations."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-682"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] By exploiting CWE-1245, CAPEC-74 could manipulate the operation done strobe (op_done_i) in the keymgr_err module to induce a race condition, potentially blocking or mis-timing the completion processing and error propagation, thus impacting the availability of the system.",
+        "CAPEC-682": "[CWE-1245] CAPEC-682 could exploit CWE-1245 by introducing a time-of-check to time-of-use (TOCTOU) vulnerability in the operation done strobe (op_done_i), leading to incorrect timing in error handling and completion signaling, thereby affecting the availability and reliability of the key manager's operations."
+      }
+    },
+    {
+      "Asset_Name": "Final error code vector (error_o) in keymgr_err module",
+      "Functionality": "Publishes final error codes gated by operation completion, summarizing synchronous and asynchronous errors.",
+      "Security Objective": "Integrity",
+      "Justification": "Corruption here directly misinforms software/other logic about operation outcome, leading to unsafe follow-on actions. Integrity ensures trustworthy end-of-operation status.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1429",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The final error code vector (error_o) could be exploited if the keymgr_err module behaves differently from its specification, leading to incorrect error reporting and potential bypass of security mechanisms.",
+        "CWE-1429": "If the keymgr_err module fails to provide feedback for unexecuted operations or errors, it could lead to undetected errors, allowing attackers to bypass security monitoring and cause system instability.",
+        "CWE-1220": "Insufficient granularity in access control for the error_o vector could allow unauthorized agents to access or modify error codes, compromising the integrity of error reporting."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the keymgr_err module's error_o vector to bypass integrity checks, leading to the publication of incorrect error codes that misinform the system about the operation's completion status, thus compromising the integrity of the error reporting mechanism."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the keymgr_err module's error_o vector to bypass integrity checks, leading to the publication of incorrect error codes that misinform the system about the operation's completion status, thus compromising the integrity of the error reporting mechanism."
+      }
+    },
+    {
+      "Asset_Name": "Key version value to check (key_version_i) in keymgr_input_checks module",
+      "Functionality": "Input key version candidate that is compared against the current maximum allowed version to decide acceptance.",
+      "Security Objective": "Integrity",
+      "Justification": "If this value is modified, the system could accept unintended or rolled-back versions, enabling misuse of older keys. Correctness of this control value is necessary to enforce version policy.",
+      "CWE-IDs": [
+        "CWE-1280",
+        "CWE-1220",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1280": "This CWE applies as an attacker could exploit a timing flaw to access or modify the key version value before the access control check is enforced, leading to acceptance of unintended key versions.",
+        "CWE-1220": "This CWE is relevant because insufficient granularity in access control could allow unauthorized agents to modify the key version value, bypassing intended integrity checks.",
+        "CWE-1262": "This CWE applies as improper access control on the register interface could allow unauthorized modification of the key version value, leading to acceptance of older or unintended keys."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the key_version_i input to bypass integrity checks, allowing the acceptance of outdated or unauthorized key versions, thus compromising the enforcement of version policy in the keymgr_input_checks module.",
+            "CAPEC-682": "CAPEC-682 targets CWE-1280 by injecting malicious data into the key_version_i input, potentially causing the system to accept incorrect key versions and undermining the integrity of the key version control mechanism in the keymgr_input_checks module."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the key_version_i input to bypass integrity checks, potentially allowing the acceptance of outdated or unauthorized key versions, thus compromising the version policy enforcement.",
+            "CAPEC-682": "CAPEC-682 targets CWE-1220 by injecting malicious data into the key_version_i input, which could lead to the acceptance of incorrect key versions, undermining the integrity of the key management process."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 exploits CWE-1262 by manipulating the key_version_i input to bypass integrity checks, potentially allowing the acceptance of outdated or unauthorized key versions, thus compromising the version policy enforcement.",
+            "CAPEC-682": "CAPEC-682 targets CWE-1262 by injecting malicious data into the key_version_i input, which could lead to the acceptance of incorrect key versions, undermining the integrity of the key management process."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-682",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the key_version_i input to bypass integrity checks, allowing the acceptance of outdated or unauthorized key versions, thus compromising the enforcement of version policy in the keymgr_input_checks module. [CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the key_version_i input to bypass integrity checks, potentially allowing the acceptance of outdated or unauthorized key versions, thus compromising the version policy enforcement.",
+        "CAPEC-682": "[CWE-1280] CAPEC-682 targets CWE-1280 by injecting malicious data into the key_version_i input, potentially causing the system to accept incorrect key versions and undermining the integrity of the key version control mechanism in the keymgr_input_checks module. [CWE-1220] CAPEC-682 targets CWE-1220 by injecting malicious data into the key_version_i input, which could lead to the acceptance of incorrect key versions, undermining the integrity of the key management process. [CWE-1262] CAPEC-682 targets CWE-1262 by injecting malicious data into the key_version_i input, which could lead to the acceptance of incorrect key versions, undermining the integrity of the key management process.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 exploits CWE-1262 by manipulating the key_version_i input to bypass integrity checks, potentially allowing the acceptance of outdated or unauthorized key versions, thus compromising the version policy enforcement."
+      }
+    },
+    {
+      "Asset_Name": "Creator seed validity flag (creator_seed_vld_o) in keymgr_input_checks module",
+      "Functionality": "Indicates whether the creator seed passes the basic plausibility check.",
+      "Security Objective": "Availability",
+      "Justification": "Downstream logic is gated by this flag; if it is suppressed or forced incorrectly, operations can be stalled or progress with bad inputs. Reliable availability of this flag is necessary for forward progress.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connections of the creator seed validity flag could lead to improper gating of downstream logic, causing availability issues.",
+        "CWE-440": "If the creator seed validity flag behaves differently from its specification, it could result in unexpected system behavior, affecting availability.",
+        "CWE-1221": "Incorrect default settings for the creator seed validity flag could lead to insecure states, impacting the availability of the key manager operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the creator_seed_vld_o flag in the keymgr_input_checks module to bypass plausibility checks, thereby compromising the availability of the flag and potentially stalling operations or allowing progress with invalid inputs."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the creator_seed_vld_o flag in the keymgr_input_checks module to bypass plausibility checks, thereby compromising the availability of the flag and potentially stalling operations or allowing progress with invalid inputs."
+      }
+    },
+    {
+      "Asset_Name": "Owner seed validity flag (owner_seed_vld_o) in keymgr_input_checks module",
+      "Functionality": "Indicates whether the owner seed passes the plausibility check.",
+      "Security Objective": "Availability",
+      "Justification": "This signal gates use of the owner seed; false deassertion can cause denial of service, and false assertion can propagate invalid inputs. Its correct assertion supports continued operation.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connections in the keymgr module could lead to the owner seed validity flag being improperly asserted or deasserted, causing denial of service or propagation of invalid inputs.",
+        "CWE-440": "If the owner seed validity flag behaves differently from its specification, it could be exploited to bypass security mechanisms, leading to denial of service or propagation of invalid inputs.",
+        "CWE-1245": "Improper FSM handling in the keymgr module could lead to incorrect state transitions affecting the owner seed validity flag, resulting in denial of service or propagation of invalid inputs."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the owner_seed_vld_o signal in the keymgr_input_checks module to falsely assert or deassert the validity of the owner seed, potentially causing a denial of service or allowing invalid inputs to propagate, thereby impacting the availability of the key manager's operations."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the owner_seed_vld_o signal in the keymgr_input_checks module to falsely assert or deassert the validity of the owner seed, potentially causing a denial of service or allowing invalid inputs to propagate, thereby impacting the availability of the key manager's operations."
+      }
+    },
+    {
+      "Asset_Name": "Health state validity flag (health_state_vld_o) in keymgr_input_checks module",
+      "Functionality": "Indicates whether the health state input passes the plausibility check.",
+      "Security Objective": "Availability",
+      "Justification": "This flag can gate operations based on health; loss or corruption of it can cause system stalls or unsafe progression. Reliable signaling is needed to prevent denial-of-service.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1245",
+        "CWE-440"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The health state validity flag could be improperly connected, leading to incorrect gating of operations and potential system stalls, impacting availability.",
+        "CWE-1245": "Improper FSM handling in the keymgr_input_checks module could lead to incorrect state transitions, causing the health state validity flag to fail in gating operations, resulting in denial of service.",
+        "CWE-440": "If the health state validity flag behaves differently from its specification, it could fail to gate operations correctly, leading to unintended system behavior and potential denial of service."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the health_state_vld_o flag in the keymgr_input_checks module to falsely indicate a valid health state, potentially causing a denial-of-service by allowing unsafe operations to proceed, thus compromising the availability of the system."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the health_state_vld_o flag in the keymgr_input_checks module to falsely indicate a valid health state, potentially causing a denial-of-service by allowing unsafe operations to proceed, thus compromising the availability of the system."
+      }
+    },
+    {
+      "Asset_Name": "Key version check result (key_version_vld_o) in keymgr_input_checks module",
+      "Functionality": "Outputs whether the provided key version is within the allowed maximum.",
+      "Security Objective": "Availability",
+      "Justification": "This result enables or blocks operations using the requested version; a compromised signal can halt progress or allow unintended progression. Its availability is essential for normal flow control.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connection of the key version check result signal could allow unauthorized operations to proceed or halt legitimate ones, impacting system availability.",
+        "CWE-440": "If the key version check logic behaves differently from its specification, it could enable unauthorized key operations or block legitimate ones, affecting availability.",
+        "CWE-1245": "Faulty FSM implementations in the key version check could lead to incorrect state transitions, causing denial of service by blocking or allowing unintended key operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the 'key_version_vld_o' signal in the 'keymgr_input_checks' module to disrupt the availability of the key version check, potentially allowing unauthorized key operations or halting legitimate ones, thereby compromising the system's flow control."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the 'key_version_vld_o' signal in the 'keymgr_input_checks' module to disrupt the availability of the key version check, potentially allowing unauthorized key operations or halting legitimate ones, thereby compromising the system's flow control."
+      }
+    },
+    {
+      "Asset_Name": "Key material validity flag (key_vld_o) in keymgr_input_checks module",
+      "Functionality": "Aggregated validity flag across key shares indicating non-trivial key material.",
+      "Security Objective": "Availability",
+      "Justification": "This flag gates acceptance of key inputs; incorrect deassertion can prevent key usage (DoS), while incorrect assertion can admit invalid keys. Availability and correctness are critical to forward progress.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1221",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connections in the keymgr module could lead to improper assertion or deassertion of the key material validity flag, causing denial of service by either blocking valid keys or accepting invalid ones.",
+        "CWE-1221": "Incorrect default settings for the key material validity flag could lead to insecure states, allowing invalid keys to be accepted or valid keys to be rejected, impacting system availability.",
+        "CWE-1245": "Improper FSM handling in the keymgr module could lead to incorrect state transitions, affecting the key material validity flag and causing denial of service by disrupting key acceptance processes."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the key_vld_o flag in the keymgr_input_checks module to incorrectly assert validity, thereby bypassing checks and allowing invalid keys to be processed, which compromises the availability and correctness of key material usage."
+          }
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the key_vld_o flag in the keymgr_input_checks module to falsely indicate valid key material, thereby compromising the availability of the key manager by either allowing invalid keys to be processed or preventing valid keys from being used, which aligns with the security objective of ensuring availability and correctness."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-166",
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the key_vld_o flag in the keymgr_input_checks module to incorrectly assert validity, thereby bypassing checks and allowing invalid keys to be processed, which compromises the availability and correctness of key material usage.",
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the key_vld_o flag in the keymgr_input_checks module to falsely indicate valid key material, thereby compromising the availability of the key manager by either allowing invalid keys to be processed or preventing valid keys from being used, which aligns with the security objective of ensuring availability and correctness."
+      }
+    },
+    {
+      "Asset_Name": "Advance enable control (adv_en_i) in keymgr_kmac_if module",
+      "Functionality": "One-hot command selector; when asserted it chooses adv_data_i, sets the number of rounds, and initiates the transaction.",
+      "Security Objective": "Integrity",
+      "Justification": "This control must remain one-hot and consistent through the transaction; falsifying it could select the wrong operation or violate one-hot checks, corrupting the control flow and the keys derived.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The adv_en_i signal in the keymgr_kmac_if module could be incorrectly connected, leading to unintended command selection and compromising the integrity of key operations.",
+        "CWE-440": "If the adv_en_i signal behaves differently from its specification, it could select incorrect operations, violating expected behavior and compromising the integrity of the transaction.",
+        "CWE-1262": "Improper access control on the adv_en_i signal could allow unauthorized modification, leading to incorrect command selection and compromising the integrity of key management operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "CAPEC-682 can exploit CWE-1276 by manipulating the adv_en_i signal in the keymgr_kmac_if module to disrupt the one-hot encoding, thereby compromising the integrity of the command selection process and potentially leading to unauthorized key operations."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "CAPEC-682 can exploit CWE-440 by manipulating the 'adv_en_i' signal in the 'keymgr_kmac_if' module to disrupt the one-hot command selector, potentially causing incorrect operation selection and compromising the integrity of the cryptographic key management process."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 could exploit CWE-1262 by manipulating the adv_en_i signal to violate its one-hot encoding, thereby corrupting the control flow and compromising the integrity of key transactions in the keymgr_kmac_if module.",
+            "CAPEC-682": "CAPEC-682 could exploit CWE-1262 by introducing faults that cause the adv_en_i signal to lose its one-hot property, leading to incorrect command selection and potential key derivation errors, thus undermining the integrity of the key management process."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-682",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-682": "[CWE-1276] CAPEC-682 can exploit CWE-1276 by manipulating the adv_en_i signal in the keymgr_kmac_if module to disrupt the one-hot encoding, thereby compromising the integrity of the command selection process and potentially leading to unauthorized key operations. [CWE-440] CAPEC-682 can exploit CWE-440 by manipulating the 'adv_en_i' signal in the 'keymgr_kmac_if' module to disrupt the one-hot command selector, potentially causing incorrect operation selection and compromising the integrity of the cryptographic key management process. [CWE-1262] CAPEC-682 could exploit CWE-1262 by introducing faults that cause the adv_en_i signal to lose its one-hot property, leading to incorrect command selection and potential key derivation errors, thus undermining the integrity of the key management process.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 could exploit CWE-1262 by manipulating the adv_en_i signal to violate its one-hot encoding, thereby corrupting the control flow and compromising the integrity of key transactions in the keymgr_kmac_if module."
+      }
+    },
+    {
+      "Asset_Name": "Identity enable control (id_en_i) in keymgr_kmac_if module",
+      "Functionality": "One-hot command selector to choose the ID generation path and its data for KMAC.",
+      "Security Objective": "Integrity",
+      "Justification": "Altering this control would switch operations or cause conflicting commands, leading to command-consistency errors and potentially incorrect key derivation.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The id_en_i signal in keymgr_kmac_if could be incorrectly connected, leading to unauthorized command selection and incorrect key derivation.",
+        "CWE-440": "If the id_en_i signal behaves differently from its specification, it could result in unintended command execution paths, compromising key integrity.",
+        "CWE-1220": "Insufficient granularity in access control for id_en_i could allow unauthorized agents to manipulate command selection, affecting key management operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1276 by manipulating the 'id_en_i' signal in the keymgr_kmac_if module to introduce inconsistent command selections, thereby compromising the integrity of the ID generation path and leading to incorrect key derivation."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-121": "CAPEC-121 exploits CWE-440 by manipulating the identity enable control (id_en_i) in the keymgr_kmac_if module to introduce inconsistent command states, thereby compromising the integrity of the ID generation path for KMAC operations."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the 'id_en_i' signal in the keymgr_kmac_if module to introduce inconsistent command sequences, thereby compromising the integrity of the ID generation path for KMAC.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1220 by injecting unauthorized control signals into the 'id_en_i' input, leading to command-consistency errors and potentially incorrect key derivation, thus violating the integrity objective."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-121",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-121": "[CWE-1276] CAPEC-121 can exploit CWE-1276 by manipulating the 'id_en_i' signal in the keymgr_kmac_if module to introduce inconsistent command selections, thereby compromising the integrity of the ID generation path and leading to incorrect key derivation. [CWE-440] CAPEC-121 exploits CWE-440 by manipulating the identity enable control (id_en_i) in the keymgr_kmac_if module to introduce inconsistent command states, thereby compromising the integrity of the ID generation path for KMAC operations. [CWE-1220] CAPEC-121 can exploit CWE-1220 by injecting unauthorized control signals into the 'id_en_i' input, leading to command-consistency errors and potentially incorrect key derivation, thus violating the integrity objective.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the 'id_en_i' signal in the keymgr_kmac_if module to introduce inconsistent command sequences, thereby compromising the integrity of the ID generation path for KMAC."
+      }
+    },
+    {
+      "Asset_Name": "FSM error status (fsm_error_o) in keymgr_kmac_if module",
+      "Functionality": "Asserted when the sparse FSM enters an invalid state or when counter errors occur; indicates a terminal error condition.",
+      "Security Objective": "Integrity",
+      "Justification": "Accurate reporting of FSM faults is critical; suppressing or spoofing this signal hides serious control-flow violations or triggers false fault responses.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1429",
+        "CWE-1244"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The FSM error status signal could be manipulated if the hardware module behaves differently from its specification, allowing attackers to bypass security mechanisms by exploiting unexpected behavior.",
+        "CWE-1429": "If the FSM error status does not provide feedback for unexecuted operations, attackers could exploit this silence to bypass security monitoring or cause system instability without detection.",
+        "CWE-1244": "Improper debug access levels could expose the FSM error status to unauthorized agents, allowing them to suppress or spoof error signals, leading to undetected control-flow violations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1244": {
+          "CAPEC-IDs": [
+            "CAPEC-114"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-114": "CAPEC-114 exploits CWE-1244 by manipulating the FSM error status (fsm_error_o) in the keymgr_kmac_if module to enter an invalid state, thereby compromising the integrity of error reporting and potentially masking control-flow violations."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-114"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-114": "[CWE-1244] CAPEC-114 exploits CWE-1244 by manipulating the FSM error status (fsm_error_o) in the keymgr_kmac_if module to enter an invalid state, thereby compromising the integrity of error reporting and potentially masking control-flow violations."
+      }
+    },
+    {
+      "Asset_Name": "KMAC-reported error (kmac_error_o) in keymgr_kmac_if module",
+      "Functionality": "Captures kmac_data_i.error when KMAC signals done, propagating KMAC-side error status.",
+      "Security Objective": "Integrity",
+      "Justification": "This status informs the system whether the digest is trustworthy. Tampering can cause acceptance of faulty outputs or unnecessary abort of correct operations.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1276",
+        "CWE-1429"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The KMAC-reported error could lead to unexpected behavior if the error status is not correctly captured or propagated, allowing attackers to exploit discrepancies between expected and actual behavior.",
+        "CWE-1276": "Improper connections between the keymgr_kmac_if module and the rest of the system could result in incorrect error reporting, allowing attackers to manipulate or bypass error handling mechanisms.",
+        "CWE-1429": "If the KMAC-reported error is not properly communicated or logged, attackers could exploit the lack of feedback to bypass security monitoring or cause system instability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "CAPEC-682 can exploit CWE-1276 by manipulating the KMAC-reported error (kmac_error_o) in the keymgr_kmac_if module to inject false error signals, compromising the integrity of the system by causing it to either accept incorrect digests or abort valid operations."
+          }
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "CAPEC-682 can exploit CWE-1429 by manipulating the KMAC-reported error (kmac_error_o) in the keymgr_kmac_if module to inject false error signals, undermining the integrity of the system by causing it to either accept faulty outputs or abort correct operations unnecessarily."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-682"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-682": "[CWE-1276] CAPEC-682 can exploit CWE-1276 by manipulating the KMAC-reported error (kmac_error_o) in the keymgr_kmac_if module to inject false error signals, compromising the integrity of the system by causing it to either accept incorrect digests or abort valid operations. [CWE-1429] CAPEC-682 can exploit CWE-1429 by manipulating the KMAC-reported error (kmac_error_o) in the keymgr_kmac_if module to inject false error signals, undermining the integrity of the system by causing it to either accept faulty outputs or abort correct operations unnecessarily."
+      }
+    },
+    {
+      "Asset_Name": "KMAC done timing error (kmac_done_error_o) in keymgr_kmac_if module",
+      "Functionality": "Latched when KMAC asserts done outside the valid window (protocol violation).",
+      "Security Objective": "Integrity",
+      "Justification": "It detects interface-protocol inconsistencies. If corrupted, protocol violations could go unnoticed, undermining robust error handling.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1276",
+        "CWE-1429"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The KMAC done timing error represents a deviation from expected behavior, where the KMAC asserts done outside the valid window, potentially allowing attackers to exploit this inconsistency to bypass security mechanisms.",
+        "CWE-1276": "Improper connections between the keymgr_kmac_if module and its parent system could lead to protocol violations going unnoticed, as the KMAC done timing error indicates a potential misconfiguration in signal connections.",
+        "CWE-1429": "The lack of feedback for the KMAC done timing error when it occurs outside the valid window could allow attackers to exploit unreported protocol violations, leading to undetected security breaches."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "CAPEC-682 exploits CWE-440 by manipulating the timing of KMAC operations to induce a 'kmac_done_error_o' signal outside the valid window, potentially allowing protocol violations to bypass detection and compromising the integrity of the key management process."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "CAPEC-682 can exploit CWE-1276 by manipulating the timing of KMAC operations to induce a 'kmac_done_error_o' signal, thereby compromising the integrity of the keymgr_kmac_if module by allowing protocol violations to occur undetected."
+          }
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "CAPEC-682 can exploit CWE-1429 by manipulating the timing of KMAC operations to induce a 'kmac_done_error_o' in the keymgr_kmac_if module, thereby compromising the integrity of the protocol by allowing violations to occur undetected."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-682"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-682": "[CWE-440] CAPEC-682 exploits CWE-440 by manipulating the timing of KMAC operations to induce a 'kmac_done_error_o' signal outside the valid window, potentially allowing protocol violations to bypass detection and compromising the integrity of the key management process. [CWE-1276] CAPEC-682 can exploit CWE-1276 by manipulating the timing of KMAC operations to induce a 'kmac_done_error_o' signal, thereby compromising the integrity of the keymgr_kmac_if module by allowing protocol violations to occur undetected. [CWE-1429] CAPEC-682 can exploit CWE-1429 by manipulating the timing of KMAC operations to induce a 'kmac_done_error_o' in the keymgr_kmac_if module, thereby compromising the integrity of the protocol by allowing violations to occur undetected."
+      }
+    },
+    {
+      "Asset_Name": "Command consistency/one-hot error (cmd_error_o) in keymgr_kmac_if module",
+      "Functionality": "Flags one-hot violations and enable inconsistency across a transaction (one_hot_err_q | cmd_consty_err_q).",
+      "Security Objective": "Integrity",
+      "Justification": "Ensures only one command is active and remains stable during the transaction. Spoofing or masking this error allows illegal command combinations that can corrupt key operations.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1220",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The command consistency/one-hot error in the keymgr_kmac_if module can lead to unexpected behavior if the module does not behave as specified, allowing attackers to exploit inconsistencies to bypass security mechanisms.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to exploit the command consistency/one-hot error, leading to unauthorized command combinations and compromising key operations.",
+        "CWE-1262": "Improper access control for register interfaces could allow attackers to manipulate the command consistency/one-hot error, enabling unauthorized access to critical hardware functionalities and compromising the integrity of key operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "CAPEC-682 can exploit CWE-440 by manipulating the command consistency checks in the keymgr_kmac_if module, potentially allowing unauthorized command combinations that compromise the integrity of key operations."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "By exploiting CWE-1220, CAPEC-180 can manipulate the command consistency checks in the keymgr_kmac_if module to introduce one-hot errors, compromising the integrity of key operations by allowing multiple commands to be active simultaneously.",
+            "CAPEC-682": "CAPEC-682 targets CWE-1220 by injecting faults into the keymgr_kmac_if module's command consistency logic, potentially bypassing one-hot error detection and enabling unauthorized command combinations that threaten the integrity of cryptographic key management."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the command consistency checks in the keymgr_kmac_if module to introduce one-hot errors, thereby compromising the integrity of key operations by allowing illegal command combinations.",
+            "CAPEC-682": "CAPEC-682 targets CWE-1262 by injecting faults into the command consistency logic of the keymgr_kmac_if module, potentially bypassing one-hot error detection and enabling unauthorized command sequences that threaten the integrity of cryptographic processes."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-682",
+        "CAPEC-180",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-682": "[CWE-440] CAPEC-682 can exploit CWE-440 by manipulating the command consistency checks in the keymgr_kmac_if module, potentially allowing unauthorized command combinations that compromise the integrity of key operations. [CWE-1220] CAPEC-682 targets CWE-1220 by injecting faults into the keymgr_kmac_if module's command consistency logic, potentially bypassing one-hot error detection and enabling unauthorized command combinations that threaten the integrity of cryptographic key management. [CWE-1262] CAPEC-682 targets CWE-1262 by injecting faults into the command consistency logic of the keymgr_kmac_if module, potentially bypassing one-hot error detection and enabling unauthorized command sequences that threaten the integrity of cryptographic processes.",
+        "CAPEC-180": "[CWE-1220] By exploiting CWE-1220, CAPEC-180 can manipulate the command consistency checks in the keymgr_kmac_if module to introduce one-hot errors, compromising the integrity of key operations by allowing multiple commands to be active simultaneously.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the command consistency checks in the keymgr_kmac_if module to introduce one-hot errors, thereby compromising the integrity of key operations by allowing illegal command combinations."
+      }
+    },
+    {
+      "Asset_Name": "Operation completion indicator (done_o) in keymgr_kmac_if module",
+      "Functionality": "Indicates KMAC operation completion; used by control logic to acknowledge and return to idle after start de-asserts.",
+      "Security Objective": "Availability",
+      "Justification": "If withheld or stuck, upstream logic may stall waiting for completion, enabling a denial-of-service at the integration level. Correct availability of this handshake is essential to progress.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The operation completion indicator could be incorrectly connected, leading to a failure in signaling completion and causing a denial-of-service by stalling upstream logic.",
+        "CWE-440": "If the operation completion indicator behaves differently from its specification, it could cause unexpected stalls or failures in the system, leading to a denial-of-service condition.",
+        "CWE-1245": "Improper FSM handling in the keymgr_kmac_if module could lead to the operation completion indicator failing to signal correctly, causing a denial-of-service by preventing the system from returning to idle."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the operation completion indicator (done_o) in the keymgr_kmac_if module to create a denial-of-service condition, thereby compromising the availability of the KMAC operation completion signal and causing upstream logic to stall."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the operation completion indicator (done_o) in the keymgr_kmac_if module to create a denial-of-service condition, thereby compromising the availability of the KMAC operation completion signal and causing upstream logic to stall."
+      }
+    },
+    {
+      "Asset_Name": "Entropy shares input (entropy_i) in keymgr_kmac_if module",
+      "Functionality": "Two-share entropy input used to formulate decoy_data and to populate data_o with decoys before completion.",
+      "Security Objective": "Integrity",
+      "Justification": "Biased or tampered entropy degrades the intended randomization/decoy behavior, potentially enabling misuse of the interface and weakening protections enforced by the module.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1256",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections between the entropy input and the key manager could allow biased or tampered entropy to bypass integrity checks, degrading randomization and decoy behavior.",
+        "CWE-1256": "If software interfaces to the entropy input are not properly restricted, attackers could manipulate entropy values to induce predictable decoy data, compromising the integrity of cryptographic operations.",
+        "CWE-1220": "Insufficient granularity in access control for the entropy input could allow unauthorized agents to influence entropy values, leading to predictable decoy data and weakened security."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "CAPEC-682 can exploit CWE-1276 by introducing biased or tampered entropy into the entropy_i input of the keymgr_kmac_if module, compromising the integrity of the decoy_data and weakening the module's protection mechanisms."
+          }
+        },
+        "CWE-1256": {
+          "CAPEC-IDs": [
+            "CAPEC-624",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-624": "CAPEC-624 can exploit CWE-1256 by introducing biased entropy into the entropy_i input of the keymgr_kmac_if module, compromising the integrity of decoy_data and weakening the module's protection mechanisms.",
+            "CAPEC-682": "CAPEC-682 can exploit CWE-1256 by tampering with the entropy_i input to manipulate the randomization process, thereby degrading the integrity of the decoy_data and potentially allowing unauthorized access to sensitive operations within the keymgr_kmac_if module."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the entropy shares input in the keymgr_kmac_if module to introduce biased entropy, thereby compromising the integrity of the decoy_data and weakening the module's protection mechanisms.",
+            "CAPEC-682": "CAPEC-682 can exploit CWE-1220 by intercepting and altering the entropy shares input to the keymgr_kmac_if module, leading to tampered entropy that undermines the intended randomization and integrity of the decoy_data."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-682",
+        "CAPEC-624",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-682": "[CWE-1276] CAPEC-682 can exploit CWE-1276 by introducing biased or tampered entropy into the entropy_i input of the keymgr_kmac_if module, compromising the integrity of the decoy_data and weakening the module's protection mechanisms. [CWE-1256] CAPEC-682 can exploit CWE-1256 by tampering with the entropy_i input to manipulate the randomization process, thereby degrading the integrity of the decoy_data and potentially allowing unauthorized access to sensitive operations within the keymgr_kmac_if module. [CWE-1220] CAPEC-682 can exploit CWE-1220 by intercepting and altering the entropy shares input to the keymgr_kmac_if module, leading to tampered entropy that undermines the intended randomization and integrity of the decoy_data.",
+        "CAPEC-624": "[CWE-1256] CAPEC-624 can exploit CWE-1256 by introducing biased entropy into the entropy_i input of the keymgr_kmac_if module, compromising the integrity of decoy_data and weakening the module's protection mechanisms.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the entropy shares input in the keymgr_kmac_if module to introduce biased entropy, thereby compromising the integrity of the decoy_data and weakening the module's protection mechanisms."
+      }
+    },
+    {
+      "Asset_Name": "KMAC done indicator input (kmac_done_i) in keymgr_op_state_ctrl module",
+      "Functionality": "Signals completion of a KMAC operation and triggers state transitions, acknowledgments, or updates.",
+      "Security Objective": "Availability",
+      "Justification": "If withheld or spoofed, the controller may stall indefinitely (stuck busy) or complete erroneously, impacting progress. Reliable availability of this completion signal is necessary for forward progress and to avoid denial-of-service.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1245",
+        "CWE-440"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The KMAC done indicator input could be incorrectly connected, leading to a failure in signaling operation completion, causing the system to stall and impacting availability.",
+        "CWE-1245": "Improper FSM handling in the keymgr_op_state_ctrl module could result in the KMAC done indicator input not triggering the expected state transitions, leading to denial of service.",
+        "CWE-440": "If the KMAC done indicator input behaves differently from its specification, it could fail to trigger necessary state transitions, resulting in system stalls and impacting availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74, which involves manipulating timing and state transitions, can exploit CWE-1245 by intercepting or delaying the kmac_done_i signal in the keymgr_op_state_ctrl module, thereby causing a denial-of-service by stalling the key manager's state transitions and impacting the availability of cryptographic operations."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74, which involves manipulating timing and state transitions, can exploit CWE-1245 by intercepting or delaying the kmac_done_i signal in the keymgr_op_state_ctrl module, thereby causing a denial-of-service by stalling the key manager's state transitions and impacting the availability of cryptographic operations."
+      }
+    },
+    {
+      "Asset_Name": "Operation acknowledge output (op_ack_o) in keymgr_op_state_ctrl module",
+      "Functionality": "Notifies upstream logic that the current operation is complete.",
+      "Security Objective": "Availability",
+      "Justification": "If this acknowledgment is suppressed or asserted incorrectly, upstream components may wait forever or proceed prematurely. Correct availability of ack is required to ensure higher-level flows make progress safely.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The operation acknowledge output (op_ack_o) could be incorrectly connected, leading to unacknowledged operations and potential system hang or premature progression.",
+        "CWE-440": "If the operation acknowledge output behaves differently from its specification, it could cause upstream components to misinterpret operation completion, leading to system instability.",
+        "CWE-1245": "Improper FSM handling in the keymgr_op_state_ctrl module could lead to incorrect state transitions, causing the operation acknowledge output to fail in signaling completion, affecting system availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the operation acknowledge output (op_ack_o) in the keymgr_op_state_ctrl module to either suppress or falsely assert the acknowledgment signal, thereby compromising the availability of the signal and causing upstream components to either stall indefinitely or proceed incorrectly."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the operation acknowledge output (op_ack_o) in the keymgr_op_state_ctrl module to either suppress or falsely assert the acknowledgment signal, thereby compromising the availability of the signal and causing upstream components to either stall indefinitely or proceed incorrectly."
+      }
+    },
+    {
+      "Asset_Name": "Operation busy status output (op_busy_o) in keymgr_op_state_ctrl module",
+      "Functionality": "Indicates when the controller is processing an operation (busy) versus idle.",
+      "Security Objective": "Availability",
+      "Justification": "A stuck-high busy could block all subsequent requests, while a stuck-low busy could cause overlapping or invalid requests. Accurate availability of this status prevents denial-of-service and scheduling hazards.",
+      "CWE-IDs": [
+        "CWE-1245",
+        "CWE-1248",
+        "CWE-1276"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1245": "Improper FSMs in the keymgr_op_state_ctrl module could lead to incorrect operation busy status, causing denial of service by either blocking or allowing overlapping requests.",
+        "CWE-1248": "Semiconductor defects in the keymgr_op_state_ctrl module could cause the op_busy_o signal to be stuck high or low, disrupting normal operation and availability.",
+        "CWE-1276": "Incorrect connections in the keymgr_op_state_ctrl module could lead to the op_busy_o signal being improperly tied, affecting availability by causing incorrect busy status reporting."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the op_busy_o signal in the keymgr_op_state_ctrl module to remain stuck-high, causing a denial-of-service by blocking subsequent operations and violating the availability objective of the asset."
+          }
+        },
+        "CWE-1248": {
+          "CAPEC-IDs": [
+            "CAPEC-624"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-624": "CAPEC-624 could exploit CWE-1248 by manipulating the 'op_busy_o' signal in the keymgr_op_state_ctrl module to remain stuck-high or stuck-low, thereby compromising the availability of the operation status and leading to denial-of-service or scheduling hazards."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-624"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the op_busy_o signal in the keymgr_op_state_ctrl module to remain stuck-high, causing a denial-of-service by blocking subsequent operations and violating the availability objective of the asset.",
+        "CAPEC-624": "[CWE-1248] CAPEC-624 could exploit CWE-1248 by manipulating the 'op_busy_o' signal in the keymgr_op_state_ctrl module to remain stuck-high or stuck-low, thereby compromising the availability of the operation status and leading to denial-of-service or scheduling hazards."
+      }
+    },
+    {
+      "Asset_Name": "FSM error indication output (op_fsm_err_o) in keymgr_op_state_ctrl module",
+      "Functionality": "Flags an error when the FSM reaches an invalid/default state while allowing transaction completion.",
+      "Security Objective": "Integrity",
+      "Justification": "Suppressing or falsely asserting this flag can hide control-flow faults or cause false error handling, masking or inducing unsafe behavior. Trustworthy reporting preserves the integrity of fault handling and system response.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1429",
+        "CWE-1276"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The FSM error indication output could be exploited if the FSM behaves differently from its specification, allowing attackers to bypass security mechanisms or trigger unintended behavior.",
+        "CWE-1429": "If the FSM error indication output fails to provide feedback for unexecuted operations, attackers could exploit this silence to bypass security monitoring or cause system instability.",
+        "CWE-1276": "Incorrect connections between the FSM error indication output and other system components could lead to silent violations of security policies, allowing attackers to manipulate or bypass protections."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [],
+      "Justification of Related CAPEC-IDs": {}
+    },
+    {
+      "Asset_Name": "Shadowed storage error indicator (shadowed_storage_err_o) in keymgr_reg_top module",
+      "Functionality": "Aggregates storage error conditions from all shadowed configuration fields and exposes them to the system as an alert/status output.",
+      "Security Objective": "Integrity",
+      "Justification": "This flag reflects detection of corruption in shadowed configuration fields. If its integrity is compromised, real corruption could go undetected or false errors could be injected, undermining trustworthy configuration and system response.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1221",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The shadowed storage error indicator could be compromised if the connections between the keymgr module and its parent system are incorrect, leading to undetected corruption or false errors.",
+        "CWE-440": "If the shadowed storage error indicator behaves differently from its specification, it could allow attackers to bypass detection of configuration corruption.",
+        "CWE-1221": "Incorrect default settings for shadowed storage error indicators could lead to insecure states, allowing undetected corruption or false error injection.",
+        "CWE-1280": "If access control checks for the shadowed storage error indicator are implemented after access, attackers could exploit this to manipulate error reporting before checks are enforced."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the shadowed_storage_err_o signal to falsely indicate no errors, thereby compromising the integrity of the shadowed configuration fields and allowing undetected corruption in the keymgr_reg_top module."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the shadowed_storage_err_o signal to falsely indicate no errors, compromising the integrity of the shadowed configuration fields in the keymgr_reg_top module.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1280 by injecting false error signals into the shadowed_storage_err_o output, leading to incorrect system responses and undermining the integrity of the key manager's error detection mechanism."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-166",
+        "CAPEC-180",
+        "CAPEC-121"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the shadowed_storage_err_o signal to falsely indicate no errors, thereby compromising the integrity of the shadowed configuration fields and allowing undetected corruption in the keymgr_reg_top module.",
+        "CAPEC-180": "[CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the shadowed_storage_err_o signal to falsely indicate no errors, compromising the integrity of the shadowed configuration fields in the keymgr_reg_top module.",
+        "CAPEC-121": "[CWE-1280] CAPEC-121 can exploit CWE-1280 by injecting false error signals into the shadowed_storage_err_o output, leading to incorrect system responses and undermining the integrity of the key manager's error detection mechanism."
+      }
+    },
+    {
+      "Asset_Name": "Shadowed update error indicator (shadowed_update_err_o) in keymgr_reg_top module",
+      "Functionality": "Aggregates invalid shadowed write sequence errors for shadowed registers and exposes them to the system.",
+      "Security Objective": "Integrity",
+      "Justification": "Shadowed updates protect critical configuration. Spoofing or suppressing this error would allow or hide invalid updates, directly impacting correctness of protected configuration.",
+      "CWE-IDs": [
+        "CWE-1299",
+        "CWE-1262",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1299": "The shadowed update error indicator could be exploited if alternate paths to shadowed registers are not equally protected, allowing attackers to bypass access control and compromise the integrity of critical configuration.",
+        "CWE-1262": "Improper access control for register interfaces could allow unauthorized modification of shadowed registers, leading to incorrect system configurations and integrity violations.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to access and modify shadowed registers, compromising the integrity of the system's critical configurations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1299": {
+          "CAPEC-IDs": [
+            "CAPEC-456",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-456": "By exploiting CWE-1299, CAPEC-456 can manipulate the shadowed update error indicator (shadowed_update_err_o) to inject or suppress invalid shadowed write sequence errors, compromising the integrity of critical configurations in the keymgr_reg_top module.",
+            "CAPEC-121": "CAPEC-121 leverages CWE-1299 by intercepting and altering the shadowed update error indicator (shadowed_update_err_o) to either spoof or hide invalid updates, undermining the integrity of protected configurations within the keymgr_reg_top module."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the shadowed_update_err_o signal to suppress error indications, thereby compromising the integrity of shadowed register updates in the keymgr_reg_top module.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1262 by injecting faults into the shadowed_update_err_o signal path, potentially allowing unauthorized shadowed register updates to go undetected, thus impacting the integrity of the key manager's configuration."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the shadowed_update_err_o signal to suppress error reporting, thereby compromising the integrity of shadowed register updates in the keymgr_reg_top module.",
+            "CAPEC-121": "CAPEC-121 targets CWE-1220 by spoofing the shadowed_update_err_o signal to falsely indicate valid shadowed register updates, undermining the integrity of critical configuration in the keymgr_reg_top module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-456",
+        "CAPEC-121",
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-456": "[CWE-1299] By exploiting CWE-1299, CAPEC-456 can manipulate the shadowed update error indicator (shadowed_update_err_o) to inject or suppress invalid shadowed write sequence errors, compromising the integrity of critical configurations in the keymgr_reg_top module.",
+        "CAPEC-121": "[CWE-1299] CAPEC-121 leverages CWE-1299 by intercepting and altering the shadowed update error indicator (shadowed_update_err_o) to either spoof or hide invalid updates, undermining the integrity of protected configurations within the keymgr_reg_top module. [CWE-1262] CAPEC-121 can exploit CWE-1262 by injecting faults into the shadowed_update_err_o signal path, potentially allowing unauthorized shadowed register updates to go undetected, thus impacting the integrity of the key manager's configuration. [CWE-1220] CAPEC-121 targets CWE-1220 by spoofing the shadowed_update_err_o signal to falsely indicate valid shadowed register updates, undermining the integrity of critical configuration in the keymgr_reg_top module.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the shadowed_update_err_o signal to suppress error indications, thereby compromising the integrity of shadowed register updates in the keymgr_reg_top module.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the shadowed_update_err_o signal to suppress error reporting, thereby compromising the integrity of shadowed register updates in the keymgr_reg_top module."
+      }
+    },
+    {
+      "Asset_Name": "TL-UL integrity error indicator (intg_err_o) in keymgr_reg_top module",
+      "Functionality": "Signals a detected integrity error on incoming TL-UL transactions or spurious write enables.",
+      "Security Objective": "Integrity",
+      "Justification": "This output communicates bus integrity violations used for alerting and mitigation. If altered, bus integrity violations could be concealed or falsely reported, subverting trust in the register interface.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1262",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The TL-UL integrity error indicator could be compromised if the signal connections between the keymgr module and the parent system are incorrect, leading to undetected integrity violations.",
+        "CWE-1262": "Improper access control on the TL-UL interface could allow unauthorized modifications to the integrity error indicator, concealing or falsely reporting bus integrity violations.",
+        "CWE-1220": "Insufficient granularity in access control could allow unauthorized agents to manipulate the TL-UL integrity error indicator, leading to false alerts or concealment of integrity violations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the TL-UL integrity error indicator (intg_err_o) in the keymgr_reg_top module to inject false integrity error signals, undermining the integrity objective by concealing or fabricating bus integrity violations."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the TL-UL integrity error indicator (intg_err_o) in the keymgr_reg_top module to bypass or falsify integrity checks, thereby compromising the integrity security objective by concealing or fabricating bus integrity violations."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the TL-UL integrity error indicator (intg_err_o) in the keymgr_reg_top module to inject false integrity error signals, undermining the integrity objective by concealing or fabricating bus integrity violations.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the TL-UL integrity error indicator (intg_err_o) in the keymgr_reg_top module to bypass or falsify integrity checks, thereby compromising the integrity security objective by concealing or fabricating bus integrity violations."
+      }
+    },
+    {
+      "Asset_Name": "Reseed request control input (reseed_req_i) in keymgr_reseed_ctrl module",
+      "Functionality": "External control that requests an entropy reseed; when asserted and not already in progress, it causes the module to issue an EDN request.",
+      "Security Objective": "Integrity",
+      "Justification": "This signal controls when reseeding occurs. If an attacker can force or block requests, they could cause unintended reseeds or starve reseeding, impacting correct key-management operation.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1220",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The reseed request control input could be incorrectly connected, allowing unauthorized reseed requests that impact key management integrity.",
+        "CWE-1220": "Insufficient granularity in access control could allow unauthorized agents to manipulate the reseed request, leading to unintended reseeds or blocking of reseeds.",
+        "CWE-1262": "Improper access control for the reseed request interface could allow unauthorized manipulation, impacting the integrity of the key management process."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the reseed_req_i signal to cause unauthorized reseeding operations, thereby compromising the integrity of the key management process in the keymgr_reseed_ctrl module.",
+            "CAPEC-682": "CAPEC-682 can exploit CWE-1220 by intercepting and altering the reseed_req_i signal to block legitimate reseed requests, leading to entropy starvation and undermining the integrity of cryptographic key management."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 exploits CWE-1262 by manipulating the reseed_req_i signal to force unintended entropy reseeds, thereby compromising the integrity of the key management process in the keymgr_reseed_ctrl module.",
+            "CAPEC-682": "CAPEC-682 exploits CWE-1262 by blocking the reseed_req_i signal to starve the entropy reseeding process, undermining the integrity of key management operations in the keymgr_reseed_ctrl module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-682",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the reseed_req_i signal to cause unauthorized reseeding operations, thereby compromising the integrity of the key management process in the keymgr_reseed_ctrl module.",
+        "CAPEC-682": "[CWE-1220] CAPEC-682 can exploit CWE-1220 by intercepting and altering the reseed_req_i signal to block legitimate reseed requests, leading to entropy starvation and undermining the integrity of cryptographic key management. [CWE-1262] CAPEC-682 exploits CWE-1262 by blocking the reseed_req_i signal to starve the entropy reseeding process, undermining the integrity of key management operations in the keymgr_reseed_ctrl module.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 exploits CWE-1262 by manipulating the reseed_req_i signal to force unintended entropy reseeds, thereby compromising the integrity of the key management process in the keymgr_reseed_ctrl module."
+      }
+    },
+    {
+      "Asset_Name": "Reseed completion acknowledgement to requester (reseed_ack_o) in keymgr_reseed_ctrl module",
+      "Functionality": "Provides an acknowledgement when the module has accepted a reseed request (coincident with EDN ack).",
+      "Security Objective": "Availability",
+      "Justification": "The requester relies on this handshake to progress. If suppressed or spoofed, the system can deadlock or mis-sequence operations, constituting a denial-of-service condition.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1429"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The reseed_ack_o signal could be incorrectly connected, leading to missed acknowledgments and potential deadlock, affecting system availability.",
+        "CWE-440": "If the reseed_ack_o signal does not behave as specified, it could cause unexpected system behavior, leading to denial of service.",
+        "CWE-1429": "If the reseed_ack_o signal is suppressed without feedback, the requester may not detect the failure, leading to system deadlock or mis-sequencing."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [],
+      "Justification of Related CAPEC-IDs": {}
+    },
+    {
+      "Asset_Name": "Reseed counter error flag (cnt_err_o) in keymgr_reseed_ctrl module",
+      "Functionality": "Indicates an error from the prim_count instance managing the reseed counter (e.g., redundancy check failure).",
+      "Security Objective": "Integrity",
+      "Justification": "This status reports internal counter correctness. Spoofing or masking it can hide faults affecting reseed timing and undermine system\u2019s ability to detect and respond to malfunction or attack.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The reseed counter error flag could be affected by incorrect connections between the key manager and its parent system, leading to undetected faults in reseed timing.",
+        "CWE-440": "If the reseed counter error flag behaves differently from its specification, it could allow attackers to bypass detection of reseed timing errors, compromising system integrity.",
+        "CWE-1221": "Incorrect default settings for the reseed counter could lead to insecure states, allowing attackers to exploit reseed timing errors without detection."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "By exploiting CWE-1276, an attacker could manipulate the reseed counter error flag (cnt_err_o) in the keymgr_reseed_ctrl module to mask faults in the reseed timing, thereby compromising the integrity of the entropy management process and preventing the system from detecting and responding to potential malfunctions or attacks."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the reseed counter error flag (cnt_err_o) in the keymgr_reseed_ctrl module to mask faults in the reseed timing, thereby compromising the integrity of the system's ability to detect and respond to malfunctions or attacks."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-682",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-682": "[CWE-1276] By exploiting CWE-1276, an attacker could manipulate the reseed counter error flag (cnt_err_o) in the keymgr_reseed_ctrl module to mask faults in the reseed timing, thereby compromising the integrity of the entropy management process and preventing the system from detecting and responding to potential malfunctions or attacks.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the reseed counter error flag (cnt_err_o) in the keymgr_reseed_ctrl module to mask faults in the reseed timing, thereby compromising the integrity of the system's ability to detect and respond to malfunctions or attacks."
+      }
+    },
+    {
+      "Asset_Name": "Module enable control (en_i) in keymgr_sideload_key module",
+      "Functionality": "Gates the valid output and also clears the internal valid state when low; valid_o = valid_q & en_i and valid_q is cleared when !en_i.",
+      "Security Objective": "Integrity",
+      "Justification": "This control determines whether a sideload key is considered usable. If an attacker can flip or spoof en_i, they can force acceptance or rejection of keys, altering the intended control flow and potentially enabling use of stale or uninitialized keys.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1280",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connection of the en_i signal could allow unauthorized acceptance or rejection of sideload keys, violating the intended control flow.",
+        "CWE-1280": "If access control checks for en_i are implemented after the asset is accessed, it could allow unauthorized use of stale or uninitialized keys.",
+        "CWE-1262": "Improper access control on the en_i signal could allow untrusted software to manipulate the valid state of sideload keys, compromising integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "CAPEC-682 can exploit CWE-1276 by manipulating the en_i signal in the keymgr_sideload_key module to bypass integrity checks, allowing unauthorized acceptance or rejection of sideload keys, thus compromising the intended control flow and potentially enabling the use of stale or uninitialized keys."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the en_i signal in the keymgr_sideload_key module to bypass integrity checks, allowing unauthorized use of stale or uninitialized keys.",
+            "CAPEC-682": "CAPEC-682 targets CWE-1280 by spoofing the en_i signal to force the acceptance of invalid keys, compromising the integrity of the key management process in the keymgr_sideload_key module."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "By exploiting CWE-1262, an attacker could use CAPEC-680 to manipulate the 'en_i' signal in the 'keymgr_sideload_key' module, thereby bypassing integrity checks and forcing the acceptance of unauthorized or stale keys.",
+            "CAPEC-682": "Through CWE-1262, CAPEC-682 could be leveraged to spoof the 'en_i' signal, compromising the integrity of the 'keymgr_sideload_key' module by enabling the use of uninitialized keys or rejecting valid ones."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-682",
+        "CAPEC-180",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-682": "[CWE-1276] CAPEC-682 can exploit CWE-1276 by manipulating the en_i signal in the keymgr_sideload_key module to bypass integrity checks, allowing unauthorized acceptance or rejection of sideload keys, thus compromising the intended control flow and potentially enabling the use of stale or uninitialized keys. [CWE-1280] CAPEC-682 targets CWE-1280 by spoofing the en_i signal to force the acceptance of invalid keys, compromising the integrity of the key management process in the keymgr_sideload_key module. [CWE-1262] Through CWE-1262, CAPEC-682 could be leveraged to spoof the 'en_i' signal, compromising the integrity of the 'keymgr_sideload_key' module by enabling the use of uninitialized keys or rejecting valid ones.",
+        "CAPEC-180": "[CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the en_i signal in the keymgr_sideload_key module to bypass integrity checks, allowing unauthorized use of stale or uninitialized keys.",
+        "CAPEC-680": "[CWE-1262] By exploiting CWE-1262, an attacker could use CAPEC-680 to manipulate the 'en_i' signal in the 'keymgr_sideload_key' module, thereby bypassing integrity checks and forcing the acceptance of unauthorized or stale keys."
+      }
+    },
+    {
+      "Asset_Name": "Set-path enable (selects real key vs entropy on set) (set_en_i) in keymgr_sideload_key module",
+      "Functionality": "On a set operation, selects whether key_q loads the provided key shares (key_i) or fills with entropy-derived data.",
+      "Security Objective": "Integrity",
+      "Justification": "This signal chooses the source of the key material. Tampering can inject unintended keys (entropy filler) or block intended key loads, violating the correctness of cryptographic operations and expected configuration.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1280",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The set-path enable signal could be incorrectly connected, allowing unintended key sources to be selected, compromising key integrity.",
+        "CWE-1280": "If access control checks are delayed, the set-path enable signal might allow unauthorized key material to be loaded before validation.",
+        "CWE-1262": "Improper access control on the set-path enable signal could allow unauthorized manipulation, leading to incorrect key source selection."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1280 by manipulating the set_en_i signal in the keymgr_sideload_key module to improperly select entropy-derived data instead of the intended key shares, thereby compromising the integrity of cryptographic operations.",
+            "CAPEC-682": "CAPEC-682 exploits CWE-1280 by intercepting and altering the set_en_i signal to block the loading of intended key shares, forcing the use of entropy-derived data and violating the integrity of the key management process."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "By exploiting CWE-1262, an attacker could manipulate the 'set_en_i' signal in the 'keymgr_sideload_key' module to improperly select entropy-derived data instead of the intended key shares, thereby compromising the integrity of cryptographic operations by injecting unintended keys."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-682",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1280] CAPEC-180 exploits CWE-1280 by manipulating the set_en_i signal in the keymgr_sideload_key module to improperly select entropy-derived data instead of the intended key shares, thereby compromising the integrity of cryptographic operations.",
+        "CAPEC-682": "[CWE-1280] CAPEC-682 exploits CWE-1280 by intercepting and altering the set_en_i signal to block the loading of intended key shares, forcing the use of entropy-derived data and violating the integrity of the key management process.",
+        "CAPEC-680": "[CWE-1262] By exploiting CWE-1262, an attacker could manipulate the 'set_en_i' signal in the 'keymgr_sideload_key' module to improperly select entropy-derived data instead of the intended key shares, thereby compromising the integrity of cryptographic operations by injecting unintended keys."
+      }
+    },
+    {
+      "Asset_Name": "Entropy input for wiping/dummy key generation (entropy_i) in keymgr_sideload_key module",
+      "Functionality": "Provides per-share entropy used to overwrite key storage on clear and to generate a dummy key when set_en_i is deasserted.",
+      "Security Objective": "Integrity",
+      "Justification": "The integrity of this randomness directly affects sanitization and the correctness of dummy key generation. If an attacker can control or bias entropy_i, they can force predictable or malicious key contents, compromising system assumptions about wipes and non-operational keys.",
+      "CWE-IDs": [
+        "CWE-1256",
+        "CWE-1276",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1256": "Improper restriction of software interfaces to hardware features could allow an attacker to manipulate entropy_i, leading to predictable or malicious key contents.",
+        "CWE-1276": "Incorrect connections between the keymgr_sideload_key module and its parent system could allow an attacker to control or bias entropy_i, affecting key sanitization and dummy key generation.",
+        "CWE-1220": "Insufficient granularity of access control could permit unauthorized manipulation of entropy_i, compromising the integrity of key wiping and dummy key generation processes."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1256": {
+          "CAPEC-IDs": [
+            "CAPEC-624",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-624": "CAPEC-624 exploits CWE-1256 by manipulating the entropy_i input to introduce predictable patterns in the entropy used for key wiping and dummy key generation, thereby compromising the integrity of the key management process in the keymgr_sideload_key module.",
+            "CAPEC-682": "CAPEC-682 targets CWE-1256 by injecting biased entropy into the entropy_i input, allowing an attacker to influence the randomness used for key sanitization and dummy key creation, undermining the integrity of the key management operations in the keymgr_sideload_key module."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "CAPEC-682 can exploit CWE-1276 by manipulating the entropy_i input in the keymgr_sideload_key module to introduce predictable patterns, thereby compromising the integrity of key sanitization and dummy key generation, which relies on unbiased entropy."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the entropy_i input to introduce predictable patterns in the entropy used for key wiping and dummy key generation, thereby compromising the integrity of the keymgr_sideload_key module's operations.",
+            "CAPEC-682": "CAPEC-682 exploits CWE-1220 by injecting biased entropy into the entropy_i input, undermining the integrity of the keymgr_sideload_key module by enabling the generation of predictable or malicious dummy keys."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-624",
+        "CAPEC-682",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-624": "[CWE-1256] CAPEC-624 exploits CWE-1256 by manipulating the entropy_i input to introduce predictable patterns in the entropy used for key wiping and dummy key generation, thereby compromising the integrity of the key management process in the keymgr_sideload_key module.",
+        "CAPEC-682": "[CWE-1256] CAPEC-682 targets CWE-1256 by injecting biased entropy into the entropy_i input, allowing an attacker to influence the randomness used for key sanitization and dummy key creation, undermining the integrity of the key management operations in the keymgr_sideload_key module. [CWE-1276] CAPEC-682 can exploit CWE-1276 by manipulating the entropy_i input in the keymgr_sideload_key module to introduce predictable patterns, thereby compromising the integrity of key sanitization and dummy key generation, which relies on unbiased entropy. [CWE-1220] CAPEC-682 exploits CWE-1220 by injecting biased entropy into the entropy_i input, undermining the integrity of the keymgr_sideload_key module by enabling the generation of predictable or malicious dummy keys.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the entropy_i input to introduce predictable patterns in the entropy used for key wiping and dummy key generation, thereby compromising the integrity of the keymgr_sideload_key module's operations."
+      }
+    },
+    {
+      "Asset_Name": "Sideload key input shares (key_i) in keymgr_sideload_key module",
+      "Functionality": "Secret key shares provided to be stored into key_q when set_i is asserted with set_en_i enabled.",
+      "Security Objective": "Confidentiality",
+      "Justification": "These are cryptographic key shares intended to remain secret. Exposure or unintended propagation of key_i would directly leak sensitive key material.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1431",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections between the keymgr_sideload_key module and its parent system could expose sideload key input shares, violating confidentiality.",
+        "CWE-1431": "If intermediate cryptographic states of sideload key input shares are driven to outputs, attackers could extract sensitive key material.",
+        "CWE-1262": "Improper access control on register interfaces could allow unauthorized access to sideload key input shares, compromising confidentiality."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-204"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-204": "CAPEC-204 can exploit CWE-1276 by manipulating the sideload key input shares (key_i) in the keymgr_sideload_key module to cause an unintended propagation of key material, thereby compromising the confidentiality of cryptographic key shares."
+          }
+        },
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-204"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-204": "CAPEC-204 could exploit CWE-1431 by manipulating the control signals such as set_i or set_en_i in the keymgr_sideload_key module to improperly store or expose the sideload key input shares, thereby compromising the confidentiality of the cryptographic key shares."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-204"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the keymgr_sideload_key module's control signals to improperly set or clear key_i, potentially leading to the unintended exposure of cryptographic key shares, thus compromising their confidentiality.",
+            "CAPEC-204": "CAPEC-204 could exploit CWE-1262 by inducing a fault in the keymgr_sideload_key module's state transitions, causing key_i to be improperly stored or propagated, thereby risking the confidentiality of the cryptographic key shares."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-204",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-204": "[CWE-1276] CAPEC-204 can exploit CWE-1276 by manipulating the sideload key input shares (key_i) in the keymgr_sideload_key module to cause an unintended propagation of key material, thereby compromising the confidentiality of cryptographic key shares. [CWE-1431] CAPEC-204 could exploit CWE-1431 by manipulating the control signals such as set_i or set_en_i in the keymgr_sideload_key module to improperly store or expose the sideload key input shares, thereby compromising the confidentiality of the cryptographic key shares. [CWE-1262] CAPEC-204 could exploit CWE-1262 by inducing a fault in the keymgr_sideload_key module's state transitions, causing key_i to be improperly stored or propagated, thereby risking the confidentiality of the cryptographic key shares.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the keymgr_sideload_key module's control signals to improperly set or clear key_i, potentially leading to the unintended exposure of cryptographic key shares, thus compromising their confidentiality."
+      }
+    },
+    {
+      "Asset_Name": "Sideload key output shares (key_o) in keymgr_sideload_key module",
+      "Functionality": "Outputs the stored key shares for consumption by downstream cryptographic blocks.",
+      "Security Objective": "Confidentiality",
+      "Justification": "This carries active secret key material out of the module. Unauthorized observation or tapping of key_o would disclose cryptographic keys.",
+      "CWE-IDs": [
+        "CWE-1431",
+        "CWE-1262",
+        "CWE-1244"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1431": "The sideload key output shares could inadvertently expose intermediate cryptographic states if not properly managed, leading to unauthorized access to sensitive key material.",
+        "CWE-1262": "Improper access control for the register interface could allow unauthorized access to the sideload key output shares, compromising the confidentiality of the cryptographic keys.",
+        "CWE-1244": "If the sideload key output shares are exposed to an unsafe debug access level, unauthorized agents could access sensitive key material, violating confidentiality."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-204"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-204": "CAPEC-204 could exploit CWE-1431 by manipulating the keymgr_sideload_key module's state transitions to improperly expose the sideload key output shares (key_o), thereby compromising the confidentiality of cryptographic keys."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-204"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 could exploit CWE-1262 by manipulating the keymgr_sideload_key module's state transitions to improperly handle sideload key output shares, potentially leading to unauthorized access to confidential key material.",
+            "CAPEC-204": "CAPEC-204 could exploit CWE-1262 by inducing faults in the keymgr_sideload_key module's control logic, causing it to inadvertently expose sideload key output shares, thereby compromising the confidentiality of cryptographic keys."
+          }
+        },
+        "CWE-1244": {
+          "CAPEC-IDs": [
+            "CAPEC-114",
+            "CAPEC-204"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-114": "CAPEC-114 can exploit CWE-1244 by manipulating the keymgr_sideload_key module's state transitions to improperly release sideload key output shares (key_o), compromising the confidentiality of cryptographic keys.",
+            "CAPEC-204": "CAPEC-204 targets CWE-1244 by inducing faults in the keymgr_sideload_key module's control logic, potentially causing unauthorized disclosure of key_o, thus breaching the confidentiality of the secret key material."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-204",
+        "CAPEC-680",
+        "CAPEC-114"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-204": "[CWE-1431] CAPEC-204 could exploit CWE-1431 by manipulating the keymgr_sideload_key module's state transitions to improperly expose the sideload key output shares (key_o), thereby compromising the confidentiality of cryptographic keys. [CWE-1262] CAPEC-204 could exploit CWE-1262 by inducing faults in the keymgr_sideload_key module's control logic, causing it to inadvertently expose sideload key output shares, thereby compromising the confidentiality of cryptographic keys. [CWE-1244] CAPEC-204 targets CWE-1244 by inducing faults in the keymgr_sideload_key module's control logic, potentially causing unauthorized disclosure of key_o, thus breaching the confidentiality of the secret key material.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 could exploit CWE-1262 by manipulating the keymgr_sideload_key module's state transitions to improperly handle sideload key output shares, potentially leading to unauthorized access to confidential key material.",
+        "CAPEC-114": "[CWE-1244] CAPEC-114 can exploit CWE-1244 by manipulating the keymgr_sideload_key module's state transitions to improperly release sideload key output shares (key_o), compromising the confidentiality of cryptographic keys."
+      }
+    },
+    {
+      "Asset_Name": "Key valid output flag (valid_o) in keymgr_sideload_key module",
+      "Functionality": "Indicates to downstream logic whether the sideload key is valid and usable (valid_q AND en_i).",
+      "Security Objective": "Availability",
+      "Justification": "Downstream modules rely on this flag to know when to use key_o. If valid_o is suppressed or spoofed, operations can be stalled or proceed with invalid keys, resulting in denial-of-service or operational failure.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connection of the valid_o signal could lead to incorrect signaling to downstream logic, causing denial of service by stalling operations or using invalid keys.",
+        "CWE-440": "If the valid_o signal behaves differently from its specification, it could lead to unexpected system behavior, potentially causing denial of service by allowing operations with invalid keys.",
+        "CWE-1245": "Improper FSM handling in the keymgr_sideload_key module could lead to incorrect state transitions, causing the valid_o signal to incorrectly indicate key validity, resulting in operational failures."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the valid_o flag in the keymgr_sideload_key module, potentially causing a denial-of-service by suppressing or spoofing the flag, which disrupts the availability of valid keys to downstream modules."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the valid_o flag in the keymgr_sideload_key module, potentially causing a denial-of-service by suppressing or spoofing the flag, which disrupts the availability of valid keys to downstream modules."
+      }
+    },
+    {
+      "Asset_Name": "Entropy shares input (entropy_i) in keymgr_sideload_key_ctrl module",
+      "Functionality": "Entropy used by sideload key instances for masking/refresh during set and clear operations.",
+      "Security Objective": "Integrity",
+      "Justification": "If an attacker biases or replays entropy, masking may be weakened and security degrades. Ensuring its integrity preserves the unpredictability relied upon by the masking and clearing logic.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1256",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections between the entropy input and the key manager could allow an attacker to manipulate or bypass the integrity of the entropy used for masking, leading to weakened security.",
+        "CWE-1256": "If software interfaces to the entropy input are not properly restricted, an attacker could manipulate entropy values, affecting the integrity of key masking and refresh operations.",
+        "CWE-1262": "Improper access control on the entropy input interface could allow unauthorized manipulation of entropy values, compromising the integrity of the sideload key operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "CAPEC-682 can exploit CWE-1276 by manipulating the entropy shares input in the keymgr_sideload_key_ctrl module to introduce predictable patterns, thereby compromising the integrity of the masking and refresh operations essential for maintaining cryptographic security."
+          }
+        },
+        "CWE-1256": {
+          "CAPEC-IDs": [
+            "CAPEC-624",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-624": "CAPEC-624 can exploit CWE-1256 by introducing biased entropy into the keymgr_sideload_key_ctrl module's entropy_i input, compromising the integrity of the entropy shares and weakening the masking and clearing operations.",
+            "CAPEC-682": "CAPEC-682 can exploit CWE-1256 by replaying previously captured entropy values to the entropy_i input of the keymgr_sideload_key_ctrl module, undermining the integrity of the entropy shares and degrading the security of the masking and refresh processes."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the entropy shares input in the keymgr_sideload_key_ctrl module to introduce biased entropy, compromising the integrity of the masking and refresh operations and weakening the security of the sideload key instances.",
+            "CAPEC-682": "CAPEC-682 can exploit CWE-1262 by replaying previously captured entropy shares input in the keymgr_sideload_key_ctrl module, undermining the integrity of the entropy used for masking and refresh operations, thereby degrading the security of the sideload key instances."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-682",
+        "CAPEC-624",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-682": "[CWE-1276] CAPEC-682 can exploit CWE-1276 by manipulating the entropy shares input in the keymgr_sideload_key_ctrl module to introduce predictable patterns, thereby compromising the integrity of the masking and refresh operations essential for maintaining cryptographic security. [CWE-1256] CAPEC-682 can exploit CWE-1256 by replaying previously captured entropy values to the entropy_i input of the keymgr_sideload_key_ctrl module, undermining the integrity of the entropy shares and degrading the security of the masking and refresh processes. [CWE-1262] CAPEC-682 can exploit CWE-1262 by replaying previously captured entropy shares input in the keymgr_sideload_key_ctrl module, undermining the integrity of the entropy used for masking and refresh operations, thereby degrading the security of the sideload key instances.",
+        "CAPEC-624": "[CWE-1256] CAPEC-624 can exploit CWE-1256 by introducing biased entropy into the keymgr_sideload_key_ctrl module's entropy_i input, compromising the integrity of the entropy shares and weakening the masking and clearing operations.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the entropy shares input in the keymgr_sideload_key_ctrl module to introduce biased entropy, compromising the integrity of the masking and refresh operations and weakening the security of the sideload key instances."
+      }
+    },
+    {
+      "Asset_Name": "PRNG enable request (prng_en_o) in keymgr_sideload_key_ctrl module",
+      "Functionality": "Requests PRNG activity when clearing keys (asserted when any slot_clr bit is set).",
+      "Security Objective": "Integrity",
+      "Justification": "This control coordinates randomness needed for secure clears. Tampering could suppress required randomness or cause spurious requests, impacting the correctness of key wiping.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections in the keymgr_sideload_key_ctrl module could allow tampering with the prng_en_o signal, leading to incorrect PRNG requests and impacting key wiping integrity.",
+        "CWE-440": "If the prng_en_o signal behaves differently from its specification, it could be exploited to suppress randomness during key clearing, violating expected security behavior.",
+        "CWE-1221": "Incorrect default settings for the prng_en_o signal could lead to insecure states where randomness is not requested as needed, compromising key clearing operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-188"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-188": "CAPEC-188 could exploit CWE-440 by manipulating the PRNG enable request (prng_en_o) in the keymgr_sideload_key_ctrl module to either suppress necessary randomness or trigger unauthorized PRNG activity, thereby compromising the integrity of key clearing operations."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166, which involves manipulating timing and control signals, could exploit CWE-1221 by altering the timing of the prng_en_o signal in the keymgr_sideload_key_ctrl module, potentially leading to improper PRNG requests and compromising the integrity of key clearing operations."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-188",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-188": "[CWE-440] CAPEC-188 could exploit CWE-440 by manipulating the PRNG enable request (prng_en_o) in the keymgr_sideload_key_ctrl module to either suppress necessary randomness or trigger unauthorized PRNG activity, thereby compromising the integrity of key clearing operations.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166, which involves manipulating timing and control signals, could exploit CWE-1221 by altering the timing of the prng_en_o signal in the keymgr_sideload_key_ctrl module, potentially leading to improper PRNG requests and compromising the integrity of key clearing operations."
+      }
+    },
+    {
+      "Asset_Name": "Sideload selection error flag (sideload_sel_err_o) in keymgr_sideload_key_ctrl module",
+      "Functionality": "Asserts if observed valids conflict with internal valid_tracking_q expectations, indicating an unexpected valid assertion.",
+      "Security Objective": "Integrity",
+      "Justification": "This flag signals control/data consistency violations that could indicate tampering. Corrupting the flag can hide faults or trigger false alarms, affecting security monitoring and response.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1262",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The sideload selection error flag indicates unexpected valid assertions, which can result from deviations in expected behavior, allowing attackers to exploit these inconsistencies to bypass security mechanisms.",
+        "CWE-1262": "Improper access control for register interfaces can allow unauthorized access to the sideload selection error flag, enabling attackers to manipulate or hide faults, compromising data integrity.",
+        "CWE-1220": "Insufficient granularity of access control can lead to unauthorized access to the sideload selection error flag, allowing attackers to exploit broad access policies to manipulate or bypass security checks."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "CAPEC-682 exploits CWE-440 by manipulating the sideload_sel_err_o flag in the keymgr_sideload_key_ctrl module to create inconsistencies between observed and expected valid states, undermining the integrity of the system by potentially masking tampering attempts."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the sideload_sel_err_o flag in the keymgr_sideload_key_ctrl module to create a mismatch between observed and expected valid states, undermining the integrity of the system's control/data consistency checks.",
+            "CAPEC-682": "CAPEC-682 targets CWE-1262 by inducing errors in the sideload_sel_err_o flag, causing it to falsely indicate valid state conflicts, which can mask tampering attempts and compromise the integrity of security monitoring."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "By exploiting CWE-1220, CAPEC-180 can manipulate the sideload_sel_err_o flag in the keymgr_sideload_key_ctrl module to create inconsistencies between observed and expected valid states, undermining the integrity of the system by masking unauthorized key sideloading activities.",
+            "CAPEC-682": "CAPEC-682 leverages CWE-1220 to introduce discrepancies in the valid_tracking_q logic of the keymgr_sideload_key_ctrl module, potentially triggering false alarms or concealing genuine errors, thereby compromising the integrity of the sideload selection error flag."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-682",
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-682": "[CWE-440] CAPEC-682 exploits CWE-440 by manipulating the sideload_sel_err_o flag in the keymgr_sideload_key_ctrl module to create inconsistencies between observed and expected valid states, undermining the integrity of the system by potentially masking tampering attempts. [CWE-1262] CAPEC-682 targets CWE-1262 by inducing errors in the sideload_sel_err_o flag, causing it to falsely indicate valid state conflicts, which can mask tampering attempts and compromise the integrity of security monitoring. [CWE-1220] CAPEC-682 leverages CWE-1220 to introduce discrepancies in the valid_tracking_q logic of the keymgr_sideload_key_ctrl module, potentially triggering false alarms or concealing genuine errors, thereby compromising the integrity of the sideload selection error flag.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the sideload_sel_err_o flag in the keymgr_sideload_key_ctrl module to create a mismatch between observed and expected valid states, undermining the integrity of the system's control/data consistency checks.",
+        "CAPEC-180": "[CWE-1220] By exploiting CWE-1220, CAPEC-180 can manipulate the sideload_sel_err_o flag in the keymgr_sideload_key_ctrl module to create inconsistencies between observed and expected valid states, undermining the integrity of the system by masking unauthorized key sideloading activities."
+      }
+    },
+    {
+      "Asset_Name": "FSM error flag (fsm_err_o) in keymgr_sideload_key_ctrl module",
+      "Functionality": "Asserts on illegal/default FSM states in the sideload control.",
+      "Security Objective": "Integrity",
+      "Justification": "This flag reports control flow corruption within the FSM. Integrity of this indicator is necessary to detect and react to control-state faults and active attacks.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1244",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The FSM error flag (fsm_err_o) in the keymgr_sideload_key_ctrl module could be exploited if the FSM behaves differently from its specification, allowing attackers to bypass expected control flow integrity checks.",
+        "CWE-1244": "The FSM error flag could be exposed to unsafe debug access levels, allowing attackers to manipulate or bypass the FSM's intended control flow, leading to unauthorized access or modification of key management operations.",
+        "CWE-1220": "If the FSM error flag is not checked before accessing the FSM state, an attacker could exploit this timing window to manipulate the FSM state, leading to unauthorized access or modification of key management operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-682": "CAPEC-682 can exploit CWE-440 by manipulating the FSM error flag (fsm_err_o) in the keymgr_sideload_key_ctrl module to introduce control flow corruption, thereby compromising the integrity of the system's response to illegal or default FSM states."
+          }
+        },
+        "CWE-1244": {
+          "CAPEC-IDs": [
+            "CAPEC-114",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-114": "By exploiting CWE-1244, CAPEC-114 can manipulate the FSM error flag (fsm_err_o) in the keymgr_sideload_key_ctrl module to bypass integrity checks, allowing unauthorized control flow changes to go undetected.",
+            "CAPEC-682": "CAPEC-682 leverages CWE-1244 by inducing faults in the FSM of the keymgr_sideload_key_ctrl module, potentially causing the fsm_err_o flag to fail in reporting control flow corruption, thus compromising the integrity of the system."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the FSM error flag (fsm_err_o) in the keymgr_sideload_key_ctrl module to bypass integrity checks, allowing unauthorized state transitions that compromise control flow integrity.",
+            "CAPEC-682": "CAPEC-682 targets CWE-1220 by inducing faults in the FSM of the keymgr_sideload_key_ctrl module, leading to erroneous assertions of the fsm_err_o flag, which undermines the integrity of control-state fault detection mechanisms."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-682",
+        "CAPEC-114",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-682": "[CWE-440] CAPEC-682 can exploit CWE-440 by manipulating the FSM error flag (fsm_err_o) in the keymgr_sideload_key_ctrl module to introduce control flow corruption, thereby compromising the integrity of the system's response to illegal or default FSM states. [CWE-1244] CAPEC-682 leverages CWE-1244 by inducing faults in the FSM of the keymgr_sideload_key_ctrl module, potentially causing the fsm_err_o flag to fail in reporting control flow corruption, thus compromising the integrity of the system. [CWE-1220] CAPEC-682 targets CWE-1220 by inducing faults in the FSM of the keymgr_sideload_key_ctrl module, leading to erroneous assertions of the fsm_err_o flag, which undermines the integrity of control-state fault detection mechanisms.",
+        "CAPEC-114": "[CWE-1244] By exploiting CWE-1244, CAPEC-114 can manipulate the FSM error flag (fsm_err_o) in the keymgr_sideload_key_ctrl module to bypass integrity checks, allowing unauthorized control flow changes to go undetected.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the FSM error flag (fsm_err_o) in the keymgr_sideload_key_ctrl module to bypass integrity checks, allowing unauthorized state transitions that compromise control flow integrity."
+      }
+    }
+  ]
+}

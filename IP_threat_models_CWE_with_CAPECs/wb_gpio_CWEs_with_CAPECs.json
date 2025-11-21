@@ -1,0 +1,345 @@
+{
+  "IP": "wb_gpio",
+  "Assets": [
+    {
+      "Asset_Name": "Wishbone write enable (wb_we_i)",
+      "Functionality": "Qualifies Wishbone write transactions; when asserted with cyc/stb, it causes writes to either the GPIO data register or direction register depending on the address.",
+      "Security Objective": "Integrity",
+      "Justification": "This signal governs when internal state (gpio_o or gpio_dir_o) is updated. If an attacker can influence it, unintended or missed writes can corrupt configuration or data, violating the integrity of the module\u2019s state.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1280",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the Wishbone write enable signal could allow unauthorized writes to GPIO registers, compromising the integrity of the module's state.",
+        "CWE-1280": "If access control checks for the write enable signal are implemented after the asset is accessed, it could lead to unauthorized modifications of GPIO data or direction registers.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to manipulate the write enable signal, leading to unintended writes and integrity violations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the wb_we_i signal to cause unauthorized writes to the GPIO data or direction registers, thereby compromising the integrity of the wb_gpio module's internal state."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the wb_we_i signal to cause unauthorized writes to the GPIO data or direction registers, thereby compromising the integrity of the wb_gpio module's internal state.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1280 by intercepting and altering the wb_we_i signal during a Wishbone transaction, leading to unintended state changes in the GPIO configuration and violating the module's integrity."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the wb_we_i signal timing to cause unintended writes to the GPIO registers, compromising the integrity of the module's state by altering gpio_o or gpio_dir_o without proper authorization.",
+            "CAPEC-545": "CAPEC-545 leverages CWE-1220 by introducing race conditions that desynchronize the wb_we_i signal, leading to unauthorized state changes in the GPIO data or direction registers, thereby violating the integrity of the wb_gpio module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180",
+        "CAPEC-74",
+        "CAPEC-545"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the wb_we_i signal to cause unauthorized writes to the GPIO data or direction registers, thereby compromising the integrity of the wb_gpio module's internal state.",
+        "CAPEC-180": "[CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the wb_we_i signal to cause unauthorized writes to the GPIO data or direction registers, thereby compromising the integrity of the wb_gpio module's internal state. [CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the wb_we_i signal timing to cause unintended writes to the GPIO registers, compromising the integrity of the module's state by altering gpio_o or gpio_dir_o without proper authorization.",
+        "CAPEC-74": "[CWE-1280] CAPEC-74 can exploit CWE-1280 by intercepting and altering the wb_we_i signal during a Wishbone transaction, leading to unintended state changes in the GPIO configuration and violating the module's integrity.",
+        "CAPEC-545": "[CWE-1220] CAPEC-545 leverages CWE-1220 by introducing race conditions that desynchronize the wb_we_i signal, leading to unauthorized state changes in the GPIO data or direction registers, thereby violating the integrity of the wb_gpio module."
+      }
+    },
+    {
+      "Asset_Name": "GPIO direction register outputs (gpio_dir_o)",
+      "Functionality": "Per-bit pin direction control; \u20181\u2019 sets a pin as output, \u20180\u2019 as input. Written via the Wishbone interface.",
+      "Security Objective": "Integrity",
+      "Justification": "This is sensitive control state. Unauthorized modification can force pins to drive or float inappropriately, causing contention, functional errors, or unintended exposure at the SoC boundary.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1224",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the GPIO direction register could allow unauthorized modification, compromising the integrity of pin direction settings.",
+        "CWE-1224": "If the GPIO direction register is not properly restricted as write-once, it could be reprogrammed by untrusted software, leading to unauthorized changes in pin direction.",
+        "CWE-1221": "Incorrect default settings for the GPIO direction register could lead to insecure states upon reset, allowing unintended pin configurations that degrade system integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the Wishbone interface signals to alter the GPIO direction register outputs (gpio_dir_o), compromising the integrity of pin direction control and potentially causing functional errors or unintended exposure at the SoC boundary.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1262 by injecting malicious data into the Wishbone bus transactions, leading to unauthorized modifications of the GPIO direction register outputs (gpio_dir_o), thereby violating the integrity of the control state and causing inappropriate pin configurations."
+          }
+        },
+        "CWE-1224": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1224 by manipulating the Wishbone interface signals to improperly update the gpio_dir_o register, compromising the integrity of pin direction control and potentially causing functional errors or unintended exposure at the SoC boundary.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1224 by injecting malicious data into the Wishbone bus transactions, leading to unauthorized modifications of the gpio_dir_o register, thereby violating the integrity of the GPIO direction settings and causing inappropriate pin states."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the Wishbone interface signals to alter the GPIO direction register outputs (gpio_dir_o), compromising the integrity of the pin direction control and potentially causing functional errors or unintended exposure at the SoC boundary.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1221 by injecting malicious data into the Wishbone bus transactions, leading to unauthorized modifications of the GPIO direction register outputs (gpio_dir_o), thereby violating the integrity of the control state and causing inappropriate pin configurations."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the Wishbone interface signals to alter the GPIO direction register outputs (gpio_dir_o), compromising the integrity of pin direction control and potentially causing functional errors or unintended exposure at the SoC boundary. [CWE-1224] CAPEC-680 can exploit CWE-1224 by manipulating the Wishbone interface signals to improperly update the gpio_dir_o register, compromising the integrity of pin direction control and potentially causing functional errors or unintended exposure at the SoC boundary.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 can exploit CWE-1262 by injecting malicious data into the Wishbone bus transactions, leading to unauthorized modifications of the GPIO direction register outputs (gpio_dir_o), thereby violating the integrity of the control state and causing inappropriate pin configurations. [CWE-1224] CAPEC-74 can exploit CWE-1224 by injecting malicious data into the Wishbone bus transactions, leading to unauthorized modifications of the gpio_dir_o register, thereby violating the integrity of the GPIO direction settings and causing inappropriate pin states. [CWE-1221] CAPEC-74 can exploit CWE-1221 by injecting malicious data into the Wishbone bus transactions, leading to unauthorized modifications of the GPIO direction register outputs (gpio_dir_o), thereby violating the integrity of the control state and causing inappropriate pin configurations.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the Wishbone interface signals to alter the GPIO direction register outputs (gpio_dir_o), compromising the integrity of the pin direction control and potentially causing functional errors or unintended exposure at the SoC boundary."
+      }
+    },
+    {
+      "Asset_Name": "Wishbone error indicator (wb_err_o)",
+      "Functionality": "Wishbone error signal (tied low in this implementation).",
+      "Security Objective": "Integrity",
+      "Justification": "Although fixed to 0, its correctness affects system-level error handling. If misreported, a system could falsely signal or mask transaction errors, undermining the integrity of system control flows.",
+      "CWE-IDs": [
+        "CWE-1221",
+        "CWE-1276",
+        "CWE-440"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1221": "The wb_err_o signal being tied low could result in incorrect register defaults, leading to misreported error states and undermining system integrity.",
+        "CWE-1276": "The fixed low state of wb_err_o may represent an incorrect connection within the system, potentially masking error conditions and violating expected security policies.",
+        "CWE-440": "The wb_err_o signal's behavior deviates from expected error signaling, which could be exploited to bypass error detection mechanisms and compromise system integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the wb_gpio's Wishbone interface signals to induce a state where the wb_err_o signal is incorrectly toggled, thereby compromising the integrity of system-level error handling by falsely indicating error-free transactions."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the wb_gpio's Wishbone interface signals to induce a state where the wb_err_o signal is incorrectly toggled, thereby compromising the integrity of system-level error handling by falsely indicating error-free transactions."
+      }
+    },
+    {
+      "Asset_Name": "Wishbone strobe qualifier (wb_stb_i)",
+      "Functionality": "Indicates a valid data transfer; together with cyc_i (and we_i for writes) it triggers register accesses and drives ack generation.",
+      "Security Objective": "Availability",
+      "Justification": "Loss or manipulation prevents the module from recognizing transfers, withholding acknowledgments and effectively halting bus interactions.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1221",
+        "CWE-440"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections in the Wishbone interface could prevent the strobe signal from correctly indicating valid data transfers, halting bus interactions.",
+        "CWE-1221": "Incorrect default settings for the strobe signal could lead to the module failing to recognize valid transfers, impacting availability.",
+        "CWE-440": "If the strobe signal does not behave as expected, it could lead to unacknowledged transactions, effectively causing a denial of service."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "By exploiting CWE-1221, an attacker could manipulate the wb_stb_i signal to create a race condition, causing the wb_gpio module to miss valid data transfers and fail to generate acknowledgment signals, thereby compromising the availability of the Wishbone bus interactions."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-166": "[CWE-1221] By exploiting CWE-1221, an attacker could manipulate the wb_stb_i signal to create a race condition, causing the wb_gpio module to miss valid data transfers and fail to generate acknowledgment signals, thereby compromising the availability of the Wishbone bus interactions."
+      }
+    },
+    {
+      "Asset_Name": "Wishbone acknowledge (wb_ack_o)",
+      "Functionality": "Signals transaction completion; asserted for one cycle following a valid cyc/stb.",
+      "Security Objective": "Availability",
+      "Justification": "Masters rely on ack to complete transactions. If suppressed or delayed, reads/writes stall indefinitely, resulting in denial of service to the bus master.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1318"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connection of the wb_ack_o signal could lead to transaction completion failures, causing denial of service by stalling bus operations.",
+        "CWE-440": "If the wb_ack_o signal does not behave as specified, it could lead to unexpected system behavior, resulting in denial of service by failing to acknowledge transactions.",
+        "CWE-1318": "Missing support for security features in the Wishbone bus could allow unauthorized agents to manipulate the wb_ack_o signal, causing denial of service by disrupting transaction completion."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating the wb_ack_o signal to create a race condition, potentially delaying or suppressing the acknowledgment signal, thereby impacting the availability of the Wishbone bus transactions."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating the wb_ack_o signal to create a race condition, potentially delaying or suppressing the acknowledgment signal, thereby impacting the availability of the Wishbone bus transactions."
+      }
+    },
+    {
+      "Asset_Name": "GPIO output data (gpio_o)",
+      "Functionality": "Drives output values to GPIO pins when their direction bits are set to output.",
+      "Security Objective": "Availability",
+      "Justification": "If this output cannot be updated or driven, external devices relying on GPIO control will not operate, effectively denying the intended output functionality.",
+      "CWE-IDs": [
+        "CWE-1248",
+        "CWE-1221",
+        "CWE-1276"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1248": "Semiconductor defects in the GPIO logic could cause the gpio_o output to be stuck, leading to a denial of service by preventing external devices from receiving the intended signals.",
+        "CWE-1221": "Incorrect default settings in the GPIO direction or data registers could prevent the gpio_o from being properly configured, leading to a failure in driving the correct output values and affecting availability.",
+        "CWE-1276": "Improper connections between the GPIO module and the parent system could result in the gpio_o output being incorrectly driven, causing a denial of service by failing to deliver the expected output to external devices."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1248": {
+          "CAPEC-IDs": [
+            "CAPEC-624",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-624": "CAPEC-624 exploits CWE-1248 by manipulating the Wishbone bus signals to cause improper synchronization in the wb_gpio module, potentially preventing the gpio_o outputs from being updated, thus impacting the availability of the GPIO output functionality.",
+            "CAPEC-74": "CAPEC-74 targets CWE-1248 by inducing race conditions in the wb_gpio's synchronous operations, which can disrupt the timely update of gpio_o outputs, thereby compromising the availability of the GPIO output data."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "By exploiting CWE-1221, an attacker using CAPEC-166 could manipulate the GPIO direction register to prevent gpio_o from being updated, thus compromising the availability of the GPIO output functionality.",
+            "CAPEC-74": "An attacker leveraging CAPEC-74 could exploit CWE-1221 by injecting malicious data into the GPIO data register, disrupting the intended operation of gpio_o and affecting the availability of the GPIO output."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-624",
+        "CAPEC-74",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-624": "[CWE-1248] CAPEC-624 exploits CWE-1248 by manipulating the Wishbone bus signals to cause improper synchronization in the wb_gpio module, potentially preventing the gpio_o outputs from being updated, thus impacting the availability of the GPIO output functionality.",
+        "CAPEC-74": "[CWE-1248] CAPEC-74 targets CWE-1248 by inducing race conditions in the wb_gpio's synchronous operations, which can disrupt the timely update of gpio_o outputs, thereby compromising the availability of the GPIO output data. [CWE-1221] An attacker leveraging CAPEC-74 could exploit CWE-1221 by injecting malicious data into the GPIO data register, disrupting the intended operation of gpio_o and affecting the availability of the GPIO output.",
+        "CAPEC-166": "[CWE-1221] By exploiting CWE-1221, an attacker using CAPEC-166 could manipulate the GPIO direction register to prevent gpio_o from being updated, thus compromising the availability of the GPIO output functionality."
+      }
+    },
+    {
+      "Asset_Name": "GPIO input pins (gpio_i)",
+      "Functionality": "Provides external pin states to the module; sampled and read back over Wishbone.",
+      "Security Objective": "Availability",
+      "Justification": "If unavailable or blocked, the system cannot observe external pin states through the module, denying input sensing and rendering the read function inoperative.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1221",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections between the GPIO input pins and the parent system could prevent the module from receiving external pin states, leading to a denial of service.",
+        "CWE-1221": "Incorrect default settings for the GPIO direction register could result in the pins being misconfigured, preventing the system from correctly sensing external inputs.",
+        "CWE-1220": "Insufficient granularity in access control could allow unauthorized agents to manipulate GPIO input states, affecting the availability of accurate input sensing."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the GPIO input pins (gpio_i) to cause a denial of service, thereby affecting the availability of external pin state observations through the wb_gpio module.",
+            "CAPEC-74": "CAPEC-74 could exploit CWE-1221 by introducing unexpected input conditions on the GPIO input pins (gpio_i), potentially blocking the system's ability to read external pin states and compromising the module's availability."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 could exploit CWE-1220 by manipulating the GPIO input pins (gpio_i) to cause a race condition, potentially leading to the unavailability of accurate external pin state readings, thus compromising the module's ability to fulfill its availability objective.",
+            "CAPEC-74": "CAPEC-74 could exploit CWE-1220 by introducing unexpected input sequences to the GPIO input pins (gpio_i), causing a state inconsistency that disrupts the module's ability to reliably read and report external pin states, thereby affecting its availability."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-166",
+        "CAPEC-74",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the GPIO input pins (gpio_i) to cause a denial of service, thereby affecting the availability of external pin state observations through the wb_gpio module.",
+        "CAPEC-74": "[CWE-1221] CAPEC-74 could exploit CWE-1221 by introducing unexpected input conditions on the GPIO input pins (gpio_i), potentially blocking the system's ability to read external pin states and compromising the module's availability. [CWE-1220] CAPEC-74 could exploit CWE-1220 by introducing unexpected input sequences to the GPIO input pins (gpio_i), causing a state inconsistency that disrupts the module's ability to reliably read and report external pin states, thereby affecting its availability.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 could exploit CWE-1220 by manipulating the GPIO input pins (gpio_i) to cause a race condition, potentially leading to the unavailability of accurate external pin state readings, thus compromising the module's ability to fulfill its availability objective."
+      }
+    }
+  ]
+}

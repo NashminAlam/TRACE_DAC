@@ -1,0 +1,539 @@
+{
+  "IP": "apb_gpio",
+  "Assets": [
+    {
+      "Asset_Name": "APB write data bus (PWDATA)",
+      "Functionality": "Carries data values to be written into GPIO control registers (direction, output, interrupt enables/types, enables, pad configuration, lock).",
+      "Security Objective": "Integrity",
+      "Justification": "Corruption of write data would alter control settings and output states. Protecting the integrity of this bus ensures configuration and output values reflect software intent.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1318"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the PWDATA bus could allow unauthorized modification of GPIO control registers, compromising the integrity of the system configuration.",
+        "CWE-1220": "Insufficient granularity of access control on the PWDATA bus could permit unauthorized agents to alter critical GPIO settings, leading to potential system misbehavior.",
+        "CWE-1318": "Missing support for security features on the APB bus could result in unauthorized access to the PWDATA bus, allowing attackers to corrupt GPIO control data."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the APB write data bus (PWDATA) to inject unauthorized data into GPIO control registers, compromising the integrity of configuration settings and output states.",
+            "CAPEC-74": "CAPEC-74 targets CWE-1262 by intercepting and altering the data on the APB write data bus (PWDATA), leading to unauthorized changes in GPIO control registers and violating the integrity of the intended software configuration."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the APB write data bus (PWDATA) to introduce inconsistent data values, thereby compromising the integrity of GPIO control registers and altering intended configurations.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1220 by intercepting and modifying the APB write data bus (PWDATA) during transmission, leading to unauthorized changes in GPIO settings and violating the integrity of the control registers."
+          }
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by intercepting and manipulating the PWDATA bus to inject unauthorized data, compromising the integrity of GPIO control registers and altering their intended configuration.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1318 by leveraging a man-in-the-middle attack to modify data on the PWDATA bus, thus corrupting the integrity of the GPIO settings and disrupting the intended software-controlled operations."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the APB write data bus (PWDATA) to inject unauthorized data into GPIO control registers, compromising the integrity of configuration settings and output states.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 targets CWE-1262 by intercepting and altering the data on the APB write data bus (PWDATA), leading to unauthorized changes in GPIO control registers and violating the integrity of the intended software configuration. [CWE-1220] CAPEC-74 can exploit CWE-1220 by intercepting and modifying the APB write data bus (PWDATA) during transmission, leading to unauthorized changes in GPIO settings and violating the integrity of the control registers. [CWE-1318] CAPEC-74 can exploit CWE-1318 by leveraging a man-in-the-middle attack to modify data on the PWDATA bus, thus corrupting the integrity of the GPIO settings and disrupting the intended software-controlled operations.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the APB write data bus (PWDATA) to introduce inconsistent data values, thereby compromising the integrity of GPIO control registers and altering intended configurations. [CWE-1318] CAPEC-180 can exploit CWE-1318 by intercepting and manipulating the PWDATA bus to inject unauthorized data, compromising the integrity of GPIO control registers and altering their intended configuration."
+      }
+    },
+    {
+      "Asset_Name": "APB write qualifier (PWRITE)",
+      "Functionality": "Indicates whether an APB access is a write versus a read, enabling state updates when asserted.",
+      "Security Objective": "Integrity",
+      "Justification": "If this signal is spoofed, reads could become writes, unintentionally changing GPIO configuration or outputs. Ensuring its correctness preserves register immutability during read operations.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the PWRITE signal could allow unauthorized writes to GPIO registers, compromising integrity by altering configurations.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to perform write operations via the PWRITE signal, leading to unintended GPIO state changes.",
+        "CWE-1280": "If access control checks for the PWRITE signal are implemented after access, unauthorized writes could occur before the system verifies permissions, compromising GPIO integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "By exploiting CWE-1262, CAPEC-680 could manipulate the PWRITE signal to falsely indicate a write operation, compromising the integrity of the GPIO configuration by altering register states during intended read operations.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1262 by intercepting and modifying the PWRITE signal, leading to unauthorized state changes in the GPIO module, thereby violating the integrity objective by converting reads into writes."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "By exploiting CWE-1220, CAPEC-180 could manipulate the PWRITE signal to falsely indicate write operations, compromising the integrity of GPIO configurations by altering register states during intended read operations.",
+            "CAPEC-74": "CAPEC-74 leverages CWE-1220 by intercepting and modifying the PWRITE signal, potentially transforming read requests into writes, thereby violating the integrity of the GPIO module by unauthorized state changes."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the PWRITE signal to falsely indicate a write operation, compromising the integrity of the GPIO configuration by altering register states during intended read operations.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1280 by intercepting and modifying the PWRITE signal, leading to unauthorized state changes in the GPIO module, thereby violating the integrity objective by allowing unintended writes."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] By exploiting CWE-1262, CAPEC-680 could manipulate the PWRITE signal to falsely indicate a write operation, compromising the integrity of the GPIO configuration by altering register states during intended read operations.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 can exploit CWE-1262 by intercepting and modifying the PWRITE signal, leading to unauthorized state changes in the GPIO module, thereby violating the integrity objective by converting reads into writes. [CWE-1220] CAPEC-74 leverages CWE-1220 by intercepting and modifying the PWRITE signal, potentially transforming read requests into writes, thereby violating the integrity of the GPIO module by unauthorized state changes. [CWE-1280] CAPEC-74 can exploit CWE-1280 by intercepting and modifying the PWRITE signal, leading to unauthorized state changes in the GPIO module, thereby violating the integrity objective by allowing unintended writes.",
+        "CAPEC-180": "[CWE-1220] By exploiting CWE-1220, CAPEC-180 could manipulate the PWRITE signal to falsely indicate write operations, compromising the integrity of GPIO configurations by altering register states during intended read operations. [CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the PWRITE signal to falsely indicate a write operation, compromising the integrity of the GPIO configuration by altering register states during intended read operations."
+      }
+    },
+    {
+      "Asset_Name": "APB slave select (PSEL)",
+      "Functionality": "Selects apb_gpio as the active APB slave to participate in the ongoing bus transaction.",
+      "Security Objective": "Integrity",
+      "Justification": "False selection or de-selection can lead to unintended accesses or missed legitimate accesses, affecting control state. Its integrity is necessary to restrict configuration changes to intended transactions.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1318",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The PSEL signal, if incorrectly connected or misconfigured, can lead to unauthorized access or missed legitimate accesses, violating the integrity of the apb_gpio module's control state.",
+        "CWE-1318": "The lack of proper security feature support in the APB bus could allow unauthorized transactions to occur, compromising the integrity of the apb_gpio module by permitting unintended configuration changes.",
+        "CWE-1262": "Improper access control on the PSEL signal could allow unauthorized software to select or deselect the apb_gpio module, leading to unintended configuration changes and integrity violations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1276 by manipulating the PSEL signal to falsely select or deselect the apb_gpio module, thereby compromising the integrity of the APB transaction and potentially allowing unauthorized configuration changes."
+          }
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating the PSEL signal to falsely select or deselect the apb_gpio module, compromising the integrity of bus transactions and allowing unauthorized configuration changes.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1318 by intercepting and altering the PSEL signal during APB transactions, leading to unauthorized access or denial of service, thereby violating the integrity of the apb_gpio module's control state."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the PSEL signal to falsely select or deselect the apb_gpio module, thereby compromising the integrity of the APB transaction and allowing unauthorized configuration changes.",
+            "CAPEC-74": "CAPEC-74 targets CWE-1262 by inducing faults in the PSEL signal, leading to incorrect slave selection and unintended access to the apb_gpio module, which undermines the integrity of the control state."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-180",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1276] CAPEC-74 can exploit CWE-1276 by manipulating the PSEL signal to falsely select or deselect the apb_gpio module, thereby compromising the integrity of the APB transaction and potentially allowing unauthorized configuration changes. [CWE-1318] CAPEC-74 can exploit CWE-1318 by intercepting and altering the PSEL signal during APB transactions, leading to unauthorized access or denial of service, thereby violating the integrity of the apb_gpio module's control state. [CWE-1262] CAPEC-74 targets CWE-1262 by inducing faults in the PSEL signal, leading to incorrect slave selection and unintended access to the apb_gpio module, which undermines the integrity of the control state.",
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating the PSEL signal to falsely select or deselect the apb_gpio module, compromising the integrity of bus transactions and allowing unauthorized configuration changes.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the PSEL signal to falsely select or deselect the apb_gpio module, thereby compromising the integrity of the APB transaction and allowing unauthorized configuration changes."
+      }
+    },
+    {
+      "Asset_Name": "APB enable phase qualifier (PENABLE)",
+      "Functionality": "Qualifies the second cycle of APB transfers to trigger the actual register access.",
+      "Security Objective": "Integrity",
+      "Justification": "Glitches or manipulation can cause partial or unintended writes or reads, corrupting state machines and registers. Correct enable timing is essential for atomic and orderly bus operations.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1276",
+        "CWE-1318"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the PENABLE signal could allow unauthorized manipulation of APB transactions, compromising the integrity of register access.",
+        "CWE-1276": "Incorrect connections of the PENABLE signal to the parent system could lead to unintended writes or reads, violating the integrity of bus operations.",
+        "CWE-1318": "Missing support for security features in the APB bus could result in inadequate enforcement of access controls during the enable phase, risking unauthorized register access."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by introducing glitches during the APB enable phase (PENABLE), potentially causing unintended register accesses and compromising the integrity of the GPIO module's state machines.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1262 by manipulating the timing of the PENABLE signal to induce race conditions, leading to partial or incorrect writes that violate the integrity of the GPIO module's operations."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by introducing glitches or timing manipulations during the APB enable phase (PENABLE), potentially causing unintended register accesses that compromise the integrity of the GPIO module's state."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by introducing glitches during the APB enable phase (PENABLE), potentially causing unintended register accesses and compromising the integrity of the GPIO module's state machines.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 can exploit CWE-1262 by manipulating the timing of the PENABLE signal to induce race conditions, leading to partial or incorrect writes that violate the integrity of the GPIO module's operations.",
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by introducing glitches or timing manipulations during the APB enable phase (PENABLE), potentially causing unintended register accesses that compromise the integrity of the GPIO module's state."
+      }
+    },
+    {
+      "Asset_Name": "GPIO direction control output (gpio_dir)",
+      "Functionality": "Drives each GPIO\u2019s direction (input vs output) based on r_gpio_dir.",
+      "Security Objective": "Integrity",
+      "Justification": "Direction determines whether the pin sources or samples signals; corruption can force pins into unsafe modes or violate policy. The output must faithfully represent protected configuration.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the gpio_dir register could allow unauthorized modification of GPIO direction, compromising the integrity of signal sourcing or sampling.",
+        "CWE-1220": "Insufficient granularity of access control on gpio_dir could allow unauthorized agents to change GPIO direction, leading to potential policy violations.",
+        "CWE-1221": "Incorrect default settings for gpio_dir could lead to insecure states upon reset, allowing unauthorized direction changes that violate security policies."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the APB interface to alter the r_gpio_dir register, compromising the integrity of the gpio_dir output and forcing GPIO pins into unintended input or output modes.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1262 by injecting malicious data into the APB write transactions, leading to unauthorized changes in the r_gpio_dir register and violating the integrity of the GPIO direction control."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the APB interface to alter the gpio_dir register, compromising the integrity of GPIO direction control and potentially forcing pins into unsafe modes.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1220 by injecting malicious data into the APB write data bus, leading to unauthorized changes in the gpio_dir output, thereby violating the integrity of the GPIO configuration."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the APB interface to alter the gpio_dir output, compromising the integrity of the GPIO direction control and potentially forcing pins into unsafe modes.",
+            "CAPEC-74": "CAPEC-74 targets CWE-1221 by injecting malicious data into the APB write transactions, corrupting the r_gpio_dir register and violating the integrity of the GPIO direction configuration."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-180",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the APB interface to alter the r_gpio_dir register, compromising the integrity of the gpio_dir output and forcing GPIO pins into unintended input or output modes.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 can exploit CWE-1262 by injecting malicious data into the APB write transactions, leading to unauthorized changes in the r_gpio_dir register and violating the integrity of the GPIO direction control. [CWE-1220] CAPEC-74 can exploit CWE-1220 by injecting malicious data into the APB write data bus, leading to unauthorized changes in the gpio_dir output, thereby violating the integrity of the GPIO configuration. [CWE-1221] CAPEC-74 targets CWE-1221 by injecting malicious data into the APB write transactions, corrupting the r_gpio_dir register and violating the integrity of the GPIO direction configuration.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the APB interface to alter the gpio_dir register, compromising the integrity of GPIO direction control and potentially forcing pins into unsafe modes.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the APB interface to alter the gpio_dir output, compromising the integrity of the GPIO direction control and potentially forcing pins into unsafe modes."
+      }
+    },
+    {
+      "Asset_Name": "APB error response (PSLVERR)",
+      "Functionality": "APB error indication signal (tied to 0 in this implementation).",
+      "Security Objective": "Integrity",
+      "Justification": "Even though this implementation ties it low, an incorrect assertion/suppression at integration could trigger or mask system-level error handling. It must remain accurate to avoid false faults or hidden failures.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The PSLVERR signal being tied to 0 could result in incorrect system-level error handling if the connection is improperly integrated, leading to silent violations of security policies.",
+        "CWE-440": "If the PSLVERR signal does not behave as specified, it could lead to unexpected system behavior, allowing attackers to bypass error handling mechanisms.",
+        "CWE-1221": "The PSLVERR signal, if not properly configured or locked, could default to an insecure state, leading to potential misconfigurations that affect system integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the APB interface signals to incorrectly assert or suppress the PSLVERR signal, compromising the integrity of error handling in the apb_gpio module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the APB interface signals to incorrectly assert or suppress the PSLVERR signal, compromising the integrity of error handling in the apb_gpio module."
+      }
+    },
+    {
+      "Asset_Name": "APB read data bus (PRDATA)",
+      "Functionality": "Returns register contents (direction, inputs, outputs, interrupt config/status, enable, lock, padcfg) on APB reads.",
+      "Security Objective": "Availability",
+      "Justification": "Software relies on these data to monitor and control the GPIO. Loss or blockage of read data prevents visibility and control, impeding normal operation.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1276",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "An attacker could exploit deviations from expected behavior in the APB read data bus to cause denial of service by preventing the correct data from being read, impacting system availability.",
+        "CWE-1276": "Incorrect connections between the APB read data bus and the parent system could lead to loss of data visibility and control, impacting the availability of the GPIO module.",
+        "CWE-1220": "Insufficient granularity of access control on the APB read data bus could allow unauthorized access to critical register data, impacting system availability by enabling unauthorized modifications."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the APB address bus to induce incorrect address decoding, leading to unauthorized access or denial of service on the PRDATA bus, thus impacting the availability of GPIO status and configuration data.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1220 by causing a buffer overflow in the APB interface, potentially corrupting the PRDATA output and disrupting the availability of critical GPIO monitoring and control data."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the APB address bus to induce incorrect address decoding, leading to unauthorized access or denial of service on the PRDATA bus, thus impacting the availability of GPIO status and configuration data.",
+        "CAPEC-74": "[CWE-1220] CAPEC-74 can exploit CWE-1220 by causing a buffer overflow in the APB interface, potentially corrupting the PRDATA output and disrupting the availability of critical GPIO monitoring and control data."
+      }
+    },
+    {
+      "Asset_Name": "GPIO interrupt output (interrupt)",
+      "Functionality": "Aggregated interrupt line asserted when enabled and configured edges are detected on inputs.",
+      "Security Objective": "Availability",
+      "Justification": "If suppressed or stuck, software may miss events or face interrupt storms, degrading or halting service. The interrupt\u2019s availability is essential for timely event handling.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1318"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections in the apb_gpio module could lead to missed or unhandled interrupts, impacting the availability of the interrupt output.",
+        "CWE-440": "Deviations from expected behavior in the apb_gpio module's interrupt logic could allow attackers to suppress or trigger interrupts, affecting system availability.",
+        "CWE-1318": "Lack of support for security features in the APB bus could allow unauthorized access to interrupt configuration, leading to denial of service."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1276 by manipulating the GPIO interrupt output to create an interrupt storm, thereby compromising the availability of the interrupt line and causing the system to miss critical events or become overwhelmed, which aligns with the security objective of maintaining availability."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-440 by manipulating the APB interface to cause the GPIO interrupt output to become stuck or suppressed, thereby compromising the availability of the interrupt line and potentially leading to missed events or interrupt storms."
+          }
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating the GPIO interrupt output to create a denial of service condition, thereby compromising the availability of the interrupt line essential for timely event handling.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1318 by causing the GPIO interrupt output to become stuck or suppressed, leading to missed events and interrupt storms that degrade the availability of the interrupt line."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1276] CAPEC-74 can exploit CWE-1276 by manipulating the GPIO interrupt output to create an interrupt storm, thereby compromising the availability of the interrupt line and causing the system to miss critical events or become overwhelmed, which aligns with the security objective of maintaining availability. [CWE-440] CAPEC-74 can exploit CWE-440 by manipulating the APB interface to cause the GPIO interrupt output to become stuck or suppressed, thereby compromising the availability of the interrupt line and potentially leading to missed events or interrupt storms. [CWE-1318] CAPEC-74 can exploit CWE-1318 by causing the GPIO interrupt output to become stuck or suppressed, leading to missed events and interrupt storms that degrade the availability of the interrupt line.",
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating the GPIO interrupt output to create a denial of service condition, thereby compromising the availability of the interrupt line essential for timely event handling."
+      }
+    },
+    {
+      "Asset_Name": "GPIO direction register (r_gpio_dir)",
+      "Functionality": "Holds per-pin direction configuration and drives gpio_dir; gated by r_gpio_lock[0] for read/write restriction.",
+      "Security Objective": "Integrity",
+      "Justification": "Altering direction changes IO behavior and may violate safety or security policies. The lock mechanism underscores its sensitivity; it must remain consistent with intended configuration.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1222",
+        "CWE-440"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the GPIO direction register could allow unauthorized modification, compromising the integrity of the IO behavior.",
+        "CWE-1222": "Insufficient granularity of address regions protected by the lock bit could expose the GPIO direction register to unauthorized modifications, conflicting with security policies.",
+        "CWE-440": "Violations of expected behavior in the GPIO direction register could allow attackers to alter IO configurations, bypassing intended security mechanisms."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the APB interface to bypass the r_gpio_lock[0] mechanism, altering the r_gpio_dir register and compromising the integrity of GPIO direction settings.",
+            "CAPEC-74": "CAPEC-74 targets CWE-1262 by leveraging unauthorized access to modify the r_gpio_dir register through improper handling of APB transactions, undermining the integrity of the GPIO configuration."
+          }
+        },
+        "CWE-1222": {
+          "CAPEC-IDs": [
+            "CAPEC-679",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-679": "CAPEC-679 can exploit CWE-1222 by manipulating the APB interface to bypass the r_gpio_lock[0] mechanism, altering the r_gpio_dir register's integrity and potentially violating safety policies by changing GPIO direction settings.",
+            "CAPEC-74": "CAPEC-74 targets CWE-1222 by leveraging unauthorized access to modify the r_gpio_dir register, undermining its integrity and allowing an attacker to change GPIO directions despite the lock intended to protect against such alterations."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 could exploit CWE-440 by manipulating the APB interface to bypass the r_gpio_lock mechanism, altering the r_gpio_dir register and compromising the integrity of GPIO direction settings, potentially violating safety or security policies."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-679"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the APB interface to bypass the r_gpio_lock[0] mechanism, altering the r_gpio_dir register and compromising the integrity of GPIO direction settings.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 targets CWE-1262 by leveraging unauthorized access to modify the r_gpio_dir register through improper handling of APB transactions, undermining the integrity of the GPIO configuration. [CWE-1222] CAPEC-74 targets CWE-1222 by leveraging unauthorized access to modify the r_gpio_dir register, undermining its integrity and allowing an attacker to change GPIO directions despite the lock intended to protect against such alterations. [CWE-440] CAPEC-74 could exploit CWE-440 by manipulating the APB interface to bypass the r_gpio_lock mechanism, altering the r_gpio_dir register and compromising the integrity of GPIO direction settings, potentially violating safety or security policies.",
+        "CAPEC-679": "[CWE-1222] CAPEC-679 can exploit CWE-1222 by manipulating the APB interface to bypass the r_gpio_lock[0] mechanism, altering the r_gpio_dir register's integrity and potentially violating safety policies by changing GPIO direction settings."
+      }
+    },
+    {
+      "Asset_Name": "GPIO enable register (r_gpio_en)",
+      "Functionality": "Per-pin enable bits used to derive s_clk_en for domain clock gating and to gate interrupt generation.",
+      "Security Objective": "Integrity",
+      "Justification": "Improper values can disable synchronization or event reporting, altering functional availability. As a control register gating functionality, its integrity is crucial.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1221",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the GPIO enable register could allow unauthorized modification, leading to incorrect clock gating and interrupt generation, compromising the integrity of the system.",
+        "CWE-1221": "Incorrect default values for the GPIO enable register could lead to insecure states upon reset, allowing unauthorized disabling of synchronization or event reporting.",
+        "CWE-1220": "Insufficient granularity of access control on the GPIO enable register could allow unauthorized agents to modify critical configurations, affecting the integrity of clock gating and interrupt handling."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the r_gpio_en register to inject improper values, thereby compromising the integrity of clock gating and interrupt generation, which are critical for maintaining the functional availability of the apb_gpio module.",
+            "CAPEC-74": "CAPEC-74 targets CWE-1262 by leveraging unauthorized access to modify the r_gpio_en register, leading to incorrect clock gating and interrupt behavior, thus undermining the integrity of the GPIO enable functionality."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the r_gpio_en register to introduce inconsistent states in clock gating, thereby compromising the integrity of GPIO synchronization and interrupt generation.",
+            "CAPEC-74": "CAPEC-74 targets CWE-1221 by injecting faults into the r_gpio_en register, potentially altering its values to disrupt clock domain synchronization and interrupt functionality, undermining the module's operational integrity."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "By exploiting CWE-1220, CAPEC-180 can manipulate the GPIO enable register (r_gpio_en) to introduce improper values, thereby compromising the integrity of clock gating and interrupt generation, leading to unauthorized control over GPIO synchronization and event reporting.",
+            "CAPEC-74": "CAPEC-74 leverages CWE-1220 by injecting malicious data into the GPIO enable register (r_gpio_en), disrupting its integrity and causing incorrect clock gating and interrupt behavior, which undermines the module's intended functionality and availability."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-166",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the r_gpio_en register to inject improper values, thereby compromising the integrity of clock gating and interrupt generation, which are critical for maintaining the functional availability of the apb_gpio module.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 targets CWE-1262 by leveraging unauthorized access to modify the r_gpio_en register, leading to incorrect clock gating and interrupt behavior, thus undermining the integrity of the GPIO enable functionality. [CWE-1221] CAPEC-74 targets CWE-1221 by injecting faults into the r_gpio_en register, potentially altering its values to disrupt clock domain synchronization and interrupt functionality, undermining the module's operational integrity. [CWE-1220] CAPEC-74 leverages CWE-1220 by injecting malicious data into the GPIO enable register (r_gpio_en), disrupting its integrity and causing incorrect clock gating and interrupt behavior, which undermines the module's intended functionality and availability.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the r_gpio_en register to introduce inconsistent states in clock gating, thereby compromising the integrity of GPIO synchronization and interrupt generation.",
+        "CAPEC-180": "[CWE-1220] By exploiting CWE-1220, CAPEC-180 can manipulate the GPIO enable register (r_gpio_en) to introduce improper values, thereby compromising the integrity of clock gating and interrupt generation, leading to unauthorized control over GPIO synchronization and event reporting."
+      }
+    }
+  ]
+}

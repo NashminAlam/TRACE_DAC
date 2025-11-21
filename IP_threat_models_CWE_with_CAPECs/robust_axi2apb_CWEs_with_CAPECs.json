@@ -1,0 +1,1393 @@
+{
+  "IP": "robust_axi2apb",
+  "Assets": [
+    {
+      "Asset_Name": "APB enable phase control (penable) in axi2apb module",
+      "Functionality": "Drives the APB second-phase enable to complete APB transfers according to protocol timing.",
+      "Security Objective": "Integrity",
+      "Justification": "Improper assertion or timing of the enable phase can violate the APB protocol and cause unintended writes or reads. Protecting its correctness prevents protocol misuse that could corrupt peripheral state.",
+      "CWE-IDs": [
+        "CWE-1317",
+        "CWE-1276",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1317": "Improper access control in the AXI to APB bridge could allow unauthorized transactions to manipulate the penable signal, leading to unintended writes or reads.",
+        "CWE-1276": "Incorrect connections or misconfigurations in the penable signal path could lead to violations of the APB protocol, allowing unauthorized access or modification of peripheral states.",
+        "CWE-1220": "Insufficient granularity in access control for the penable signal could allow unauthorized agents to trigger APB transactions, compromising the integrity of peripheral operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1317 by manipulating the timing or assertion of the 'penable' signal in the robust_axi2apb module, potentially causing improper APB transactions that violate protocol integrity and lead to unintended peripheral state changes."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the timing or assertion of the penable signal in the robust_axi2apb module, potentially causing improper APB transactions that violate protocol integrity and lead to unintended writes or reads."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1317] CAPEC-122 can exploit CWE-1317 by manipulating the timing or assertion of the 'penable' signal in the robust_axi2apb module, potentially causing improper APB transactions that violate protocol integrity and lead to unintended peripheral state changes.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the timing or assertion of the penable signal in the robust_axi2apb module, potentially causing improper APB transactions that violate protocol integrity and lead to unintended writes or reads."
+      }
+    },
+    {
+      "Asset_Name": "APB write/read direction control (pwrite) in axi2apb module",
+      "Functionality": "Indicates whether the current APB transaction is a write (1) or a read (0).",
+      "Security Objective": "Integrity",
+      "Justification": "Manipulating this control flips transaction direction, which can overwrite peripheral state or block required reads. The bridge relies on this signal to faithfully translate AXI command intent.",
+      "CWE-IDs": [
+        "CWE-1317",
+        "CWE-1311",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1317": "The pwrite signal in the axi2apb module could be exploited if the bridge fails to enforce proper access control, allowing unauthorized write operations that compromise peripheral state.",
+        "CWE-1311": "Improper translation of security attributes by the bridge could lead to misclassification of transaction types, allowing unauthorized writes or reads due to incorrect pwrite signal handling.",
+        "CWE-1262": "Improper access control for the pwrite register interface could allow unauthorized manipulation of the write/read direction, leading to integrity violations in APB transactions."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1317 by manipulating the 'pwrite' signal in the robust_axi2apb module to alter the intended direction of APB transactions, thereby compromising the integrity of the transaction by causing unauthorized writes or blocking necessary reads."
+          }
+        },
+        "CWE-1311": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1311 by manipulating the APB write/read direction control (pwrite) signal in the axi2apb module, thereby compromising the integrity of the transaction direction and potentially causing unauthorized writes or blocking necessary reads."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the 'pwrite' signal in the robust_axi2apb module to alter the intended direction of APB transactions, thereby compromising the integrity of the transaction by causing unauthorized writes or blocking necessary reads."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122",
+        "CAPEC-180",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1317] CAPEC-122 can exploit CWE-1317 by manipulating the 'pwrite' signal in the robust_axi2apb module to alter the intended direction of APB transactions, thereby compromising the integrity of the transaction by causing unauthorized writes or blocking necessary reads.",
+        "CAPEC-180": "[CWE-1311] CAPEC-180 can exploit CWE-1311 by manipulating the APB write/read direction control (pwrite) signal in the axi2apb module, thereby compromising the integrity of the transaction direction and potentially causing unauthorized writes or blocking necessary reads.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the 'pwrite' signal in the robust_axi2apb module to alter the intended direction of APB transactions, thereby compromising the integrity of the transaction by causing unauthorized writes or blocking necessary reads."
+      }
+    },
+    {
+      "Asset_Name": "APB address bus (paddr) in axi2apb module",
+      "Functionality": "Carries the APB address derived from the decoded AXI command for register access at the APB slave.",
+      "Security Objective": "Integrity",
+      "Justification": "If the address is modified, accesses can target the wrong register or peripheral, leading to misconfiguration or unintended behavior. Correct addressing is essential to preserve the intent of the original AXI command.",
+      "CWE-IDs": [
+        "CWE-1317",
+        "CWE-1262",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1317": "The APB address bus (paddr) could be exploited if the axi2apb bridge fails to enforce access control, allowing unauthorized access to sensitive APB registers.",
+        "CWE-1262": "Improper access control on the APB address bus could allow unauthorized modification of register addresses, leading to unintended behavior or misconfiguration.",
+        "CWE-1220": "Insufficient granularity in access control could allow unauthorized agents to access or modify the APB address bus, compromising the integrity of register access."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1317 by manipulating the APB address bus (paddr) in the axi2apb module, potentially altering the intended address derived from the AXI command, thus compromising the integrity of register access at the APB slave."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the APB address bus (paddr) to alter the intended address derived from the AXI command, compromising the integrity of the address and potentially causing misconfiguration or unintended behavior in the APB slave."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the APB address bus (paddr) in the axi2apb module, potentially altering the intended address derived from the AXI command, thus compromising the integrity of register access and leading to misconfiguration or unintended behavior."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122",
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1317] CAPEC-122 can exploit CWE-1317 by manipulating the APB address bus (paddr) in the axi2apb module, potentially altering the intended address derived from the AXI command, thus compromising the integrity of register access at the APB slave.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the APB address bus (paddr) to alter the intended address derived from the AXI command, compromising the integrity of the address and potentially causing misconfiguration or unintended behavior in the APB slave.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the APB address bus (paddr) in the axi2apb module, potentially altering the intended address derived from the AXI command, thus compromising the integrity of register access and leading to misconfiguration or unintended behavior."
+      }
+    },
+    {
+      "Asset_Name": "APB write data bus (pwdata) in axi2apb module",
+      "Functionality": "Carries 32-bit data from AXI to APB during write transactions.",
+      "Security Objective": "Integrity",
+      "Justification": "Corruption of write data alters the configuration or state of APB peripherals. Ensuring data integrity on this path prevents unintended or malicious changes at the destination register.",
+      "CWE-IDs": [
+        "CWE-1311",
+        "CWE-1262",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1311": "Improper translation of security attributes by the AXI to APB bridge could misclassify transaction security levels, allowing unauthorized write data to be accepted on the APB write data bus.",
+        "CWE-1262": "Improper access control for the APB write data bus could allow unauthorized or lower-privileged software to tamper with write data, compromising the integrity of APB peripherals.",
+        "CWE-1280": "Access control checks implemented after accessing the APB write data bus could allow unauthorized data to be written before verification, leading to potential corruption of APB peripheral states."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1311": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1311 by manipulating the control signals such as penable or pwrite in the robust_axi2apb module, leading to unauthorized modifications of the pwdata bus, thereby compromising the integrity of the data being written to APB peripherals."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the APB write data bus (pwdata) to introduce unauthorized data modifications during write transactions, compromising the integrity of data transferred from AXI to APB and potentially altering the configuration or state of APB peripherals."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the pwdata signal during write transactions in the robust_axi2apb module, potentially altering the integrity of data being transferred from AXI to APB, leading to unauthorized configuration changes in APB peripherals.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1280 by introducing malicious interference in the pwdata path of the robust_axi2apb module, compromising the integrity of the data being written to APB peripherals and causing unintended state changes."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-680",
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1311] CAPEC-180 can exploit CWE-1311 by manipulating the control signals such as penable or pwrite in the robust_axi2apb module, leading to unauthorized modifications of the pwdata bus, thereby compromising the integrity of the data being written to APB peripherals. [CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the pwdata signal during write transactions in the robust_axi2apb module, potentially altering the integrity of data being transferred from AXI to APB, leading to unauthorized configuration changes in APB peripherals.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the APB write data bus (pwdata) to introduce unauthorized data modifications during write transactions, compromising the integrity of data transferred from AXI to APB and potentially altering the configuration or state of APB peripherals.",
+        "CAPEC-74": "[CWE-1280] CAPEC-74 can exploit CWE-1280 by introducing malicious interference in the pwdata path of the robust_axi2apb module, compromising the integrity of the data being written to APB peripherals and causing unintended state changes."
+      }
+    },
+    {
+      "Asset_Name": "Command error status (cmd_err) in axi2apb module",
+      "Functionality": "Indicates that an error was detected in command processing, influencing the response generation on AXI side.",
+      "Security Objective": "Integrity",
+      "Justification": "Suppressing a true error or asserting a false error misleads software about the outcome of transactions. Reliable error reporting is necessary for trustworthy system behavior and recovery.",
+      "CWE-IDs": [
+        "CWE-1311",
+        "CWE-1262",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1311": "Improper translation of security attributes in the axi2apb bridge could lead to misclassification of command errors, allowing unauthorized access or incorrect error reporting.",
+        "CWE-1262": "Improper access control for the cmd_err register interface could allow unauthorized modification or suppression of error status, misleading the system about transaction outcomes.",
+        "CWE-1280": "If access control checks for cmd_err are implemented after access, it could allow temporary unauthorized access to modify or suppress error reporting before checks are enforced."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1311": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1311 by manipulating the command error status (cmd_err) in the robust_axi2apb module to falsely indicate an error, thereby compromising the integrity of error reporting and misleading the system about the true state of AXI transactions."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "By exploiting CWE-1262, an attacker could manipulate the command error status (cmd_err) in the robust_axi2apb module to falsely indicate error-free transactions, thereby compromising the integrity of error reporting and misleading the AXI side about the true state of command processing."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the command queue to inject erroneous commands that alter the cmd_err status, compromising the integrity of error reporting in the robust_axi2apb module.",
+            "CAPEC-682": "CAPEC-682 targets CWE-1280 by intercepting and modifying control signals to falsely trigger or suppress the cmd_err indicator, misleading the system about transaction integrity in the robust_axi2apb module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-680",
+        "CAPEC-682"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1311] CAPEC-180 can exploit CWE-1311 by manipulating the command error status (cmd_err) in the robust_axi2apb module to falsely indicate an error, thereby compromising the integrity of error reporting and misleading the system about the true state of AXI transactions. [CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the command queue to inject erroneous commands that alter the cmd_err status, compromising the integrity of error reporting in the robust_axi2apb module.",
+        "CAPEC-680": "[CWE-1262] By exploiting CWE-1262, an attacker could manipulate the command error status (cmd_err) in the robust_axi2apb module to falsely indicate error-free transactions, thereby compromising the integrity of error reporting and misleading the AXI side about the true state of command processing.",
+        "CAPEC-682": "[CWE-1280] CAPEC-682 targets CWE-1280 by intercepting and modifying control signals to falsely trigger or suppress the cmd_err indicator, misleading the system about transaction integrity in the robust_axi2apb module."
+      }
+    },
+    {
+      "Asset_Name": "Write completion indicator (finish_wr) in axi2apb module",
+      "Functionality": "Signals completion of an APB write transaction to the control/command path for advancing or retiring the command.",
+      "Security Objective": "Availability",
+      "Justification": "If completion is withheld or falsely asserted, the command pipeline can stall or advance prematurely, leading to deadlock or inconsistent operation. Correct completion signaling maintains forward progress.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connections in the AXI to APB bridge could lead to improper signaling of the write completion indicator, causing deadlock or inconsistent operation.",
+        "CWE-440": "If the write completion indicator behaves differently from its specification, it could lead to unexpected stalling or premature advancement of commands, affecting system availability.",
+        "CWE-1245": "Improper FSM handling in the bridge could result in incorrect state transitions, causing the write completion indicator to fail in signaling correctly, leading to system deadlock."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "By exploiting CWE-440, an attacker could manipulate the 'finish_wr' signal in the robust_axi2apb module to create a race condition, potentially causing premature or delayed write completion notifications, thereby compromising the availability of the command pipeline and leading to deadlock or inconsistent operations."
+          }
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the 'finish_wr' signal in the robust_axi2apb module to falsely indicate the completion of an APB write transaction, potentially causing the command pipeline to advance prematurely and compromising the availability of the system."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-440] By exploiting CWE-440, an attacker could manipulate the 'finish_wr' signal in the robust_axi2apb module to create a race condition, potentially causing premature or delayed write completion notifications, thereby compromising the availability of the command pipeline and leading to deadlock or inconsistent operations. [CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the 'finish_wr' signal in the robust_axi2apb module to falsely indicate the completion of an APB write transaction, potentially causing the command pipeline to advance prematurely and compromising the availability of the system."
+      }
+    },
+    {
+      "Asset_Name": "Read completion indicator (finish_rd) in axi2apb module",
+      "Functionality": "Signals completion of an APB read transaction to the control/command path for advancing or retiring the command.",
+      "Security Objective": "Availability",
+      "Justification": "Blocking this signal can prevent the system from issuing subsequent commands, causing a denial of service. Spurious assertions can desynchronize responses, disrupting normal operation.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1317",
+        "CWE-1429"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connections in the AXI to APB bridge could lead to the 'finish_rd' signal being improperly connected, causing a denial of service by preventing the system from advancing commands.",
+        "CWE-1317": "Improper access control in the AXI to APB bridge could allow unauthorized manipulation of the 'finish_rd' signal, leading to denial of service by blocking or desynchronizing command completion.",
+        "CWE-1429": "If the 'finish_rd' signal is dropped or not properly reported, it could lead to undetected failures in read operations, causing system instability or denial of service."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1317 by manipulating the 'finish_rd' signal in the robust_axi2apb module to create a denial of service, thereby impacting the availability of the system by preventing the issuance of subsequent commands."
+          }
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1317] CAPEC-122 can exploit CWE-1317 by manipulating the 'finish_rd' signal in the robust_axi2apb module to create a denial of service, thereby impacting the availability of the system by preventing the issuance of subsequent commands."
+      }
+    },
+    {
+      "Asset_Name": "Command FIFO empty status (cmd_empty) in axi2apb module",
+      "Functionality": "Indicates whether the command queue has entries; used by control logic to decide when to start a new APB transaction.",
+      "Security Objective": "Availability",
+      "Justification": "Forcing the module to believe the queue is always empty can halt all transactions, while forcing non-empty can provoke invalid starts. Accurate status is required to avoid DoS conditions and maintain proper flow.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections in the command FIFO could lead to incorrect status reporting, causing denial of service by halting transactions.",
+        "CWE-440": "If the command FIFO status does not behave as expected, it can be exploited to trigger unintended behavior, leading to denial of service.",
+        "CWE-1220": "Insufficient granularity in access control for the command FIFO status could allow unauthorized manipulation, leading to denial of service."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the 'cmd_empty' signal to falsely indicate an empty command queue, thereby disrupting the availability of the axi2apb module by preventing the initiation of new APB transactions and causing a denial of service."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the 'cmd_empty' signal to falsely indicate an empty command queue, thereby disrupting the availability of the axi2apb module by preventing the initiation of new APB transactions and causing a denial of service."
+      }
+    },
+    {
+      "Asset_Name": "Write completion indicator (finish_wr) in axi2apb_cmd module",
+      "Functionality": "Input signal from the write path indicating that the current write transaction has completed; used to generate cmd_pop when the queued command is a write.",
+      "Security Objective": "Availability",
+      "Justification": "If this signal is suppressed or stuck, the command FIFO will not pop for write commands, stalling the pipeline. A false assertion could prematurely pop entries, breaking forward progress of subsequent operations.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1248",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections in the command module could lead to incorrect signaling of the finish_wr, causing the command FIFO to malfunction and stall the pipeline.",
+        "CWE-1248": "Semiconductor defects could cause the finish_wr signal to be stuck, leading to a denial of service by preventing the command FIFO from popping write commands.",
+        "CWE-1220": "Insufficient granularity in access control could allow unauthorized manipulation of the finish_wr signal, disrupting the command FIFO and affecting system availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1276 by manipulating the 'finish_wr' signal in the axi2apb_cmd module to either suppress or falsely assert it, thereby compromising the availability of the command FIFO by stalling or prematurely advancing write operations."
+          }
+        },
+        "CWE-1248": {
+          "CAPEC-IDs": [
+            "CAPEC-624",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-624": "CAPEC-624 can exploit CWE-1248 by manipulating the 'finish_wr' signal to remain stuck, thereby preventing the command FIFO from popping write commands, which compromises the availability of the write completion indicator in the axi2apb_cmd module.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1248 by injecting false assertions into the 'finish_wr' signal, causing premature popping of the command FIFO and disrupting the availability and forward progress of subsequent write operations in the axi2apb_cmd module."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the 'finish_wr' signal in the axi2apb_cmd module to create a race condition, potentially causing the command FIFO to either stall or prematurely pop, thus impacting the availability of the write completion process.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1220 by introducing a time-of-check to time-of-use (TOCTOU) vulnerability in the handling of the 'finish_wr' signal, leading to incorrect command queue operations that compromise the availability of the write path."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-624",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1276] CAPEC-74 can exploit CWE-1276 by manipulating the 'finish_wr' signal in the axi2apb_cmd module to either suppress or falsely assert it, thereby compromising the availability of the command FIFO by stalling or prematurely advancing write operations. [CWE-1248] CAPEC-74 can exploit CWE-1248 by injecting false assertions into the 'finish_wr' signal, causing premature popping of the command FIFO and disrupting the availability and forward progress of subsequent write operations in the axi2apb_cmd module. [CWE-1220] CAPEC-74 can exploit CWE-1220 by introducing a time-of-check to time-of-use (TOCTOU) vulnerability in the handling of the 'finish_wr' signal, leading to incorrect command queue operations that compromise the availability of the write path.",
+        "CAPEC-624": "[CWE-1248] CAPEC-624 can exploit CWE-1248 by manipulating the 'finish_wr' signal to remain stuck, thereby preventing the command FIFO from popping write commands, which compromises the availability of the write completion indicator in the axi2apb_cmd module.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the 'finish_wr' signal in the axi2apb_cmd module to create a race condition, potentially causing the command FIFO to either stall or prematurely pop, thus impacting the availability of the write completion process."
+      }
+    },
+    {
+      "Asset_Name": "Read completion indicator (finish_rd) in axi2apb_cmd module",
+      "Functionality": "Input signal from the read path indicating that the current read transaction has completed; used to generate cmd_pop when the queued command is a read.",
+      "Security Objective": "Availability",
+      "Justification": "Blocking or falsifying this signal can stall or desynchronize command retirement for reads, leading to denial of service in the read pipeline. Correct availability of this completion indication is necessary to keep the FIFO moving.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1317",
+        "CWE-1318"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connections in the AXI to APB bridge could lead to improper signaling of the finish_rd indicator, causing desynchronization and denial of service in the read pipeline.",
+        "CWE-1317": "Improper access control in the fabric bridge could allow unauthorized manipulation of the finish_rd signal, leading to stalled read operations and denial of service.",
+        "CWE-1318": "Missing support for security features in the on-chip fabric could result in the finish_rd signal being manipulated or blocked, causing denial of service by stalling the read pipeline."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "By exploiting CWE-1317, CAPEC-122 can manipulate the 'finish_rd' signal in the axi2apb_cmd module to falsely indicate read completion, disrupting the availability of the read pipeline and causing denial of service.",
+            "CAPEC-74": "CAPEC-74 leverages CWE-1317 by intercepting and blocking the 'finish_rd' signal, preventing the proper generation of 'cmd_pop' and stalling the read command queue, thus affecting the availability of the read path."
+          }
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating the 'finish_rd' signal in the axi2apb_cmd module to create a false indication of read completion, thereby disrupting the availability of the read pipeline and causing a denial of service.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1318 by intercepting and blocking the 'finish_rd' signal, preventing the proper generation of 'cmd_pop' and stalling the command queue, which compromises the availability of the read operation."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122",
+        "CAPEC-74",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1317] By exploiting CWE-1317, CAPEC-122 can manipulate the 'finish_rd' signal in the axi2apb_cmd module to falsely indicate read completion, disrupting the availability of the read pipeline and causing denial of service.",
+        "CAPEC-74": "[CWE-1317] CAPEC-74 leverages CWE-1317 by intercepting and blocking the 'finish_rd' signal, preventing the proper generation of 'cmd_pop' and stalling the read command queue, thus affecting the availability of the read path. [CWE-1318] CAPEC-74 can exploit CWE-1318 by intercepting and blocking the 'finish_rd' signal, preventing the proper generation of 'cmd_pop' and stalling the command queue, which compromises the availability of the read operation.",
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating the 'finish_rd' signal in the axi2apb_cmd module to create a false indication of read completion, thereby disrupting the availability of the read pipeline and causing a denial of service."
+      }
+    },
+    {
+      "Asset_Name": "Command FIFO empty status (cmd_empty) in axi2apb_cmd module",
+      "Functionality": "Output reflecting the FIFO empty status; consumed by control logic to determine whether a new APB transaction can be started.",
+      "Security Objective": "Availability",
+      "Justification": "If reported empty when entries exist, the system will not issue transactions, causing a stall. If reported non-empty when empty, downstream blocks may wait for non-existent work, impairing liveness.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connections in the command FIFO could lead to misreporting of the empty status, causing transaction stalls or unnecessary waits, impacting availability.",
+        "CWE-440": "If the command FIFO behaves unexpectedly, such as reporting incorrect empty status, it could lead to a denial of service by stalling transactions.",
+        "CWE-1245": "Improper FSM handling in the command module could cause incorrect transitions, leading to incorrect empty status reporting and impacting system availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the 'cmd_empty' signal in the axi2apb_cmd module to falsely indicate an empty FIFO, thereby stalling the system and violating the availability objective by preventing new APB transactions from being initiated."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the 'cmd_empty' signal in the axi2apb_cmd module to falsely indicate an empty FIFO, thereby stalling the system and violating the availability objective by preventing new APB transactions from being initiated."
+      }
+    },
+    {
+      "Asset_Name": "Command error flag (cmd_err) in axi2apb_cmd module",
+      "Functionality": "Output error indicator associated with the command (e.g., unsupported size/length) propagated from AERR through the FIFO.",
+      "Security Objective": "Integrity",
+      "Justification": "Incorrectly asserting or suppressing error status can cause improper error handling or acceptance of unsupported transactions. Accurate error reporting is critical to maintain correct system behavior.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1220",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The cmd_err flag could be incorrectly connected, leading to improper error signaling and potential bypass of error handling mechanisms.",
+        "CWE-1220": "Insufficient granularity in access control for the cmd_err flag may allow unauthorized agents to suppress or manipulate error reporting.",
+        "CWE-1262": "Improper access control for the cmd_err register interface could allow unauthorized modification, affecting error reporting and system integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the command error flag (cmd_err) in the axi2apb_cmd module to incorrectly suppress error status, thereby compromising the integrity of error reporting and allowing unsupported transactions to be processed.",
+            "CAPEC-682": "CAPEC-682 can exploit CWE-1220 by injecting erroneous commands that trigger false positives in the command error flag (cmd_err), leading to improper error handling and undermining the integrity of the system's error reporting mechanism."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the command error flag (cmd_err) in the axi2apb_cmd module to incorrectly assert or suppress error statuses, thereby compromising the integrity of error reporting and allowing unsupported transactions to proceed.",
+            "CAPEC-682": "CAPEC-682 targets CWE-1262 by injecting erroneous commands into the FIFO, leading to improper propagation of the command error flag (cmd_err) and undermining the integrity of the system's error handling mechanisms."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-682",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the command error flag (cmd_err) in the axi2apb_cmd module to incorrectly suppress error status, thereby compromising the integrity of error reporting and allowing unsupported transactions to be processed.",
+        "CAPEC-682": "[CWE-1220] CAPEC-682 can exploit CWE-1220 by injecting erroneous commands that trigger false positives in the command error flag (cmd_err), leading to improper error handling and undermining the integrity of the system's error reporting mechanism. [CWE-1262] CAPEC-682 targets CWE-1262 by injecting erroneous commands into the FIFO, leading to improper propagation of the command error flag (cmd_err) and undermining the integrity of the system's error handling mechanisms.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the command error flag (cmd_err) in the axi2apb_cmd module to incorrectly assert or suppress error statuses, thereby compromising the integrity of error reporting and allowing unsupported transactions to proceed."
+      }
+    },
+    {
+      "Asset_Name": "Command FIFO full status (cmd_full) in axi2apb_cmd module",
+      "Functionality": "Internal signal from the FIFO indicating it is full; used to gate ARREADY/AWREADY and prevent accepting new commands.",
+      "Security Objective": "Availability",
+      "Justification": "If forced high, the bridge will stop accepting new requests, causing a denial of service. If forced low, overflow and loss of commands can occur, also impacting progress.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1248",
+        "CWE-1318"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connection or fixed values in the command FIFO full status signal could lead to denial of service by preventing new commands from being accepted.",
+        "CWE-1248": "Semiconductor defects causing the cmd_full signal to be stuck high or low can lead to denial of service or command overflow, impacting availability.",
+        "CWE-1318": "Lack of support for security features in the AXI to APB bridge could allow manipulation of the cmd_full signal, leading to unauthorized denial of service."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1248": {
+          "CAPEC-IDs": [
+            "CAPEC-624",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-624": "CAPEC-624 exploits CWE-1248 by manipulating the 'cmd_full' signal in the axi2apb_cmd module to remain high, causing a denial of service by preventing the bridge from accepting new commands, thus impacting the availability of the system.",
+            "CAPEC-74": "CAPEC-74 exploits CWE-1248 by forcing the 'cmd_full' signal low, leading to command overflow and loss, which disrupts the normal operation of the bridge and affects the availability of the system."
+          }
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating the 'cmd_full' signal in the axi2apb_cmd module to either always indicate a full FIFO, causing a denial of service by halting new command acceptance, or to never indicate fullness, risking overflow and command loss, thereby compromising the availability of the AXI to APB bridge."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-624",
+        "CAPEC-74",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-624": "[CWE-1248] CAPEC-624 exploits CWE-1248 by manipulating the 'cmd_full' signal in the axi2apb_cmd module to remain high, causing a denial of service by preventing the bridge from accepting new commands, thus impacting the availability of the system.",
+        "CAPEC-74": "[CWE-1248] CAPEC-74 exploits CWE-1248 by forcing the 'cmd_full' signal low, leading to command overflow and loss, which disrupts the normal operation of the bridge and affects the availability of the system.",
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating the 'cmd_full' signal in the axi2apb_cmd module to either always indicate a full FIFO, causing a denial of service by halting new command acceptance, or to never indicate fullness, risking overflow and command loss, thereby compromising the availability of the AXI to APB bridge."
+      }
+    },
+    {
+      "Asset_Name": "APB select control (psel) in axi2apb_ctrl module",
+      "Functionality": "Drives the APB select signal to start an APB access and to choose the targeted APB slave when combined with address decoding elsewhere. Asserted on wstart/rstart and deasserted on APB acknowledge (pack).",
+      "Security Objective": "Integrity",
+      "Justification": "This output governs which APB target is accessed and when a transaction is initiated. If altered, it could select unintended slaves or trigger spurious transactions, corrupting system control flow and configuration.",
+      "CWE-IDs": [
+        "CWE-1317",
+        "CWE-1311",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1317": "The APB select control (psel) could be exploited to improperly access APB slaves if the bridge fails to enforce access control, allowing unauthorized transactions that corrupt system control flow.",
+        "CWE-1311": "Improper translation of security attributes by the bridge could lead to misclassification of transactions, allowing unauthorized access to APB slaves through incorrect psel assertions.",
+        "CWE-1262": "If the psel signal lacks proper access control, unauthorized software could manipulate it to access or modify APB slave registers, compromising system integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1317 by manipulating the APB select control (psel) signal in the axi2apb_ctrl module to alter the intended slave selection, thereby compromising the integrity of the system by initiating unauthorized transactions or accessing unintended APB slaves."
+          }
+        },
+        "CWE-1311": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 could exploit CWE-1311 by manipulating the APB select control (psel) signal in the axi2apb_ctrl module, thereby compromising the integrity of the system by selecting unintended APB slaves or initiating unauthorized transactions."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the APB select control (psel) signal in the axi2apb_ctrl module to alter the intended slave selection, thereby compromising the integrity of the system by initiating unauthorized transactions or accessing unintended APB slaves."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122",
+        "CAPEC-180",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1317] CAPEC-122 can exploit CWE-1317 by manipulating the APB select control (psel) signal in the axi2apb_ctrl module to alter the intended slave selection, thereby compromising the integrity of the system by initiating unauthorized transactions or accessing unintended APB slaves.",
+        "CAPEC-180": "[CWE-1311] CAPEC-180 could exploit CWE-1311 by manipulating the APB select control (psel) signal in the axi2apb_ctrl module, thereby compromising the integrity of the system by selecting unintended APB slaves or initiating unauthorized transactions.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the APB select control (psel) signal in the axi2apb_ctrl module to alter the intended slave selection, thereby compromising the integrity of the system by initiating unauthorized transactions or accessing unintended APB slaves."
+      }
+    },
+    {
+      "Asset_Name": "APB enable sequencing (penable) in axi2apb_ctrl module",
+      "Functionality": "Sequences the second phase of an APB transfer; asserted after psel and cleared upon APB acknowledge (pack).",
+      "Security Objective": "Integrity",
+      "Justification": "penable timing enforces APB protocol correctness. Tampering could violate transaction phase ordering, causing unintended accesses or protocol faults that compromise correct operation.",
+      "CWE-IDs": [
+        "CWE-1317",
+        "CWE-1311",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1317": "Improper access control in the fabric bridge could allow unauthorized manipulation of the penable signal, violating APB protocol integrity.",
+        "CWE-1311": "Improper translation of security attributes by the bridge could lead to incorrect penable sequencing, compromising transaction integrity.",
+        "CWE-1262": "Improper access control for register interfaces could allow unauthorized access to penable, disrupting APB transaction sequencing."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1317 by manipulating the penable signal timing in the axi2apb_ctrl module, disrupting the integrity of APB enable sequencing and potentially causing protocol violations or unintended accesses."
+          }
+        },
+        "CWE-1311": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1311 by manipulating the penable signal timing in the axi2apb_ctrl module, disrupting the integrity of APB enable sequencing and causing improper transaction phase ordering, which could lead to unintended accesses or protocol faults."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 could exploit CWE-1262 by manipulating the penable signal timing in the axi2apb_ctrl module, potentially disrupting the integrity of APB enable sequencing and causing protocol violations that lead to unintended access or faults."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122",
+        "CAPEC-180",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1317] CAPEC-122 can exploit CWE-1317 by manipulating the penable signal timing in the axi2apb_ctrl module, disrupting the integrity of APB enable sequencing and potentially causing protocol violations or unintended accesses.",
+        "CAPEC-180": "[CWE-1311] CAPEC-180 can exploit CWE-1311 by manipulating the penable signal timing in the axi2apb_ctrl module, disrupting the integrity of APB enable sequencing and causing improper transaction phase ordering, which could lead to unintended accesses or protocol faults.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 could exploit CWE-1262 by manipulating the penable signal timing in the axi2apb_ctrl module, potentially disrupting the integrity of APB enable sequencing and causing protocol violations that lead to unintended access or faults."
+      }
+    },
+    {
+      "Asset_Name": "APB write direction control (pwrite) in axi2apb_ctrl module",
+      "Functionality": "Indicates transaction direction (1=write, 0=read). Asserted only on write starts and cleared on acknowledge.",
+      "Security Objective": "Integrity",
+      "Justification": "This control determines whether the bridge writes or reads the APB slave. If modified, reads could become writes (or vice versa), leading to data corruption or unauthorized modification of peripheral state.",
+      "CWE-IDs": [
+        "CWE-1317",
+        "CWE-1311",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1317": "The pwrite signal in the axi2apb_ctrl module could be exploited if the bridge fails to enforce proper access control, allowing unauthorized modification of transaction direction, leading to data corruption.",
+        "CWE-1311": "Improper translation of security attributes could result in misclassification of transaction direction, allowing unauthorized writes or reads, compromising the integrity of the APB slave.",
+        "CWE-1262": "If the pwrite control signal lacks proper access control, unauthorized agents could manipulate it to alter transaction direction, leading to unauthorized data modification or corruption."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122, which involves manipulating control signals, could exploit CWE-1317 by altering the 'pwrite' signal in the axi2apb_ctrl module, thereby compromising the integrity of the transaction direction and potentially causing unauthorized writes to the APB slave."
+          }
+        },
+        "CWE-1311": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1311 by manipulating the APB write direction control (pwrite) signal in the axi2apb_ctrl module, potentially altering transaction directions and compromising the integrity of data transfers between AXI and APB buses."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the APB write direction control (pwrite) signal in the axi2apb_ctrl module, potentially altering transaction directions and compromising the integrity of data transfers between AXI and APB buses."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122",
+        "CAPEC-180",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1317] CAPEC-122, which involves manipulating control signals, could exploit CWE-1317 by altering the 'pwrite' signal in the axi2apb_ctrl module, thereby compromising the integrity of the transaction direction and potentially causing unauthorized writes to the APB slave.",
+        "CAPEC-180": "[CWE-1311] CAPEC-180 can exploit CWE-1311 by manipulating the APB write direction control (pwrite) signal in the axi2apb_ctrl module, potentially altering transaction directions and compromising the integrity of data transfers between AXI and APB buses.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the APB write direction control (pwrite) signal in the axi2apb_ctrl module, potentially altering transaction directions and compromising the integrity of data transfers between AXI and APB buses."
+      }
+    },
+    {
+      "Asset_Name": "Write completion indicator (finish_wr) in axi2apb_ctrl module",
+      "Functionality": "Input flag from write path signaling completion of a write; used to clear busy and allow new commands.",
+      "Security Objective": "Availability",
+      "Justification": "If this completion signal is suppressed or spoofed, the controller may remain busy or free prematurely, causing denial-of-service or wedging the control FSM, impacting forward progress.",
+      "CWE-IDs": [
+        "CWE-1245",
+        "CWE-1276",
+        "CWE-1299"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1245": "Improper FSMs in the axi2apb_ctrl module could lead to incorrect handling of the finish_wr signal, causing denial of service by wedging the control FSM.",
+        "CWE-1276": "Incorrect connections in the axi2apb_ctrl module could cause the finish_wr signal to be improperly tied, leading to persistent busy states and denial of service.",
+        "CWE-1299": "Missing protection for alternate paths in the axi2apb_ctrl module could allow unauthorized manipulation of the finish_wr signal, resulting in denial of service."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the 'finish_wr' signal in the axi2apb_ctrl module to create a race condition, potentially causing the controller to remain busy indefinitely or free prematurely, thereby impacting the availability of the system."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1299": {
+          "CAPEC-IDs": [
+            "CAPEC-456"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-456": "CAPEC-456 can exploit CWE-1299 by manipulating the 'finish_wr' signal in the axi2apb_ctrl module, potentially causing the system to misinterpret the write completion status, thereby affecting the availability of the controller by either stalling or prematurely freeing it, leading to a denial-of-service condition."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-456"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the 'finish_wr' signal in the axi2apb_ctrl module to create a race condition, potentially causing the controller to remain busy indefinitely or free prematurely, thereby impacting the availability of the system.",
+        "CAPEC-456": "[CWE-1299] CAPEC-456 can exploit CWE-1299 by manipulating the 'finish_wr' signal in the axi2apb_ctrl module, potentially causing the system to misinterpret the write completion status, thereby affecting the availability of the controller by either stalling or prematurely freeing it, leading to a denial-of-service condition."
+      }
+    },
+    {
+      "Asset_Name": "Read completion indicator (finish_rd) in axi2apb_ctrl module",
+      "Functionality": "Input flag from read path signaling completion of a read; used to clear busy and allow new commands.",
+      "Security Objective": "Availability",
+      "Justification": "Correct assertion is required to release busy and admit new commands. Manipulation can stall the module or cause overlapping operations to be blocked, degrading availability.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections in the axi2apb_ctrl module could lead to incorrect signaling of the finish_rd flag, causing the module to stall and degrade availability.",
+        "CWE-440": "If the axi2apb_ctrl module's behavior deviates from its specification, it could incorrectly assert the finish_rd flag, leading to blocked operations and reduced availability.",
+        "CWE-1245": "Faulty FSMs in the axi2apb_ctrl module could mishandle the finish_rd signal, resulting in unintended state transitions that stall the module and impact availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the 'finish_rd' signal in the axi2apb_ctrl module to falsely indicate read completion, thereby preventing the release of the busy state and degrading the availability of the module by stalling new command processing."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the 'finish_rd' signal in the axi2apb_ctrl module to falsely indicate read completion, thereby preventing the release of the busy state and degrading the availability of the module by stalling new command processing."
+      }
+    },
+    {
+      "Asset_Name": "Command empty status (cmd_empty) in axi2apb_ctrl module",
+      "Functionality": "Indicates whether the command FIFO has entries; used to compute cmd_ready and gate start of new transactions.",
+      "Security Objective": "Availability",
+      "Justification": "This input gates whether operations can start. If forced to indicate empty, the controller will not initiate transfers (DoS); if forced non-empty, it may start without valid commands, disrupting progress.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1221",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections in the command FIFO could lead to incorrect cmd_empty status, causing denial of service by preventing transaction initiation.",
+        "CWE-1221": "Incorrect default settings for cmd_empty could lead to a persistent denial of service by either blocking or prematurely initiating transactions.",
+        "CWE-1245": "Faulty FSM logic in handling cmd_empty status could lead to unintended state transitions, causing denial of service by disrupting transaction flow."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the 'cmd_empty' signal in the axi2apb_ctrl module to falsely indicate an empty command FIFO, thereby causing a Denial of Service (DoS) by preventing the initiation of new transactions and violating the asset's availability objective."
+          }
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the 'cmd_empty' signal in the axi2apb_ctrl module to falsely indicate an empty command FIFO, thereby causing a Denial of Service (DoS) by preventing the initiation of new transactions and violating the asset's availability objective."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-166",
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the 'cmd_empty' signal in the axi2apb_ctrl module to falsely indicate an empty command FIFO, thereby causing a Denial of Service (DoS) by preventing the initiation of new transactions and violating the asset's availability objective.",
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the 'cmd_empty' signal in the axi2apb_ctrl module to falsely indicate an empty command FIFO, thereby causing a Denial of Service (DoS) by preventing the initiation of new transactions and violating the asset's availability objective."
+      }
+    },
+    {
+      "Asset_Name": "APB ready handshake (pready) in axi2apb_ctrl module",
+      "Functionality": "APB slave ready input; contributes to pack (ack) creation to complete the APB access.",
+      "Security Objective": "Availability",
+      "Justification": "This handshake determines when a transfer completes. Holding it low causes indefinite stall; spoofing it high completes prematurely and can deadlock subsequent phases, both harming availability.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1318",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections in the APB ready handshake could lead to incorrect signaling, causing indefinite stalls or premature completions, impacting availability.",
+        "CWE-1318": "Lack of security features in the APB bus could allow spoofing of the ready signal, leading to unauthorized transaction completions and potential deadlocks.",
+        "CWE-1245": "Improper FSM handling in the APB ready handshake logic could result in unintended states, causing denial of service by stalling or prematurely completing transactions."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating the APB ready handshake (pready) signal in the axi2apb_ctrl module, causing premature or stalled completions of APB transactions, thereby compromising the availability of the system by inducing deadlocks or indefinite stalls."
+          }
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the APB ready handshake (pready) signal in the axi2apb_ctrl module to remain low, causing an indefinite stall and violating the availability objective by preventing the completion of APB transactions."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating the APB ready handshake (pready) signal in the axi2apb_ctrl module, causing premature or stalled completions of APB transactions, thereby compromising the availability of the system by inducing deadlocks or indefinite stalls.",
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the APB ready handshake (pready) signal in the axi2apb_ctrl module to remain low, causing an indefinite stall and violating the availability objective by preventing the completion of APB transactions."
+      }
+    },
+    {
+      "Asset_Name": "Command readiness indicator (cmd_ready) in axi2apb_ctrl module",
+      "Functionality": "Internal ready signal computed as (~busy) & (~cmd_empty); qualifies whether a new command may start.",
+      "Security Objective": "Availability",
+      "Justification": "This gating signal determines admission of new operations. If corrupted, the controller may never start new transfers or start them when it shouldn\u2019t, impacting throughput and forward progress.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1317",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The cmd_ready signal, if improperly connected or configured, could prevent the controller from starting new operations, impacting availability.",
+        "CWE-1317": "Improper access control in the fabric bridge could allow unauthorized transactions to affect the cmd_ready signal, leading to denial of service.",
+        "CWE-1245": "Improper FSM handling in the control logic could lead to incorrect cmd_ready signal states, causing unintended denial of service."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1317 by manipulating the 'cmd_ready' signal in the axi2apb_ctrl module, causing the system to incorrectly assess command readiness, thereby impacting the availability of the bridge by either stalling new operations or initiating them prematurely."
+          }
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the 'cmd_ready' signal in the axi2apb_ctrl module to falsely indicate readiness, thereby disrupting the availability of the command readiness indicator and preventing the proper initiation of new commands, which impacts throughput and forward progress."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122",
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1317] CAPEC-122 can exploit CWE-1317 by manipulating the 'cmd_ready' signal in the axi2apb_ctrl module, causing the system to incorrectly assess command readiness, thereby impacting the availability of the bridge by either stalling new operations or initiating them prematurely.",
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the 'cmd_ready' signal in the axi2apb_ctrl module to falsely indicate readiness, thereby disrupting the availability of the command readiness indicator and preventing the proper initiation of new commands, which impacts throughput and forward progress."
+      }
+    },
+    {
+      "Asset_Name": "APB command address (cmd_addr) in axi2apb_mux module",
+      "Functionality": "Carries the decoded AXI/APB command address into the mux to determine which APB slave is selected.",
+      "Security Objective": "Integrity",
+      "Justification": "This value determines slave_num and thus which slave is accessed. If altered, transactions can be misrouted to the wrong slave or an unintended address region, violating correct operation and potentially enabling unauthorized accesses.",
+      "CWE-IDs": [
+        "CWE-1317",
+        "CWE-1311",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1317": "Improper access control in the fabric bridge could allow unauthorized transactions to be routed to incorrect APB slaves if the cmd_addr is altered.",
+        "CWE-1311": "Improper translation of security attributes by the bridge could lead to misclassification of transactions, allowing unauthorized access to APB slaves if cmd_addr is manipulated.",
+        "CWE-1262": "Improper access control for the register interface could allow unauthorized modification of cmd_addr, leading to incorrect slave selection and potential unauthorized access."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1317 by manipulating the APB command address (cmd_addr) in the axi2apb_mux module, compromising the integrity of the address decoding process and potentially misrouting transactions to unauthorized APB slaves."
+          }
+        },
+        "CWE-1311": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1311 by manipulating the APB command address (cmd_addr) in the axi2apb_mux module, compromising the integrity of the address decoding process and potentially redirecting transactions to unauthorized APB slaves."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the APB command address (cmd_addr) in the axi2apb_mux module to alter the slave_num, potentially redirecting transactions to unauthorized APB slaves and compromising the integrity of the system."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122",
+        "CAPEC-180",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1317] CAPEC-122 can exploit CWE-1317 by manipulating the APB command address (cmd_addr) in the axi2apb_mux module, compromising the integrity of the address decoding process and potentially misrouting transactions to unauthorized APB slaves.",
+        "CAPEC-180": "[CWE-1311] CAPEC-180 can exploit CWE-1311 by manipulating the APB command address (cmd_addr) in the axi2apb_mux module, compromising the integrity of the address decoding process and potentially redirecting transactions to unauthorized APB slaves.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the APB command address (cmd_addr) in the axi2apb_mux module to alter the slave_num, potentially redirecting transactions to unauthorized APB slaves and compromising the integrity of the system."
+      }
+    },
+    {
+      "Asset_Name": "APB select control (from controller) (psel) in axi2apb_mux module",
+      "Functionality": "Enables an APB access and gates updates of prdata and pslverr; combined with slave_num to generate pselSX.",
+      "Security Objective": "Integrity",
+      "Justification": "Incorrect assertion/deassertion of this control could start or suppress APB transactions, or cause data/error registers to update at the wrong time. Preserving its integrity prevents spurious or missed accesses.",
+      "CWE-IDs": [
+        "CWE-1317",
+        "CWE-1311",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1317": "The APB select control (psel) in the axi2apb_mux module could improperly allow unauthorized APB transactions if access control is not enforced, leading to unauthorized access to APB slaves.",
+        "CWE-1311": "Improper translation of security attributes in the axi2apb_mux module could result in incorrect assertion of psel, allowing unauthorized transactions to be initiated or suppressed.",
+        "CWE-1262": "If the psel signal is not properly controlled, it could allow unauthorized access to memory-mapped I/O registers, compromising the integrity of APB transactions."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1317 by manipulating the APB select control (psel) in the axi2apb_mux module, potentially causing unauthorized or incorrect APB transactions that compromise the integrity of data and error register updates."
+          }
+        },
+        "CWE-1311": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1311 by manipulating the APB select control (psel) signal in the axi2apb_mux module, potentially causing unauthorized assertion or deassertion that disrupts the integrity of APB transactions, leading to incorrect data or error register updates."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the APB select control (psel) in the axi2apb_mux module to improperly assert or deassert the pselSX signal, thereby compromising the integrity of APB transactions and causing unauthorized data or error register updates."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122",
+        "CAPEC-180",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1317] CAPEC-122 can exploit CWE-1317 by manipulating the APB select control (psel) in the axi2apb_mux module, potentially causing unauthorized or incorrect APB transactions that compromise the integrity of data and error register updates.",
+        "CAPEC-180": "[CWE-1311] CAPEC-180 can exploit CWE-1311 by manipulating the APB select control (psel) signal in the axi2apb_mux module, potentially causing unauthorized assertion or deassertion that disrupts the integrity of APB transactions, leading to incorrect data or error register updates.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the APB select control (psel) in the axi2apb_mux module to improperly assert or deassert the pselSX signal, thereby compromising the integrity of APB transactions and causing unauthorized data or error register updates."
+      }
+    },
+    {
+      "Asset_Name": "APB read data to bridge (prdata) in axi2apb_mux module",
+      "Functionality": "Latched read data forwarded to the controller when a transfer completes (psel & pready).",
+      "Security Objective": "Availability",
+      "Justification": "The module must provide this output for read transactions to complete. Loss or withholding of this data would stall or break the read path, harming system availability.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1318",
+        "CWE-1299"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections in the axi2apb_mux module could lead to incorrect data paths, causing the APB read data to be unavailable, thus impacting system availability.",
+        "CWE-1318": "The axi2apb_mux module may lack support for security features, leading to improper handling of APB read data, which could result in denial of service by not enforcing access control.",
+        "CWE-1299": "If alternate paths to the APB read data are not protected, attackers could exploit these paths to disrupt data availability, affecting the system's read operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating the APB read data path in the axi2apb_mux module to disrupt the availability of prdata, thereby stalling the read transaction completion and impacting system availability."
+          }
+        },
+        "CWE-1299": {
+          "CAPEC-IDs": [
+            "CAPEC-456"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-456": "CAPEC-456 could exploit CWE-1299 by manipulating the APB read data path in the axi2apb_mux module to disrupt the availability of prdata, thereby stalling the read transactions and impacting system availability."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-456"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating the APB read data path in the axi2apb_mux module to disrupt the availability of prdata, thereby stalling the read transaction completion and impacting system availability.",
+        "CAPEC-456": "[CWE-1299] CAPEC-456 could exploit CWE-1299 by manipulating the APB read data path in the axi2apb_mux module to disrupt the availability of prdata, thereby stalling the read transactions and impacting system availability."
+      }
+    },
+    {
+      "Asset_Name": "APB slave error to bridge (pslverr) in axi2apb_mux module",
+      "Functionality": "Latched error indication forwarded to the controller upon transfer completion.",
+      "Security Objective": "Integrity",
+      "Justification": "This output informs higher layers about transfer success or failure. Incorrect values can cause improper recovery or acceptance of faulty data, violating system integrity.",
+      "CWE-IDs": [
+        "CWE-1311",
+        "CWE-1276",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1311": "Improper translation of security attributes by the bridge could lead to incorrect error signaling, allowing unauthorized access or privilege escalation.",
+        "CWE-1276": "Incorrect connections in the axi2apb_mux module could cause the pslverr signal to be improperly latched, leading to incorrect error reporting and system integrity violations.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to manipulate the pslverr signal, causing improper error handling and compromising system integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1311": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1311 by manipulating the APB slave error signal (pslverr) in the axi2apb_mux module to inject incorrect error indications, thereby compromising the integrity of the system by causing the controller to improperly handle transfer completions."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the APB slave error signal (pslverr) in the axi2apb_mux module to inject incorrect error indications, thereby compromising the integrity of the system by causing the controller to misinterpret the success or failure of data transfers."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1311] CAPEC-180 can exploit CWE-1311 by manipulating the APB slave error signal (pslverr) in the axi2apb_mux module to inject incorrect error indications, thereby compromising the integrity of the system by causing the controller to improperly handle transfer completions. [CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the APB slave error signal (pslverr) in the axi2apb_mux module to inject incorrect error indications, thereby compromising the integrity of the system by causing the controller to misinterpret the success or failure of data transfers."
+      }
+    },
+    {
+      "Asset_Name": "Command error indicator input (cmd_err) in axi2apb_rd module",
+      "Functionality": "Feeds into read response generation; when a read data beat is accepted, cmd_err is used to select the AXI RRESP value (error vs OK).",
+      "Security Objective": "Integrity",
+      "Justification": "If an attacker modifies cmd_err, the module can falsely report success or failure in RRESP, masking real faults or creating false errors. Preserving the correctness of this status is essential to prevent improper system behavior and error handling.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control on cmd_err could allow unauthorized modification, leading to false read response generation.",
+        "CWE-1220": "Insufficient granularity of access control on cmd_err could allow unauthorized agents to modify read responses, affecting system integrity.",
+        "CWE-1280": "If access control checks for cmd_err are implemented after access, unauthorized modifications could occur before verification, compromising integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the cmd_err input in the axi2apb_rd module to alter the integrity of the AXI RRESP value, thereby causing the system to incorrectly report read operation statuses and potentially mask real faults or generate false errors."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the cmd_err input in the axi2apb_rd module to alter the integrity of the AXI RRESP value, thereby causing the system to incorrectly report read transaction statuses, which could lead to improper error handling and system behavior."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the cmd_err input in the axi2apb_rd module to alter the integrity of the AXI RRESP value, thereby causing the system to incorrectly report read operation statuses, which could lead to improper error handling and system behavior."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the cmd_err input in the axi2apb_rd module to alter the integrity of the AXI RRESP value, thereby causing the system to incorrectly report read operation statuses and potentially mask real faults or generate false errors.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the cmd_err input in the axi2apb_rd module to alter the integrity of the AXI RRESP value, thereby causing the system to incorrectly report read transaction statuses, which could lead to improper error handling and system behavior. [CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the cmd_err input in the axi2apb_rd module to alter the integrity of the AXI RRESP value, thereby causing the system to incorrectly report read operation statuses, which could lead to improper error handling and system behavior."
+      }
+    },
+    {
+      "Asset_Name": "Read operation completion indicator (finish_rd) in axi2apb_rd module",
+      "Functionality": "Asserted when a read beat completes handshaking (RVALID & RREADY) and is the last beat (RLAST), signaling the end of a read operation to surrounding control logic.",
+      "Security Objective": "Availability",
+      "Justification": "If this signal is suppressed or spoofed, system control may stall waiting for completion or prematurely advance, disrupting read progress. Correct availability of finish_rd is necessary to avoid denial-of-service or deadlock in the transaction flow.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1318",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections in the axi2apb_rd module could lead to incorrect signaling of finish_rd, causing system stalls or premature advancement, affecting availability.",
+        "CWE-1318": "Lack of support for security features in the AXI to APB bridge could result in improper handling of finish_rd, leading to denial of service by failing to enforce transaction completion security.",
+        "CWE-1220": "Insufficient granularity in access control could allow unauthorized manipulation of finish_rd, disrupting transaction flow and impacting system availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating the 'finish_rd' signal in the axi2apb_rd module to create a denial-of-service condition, thereby compromising the availability of the read operation completion indicator and disrupting the transaction flow."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the 'finish_rd' signal in the axi2apb_rd module to create a race condition, potentially causing a denial-of-service by stalling the system control logic waiting for read operation completion, thus impacting the availability of the asset."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating the 'finish_rd' signal in the axi2apb_rd module to create a denial-of-service condition, thereby compromising the availability of the read operation completion indicator and disrupting the transaction flow. [CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the 'finish_rd' signal in the axi2apb_rd module to create a race condition, potentially causing a denial-of-service by stalling the system control logic waiting for read operation completion, thus impacting the availability of the asset."
+      }
+    },
+    {
+      "Asset_Name": "Command error flag input (cmd_err) in axi2apb_wr module",
+      "Functionality": "Indicates whether the current command encountered an error; the write path uses it to form the AXI BRESP (SLVERR if asserted).",
+      "Security Objective": "Integrity",
+      "Justification": "This input directly determines the response code returned on the AXI B channel. If altered, it could falsely signal errors or hide real ones, corrupting protocol correctness and system diagnostics.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1311",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The cmd_err signal in the axi2apb_wr module could be incorrectly connected, leading to false error signaling or masking real errors, compromising system integrity.",
+        "CWE-1311": "Improper translation of security attributes could occur if the cmd_err signal is not correctly handled, leading to unauthorized access or incorrect error signaling.",
+        "CWE-1220": "Insufficient granularity in access control could allow unauthorized manipulation of the cmd_err signal, resulting in incorrect error reporting and potential system integrity breaches."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1311": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1311 by manipulating the cmd_err signal in the axi2apb_wr module to inject false error conditions or suppress real ones, thereby compromising the integrity of the AXI BRESP and undermining system diagnostics."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the command error flag input (cmd_err) in the axi2apb_wr module to inject false error signals or suppress real ones, thereby compromising the integrity of the AXI BRESP and undermining system diagnostics."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1311] CAPEC-180 can exploit CWE-1311 by manipulating the cmd_err signal in the axi2apb_wr module to inject false error conditions or suppress real ones, thereby compromising the integrity of the AXI BRESP and undermining system diagnostics. [CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the command error flag input (cmd_err) in the axi2apb_wr module to inject false error signals or suppress real ones, thereby compromising the integrity of the AXI BRESP and undermining system diagnostics."
+      }
+    },
+    {
+      "Asset_Name": "Write completion indicator (finish_wr) in axi2apb_wr module",
+      "Functionality": "Asserts when the AXI B-channel handshake completes (BVALID & BREADY), signaling that a write transaction has finished.",
+      "Security Objective": "Availability",
+      "Justification": "System-level progress and command queuing depend on accurate completion signaling. If this signal is blocked or spoofed, writes may never retire or may retire prematurely, enabling denial-of-service or deadlock.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1318",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections in the axi2apb_wr module could lead to incorrect signaling of write completion, causing premature or delayed transaction retirements, impacting system availability.",
+        "CWE-1318": "The axi2apb_wr module may lack proper configuration for security features, allowing unauthorized manipulation of the write completion signal, leading to denial of service.",
+        "CWE-1220": "Insufficient granularity in access control within the axi2apb_wr module could allow unauthorized agents to manipulate the write completion signal, affecting system availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating the 'finish_wr' signal in the axi2apb_wr module to create a denial-of-service condition, thereby compromising the availability of the system by preventing the accurate completion signaling of write transactions."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the 'finish_wr' signal in the axi2apb_wr module to create a race condition, potentially causing premature or delayed write completion signaling, thereby affecting the availability of the system by inducing denial-of-service or deadlock conditions."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating the 'finish_wr' signal in the axi2apb_wr module to create a denial-of-service condition, thereby compromising the availability of the system by preventing the accurate completion signaling of write transactions. [CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the 'finish_wr' signal in the axi2apb_wr module to create a race condition, potentially causing premature or delayed write completion signaling, thereby affecting the availability of the system by inducing denial-of-service or deadlock conditions."
+      }
+    }
+  ]
+}

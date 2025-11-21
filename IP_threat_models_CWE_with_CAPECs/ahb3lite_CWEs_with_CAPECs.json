@@ -1,0 +1,613 @@
+{
+  "IP": "ahb3lite",
+  "Assets": [
+    {
+      "Asset_Name": "AHB ready handshake (HREADY)",
+      "Functionality": "Indicates completion of the current AHB transfer and gates all state updates, data enables, and acknowledgments.",
+      "Security Objective": "Availability",
+      "Justification": "If HREADY is held low or manipulated, the BIU stalls and cannot complete or acknowledge transfers, creating a denial-of-service condition. It directly controls when data and control signals are accepted/issued.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1318"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connections in the AHB ready handshake could lead to the BIU stalling, causing a denial-of-service by preventing the completion of data transfers.",
+        "CWE-440": "If the HREADY signal behaves differently than specified, it could be manipulated to cause denial of service by stalling the BIU, preventing data and control signals from being processed.",
+        "CWE-1318": "Lack of support for security features in the AHB3 Lite bus could allow manipulation of the HREADY signal, leading to unauthorized stalling of the BIU and denial of service."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1318 by manipulating the HREADY signal to remain low, causing the BIU to stall and creating a denial-of-service condition, thereby compromising the availability of the AHB ready handshake asset."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1318] CAPEC-180 exploits CWE-1318 by manipulating the HREADY signal to remain low, causing the BIU to stall and creating a denial-of-service condition, thereby compromising the availability of the AHB ready handshake asset."
+      }
+    },
+    {
+      "Asset_Name": "AHB response status (HRESP)",
+      "Functionality": "Indicates success or error of the AHB transfer; on error it causes the BIU to terminate bursts and assert biu_err_o.",
+      "Security Objective": "Integrity",
+      "Justification": "Tampering with HRESP can mask real errors or inject false errors, corrupting the BIU\u2019s control flow (ending bursts, asserting error). Correct interpretation of response codes must be preserved.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1318",
+        "CWE-1429"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "Tampering with HRESP could cause the BIU to behave differently from its specification, leading to incorrect error handling and burst termination.",
+        "CWE-1318": "If the AHB3 Lite bus lacks proper security features, HRESP could be manipulated to inject false errors or mask real ones, compromising the integrity of the BIU's control flow.",
+        "CWE-1429": "If HRESP errors are not properly reported, attackers could exploit this silence to bypass security monitoring, causing undetected corruption in the BIU's control flow."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating the HRESP signal to inject false error responses, thereby corrupting the BIU's control flow and violating the integrity of the AHB response status."
+          }
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1429 by manipulating the HRESP signal to inject false error responses, thereby corrupting the BIU's control flow and violating the integrity of the AHB response status."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-545"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating the HRESP signal to inject false error responses, thereby corrupting the BIU's control flow and violating the integrity of the AHB response status.",
+        "CAPEC-545": "[CWE-1429] CAPEC-545 can exploit CWE-1429 by manipulating the HRESP signal to inject false error responses, thereby corrupting the BIU's control flow and violating the integrity of the AHB response status."
+      }
+    },
+    {
+      "Asset_Name": "Read data from bus (HRDATA)",
+      "Functionality": "Read data returned by the AHB slave; forwarded to the core on biu_q_o.",
+      "Security Objective": "Availability",
+      "Justification": "If HRDATA is withheld or blocked, the core cannot receive data and the BIU cannot complete read transactions. Availability of read data is necessary for progress.",
+      "CWE-IDs": [
+        "CWE-1318",
+        "CWE-1276",
+        "CWE-1317"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1318": "The lack of security features in the AHB3 Lite bus could allow an attacker to block or manipulate HRDATA, impacting the availability of read data to the core.",
+        "CWE-1276": "Incorrect connections between the biu_ahb3lite module and the AHB3 Lite bus could lead to HRDATA being improperly routed or blocked, affecting data availability.",
+        "CWE-1317": "Improper access control in the fabric bridge could allow unauthorized transactions to interfere with HRDATA, compromising the availability of data to the core."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating the HRDATA signal to induce a denial of service, thereby violating the availability objective by preventing the BIU from completing read transactions and forwarding data to the core."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1317 by manipulating the biu_ahb3lite module's state machine to induce a denial of service, thereby blocking HRDATA and violating the availability objective by preventing the core from receiving necessary data."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-122"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating the HRDATA signal to induce a denial of service, thereby violating the availability objective by preventing the BIU from completing read transactions and forwarding data to the core.",
+        "CAPEC-122": "[CWE-1317] CAPEC-122 can exploit CWE-1317 by manipulating the biu_ahb3lite module's state machine to induce a denial of service, thereby blocking HRDATA and violating the availability objective by preventing the core from receiving necessary data."
+      }
+    },
+    {
+      "Asset_Name": "Write data to AHB bus (HWDATA)",
+      "Functionality": "Write data driven to the AHB slave, sourced from delayed biu_d_i.",
+      "Security Objective": "Integrity",
+      "Justification": "Corruption of HWDATA results in incorrect programming of target devices or memory contents. Maintaining write data correctness is critical.",
+      "CWE-IDs": [
+        "CWE-1318",
+        "CWE-1276",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1318": "The biu_ahb3lite module's HWDATA could be compromised if the AHB3 Lite bus lacks support for security features like access control, allowing unauthorized writes.",
+        "CWE-1276": "Incorrect connections between the biu_ahb3lite module and the AHB3 Lite bus could lead to unauthorized data writes via HWDATA, violating integrity.",
+        "CWE-1262": "Improper access control on the HWDATA register interface could allow unauthorized agents to modify data, compromising the integrity of the target device."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1318 by manipulating the biu_d_i signal to introduce incorrect data into HWDATA, compromising the integrity of data written to the AHB slave.",
+            "CAPEC-545": "CAPEC-545 leverages CWE-1318 by intercepting and altering the delayed biu_d_i signal, leading to corrupted HWDATA and violating the integrity of the data transfer to the AHB bus."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the biu_d_i signal to introduce incorrect data into HWDATA, thereby compromising the integrity of data written to the AHB slave in the biu_ahb3lite module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-545",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1318] CAPEC-180 exploits CWE-1318 by manipulating the biu_d_i signal to introduce incorrect data into HWDATA, compromising the integrity of data written to the AHB slave.",
+        "CAPEC-545": "[CWE-1318] CAPEC-545 leverages CWE-1318 by intercepting and altering the delayed biu_d_i signal, leading to corrupted HWDATA and violating the integrity of the data transfer to the AHB bus.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the biu_d_i signal to introduce incorrect data into HWDATA, thereby compromising the integrity of data written to the AHB slave in the biu_ahb3lite module."
+      }
+    },
+    {
+      "Asset_Name": "Address to AHB bus (HADDR)",
+      "Functionality": "Address driven onto the AHB bus for each transfer beat, computed from core address and burst progression.",
+      "Security Objective": "Integrity",
+      "Justification": "Tampering can redirect transactions to unauthorized or unintended addresses. The bus address must remain consistent with core intent and protocol rules.",
+      "CWE-IDs": [
+        "CWE-1318",
+        "CWE-1276",
+        "CWE-1317"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1318": "The HADDR asset could be exploited if the AHB3Lite bus lacks support for security features like access control, allowing unauthorized address manipulation.",
+        "CWE-1276": "Improper connections between the biu_ahb3lite module and the AHB3Lite bus could lead to incorrect address routing, violating security policies and allowing unauthorized access.",
+        "CWE-1317": "If the biu_ahb3lite module fails to enforce access control when translating core addresses to AHB3Lite transactions, unauthorized access to sensitive addresses could occur."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating the state machine to alter the HADDR signal, thereby violating the integrity of address calculations and redirecting transactions to unauthorized addresses.",
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1318 by injecting malicious data into the biu_adri_i input, causing the nxt_addr function to compute incorrect addresses and compromise the integrity of the HADDR output."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1276 by manipulating the address calculation logic in the biu_ahb3lite module to cause unauthorized address redirection on the AHB bus, thereby compromising the integrity of the HADDR asset by violating the strict adherence to the 1kB boundary rule."
+          }
+        },
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "By exploiting CWE-1317, CAPEC-122 can manipulate the address calculation logic in the biu_ahb3lite module to redirect HADDR to unauthorized addresses, compromising the integrity of address-driven transactions on the AHB bus.",
+            "CAPEC-545": "CAPEC-545 leverages CWE-1317 by injecting malicious inputs into the address calculation function, potentially causing HADDR to violate protocol rules and integrity constraints, thus redirecting transactions to unintended addresses."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-545",
+        "CAPEC-122"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating the state machine to alter the HADDR signal, thereby violating the integrity of address calculations and redirecting transactions to unauthorized addresses.",
+        "CAPEC-545": "[CWE-1318] CAPEC-545 can exploit CWE-1318 by injecting malicious data into the biu_adri_i input, causing the nxt_addr function to compute incorrect addresses and compromise the integrity of the HADDR output. [CWE-1276] CAPEC-545 could exploit CWE-1276 by manipulating the address calculation logic in the biu_ahb3lite module to cause unauthorized address redirection on the AHB bus, thereby compromising the integrity of the HADDR asset by violating the strict adherence to the 1kB boundary rule. [CWE-1317] CAPEC-545 leverages CWE-1317 by injecting malicious inputs into the address calculation function, potentially causing HADDR to violate protocol rules and integrity constraints, thus redirecting transactions to unintended addresses.",
+        "CAPEC-122": "[CWE-1317] By exploiting CWE-1317, CAPEC-122 can manipulate the address calculation logic in the biu_ahb3lite module to redirect HADDR to unauthorized addresses, compromising the integrity of address-driven transactions on the AHB bus."
+      }
+    },
+    {
+      "Asset_Name": "Write control from core (biu_we_i)",
+      "Functionality": "Indicates whether the transaction is a write; used to set HWRITE.",
+      "Security Objective": "Integrity",
+      "Justification": "Manipulating this changes the direction of the transfer (read vs write), potentially overwriting memory or failing to read expected data. Preserving this control prevents unintended operations.",
+      "CWE-IDs": [
+        "CWE-1318",
+        "CWE-1262",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1318": "The biu_we_i signal's integrity could be compromised if the AHB3Lite bus lacks proper support for security features, allowing unauthorized write operations.",
+        "CWE-1262": "Improper access control on the biu_we_i interface could allow unauthorized agents to manipulate the write control, leading to unintended memory writes.",
+        "CWE-1220": "Insufficient granularity in access control could allow unauthorized write access to the biu_we_i signal, enabling malicious overwriting of memory."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating the biu_we_i signal to alter the HWRITE control, compromising the integrity of data transfers by causing unauthorized writes or preventing expected reads in the biu_ahb3lite module."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "By exploiting CWE-1262, CAPEC-680 could manipulate the 'biu_we_i' signal to alter the write control, compromising the integrity of data transfers by causing unauthorized writes or preventing expected reads in the biu_ahb3lite module.",
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1262 by injecting faults into the 'biu_we_i' signal, leading to unintended write operations that violate the integrity of the data flow in the biu_ahb3lite module."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the 'biu_we_i' signal to bypass the boundary check mechanism, potentially altering the write control and compromising the integrity of data transfers in the biu_ahb3lite module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-680",
+        "CAPEC-545"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating the biu_we_i signal to alter the HWRITE control, compromising the integrity of data transfers by causing unauthorized writes or preventing expected reads in the biu_ahb3lite module. [CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the 'biu_we_i' signal to bypass the boundary check mechanism, potentially altering the write control and compromising the integrity of data transfers in the biu_ahb3lite module.",
+        "CAPEC-680": "[CWE-1262] By exploiting CWE-1262, CAPEC-680 could manipulate the 'biu_we_i' signal to alter the write control, compromising the integrity of data transfers by causing unauthorized writes or preventing expected reads in the biu_ahb3lite module.",
+        "CAPEC-545": "[CWE-1262] CAPEC-545 can exploit CWE-1262 by injecting faults into the 'biu_we_i' signal, leading to unintended write operations that violate the integrity of the data flow in the biu_ahb3lite module."
+      }
+    },
+    {
+      "Asset_Name": "Address from core (biu_adri_i)",
+      "Functionality": "Starting address of a transfer/burst as issued by the core.",
+      "Security Objective": "Integrity",
+      "Justification": "If modified, transactions target unintended locations, potentially causing data corruption or leakage at the system level. Address integrity is essential for correct operation.",
+      "CWE-IDs": [
+        "CWE-1318",
+        "CWE-1276",
+        "CWE-1317"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1318": "The biu_adri_i signal, as the starting address of a transfer, could be exploited if the AHB3 Lite bus lacks support for security features like access control, allowing unauthorized transactions to modify or access unintended memory locations.",
+        "CWE-1276": "Incorrect connections or configurations between the biu_ahb3lite module and the AHB3 Lite bus could lead to unauthorized access or data corruption if the address signal is improperly tied or misconfigured, violating security policies.",
+        "CWE-1317": "If the biu_ahb3lite module fails to enforce proper access control when translating transactions between the core and the AHB3 Lite bus, unauthorized access to sensitive memory locations could occur, compromising address integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating the biu_adri_i signal to alter the starting address of a transfer, thereby compromising the integrity of address calculations and potentially causing unauthorized access to unintended memory locations.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1318 by injecting malicious inputs into the biu_adri_i signal path, leading to incorrect address calculations and violating the integrity of the address, which can result in data corruption or leakage."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1276 by manipulating the biu_adri_i signal to alter the starting address of a transfer, thereby compromising the integrity of the address and causing transactions to target unintended locations within the ahb3lite module."
+          }
+        },
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1317 by manipulating the biu_adri_i signal to bypass the cross1kB boundary check, compromising the integrity of the address and causing unauthorized data access or corruption.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1317 by injecting malicious inputs into the biu_adri_i address calculation, leading to incorrect address generation and violating the integrity of data transfers."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-545",
+        "CAPEC-122"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating the biu_adri_i signal to alter the starting address of a transfer, thereby compromising the integrity of address calculations and potentially causing unauthorized access to unintended memory locations.",
+        "CAPEC-545": "[CWE-1318] CAPEC-545 targets CWE-1318 by injecting malicious inputs into the biu_adri_i signal path, leading to incorrect address calculations and violating the integrity of the address, which can result in data corruption or leakage. [CWE-1276] CAPEC-545 could exploit CWE-1276 by manipulating the biu_adri_i signal to alter the starting address of a transfer, thereby compromising the integrity of the address and causing transactions to target unintended locations within the ahb3lite module. [CWE-1317] CAPEC-545 targets CWE-1317 by injecting malicious inputs into the biu_adri_i address calculation, leading to incorrect address generation and violating the integrity of data transfers.",
+        "CAPEC-122": "[CWE-1317] CAPEC-122 can exploit CWE-1317 by manipulating the biu_adri_i signal to bypass the cross1kB boundary check, compromising the integrity of the address and causing unauthorized data access or corruption."
+      }
+    },
+    {
+      "Asset_Name": "AHB write command (HWRITE)",
+      "Functionality": "Signals read/write direction to the AHB slave; derived from biu_we_i.",
+      "Security Objective": "Integrity",
+      "Justification": "If altered, the transfer type changes at the slave, leading to data loss or corruption. The bus must see the correct operation type.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1318",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The HWRITE signal, if incorrectly connected or misconfigured, could lead to unauthorized write operations, violating the integrity of data transfers in the AHB3 Lite bus system.",
+        "CWE-1318": "The lack of proper security features in the AHB3 Lite bus could allow unauthorized modifications to the HWRITE signal, leading to data corruption or loss.",
+        "CWE-1262": "Improper access control on the HWRITE signal interface could allow unauthorized agents to alter write commands, compromising the integrity of data transactions."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating the HWRITE signal derived from biu_we_i to alter the intended read/write operation, compromising the integrity of data transfers on the AHB3 Lite bus."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the HWRITE signal derived from biu_we_i to alter the intended write operation, compromising the integrity of the data transfer by causing unintended read operations on the AHB3 Lite bus."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating the HWRITE signal derived from biu_we_i to alter the intended read/write operation, compromising the integrity of data transfers on the AHB3 Lite bus.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the HWRITE signal derived from biu_we_i to alter the intended write operation, compromising the integrity of the data transfer by causing unintended read operations on the AHB3 Lite bus."
+      }
+    },
+    {
+      "Asset_Name": "AHB master select (HSEL)",
+      "Functionality": "Selects the addressed AHB slave to participate in the transfer.",
+      "Security Objective": "Integrity",
+      "Justification": "Improper assertion/deassertion causes transactions to be issued to the wrong target or not at all. It is a critical control signal for routing transfers.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1318",
+        "CWE-1302"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connection of the HSEL signal could lead to incorrect routing of transactions, violating the integrity of the system by sending data to unintended AHB slaves.",
+        "CWE-1318": "If the biu_ahb3lite module lacks support for security features like access control on the HSEL signal, it could allow unauthorized transactions, compromising the integrity of the data routing.",
+        "CWE-1302": "A missing source identifier in transactions initiated by the biu_ahb3lite module could lead to unauthorized access or denial of service, as the HSEL signal may not properly enforce access control without identifying the transaction origin."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating the HSEL signal to improperly assert or deassert, thereby compromising the integrity of the AHB master select and causing transactions to be misrouted or not executed, violating the security objective of ensuring correct routing of transfers."
+          }
+        },
+        "CWE-1302": {
+          "CAPEC-IDs": [
+            "CAPEC-121",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1302 by manipulating the HSEL signal to improperly assert or deassert, thereby violating the integrity of the AHB master select and causing transactions to be misrouted or not executed at all.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1302 by introducing unauthorized modifications to the HSEL signal, compromising its integrity and leading to incorrect slave selection during AHB transactions."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-121",
+        "CAPEC-545"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating the HSEL signal to improperly assert or deassert, thereby compromising the integrity of the AHB master select and causing transactions to be misrouted or not executed, violating the security objective of ensuring correct routing of transfers.",
+        "CAPEC-121": "[CWE-1302] CAPEC-121 can exploit CWE-1302 by manipulating the HSEL signal to improperly assert or deassert, thereby violating the integrity of the AHB master select and causing transactions to be misrouted or not executed at all.",
+        "CAPEC-545": "[CWE-1302] CAPEC-545 targets CWE-1302 by introducing unauthorized modifications to the HSEL signal, compromising its integrity and leading to incorrect slave selection during AHB transactions."
+      }
+    },
+    {
+      "Asset_Name": "Core strobe acknowledge (biu_stb_ack_o)",
+      "Functionality": "Indicates the BIU has accepted a new core strobe/request.",
+      "Security Objective": "Availability",
+      "Justification": "If suppressed, the core cannot issue further requests, stalling progress. If spuriously asserted, it may cause the core to advance prematurely.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1313"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connection of the core strobe acknowledge signal could lead to incorrect acknowledgment behavior, causing the core to either stall or advance prematurely, impacting system availability.",
+        "CWE-440": "If the core strobe acknowledge signal behaves differently from its specification, it could result in unexpected system behavior, such as stalling or premature advancement of the core, affecting availability.",
+        "CWE-1313": "Activation of debug logic at runtime could manipulate the core strobe acknowledge signal, causing unauthorized advancement or stalling of the core, impacting system availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1313": {
+          "CAPEC-IDs": [
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1313 by manipulating the biu_stb_ack_o signal to either suppress or spuriously assert acknowledgments, thereby affecting the availability of the core strobe acknowledge functionality and potentially stalling or prematurely advancing the core's operations within the biu_ahb3lite module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-121"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-121": "[CWE-1313] CAPEC-121 can exploit CWE-1313 by manipulating the biu_stb_ack_o signal to either suppress or spuriously assert acknowledgments, thereby affecting the availability of the core strobe acknowledge functionality and potentially stalling or prematurely advancing the core's operations within the biu_ahb3lite module."
+      }
+    },
+    {
+      "Asset_Name": "Address mirrored to core (biu_adro_o)",
+      "Functionality": "Address returned to the core, aligned to the AHB address issued (HADDR).",
+      "Security Objective": "Integrity",
+      "Justification": "Incorrect mirroring misaligns the core\u2019s view of the transaction address and can cause software or pipeline mis-tracking. It must reflect the true bus address.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1299",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect mirroring of the address to the core could result from improper connections between the biu_ahb3lite module and the AHB3 Lite bus, leading to integrity issues.",
+        "CWE-1299": "The address mirroring function could be exploited if alternate paths to the mirrored address are not equally protected, allowing unauthorized access or modification.",
+        "CWE-1262": "Improper access control on the address mirroring interface could allow unauthorized modification of the mirrored address, compromising the integrity of the transaction address."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1299": {
+          "CAPEC-IDs": [
+            "CAPEC-456",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-456": "By exploiting CWE-1299, CAPEC-456 can manipulate the address mirroring process in the biu_ahb3lite module, causing the biu_adro_o signal to misalign with HADDR, thus compromising the integrity of the core's address tracking.",
+            "CAPEC-545": "CAPEC-545 leverages CWE-1299 by introducing discrepancies in the address calculation logic of the biu_ahb3lite module, leading to incorrect address mirroring on biu_adro_o and violating the integrity of the core's transaction address."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "By exploiting CWE-1262, CAPEC-680 could manipulate the address mirroring process in the biu_ahb3lite module, causing the biu_adro_o signal to misalign with HADDR, thus compromising the integrity of the core's transaction address view.",
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1262 by injecting erroneous data into the address calculation logic of the biu_ahb3lite module, leading to incorrect address mirroring on biu_adro_o and violating the integrity of the core's address alignment with HADDR."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-456",
+        "CAPEC-545",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-456": "[CWE-1299] By exploiting CWE-1299, CAPEC-456 can manipulate the address mirroring process in the biu_ahb3lite module, causing the biu_adro_o signal to misalign with HADDR, thus compromising the integrity of the core's address tracking.",
+        "CAPEC-545": "[CWE-1299] CAPEC-545 leverages CWE-1299 by introducing discrepancies in the address calculation logic of the biu_ahb3lite module, leading to incorrect address mirroring on biu_adro_o and violating the integrity of the core's transaction address. [CWE-1262] CAPEC-545 can exploit CWE-1262 by injecting erroneous data into the address calculation logic of the biu_ahb3lite module, leading to incorrect address mirroring on biu_adro_o and violating the integrity of the core's address alignment with HADDR.",
+        "CAPEC-680": "[CWE-1262] By exploiting CWE-1262, CAPEC-680 could manipulate the address mirroring process in the biu_ahb3lite module, causing the biu_adro_o signal to misalign with HADDR, thus compromising the integrity of the core's transaction address view."
+      }
+    },
+    {
+      "Asset_Name": "Transfer acknowledge to core (biu_ack_o)",
+      "Functionality": "Indicates a transfer beat completed (qualified by HREADY and internal enables).",
+      "Security Objective": "Availability",
+      "Justification": "Loss or falsification prevents the core from progressing or causes it to progress unsafely. Correct acknowledgment timing is essential for liveness.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1429"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connections between the biu_ahb3lite module and its parent system could lead to improper acknowledgment signals, causing availability issues by preventing the core from progressing safely.",
+        "CWE-440": "If the biu_ahb3lite module's behavior deviates from its specification, it could result in incorrect transfer acknowledgments, impacting the core's ability to proceed correctly and affecting system availability.",
+        "CWE-1429": "The lack of feedback for unexecuted operations in the biu_ahb3lite module could lead to silent failures in transfer acknowledgments, causing the core to operate on incorrect assumptions and affecting availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [],
+      "Justification of Related CAPEC-IDs": {}
+    },
+    {
+      "Asset_Name": "Transfer error flag to core (biu_err_o)",
+      "Functionality": "Raised when HRESP indicates error or burst is interrupted; signals failure to the core.",
+      "Security Objective": "Integrity",
+      "Justification": "If masked or forged, the core will mis-handle error recovery or believe failed transfers succeeded. Error signaling integrity is necessary for safe operation.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1429",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The transfer error flag (biu_err_o) could be improperly connected, leading to incorrect error signaling to the core, which could result in the core mis-handling error recovery.",
+        "CWE-1429": "If the biu_err_o signal does not provide feedback for unexecuted operations, the core may not detect errors in data transfers, leading to silent data corruption or system instability.",
+        "CWE-1262": "Improper access control on the biu_err_o signal could allow unauthorized modification or suppression of error signals, compromising the integrity of error reporting to the core."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "By exploiting CWE-1262, an attacker could manipulate the biu_err_o signal to falsely indicate successful data transfers, compromising the integrity of error signaling and causing the core to mishandle error recovery in the biu_ahb3lite module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] By exploiting CWE-1262, an attacker could manipulate the biu_err_o signal to falsely indicate successful data transfers, compromising the integrity of error signaling and causing the core to mishandle error recovery in the biu_ahb3lite module."
+      }
+    }
+  ]
+}

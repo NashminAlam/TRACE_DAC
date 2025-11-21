@@ -1,0 +1,851 @@
+{
+  "IP": "des",
+  "Assets": [
+    {
+      "Asset_Name": "DES round subkey input (K_sub) in crp module",
+      "Functionality": "48-bit subkey input used each round; XORed with the expanded right-half E to form X, which directly drives the S-box lookups and ultimately determines P.",
+      "Security Objective": "Confidentiality",
+      "Justification": "This signal carries key-derived material for the current round; disclosure would expose secret key information and break the security of the cipher. It is central to the cryptographic transformation, so any exposure of its value compromises secrecy of the DES operation.",
+      "CWE-IDs": [
+        "CWE-1240",
+        "CWE-1431",
+        "CWE-1276"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1240": "The DES module uses a cryptographic primitive (DES) that is considered outdated and potentially vulnerable, which could lead to exposure of the subkey input (K_sub) and compromise confidentiality.",
+        "CWE-1431": "The DES module could inadvertently expose intermediate cryptographic states, such as the subkey input (K_sub), through hardware outputs, allowing attackers to extract sensitive information.",
+        "CWE-1276": "Improper connections between the DES module and its parent system could lead to misconfigurations that expose the subkey input (K_sub), violating confidentiality by allowing unauthorized access."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1240": {
+          "CAPEC-IDs": [
+            "CAPEC-97",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "CAPEC-97 can exploit CWE-1240 by leveraging a side-channel attack to infer the 48-bit subkey input (K_sub) in the crp module, compromising the confidentiality of the DES round key material.",
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1240 by introducing a fault during the cryptographic processing in the crp module to manipulate the 48-bit subkey input (K_sub), potentially revealing key-derived information and breaching the confidentiality objective."
+          }
+        },
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1431 by leveraging a timing attack to infer the 48-bit subkey input (K_sub) in the crp module, compromising the confidentiality of the DES round subkey and thus the overall security of the cryptographic transformation."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1276 by manipulating the timing of operations within the DES module to infer the 48-bit subkey input (K_sub) in the crp module, thereby compromising the confidentiality of the cryptographic transformation process."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-97",
+        "CAPEC-545"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-97": "[CWE-1240] CAPEC-97 can exploit CWE-1240 by leveraging a side-channel attack to infer the 48-bit subkey input (K_sub) in the crp module, compromising the confidentiality of the DES round key material.",
+        "CAPEC-545": "[CWE-1240] CAPEC-545 can exploit CWE-1240 by introducing a fault during the cryptographic processing in the crp module to manipulate the 48-bit subkey input (K_sub), potentially revealing key-derived information and breaching the confidentiality objective. [CWE-1431] CAPEC-545 could exploit CWE-1431 by leveraging a timing attack to infer the 48-bit subkey input (K_sub) in the crp module, compromising the confidentiality of the DES round subkey and thus the overall security of the cryptographic transformation. [CWE-1276] CAPEC-545 can exploit CWE-1276 by manipulating the timing of operations within the DES module to infer the 48-bit subkey input (K_sub) in the crp module, thereby compromising the confidentiality of the cryptographic transformation process."
+      }
+    },
+    {
+      "Asset_Name": "First DES key (56-bit) (key1) in des3 module",
+      "Functionality": "Top-level key input used by key_sel3 to derive 48-bit round subkeys (K_sub) that drive the Feistel function in crp across rounds.",
+      "Security Objective": "Confidentiality",
+      "Justification": "This key directly determines the subkeys applied in each round; revealing it allows an adversary to compute or invert DES operations. Protecting key1 from disclosure is essential to preserve the secrecy of encrypted data.",
+      "CWE-IDs": [
+        "CWE-1240",
+        "CWE-1431",
+        "CWE-1258"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1240": "The use of DES, an outdated cryptographic primitive, can be exploited by attackers to compromise the confidentiality of the first DES key (key1) in the des3 module.",
+        "CWE-1431": "If intermediate cryptographic states or results are exposed during DES operations, attackers could extract the first DES key (key1) from the des3 module, compromising confidentiality.",
+        "CWE-1258": "Uncleared debug information could expose the first DES key (key1) in the des3 module, allowing attackers to access sensitive cryptographic material."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1240": {
+          "CAPEC-IDs": [
+            "CAPEC-97",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "CAPEC-97 can exploit CWE-1240 by leveraging side-channel analysis to infer the 56-bit key1 in the des3 module, compromising its confidentiality and allowing unauthorized decryption of data.",
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1240 by introducing hardware Trojans that manipulate the key_sel3 module to leak the 56-bit key1, thereby breaching its confidentiality and enabling adversaries to decrypt sensitive information."
+          }
+        },
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1431 by leveraging side-channel analysis to infer the 56-bit key1 in the des3 module, compromising its confidentiality and allowing an attacker to derive the 48-bit round subkeys used in the crp module, thus undermining the DES encryption process."
+          }
+        },
+        "CWE-1258": {
+          "CAPEC-IDs": [
+            "CAPEC-37",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-37": "CAPEC-37 can exploit CWE-1258 by leveraging the exposure of the first DES key (key1) through side-channel analysis during the cryptographic operations in the des3 module, compromising the confidentiality of the subkeys derived by key_sel3.",
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1258 by manipulating the timing of operations in the des3 module to infer the first DES key (key1), thereby breaching the confidentiality of the subkeys used in the crp module's Feistel function."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-97",
+        "CAPEC-545",
+        "CAPEC-37"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-97": "[CWE-1240] CAPEC-97 can exploit CWE-1240 by leveraging side-channel analysis to infer the 56-bit key1 in the des3 module, compromising its confidentiality and allowing unauthorized decryption of data.",
+        "CAPEC-545": "[CWE-1240] CAPEC-545 can exploit CWE-1240 by introducing hardware Trojans that manipulate the key_sel3 module to leak the 56-bit key1, thereby breaching its confidentiality and enabling adversaries to decrypt sensitive information. [CWE-1431] CAPEC-545 could exploit CWE-1431 by leveraging side-channel analysis to infer the 56-bit key1 in the des3 module, compromising its confidentiality and allowing an attacker to derive the 48-bit round subkeys used in the crp module, thus undermining the DES encryption process. [CWE-1258] CAPEC-545 can exploit CWE-1258 by manipulating the timing of operations in the des3 module to infer the first DES key (key1), thereby breaching the confidentiality of the subkeys used in the crp module's Feistel function.",
+        "CAPEC-37": "[CWE-1258] CAPEC-37 can exploit CWE-1258 by leveraging the exposure of the first DES key (key1) through side-channel analysis during the cryptographic operations in the des3 module, compromising the confidentiality of the subkeys derived by key_sel3."
+      }
+    },
+    {
+      "Asset_Name": "Second DES key (56-bit) (key2) in des3 module",
+      "Functionality": "Top-level key input used by key_sel3 in the subkey schedule for triple-DES operation.",
+      "Security Objective": "Confidentiality",
+      "Justification": "Exposure of this key compromises the overall cryptographic strength of the module, enabling recovery or forgery of protected data. It is a secret material that must be kept confidential.",
+      "CWE-IDs": [
+        "CWE-1240",
+        "CWE-1431",
+        "CWE-1258"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1240": "The DES key2 is vulnerable to exploitation if the cryptographic primitive implementation is risky, allowing attackers to compromise the confidentiality of the key.",
+        "CWE-1431": "If intermediate cryptographic states involving key2 are exposed through hardware outputs, attackers could extract sensitive information, compromising the confidentiality of the key.",
+        "CWE-1258": "Uncleared debug information could expose key2 through debug interfaces, leading to unauthorized access and compromising the confidentiality of the key."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1240": {
+          "CAPEC-IDs": [
+            "CAPEC-97",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "CAPEC-97 can exploit CWE-1240 by leveraging a side-channel attack to infer the second DES key (key2) during its use in the key_sel3 module, thereby compromising the confidentiality of the cryptographic operations within the des3 module.",
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1240 by manipulating the roundSel signal to induce incorrect subkey selection, potentially exposing the second DES key (key2) and undermining the confidentiality of the encryption process in the des3 module."
+          }
+        },
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1431 by leveraging side-channel analysis to infer the second DES key (key2) in the des3 module, thereby compromising the confidentiality of the cryptographic operations."
+          }
+        },
+        "CWE-1258": {
+          "CAPEC-IDs": [
+            "CAPEC-37",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-37": "CAPEC-37 can exploit CWE-1258 by manipulating the roundSel signal to improperly access and expose the second DES key (key2) during subkey scheduling, thereby compromising the confidentiality of the cryptographic module.",
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1258 by inducing a fault in the key_sel3 module's logic, potentially causing the incorrect subkey to be selected and revealing the second DES key (key2), thus breaching the confidentiality of the encryption process."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-97",
+        "CAPEC-545",
+        "CAPEC-37"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-97": "[CWE-1240] CAPEC-97 can exploit CWE-1240 by leveraging a side-channel attack to infer the second DES key (key2) during its use in the key_sel3 module, thereby compromising the confidentiality of the cryptographic operations within the des3 module.",
+        "CAPEC-545": "[CWE-1240] CAPEC-545 can exploit CWE-1240 by manipulating the roundSel signal to induce incorrect subkey selection, potentially exposing the second DES key (key2) and undermining the confidentiality of the encryption process in the des3 module. [CWE-1431] CAPEC-545 can exploit CWE-1431 by leveraging side-channel analysis to infer the second DES key (key2) in the des3 module, thereby compromising the confidentiality of the cryptographic operations. [CWE-1258] CAPEC-545 can exploit CWE-1258 by inducing a fault in the key_sel3 module's logic, potentially causing the incorrect subkey to be selected and revealing the second DES key (key2), thus breaching the confidentiality of the encryption process.",
+        "CAPEC-37": "[CWE-1258] CAPEC-37 can exploit CWE-1258 by manipulating the roundSel signal to improperly access and expose the second DES key (key2) during subkey scheduling, thereby compromising the confidentiality of the cryptographic module."
+      }
+    },
+    {
+      "Asset_Name": "Third DES key (56-bit) (key3) in des3 module",
+      "Functionality": "Top-level key input used by key_sel3 to produce per-round K_sub values for the Feistel function.",
+      "Security Objective": "Confidentiality",
+      "Justification": "As a core secret parameter, disclosure of key3 enables reconstruction of subkeys and defeats the security of triple-DES. Keeping this input confidential is critical to the module\u2019s cryptographic guarantees.",
+      "CWE-IDs": [
+        "CWE-1240",
+        "CWE-1431",
+        "CWE-1258"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1240": "The use of DES, an outdated cryptographic primitive, poses a risk of key3 being compromised due to known weaknesses in the algorithm.",
+        "CWE-1431": "Intermediate cryptographic states, such as subkeys derived from key3, could be exposed if not properly isolated, leading to potential key leakage.",
+        "CWE-1258": "If debug information is not cleared, key3 or its derived subkeys could be exposed through debug interfaces, compromising confidentiality."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1240": {
+          "CAPEC-IDs": [
+            "CAPEC-97"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "CAPEC-97 can exploit CWE-1240 by leveraging a data serialization attack to manipulate the des3 module's input handling, potentially exposing the third DES key (key3) and compromising its confidentiality, thereby undermining the cryptographic integrity of the triple-DES process."
+          }
+        },
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1431 by leveraging side-channel analysis to infer the third DES key (key3) in the des3 module, compromising its confidentiality and undermining the cryptographic integrity of the triple-DES implementation."
+          }
+        },
+        "CWE-1258": {
+          "CAPEC-IDs": [
+            "CAPEC-37",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-37": "CAPEC-37 could exploit CWE-1258 by manipulating the roundSel input to induce incorrect subkey selection in key_sel3, potentially exposing key3 and compromising its confidentiality.",
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1258 by causing a timing discrepancy during the subkey generation process in key_sel3, allowing an attacker to infer key3 through side-channel analysis, thus breaching its confidentiality."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-97",
+        "CAPEC-545",
+        "CAPEC-37"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-97": "[CWE-1240] CAPEC-97 can exploit CWE-1240 by leveraging a data serialization attack to manipulate the des3 module's input handling, potentially exposing the third DES key (key3) and compromising its confidentiality, thereby undermining the cryptographic integrity of the triple-DES process.",
+        "CAPEC-545": "[CWE-1431] CAPEC-545 could exploit CWE-1431 by leveraging side-channel analysis to infer the third DES key (key3) in the des3 module, compromising its confidentiality and undermining the cryptographic integrity of the triple-DES implementation. [CWE-1258] CAPEC-545 could exploit CWE-1258 by causing a timing discrepancy during the subkey generation process in key_sel3, allowing an attacker to infer key3 through side-channel analysis, thus breaching its confidentiality.",
+        "CAPEC-37": "[CWE-1258] CAPEC-37 could exploit CWE-1258 by manipulating the roundSel input to induce incorrect subkey selection in key_sel3, potentially exposing key3 and compromising its confidentiality."
+      }
+    },
+    {
+      "Asset_Name": "Round subkey (48-bit) used in current round (K_sub) in des3 module",
+      "Functionality": "Internal 48-bit subkey selected by key_sel3 based on roundSel and decrypt, XORed with the expanded data inside crp for each round.",
+      "Security Objective": "Confidentiality",
+      "Justification": "K_sub is directly derived from the secret keys and is the immediate secret used within each round; leakage enables key schedule reconstruction or round-key attacks. Its confidentiality is essential to prevent key recovery.",
+      "CWE-IDs": [
+        "CWE-1431",
+        "CWE-1240",
+        "CWE-1258"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1431": "The K_sub, as an intermediate cryptographic state, could be exposed if driven to outputs, allowing attackers to extract sensitive subkey information.",
+        "CWE-1240": "The use of DES, an outdated cryptographic primitive, poses a risk of key recovery attacks due to known vulnerabilities in DES implementations.",
+        "CWE-1258": "If debug information is not properly cleared, the K_sub could be exposed through debug interfaces, compromising the confidentiality of the subkey."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545, which involves side-channel attacks, can exploit CWE-1431 by analyzing power consumption or electromagnetic emissions during the DES module's operation to infer the 48-bit subkey (K_sub), compromising its confidentiality and potentially leading to key recovery."
+          }
+        },
+        "CWE-1240": {
+          "CAPEC-IDs": [
+            "CAPEC-97",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "CAPEC-97 exploits CWE-1240 by leveraging improper access control to intercept the 48-bit K_sub during its selection or transmission within the des3 module, compromising the confidentiality of the subkey and enabling potential key schedule reconstruction.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1240 by manipulating the roundSel input to induce incorrect subkey selection in the key_sel3 module, potentially exposing the K_sub and undermining the confidentiality of the cryptographic process."
+          }
+        },
+        "CWE-1258": {
+          "CAPEC-IDs": [
+            "CAPEC-37",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-37": "CAPEC-37 exploits CWE-1258 by manipulating the roundSel input to induce incorrect subkey selection in the key_sel3 module, potentially exposing the K_sub and compromising its confidentiality.",
+            "CAPEC-545": "CAPEC-545 leverages CWE-1258 by introducing faults during the clock signal transitions, causing erroneous K_sub generation in the des3 module, which can lead to leakage of sensitive subkey information."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-545",
+        "CAPEC-97",
+        "CAPEC-37"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-545": "[CWE-1431] CAPEC-545, which involves side-channel attacks, can exploit CWE-1431 by analyzing power consumption or electromagnetic emissions during the DES module's operation to infer the 48-bit subkey (K_sub), compromising its confidentiality and potentially leading to key recovery. [CWE-1240] CAPEC-545 targets CWE-1240 by manipulating the roundSel input to induce incorrect subkey selection in the key_sel3 module, potentially exposing the K_sub and undermining the confidentiality of the cryptographic process. [CWE-1258] CAPEC-545 leverages CWE-1258 by introducing faults during the clock signal transitions, causing erroneous K_sub generation in the des3 module, which can lead to leakage of sensitive subkey information.",
+        "CAPEC-97": "[CWE-1240] CAPEC-97 exploits CWE-1240 by leveraging improper access control to intercept the 48-bit K_sub during its selection or transmission within the des3 module, compromising the confidentiality of the subkey and enabling potential key schedule reconstruction.",
+        "CAPEC-37": "[CWE-1258] CAPEC-37 exploits CWE-1258 by manipulating the roundSel input to induce incorrect subkey selection in the key_sel3 module, potentially exposing the K_sub and compromising its confidentiality."
+      }
+    },
+    {
+      "Asset_Name": "Input data block (64-bit) (desIn) in des3 module",
+      "Functionality": "64-bit input block that undergoes initial permutation and 16 Feistel rounds to produce desOut.",
+      "Security Objective": "Integrity",
+      "Justification": "If an adversary can alter desIn, the cryptographic result is corrupted, undermining correctness and higher-level protocols relying on determinism. Ensuring the input block is not tampered with preserves the integrity of the operation.",
+      "CWE-IDs": [
+        "CWE-1240",
+        "CWE-1276",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1240": "The DES module uses a cryptographic primitive (DES) that is considered outdated and potentially insecure, which could allow an attacker to exploit known weaknesses and compromise the integrity of the input data block.",
+        "CWE-1276": "Improper connections between the DES module and its parent system could allow an attacker to alter the input data block, leading to incorrect cryptographic results and undermining the integrity of the system.",
+        "CWE-1280": "Insufficient granularity of access control in the DES module could allow unauthorized agents to modify the input data block, compromising the integrity of the cryptographic process."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1240": {
+          "CAPEC-IDs": [
+            "CAPEC-97"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "CAPEC-97 can exploit CWE-1240 by manipulating the desIn signal in the des3 module, thereby altering the input data block and compromising the integrity of the cryptographic output, which is critical for maintaining the correctness of higher-level protocols dependent on deterministic encryption results."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1280 by manipulating the desIn input data block in the des3 module, compromising the integrity of the cryptographic process by altering the initial permutation and subsequent Feistel rounds.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1280 by injecting unauthorized modifications into the desIn input data block, thereby corrupting the integrity of the DES encryption process and undermining the reliability of the resulting desOut."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-97",
+        "CAPEC-180",
+        "CAPEC-545"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-97": "[CWE-1240] CAPEC-97 can exploit CWE-1240 by manipulating the desIn signal in the des3 module, thereby altering the input data block and compromising the integrity of the cryptographic output, which is critical for maintaining the correctness of higher-level protocols dependent on deterministic encryption results.",
+        "CAPEC-180": "[CWE-1280] CAPEC-180 exploits CWE-1280 by manipulating the desIn input data block in the des3 module, compromising the integrity of the cryptographic process by altering the initial permutation and subsequent Feistel rounds.",
+        "CAPEC-545": "[CWE-1280] CAPEC-545 targets CWE-1280 by injecting unauthorized modifications into the desIn input data block, thereby corrupting the integrity of the DES encryption process and undermining the reliability of the resulting desOut."
+      }
+    },
+    {
+      "Asset_Name": "Input data block (64-bit) (desIn) in des3 module",
+      "Functionality": "When decrypt=0, desIn carries plaintext that is permuted and processed through 16 rounds to produce ciphertext.",
+      "Security Objective": "Confidentiality",
+      "Justification": "In encryption mode, desIn contains plaintext that users typically intend to keep secret; exposure here directly leaks sensitive data. Protecting the confidentiality of this port prevents disclosure of user data prior to encryption.",
+      "CWE-IDs": [
+        "CWE-1240",
+        "CWE-1431",
+        "CWE-1264"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1240": "The DES module uses an outdated cryptographic primitive, which could be exploited to break encryption and expose plaintext data from desIn.",
+        "CWE-1431": "Intermediate cryptographic states in the DES process could be inadvertently exposed through outputs, risking the leakage of sensitive information from desIn.",
+        "CWE-1264": "De-synchronization between control and data channels in the DES module could allow plaintext data from desIn to be exposed before encryption is completed."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1240": {
+          "CAPEC-IDs": [
+            "CAPEC-97",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "CAPEC-97 can exploit CWE-1240 by manipulating the desIn signal to introduce unauthorized data into the DES module, potentially exposing plaintext before encryption and compromising confidentiality.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1240 by intercepting and altering the desIn input data block during transmission, leading to unauthorized access to sensitive plaintext data and breaching confidentiality."
+          }
+        },
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1431 by manipulating the desIn input data block to induce a fault during the DES encryption process, potentially revealing sensitive plaintext information through differential fault analysis, thereby compromising the confidentiality of the data."
+          }
+        },
+        "CWE-1264": {
+          "CAPEC-IDs": [
+            "CAPEC-233",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-233": "CAPEC-233 exploits CWE-1264 by manipulating the 'roundSel' input to alter the key scheduling process, potentially exposing the plaintext in 'desIn' before encryption, thus compromising its confidentiality.",
+            "CAPEC-545": "CAPEC-545 leverages CWE-1264 by injecting malicious data into the 'desIn' input, which could be improperly validated, leading to unauthorized access to sensitive plaintext data intended to be kept confidential."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-97",
+        "CAPEC-545",
+        "CAPEC-233"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-97": "[CWE-1240] CAPEC-97 can exploit CWE-1240 by manipulating the desIn signal to introduce unauthorized data into the DES module, potentially exposing plaintext before encryption and compromising confidentiality.",
+        "CAPEC-545": "[CWE-1240] CAPEC-545 targets CWE-1240 by intercepting and altering the desIn input data block during transmission, leading to unauthorized access to sensitive plaintext data and breaching confidentiality. [CWE-1431] CAPEC-545 can exploit CWE-1431 by manipulating the desIn input data block to induce a fault during the DES encryption process, potentially revealing sensitive plaintext information through differential fault analysis, thereby compromising the confidentiality of the data. [CWE-1264] CAPEC-545 leverages CWE-1264 by injecting malicious data into the 'desIn' input, which could be improperly validated, leading to unauthorized access to sensitive plaintext data intended to be kept confidential.",
+        "CAPEC-233": "[CWE-1264] CAPEC-233 exploits CWE-1264 by manipulating the 'roundSel' input to alter the key scheduling process, potentially exposing the plaintext in 'desIn' before encryption, thus compromising its confidentiality."
+      }
+    },
+    {
+      "Asset_Name": "Operation mode (encrypt/decrypt) control (decrypt) in des3 module",
+      "Functionality": "1-bit control that selects whether key scheduling and data flow operate in decryption or encryption direction.",
+      "Security Objective": "Integrity",
+      "Justification": "Unauthorized modification of this control flips the algorithmic direction, yielding incorrect outputs and potentially violating system policy. Maintaining its integrity ensures the module performs the intended operation.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connection of the decrypt signal could lead to unauthorized modification of the operation mode, violating system policy.",
+        "CWE-440": "A deviation from expected behavior in the decrypt signal could allow an attacker to flip the operation mode, leading to incorrect outputs.",
+        "CWE-1221": "Incorrect default setting of the decrypt signal could result in the module starting in an unintended mode, compromising integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1276 by manipulating the 'decrypt' control signal in the des3 module, compromising the integrity of the operation mode and causing unauthorized encryption or decryption, which results in incorrect outputs and potential policy violations."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 can exploit CWE-440 by manipulating the 'decrypt' control signal in the des3 module, thereby altering the intended encryption/decryption operation and compromising the integrity of the cryptographic process."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the 'decrypt' control signal in the des3 module, thereby altering the operation mode from encryption to decryption or vice versa, compromising the integrity of the cryptographic process and leading to unauthorized data transformations."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-545",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-545": "[CWE-1276] CAPEC-545 can exploit CWE-1276 by manipulating the 'decrypt' control signal in the des3 module, compromising the integrity of the operation mode and causing unauthorized encryption or decryption, which results in incorrect outputs and potential policy violations. [CWE-440] CAPEC-545 can exploit CWE-440 by manipulating the 'decrypt' control signal in the des3 module, thereby altering the intended encryption/decryption operation and compromising the integrity of the cryptographic process.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the 'decrypt' control signal in the des3 module, thereby altering the operation mode from encryption to decryption or vice versa, compromising the integrity of the cryptographic process and leading to unauthorized data transformations."
+      }
+    },
+    {
+      "Asset_Name": "Round selection control (roundSel) in des3 module",
+      "Functionality": "6-bit selector that determines which round\u2019s subkey is used and steers internal muxing of Lout/Xin (with special handling at roundSel=0,16,32).",
+      "Security Objective": "Integrity, Availability",
+      "Justification": "Corrupting roundSel causes the wrong subkeys or data paths to be applied, breaking the correctness of the DES round schedule. Ensuring its integrity preserves the intended per-round transformations.",
+      "CWE-IDs": [
+        "CWE-1233",
+        "CWE-1231",
+        "CWE-1223"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1233": "The absence of lock bit protection on the roundSel control could allow unauthorized modification of the round selection, leading to incorrect subkey application and compromising the integrity of the DES process.",
+        "CWE-1231": "If the roundSel control lacks proper lock bit implementation, it could be altered after initialization, allowing an attacker to modify the round schedule and disrupt the intended cryptographic transformations.",
+        "CWE-1223": "A race condition could allow an untrusted component to set the roundSel value before a trusted component, resulting in unauthorized configuration and incorrect DES round execution."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1233": {
+          "CAPEC-IDs": [
+            "CAPEC-176",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-176": "CAPEC-176 can exploit CWE-1233 by manipulating the roundSel control in the des3 module to disrupt the integrity of the DES round schedule, causing incorrect subkey application and compromising the encryption process.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1233 by inducing faults in the roundSel signal, leading to incorrect round selection and potentially causing denial of service by breaking the availability of the correct cryptographic transformations."
+          }
+        },
+        "CWE-1231": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1231 by manipulating the roundSel control in the des3 module to disrupt the integrity of the DES round schedule, leading to incorrect subkey application and data path selection, thereby compromising the intended cryptographic transformations."
+          }
+        },
+        "CWE-1223": {
+          "CAPEC-IDs": [
+            "CAPEC-26"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-26": "CAPEC-26 could exploit CWE-1223 by manipulating the roundSel control in the des3 module to disrupt the integrity of the DES round schedule, leading to incorrect subkey application and compromising the intended cryptographic transformations."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-176",
+        "CAPEC-545",
+        "CAPEC-680",
+        "CAPEC-26"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-176": "[CWE-1233] CAPEC-176 can exploit CWE-1233 by manipulating the roundSel control in the des3 module to disrupt the integrity of the DES round schedule, causing incorrect subkey application and compromising the encryption process.",
+        "CAPEC-545": "[CWE-1233] CAPEC-545 targets CWE-1233 by inducing faults in the roundSel signal, leading to incorrect round selection and potentially causing denial of service by breaking the availability of the correct cryptographic transformations.",
+        "CAPEC-680": "[CWE-1231] CAPEC-680 can exploit CWE-1231 by manipulating the roundSel control in the des3 module to disrupt the integrity of the DES round schedule, leading to incorrect subkey application and data path selection, thereby compromising the intended cryptographic transformations.",
+        "CAPEC-26": "[CWE-1223] CAPEC-26 could exploit CWE-1223 by manipulating the roundSel control in the des3 module to disrupt the integrity of the DES round schedule, leading to incorrect subkey application and compromising the intended cryptographic transformations."
+      }
+    },
+    {
+      "Asset_Name": "Final output data (64-bit) (desOut) in des3 module",
+      "Functionality": "Final 64-bit block produced after the final permutation of FP; represents the processed ciphertext (encryption) or plaintext (decryption).",
+      "Security Objective": "Confidentiality, Availability",
+      "Justification": "Blocking or corrupting this output prevents higher-level systems from receiving the result, effectively denying service of the encryption/decryption function. Ensuring availability of desOut preserves the operational behavior of the IP.",
+      "CWE-IDs": [
+        "CWE-1233",
+        "CWE-1231",
+        "CWE-1271"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1233": "An attacker could exploit the lack of lock bit protection to modify the DES module's configuration, potentially altering the final output data (desOut) and compromising confidentiality and availability.",
+        "CWE-1231": "Improper prevention of lock bit modification could allow unauthorized changes to the DES module's settings, affecting the integrity of the final output data (desOut) and leading to unauthorized access.",
+        "CWE-1271": "Uninitialized security settings on reset could allow an attacker to manipulate the DES module's configuration before secure values are applied, impacting the confidentiality and availability of the final output data (desOut)."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1233": {
+          "CAPEC-IDs": [
+            "CAPEC-176",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-176": "CAPEC-176 can exploit CWE-1233 by manipulating the clock signal (clk) to induce timing discrepancies, potentially leading to incorrect final output data (desOut) in the des3 module, thereby compromising the availability of the encryption/decryption function.",
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1233 by introducing faults during the cryptographic processing in the crp module, which may result in corrupted final output data (desOut) in the des3 module, thus violating the confidentiality and availability of the processed ciphertext or plaintext."
+          }
+        },
+        "CWE-1231": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1231 by manipulating the clock signal (clk) to induce timing discrepancies in the des3 module, potentially leading to incorrect or unavailable desOut data, thus compromising the availability of the encryption/decryption function.",
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1231 by introducing faults during the permutation operations in the crp module, causing incorrect final output data (desOut) and thereby affecting the confidentiality and availability of the processed ciphertext or plaintext."
+          }
+        },
+        "CWE-1271": {
+          "CAPEC-IDs": [
+            "CAPEC-74",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 exploits CWE-1271 by manipulating the clock signal to induce timing discrepancies in the des3 module, potentially leading to incorrect desOut values, thereby compromising the confidentiality and availability of the final output data.",
+            "CAPEC-545": "CAPEC-545 leverages CWE-1271 by introducing faults during the cryptographic processing in the crp module, which can alter the final permutation in des3, resulting in corrupted desOut data and violating the confidentiality and availability of the processed ciphertext or plaintext."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-176",
+        "CAPEC-545",
+        "CAPEC-680",
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-176": "[CWE-1233] CAPEC-176 can exploit CWE-1233 by manipulating the clock signal (clk) to induce timing discrepancies, potentially leading to incorrect final output data (desOut) in the des3 module, thereby compromising the availability of the encryption/decryption function.",
+        "CAPEC-545": "[CWE-1233] CAPEC-545 can exploit CWE-1233 by introducing faults during the cryptographic processing in the crp module, which may result in corrupted final output data (desOut) in the des3 module, thus violating the confidentiality and availability of the processed ciphertext or plaintext. [CWE-1231] CAPEC-545 can exploit CWE-1231 by introducing faults during the permutation operations in the crp module, causing incorrect final output data (desOut) and thereby affecting the confidentiality and availability of the processed ciphertext or plaintext. [CWE-1271] CAPEC-545 leverages CWE-1271 by introducing faults during the cryptographic processing in the crp module, which can alter the final permutation in des3, resulting in corrupted desOut data and violating the confidentiality and availability of the processed ciphertext or plaintext.",
+        "CAPEC-680": "[CWE-1231] CAPEC-680 can exploit CWE-1231 by manipulating the clock signal (clk) to induce timing discrepancies in the des3 module, potentially leading to incorrect or unavailable desOut data, thus compromising the availability of the encryption/decryption function.",
+        "CAPEC-74": "[CWE-1271] CAPEC-74 exploits CWE-1271 by manipulating the clock signal to induce timing discrepancies in the des3 module, potentially leading to incorrect desOut values, thereby compromising the confidentiality and availability of the final output data."
+      }
+    },
+    {
+      "Asset_Name": "First DES key input (56-bit) (key1) in key_sel3 module",
+      "Functionality": "Provides one of the three 56-bit master keys that the module selects from to derive round subkeys.",
+      "Security Objective": "Confidentiality",
+      "Justification": "This port carries secret cryptographic key material. Any disclosure enables recovery of the DES subkeys and compromises the security of the entire DES operation.",
+      "CWE-IDs": [
+        "CWE-1240",
+        "CWE-1431",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1240": "The use of DES, an outdated cryptographic primitive, in the key_sel3 module can be exploited due to known weaknesses, compromising the confidentiality of the key1 input.",
+        "CWE-1431": "Intermediate cryptographic states in the key_sel3 module could be inadvertently exposed through outputs, allowing attackers to extract sensitive key material from the key1 input.",
+        "CWE-1220": "Insufficient granularity of access control in the key_sel3 module may allow unauthorized access to the key1 input, leading to potential data leakage and compromise of cryptographic operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1240": {
+          "CAPEC-IDs": [
+            "CAPEC-97",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "CAPEC-97 could exploit CWE-1240 by leveraging a side-channel attack to infer the 56-bit key1 input in the key_sel3 module, thereby compromising the confidentiality of the cryptographic key material.",
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1240 by manipulating the roundSel input to induce incorrect subkey selection, potentially revealing the 56-bit key1 input and undermining the confidentiality of the DES operation."
+          }
+        },
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545, which involves side-channel attacks, could exploit CWE-1431 by analyzing power consumption or electromagnetic emissions during the key_sel3 module's operation to infer the 56-bit key1, thereby compromising the confidentiality of the cryptographic key material."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by leveraging a timing attack to infer the 56-bit key1 in the key_sel3 module, compromising the confidentiality of the cryptographic key material by observing variations in processing time during subkey derivation.",
+            "CAPEC-545": "CAPEC-545 exploits CWE-1220 by using a side-channel attack to capture electromagnetic emissions from the key_sel3 module, potentially revealing the 56-bit key1 and breaching the confidentiality of the DES operation."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-97",
+        "CAPEC-545",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-97": "[CWE-1240] CAPEC-97 could exploit CWE-1240 by leveraging a side-channel attack to infer the 56-bit key1 input in the key_sel3 module, thereby compromising the confidentiality of the cryptographic key material.",
+        "CAPEC-545": "[CWE-1240] CAPEC-545 could exploit CWE-1240 by manipulating the roundSel input to induce incorrect subkey selection, potentially revealing the 56-bit key1 input and undermining the confidentiality of the DES operation. [CWE-1431] CAPEC-545, which involves side-channel attacks, could exploit CWE-1431 by analyzing power consumption or electromagnetic emissions during the key_sel3 module's operation to infer the 56-bit key1, thereby compromising the confidentiality of the cryptographic key material. [CWE-1220] CAPEC-545 exploits CWE-1220 by using a side-channel attack to capture electromagnetic emissions from the key_sel3 module, potentially revealing the 56-bit key1 and breaching the confidentiality of the DES operation.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 exploits CWE-1220 by leveraging a timing attack to infer the 56-bit key1 in the key_sel3 module, compromising the confidentiality of the cryptographic key material by observing variations in processing time during subkey derivation."
+      }
+    },
+    {
+      "Asset_Name": "Second DES key input (56-bit) (key2) in key_sel3 module",
+      "Functionality": "Provides the second 56-bit master key used in triple-DES key scheduling depending on the round bank and mode.",
+      "Security Objective": "Confidentiality",
+      "Justification": "This is secret key material; observing or leaking it reveals information sufficient to derive round subkeys for part of the schedule, breaking secrecy of the cryptosystem.",
+      "CWE-IDs": [
+        "CWE-1240",
+        "CWE-1431",
+        "CWE-1258"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1240": "The DES module uses a cryptographic primitive (DES) that is considered outdated and risky, potentially exposing the second DES key input to known cryptographic attacks.",
+        "CWE-1431": "Intermediate cryptographic states, such as subkeys derived from the second DES key input, could be inadvertently exposed through hardware outputs, compromising confidentiality.",
+        "CWE-1258": "If debug information is not properly cleared, the second DES key input could be exposed through debug interfaces, leading to unauthorized access to sensitive cryptographic material."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1240": {
+          "CAPEC-IDs": [
+            "CAPEC-97",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "CAPEC-97 could exploit CWE-1240 by leveraging a side-channel attack to observe variations in power consumption or electromagnetic emissions during the key scheduling process in the key_sel3 module, potentially revealing the confidential second DES key input (key2).",
+            "CAPEC-545": "CAPEC-545 could exploit CWE-1240 by introducing a fault during the key scheduling operation in the key_sel3 module, causing erroneous outputs that could be analyzed to infer the confidential second DES key input (key2), thus compromising the cryptosystem's confidentiality."
+          }
+        },
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545, which involves side-channel attacks, could exploit CWE-1431 by leveraging electromagnetic emissions or power analysis to infer the second DES key input (key2) in the key_sel3 module, thereby compromising the confidentiality of the cryptosystem by revealing secret key material."
+          }
+        },
+        "CWE-1258": {
+          "CAPEC-IDs": [
+            "CAPEC-37",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-37": "CAPEC-37 exploits CWE-1258 by leveraging a side-channel attack to infer the second DES key input (key2) in the key_sel3 module, compromising the confidentiality of the cryptosystem by revealing subkey derivation information.",
+            "CAPEC-545": "CAPEC-545 exploits CWE-1258 by manipulating the timing of operations in the key_sel3 module to extract the second DES key input (key2), thereby breaching the confidentiality of the cryptographic process."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-97",
+        "CAPEC-545",
+        "CAPEC-37"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-97": "[CWE-1240] CAPEC-97 could exploit CWE-1240 by leveraging a side-channel attack to observe variations in power consumption or electromagnetic emissions during the key scheduling process in the key_sel3 module, potentially revealing the confidential second DES key input (key2).",
+        "CAPEC-545": "[CWE-1240] CAPEC-545 could exploit CWE-1240 by introducing a fault during the key scheduling operation in the key_sel3 module, causing erroneous outputs that could be analyzed to infer the confidential second DES key input (key2), thus compromising the cryptosystem's confidentiality. [CWE-1431] CAPEC-545, which involves side-channel attacks, could exploit CWE-1431 by leveraging electromagnetic emissions or power analysis to infer the second DES key input (key2) in the key_sel3 module, thereby compromising the confidentiality of the cryptosystem by revealing secret key material. [CWE-1258] CAPEC-545 exploits CWE-1258 by manipulating the timing of operations in the key_sel3 module to extract the second DES key input (key2), thereby breaching the confidentiality of the cryptographic process.",
+        "CAPEC-37": "[CWE-1258] CAPEC-37 exploits CWE-1258 by leveraging a side-channel attack to infer the second DES key input (key2) in the key_sel3 module, compromising the confidentiality of the cryptosystem by revealing subkey derivation information."
+      }
+    },
+    {
+      "Asset_Name": "Third DES key input (56-bit) (key3) in key_sel3 module",
+      "Functionality": "Provides the third 56-bit master key used when the round bank and mode select this key for subkey derivation.",
+      "Security Objective": "Confidentiality",
+      "Justification": "As a master key input, exposure directly compromises the confidentiality of the cipher since round subkeys are deterministically derived from it.",
+      "CWE-IDs": [
+        "CWE-1240",
+        "CWE-1431",
+        "CWE-1276"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1240": "The use of DES, an outdated cryptographic primitive, can be exploited by attackers to compromise the confidentiality of the key3 input, as DES is known to have vulnerabilities that can be targeted.",
+        "CWE-1431": "Intermediate cryptographic states, such as subkeys derived from key3, could be exposed through hardware outputs, allowing attackers to extract sensitive information and compromise confidentiality.",
+        "CWE-1276": "Incorrect connections between the key_sel3 module and the parent system could lead to unauthorized access to the key3 input, violating confidentiality by exposing the key to untrusted components."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1240": {
+          "CAPEC-IDs": [
+            "CAPEC-97",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "CAPEC-97 exploits CWE-1240 by leveraging improper isolation of the key3 input in the key_sel3 module, potentially allowing an attacker to manipulate the round selection process and expose the confidentiality of the derived subkeys.",
+            "CAPEC-545": "CAPEC-545 targets CWE-1240 by exploiting inadequate access control mechanisms around the key3 input in the key_sel3 module, enabling unauthorized access to the master key and compromising the confidentiality of the cryptographic operations."
+          }
+        },
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1431 by leveraging side-channel analysis to infer the third DES key input (key3) in the key_sel3 module, thereby compromising the confidentiality of the cipher by exposing the deterministic derivation of round subkeys."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1276 by leveraging side-channel analysis to infer the third DES key input (key3) in the key_sel3 module, thereby compromising the confidentiality of the cipher through the deterministic derivation of round subkeys."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-97",
+        "CAPEC-545"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-97": "[CWE-1240] CAPEC-97 exploits CWE-1240 by leveraging improper isolation of the key3 input in the key_sel3 module, potentially allowing an attacker to manipulate the round selection process and expose the confidentiality of the derived subkeys.",
+        "CAPEC-545": "[CWE-1240] CAPEC-545 targets CWE-1240 by exploiting inadequate access control mechanisms around the key3 input in the key_sel3 module, enabling unauthorized access to the master key and compromising the confidentiality of the cryptographic operations. [CWE-1431] CAPEC-545 can exploit CWE-1431 by leveraging side-channel analysis to infer the third DES key input (key3) in the key_sel3 module, thereby compromising the confidentiality of the cipher by exposing the deterministic derivation of round subkeys. [CWE-1276] CAPEC-545 can exploit CWE-1276 by leveraging side-channel analysis to infer the third DES key input (key3) in the key_sel3 module, thereby compromising the confidentiality of the cipher through the deterministic derivation of round subkeys."
+      }
+    },
+    {
+      "Asset_Name": "Round selector (roundSel) in key_sel3 module",
+      "Functionality": "Selects which set of subkeys is output for the current round and also influences which master key bank is chosen.",
+      "Security Objective": "Integrity",
+      "Justification": "If an attacker modifies this selector, the module will emit an incorrect subkey or a subkey from the wrong round/bank, corrupting the cryptographic computation and enabling fault-based attacks.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The roundSel signal in the key_sel3 module could be incorrectly connected, leading to the selection of incorrect subkeys, violating the integrity of the cryptographic process.",
+        "CWE-440": "If the roundSel behaves differently than specified, it could allow attackers to manipulate the cryptographic process by selecting incorrect subkeys, bypassing expected security mechanisms.",
+        "CWE-1220": "Insufficient granularity in access control for the roundSel could allow unauthorized modifications, leading to incorrect subkey selection and compromising the integrity of the cryptographic operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "By exploiting CWE-1220, CAPEC-180 allows an attacker to manipulate the roundSel signal in the key_sel3 module, thereby altering the integrity of the subkey selection process and potentially causing the DES module to use incorrect subkeys, leading to cryptographic errors.",
+            "CAPEC-545": "CAPEC-545 leverages CWE-1220 by introducing faults into the roundSel signal, compromising the integrity of the key selection mechanism in the key_sel3 module, which can result in the emission of incorrect subkeys and facilitate fault-based cryptographic attacks."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-545"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1220] By exploiting CWE-1220, CAPEC-180 allows an attacker to manipulate the roundSel signal in the key_sel3 module, thereby altering the integrity of the subkey selection process and potentially causing the DES module to use incorrect subkeys, leading to cryptographic errors.",
+        "CAPEC-545": "[CWE-1220] CAPEC-545 leverages CWE-1220 by introducing faults into the roundSel signal, compromising the integrity of the key selection mechanism in the key_sel3 module, which can result in the emission of incorrect subkeys and facilitate fault-based cryptographic attacks."
+      }
+    },
+    {
+      "Asset_Name": "Mode select (encrypt/decrypt) (decrypt) in key_sel3 module",
+      "Functionality": "Controls whether the subkey sequence is traversed in encryption or decryption order and which key bank ordering is applied.",
+      "Security Objective": "Availability",
+      "Justification": "If this control is held unavailable or jammed, the system cannot operate in the intended mode (e.g., decryption cannot be performed), effectively denying service for that use-case.",
+      "CWE-IDs": [
+        "CWE-1248",
+        "CWE-1276",
+        "CWE-440"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1248": "Semiconductor defects could cause the mode select signal to be stuck, preventing the system from switching between encryption and decryption, leading to denial of service.",
+        "CWE-1276": "Incorrect connections between the key_sel3 module and the parent system could result in the mode select signal being improperly tied, causing the system to fail in switching modes, thus denying service.",
+        "CWE-440": "If the mode select behaves differently from its specification due to design flaws, it could prevent the system from operating in the intended mode, causing denial of service."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1248": {
+          "CAPEC-IDs": [
+            "CAPEC-624"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-624": "CAPEC-624 can exploit CWE-1248 by manipulating the 'decrypt' signal in the key_sel3 module to disrupt the availability of the mode select functionality, preventing the system from performing decryption operations as intended."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-624"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-624": "[CWE-1248] CAPEC-624 can exploit CWE-1248 by manipulating the 'decrypt' signal in the key_sel3 module to disrupt the availability of the mode select functionality, preventing the system from performing decryption operations as intended."
+      }
+    },
+    {
+      "Asset_Name": "Round subkey output (48-bit) (K_sub) in key_sel3 module",
+      "Functionality": "Outputs the 48-bit round subkey derived from the selected master key and round index for use by the DES round function.",
+      "Security Objective": "Confidentiality",
+      "Justification": "This signal directly carries key-dependent subkey material. Disclosure enables key schedule reconstruction and can lead to recovery of the master key(s).",
+      "CWE-IDs": [
+        "CWE-1431",
+        "CWE-1240",
+        "CWE-1276"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1431": "The K_sub output in the key_sel3 module could expose intermediate cryptographic states, allowing attackers to reconstruct the key schedule and compromise confidentiality.",
+        "CWE-1240": "The use of DES, an outdated cryptographic primitive, in the key_sel3 module poses a risk of key recovery through known weaknesses, compromising the confidentiality of the subkey output.",
+        "CWE-1276": "Incorrect connections in the key_sel3 module could lead to unauthorized access to the K_sub output, allowing attackers to bypass security policies and access sensitive subkey material."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545, which involves side-channel attacks, could exploit CWE-1431 by analyzing power consumption or electromagnetic emissions during the key_sel3 module's operation to infer the 48-bit round subkey (K_sub), thereby compromising the confidentiality of the cryptographic key material."
+          }
+        },
+        "CWE-1240": {
+          "CAPEC-IDs": [
+            "CAPEC-97",
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "CAPEC-97 exploits CWE-1240 by leveraging side-channel analysis to infer the 48-bit round subkey (K_sub) output in the key_sel3 module, compromising the confidentiality of the key schedule and potentially leading to master key recovery.",
+            "CAPEC-545": "CAPEC-545 exploits CWE-1240 by injecting faults during the key selection process in the key_sel3 module, causing erroneous K_sub outputs that can be analyzed to reveal confidential subkey information and reconstruct the master key."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-545"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-545": "CAPEC-545 can exploit CWE-1276 by leveraging side-channel analysis to infer the 48-bit round subkey (K_sub) in the key_sel3 module, compromising the confidentiality of the key schedule and potentially leading to the reconstruction of the master key(s)."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-545",
+        "CAPEC-97"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-545": "[CWE-1431] CAPEC-545, which involves side-channel attacks, could exploit CWE-1431 by analyzing power consumption or electromagnetic emissions during the key_sel3 module's operation to infer the 48-bit round subkey (K_sub), thereby compromising the confidentiality of the cryptographic key material. [CWE-1240] CAPEC-545 exploits CWE-1240 by injecting faults during the key selection process in the key_sel3 module, causing erroneous K_sub outputs that can be analyzed to reveal confidential subkey information and reconstruct the master key. [CWE-1276] CAPEC-545 can exploit CWE-1276 by leveraging side-channel analysis to infer the 48-bit round subkey (K_sub) in the key_sel3 module, compromising the confidentiality of the key schedule and potentially leading to the reconstruction of the master key(s).",
+        "CAPEC-97": "[CWE-1240] CAPEC-97 exploits CWE-1240 by leveraging side-channel analysis to infer the 48-bit round subkey (K_sub) output in the key_sel3 module, compromising the confidentiality of the key schedule and potentially leading to master key recovery."
+      }
+    }
+  ]
+}

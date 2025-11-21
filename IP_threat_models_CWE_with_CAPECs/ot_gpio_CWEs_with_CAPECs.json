@@ -1,0 +1,389 @@
+{
+  "IP": "ot_gpio",
+  "Assets": [
+    {
+      "Asset_Name": "GPIO interrupt output (intr_gpio_o) in gpio module",
+      "Functionality": "Exports interrupt signals (32-bit) from the GPIO interrupt hardware to the integration/system level to indicate pin events or conditions.",
+      "Security Objective": "Availability",
+      "Justification": "The interrupt output is the primary channel by which the module notifies the rest of the system of GPIO events. If this output is suppressed or unavailable, the system cannot respond to GPIO events, causing denial of service to interrupt-driven functionality.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1320",
+        "CWE-440"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections between the GPIO interrupt output and the parent system could lead to unhandled interrupts, causing denial of service by preventing the system from responding to GPIO events.",
+        "CWE-1320": "If the GPIO interrupt output signals are not adequately protected, unauthorized agents could suppress or generate false interrupts, leading to denial of service by disrupting the system's ability to respond to legitimate GPIO events.",
+        "CWE-440": "Deviations in the GPIO interrupt output behavior from the specified design could allow attackers to manipulate interrupt signals, causing denial of service by preventing the system from responding to GPIO events as expected."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1320": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180, which involves exploiting race conditions, can be used to exploit CWE-1320 by manipulating the timing of interrupt signal generation in the GPIO module, potentially causing a denial of service by making the intr_gpio_o output unavailable and thus failing the availability objective."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1320] CAPEC-180, which involves exploiting race conditions, can be used to exploit CWE-1320 by manipulating the timing of interrupt signal generation in the GPIO module, potentially causing a denial of service by making the intr_gpio_o output unavailable and thus failing the availability objective."
+      }
+    },
+    {
+      "Asset_Name": "GPIO output enable pins (cio_gpio_en_o) in gpio module",
+      "Functionality": "Per-pin output-enable vector that controls whether each GPIO pin is actively driven or tri-stated.",
+      "Security Objective": "Integrity",
+      "Justification": "The output-enable signals determine whether the module can drive external lines or leave them floating; unauthorized modification can change device behavior or bus contention. Maintaining correct enable settings is essential to prevent unintended control or interference with other devices.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1221",
+        "CWE-1276"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the GPIO register interface could allow unauthorized modification of the output-enable pins, leading to unintended device behavior or bus contention.",
+        "CWE-1221": "Incorrect default settings for the GPIO output-enable pins could result in insecure states upon reset, allowing unauthorized control over GPIO outputs.",
+        "CWE-1276": "Incorrect connections between the GPIO module and the parent system could lead to unauthorized activation or deactivation of GPIO output-enable pins, violating intended security policies."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the GPIO output enable pins (cio_gpio_en_o) to alter the integrity of the output-enable vector, potentially causing unauthorized activation or deactivation of GPIO pins, leading to unintended device behavior or bus contention."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166, which involves leveraging a shared resource to influence its state, can exploit CWE-1221 by manipulating the GPIO output enable pins (cio_gpio_en_o) to alter their integrity, potentially causing unauthorized activation or deactivation of GPIO outputs, thus compromising the intended control over external lines."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the GPIO output enable pins (cio_gpio_en_o) to alter the integrity of the output-enable vector, potentially causing unauthorized activation or deactivation of GPIO pins, leading to unintended device behavior or bus contention.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166, which involves leveraging a shared resource to influence its state, can exploit CWE-1221 by manipulating the GPIO output enable pins (cio_gpio_en_o) to alter their integrity, potentially causing unauthorized activation or deactivation of GPIO outputs, thus compromising the intended control over external lines."
+      }
+    },
+    {
+      "Asset_Name": "Internal alert request vector (alerts) in gpio module",
+      "Functionality": "Internal alert request signals aggregated from the module (including integrity errors) which are fed into the alert sender primitives to request alert transmission.",
+      "Security Objective": "Integrity",
+      "Justification": "Alerts indicate serious conditions (e.g., integrity errors) to the system; unauthorized modification can hide real faults or create false alarms. Maintaining integrity of these alert requests is necessary to ensure trustworthy error signaling.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1276",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the register interface could allow unauthorized modification of the alert signals, compromising the integrity of error signaling.",
+        "CWE-1276": "Incorrect connections between the GPIO module and its parent system could lead to misrouted alert signals, allowing integrity errors to go unreported or false alerts to be generated.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to modify or suppress alert signals, undermining the integrity of the alert mechanism."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the internal alert request vector in the GPIO module to inject unauthorized alert signals, compromising the integrity of error signaling and potentially masking real integrity errors or generating false alerts."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the internal alert request vector ('alerts') in the GPIO module to bypass integrity checks, potentially allowing unauthorized modifications that could either suppress genuine integrity error alerts or generate false alarms, thereby compromising the integrity of the alert signaling system."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the internal alert request vector in the GPIO module to inject unauthorized alert signals, compromising the integrity of error signaling and potentially masking real integrity errors or generating false alerts.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the internal alert request vector ('alerts') in the GPIO module to bypass integrity checks, potentially allowing unauthorized modifications that could either suppress genuine integrity error alerts or generate false alarms, thereby compromising the integrity of the alert signaling system."
+      }
+    },
+    {
+      "Asset_Name": "Register write enable (reg_we) in gpio_reg_top module",
+      "Functionality": "Write-enable strobe for the TileLink register interface; when asserted with a valid address hit and byte enables, it qualifies acceptance of write data into the targeted register.",
+      "Security Objective": "Integrity, Availability",
+      "Justification": "If reg_we is spoofed or suppressed, configuration registers can be overwritten without authorization (integrity loss) or legitimate writes can be blocked (availability loss), disrupting correct GPIO behavior.",
+      "CWE-IDs": [
+        "CWE-1223",
+        "CWE-1231",
+        "CWE-1233"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1223": "The reg_we signal could be exploited in a race condition to write unauthorized configurations to registers before legitimate writes occur, compromising system integrity.",
+        "CWE-1231": "If the reg_we signal allows modification of lock bits after initialization, it could lead to unauthorized reconfiguration of GPIO settings, undermining integrity and availability.",
+        "CWE-1233": "The absence of lock bit protection on reg_we could allow unauthorized modifications to critical GPIO configurations, leading to integrity and availability issues."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1223": {
+          "CAPEC-IDs": [
+            "CAPEC-26"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-26": "CAPEC-26 can exploit CWE-1223 by manipulating the reg_we signal to bypass integrity checks, allowing unauthorized register writes that compromise the integrity and availability of the GPIO module's configuration."
+          }
+        },
+        "CWE-1231": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 exploits CWE-1231 by manipulating the reg_we signal to bypass integrity checks, allowing unauthorized register writes that compromise the integrity and availability of the GPIO module's configuration."
+          }
+        },
+        "CWE-1233": {
+          "CAPEC-IDs": [
+            "CAPEC-176"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-176": "CAPEC-176 can exploit CWE-1233 by manipulating the reg_we signal in the gpio_reg_top module to bypass integrity checks, allowing unauthorized register writes that compromise the integrity and availability of the GPIO configuration."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-26",
+        "CAPEC-680",
+        "CAPEC-176"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-26": "[CWE-1223] CAPEC-26 can exploit CWE-1223 by manipulating the reg_we signal to bypass integrity checks, allowing unauthorized register writes that compromise the integrity and availability of the GPIO module's configuration.",
+        "CAPEC-680": "[CWE-1231] CAPEC-680 exploits CWE-1231 by manipulating the reg_we signal to bypass integrity checks, allowing unauthorized register writes that compromise the integrity and availability of the GPIO module's configuration.",
+        "CAPEC-176": "[CWE-1233] CAPEC-176 can exploit CWE-1233 by manipulating the reg_we signal in the gpio_reg_top module to bypass integrity checks, allowing unauthorized register writes that compromise the integrity and availability of the GPIO configuration."
+      }
+    },
+    {
+      "Asset_Name": "Register read enable (reg_re) in gpio_reg_top module",
+      "Functionality": "Read-enable strobe for the TileLink register interface; when asserted with an address hit, it initiates the muxing and return of read data for the addressed register.",
+      "Security Objective": "Integrity, Availability",
+      "Justification": "Manipulating reg_re can trigger unintended read operations or prevent expected reads, leading to incorrect system state observations (integrity impact) or stalling software that depends on status reads (availability impact).",
+      "CWE-IDs": [
+        "CWE-1223",
+        "CWE-1231",
+        "CWE-441"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1223": "An attacker could exploit a race condition to manipulate the reg_re signal before trusted software can configure it, leading to unauthorized read operations.",
+        "CWE-1231": "Improper prevention of lock bit modification could allow an attacker to alter reg_re settings after initialization, leading to unauthorized read operations and system misconfigurations.",
+        "CWE-441": "The reg_re signal could be exploited by an intermediary component to perform unauthorized read operations on behalf of an untrusted source, bypassing access controls."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1223": {
+          "CAPEC-IDs": [
+            "CAPEC-26"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-26": "CAPEC-26, which involves exploiting race conditions, can be used to exploit CWE-1223 by manipulating the timing of reg_re assertions to cause unintended read operations or prevent expected reads, thereby compromising the integrity and availability of the GPIO module's register interface."
+          }
+        },
+        "CWE-1231": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1231 by manipulating the reg_re signal to induce incorrect read operations, thereby compromising the integrity and availability of the GPIO module's register interface by causing unintended data exposure or denial of service through stalled read operations."
+          }
+        },
+        "CWE-441": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-26",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-26": "[CWE-1223] CAPEC-26, which involves exploiting race conditions, can be used to exploit CWE-1223 by manipulating the timing of reg_re assertions to cause unintended read operations or prevent expected reads, thereby compromising the integrity and availability of the GPIO module's register interface.",
+        "CAPEC-680": "[CWE-1231] CAPEC-680 can exploit CWE-1231 by manipulating the reg_re signal to induce incorrect read operations, thereby compromising the integrity and availability of the GPIO module's register interface by causing unintended data exposure or denial of service through stalled read operations."
+      }
+    },
+    {
+      "Asset_Name": "Register interface error indicator (reg_error) in gpio_reg_top module",
+      "Functionality": "Per-access error flag for the TileLink register interface that reports address misses, integrity/parity failures, or protocol violations during register transactions.",
+      "Security Objective": "Integrity, Availability",
+      "Justification": "If reg_error is forced low, faulty transactions pass silently (integrity loss); if forced high, valid transactions are rejected and the software flow can stall (availability loss).",
+      "CWE-IDs": [
+        "CWE-1231",
+        "CWE-1233",
+        "CWE-1223"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1231": "The reg_error indicator could be exploited if lock bits meant to secure its configuration are improperly modifiable, allowing unauthorized changes to error reporting behavior.",
+        "CWE-1233": "The absence of lock bit protection for the reg_error indicator could allow unauthorized modifications, leading to silent acceptance of faulty transactions or rejection of valid ones.",
+        "CWE-1223": "A race condition could allow unauthorized entities to modify the reg_error indicator before trusted components, leading to incorrect error reporting and potential system integrity issues."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1231": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "By exploiting CWE-1231, CAPEC-680 can manipulate the register interface error indicator (reg_error) in the gpio_reg_top module to either suppress error reporting, compromising integrity by allowing faulty transactions to pass, or to falsely signal errors, impacting availability by stalling valid transactions."
+          }
+        },
+        "CWE-1233": {
+          "CAPEC-IDs": [
+            "CAPEC-176"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-176": "CAPEC-176 can exploit CWE-1233 by manipulating the register interface error indicator (reg_error) in the gpio_reg_top module to force it low, allowing faulty transactions to bypass integrity checks and compromise the integrity of the GPIO module's operations."
+          }
+        },
+        "CWE-1223": {
+          "CAPEC-IDs": [
+            "CAPEC-26"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-26": "CAPEC-26 can exploit CWE-1223 by manipulating the register interface error indicator (reg_error) in the gpio_reg_top module to force it low, allowing integrity violations to pass undetected, thereby compromising the integrity objective of the asset."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-176",
+        "CAPEC-26"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1231] By exploiting CWE-1231, CAPEC-680 can manipulate the register interface error indicator (reg_error) in the gpio_reg_top module to either suppress error reporting, compromising integrity by allowing faulty transactions to pass, or to falsely signal errors, impacting availability by stalling valid transactions.",
+        "CAPEC-176": "[CWE-1233] CAPEC-176 can exploit CWE-1233 by manipulating the register interface error indicator (reg_error) in the gpio_reg_top module to force it low, allowing faulty transactions to bypass integrity checks and compromise the integrity of the GPIO module's operations.",
+        "CAPEC-26": "[CWE-1223] CAPEC-26 can exploit CWE-1223 by manipulating the register interface error indicator (reg_error) in the gpio_reg_top module to force it low, allowing integrity violations to pass undetected, thereby compromising the integrity objective of the asset."
+      }
+    },
+    {
+      "Asset_Name": "Outgoing integrity/error indicator- external (intg_err_o) in gpio_reg_top module",
+      "Functionality": "This output signals that an integrity error has been detected (either incoming payload integrity failure or internal write-enable error) and is used for alert generation externally.",
+      "Security Objective": "Integrity",
+      "Justification": "The integrity-error output communicates device integrity faults to the integrator and alerting infrastructure; an attacker forging or suppressing this signal would hide or falsely report integrity breaches, undermining trust in the module's error reporting.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1262",
+        "CWE-1263",
+        "CWE-1224"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The intg_err_o signal could be incorrectly connected, leading to false integrity error reporting or suppression, which attackers could exploit to bypass security policies.",
+        "CWE-1262": "Improper access control on the intg_err_o signal could allow unauthorized tampering with integrity error reporting, compromising the system's integrity.",
+        "CWE-1263": "If physical access controls are insufficient, attackers could manipulate the intg_err_o signal to falsely report or suppress integrity errors.",
+        "CWE-1224": "Improper restriction of write-once bit fields could allow attackers to modify the intg_err_o signal after initialization, undermining its integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the integrity error signal (intg_err_o) in the gpio_reg_top module to either forge or suppress integrity error alerts, thereby compromising the integrity objective by misleading the alerting infrastructure about the module's error state."
+          }
+        },
+        "CWE-1263": {
+          "CAPEC-IDs": [
+            "CAPEC-401"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-401": "By exploiting CWE-1263, an attacker could manipulate the intg_err_o signal in the gpio_reg_top module to falsely indicate integrity errors or suppress genuine ones, thereby compromising the integrity objective by misleading the alerting infrastructure about the module's error state."
+          }
+        },
+        "CWE-1224": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1224 by manipulating the GPIO module's register interface to induce erroneous integrity error signals on intg_err_o, thereby compromising the integrity objective by falsely indicating or suppressing integrity faults."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-401"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the integrity error signal (intg_err_o) in the gpio_reg_top module to either forge or suppress integrity error alerts, thereby compromising the integrity objective by misleading the alerting infrastructure about the module's error state. [CWE-1224] CAPEC-680 can exploit CWE-1224 by manipulating the GPIO module's register interface to induce erroneous integrity error signals on intg_err_o, thereby compromising the integrity objective by falsely indicating or suppressing integrity faults.",
+        "CAPEC-401": "[CWE-1263] By exploiting CWE-1263, an attacker could manipulate the intg_err_o signal in the gpio_reg_top module to falsely indicate integrity errors or suppress genuine ones, thereby compromising the integrity objective by misleading the alerting infrastructure about the module's error state."
+      }
+    },
+    {
+      "Asset_Name": "Latched/permanent integrity error state (err_q) in gpio_reg_top module",
+      "Functionality": "err_q latches the occurrence of an integrity-related error (intg_err or reg_we_err) and makes the error persistent across cycles for use by alerting logic.",
+      "Security Objective": "Integrity",
+      "Justification": "The latched error state preserves evidence of integrity failures; if this latch is corrupted or cleared improperly, actual integrity violations could be concealed or falsely signalled, impacting system response to faults.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1262",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The err_q asset's role in preserving integrity error states aligns with CWE-440, as deviations from expected behavior in this context could allow attackers to manipulate or bypass error signaling, concealing integrity violations.",
+        "CWE-1262": "Improper access control for the register interface could allow unauthorized modification of the err_q state, leading to false signaling or concealment of integrity errors, which directly impacts the asset's security objective.",
+        "CWE-1220": "Insufficient granularity of access control could permit unauthorized agents to access or modify the err_q state, compromising the integrity of error reporting and potentially allowing integrity violations to go undetected."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the GPIO module's register interface to improperly clear or alter the latched error state (err_q), thereby compromising the integrity of error reporting and potentially concealing actual integrity violations."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the GPIO module's register interface to improperly clear or alter the latched integrity error state (err_q), thereby compromising the integrity objective by concealing actual integrity violations or falsely signaling errors."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the GPIO module's register interface to improperly clear or alter the latched error state (err_q), thereby compromising the integrity of error reporting and potentially concealing actual integrity violations.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the GPIO module's register interface to improperly clear or alter the latched integrity error state (err_q), thereby compromising the integrity objective by concealing actual integrity violations or falsely signaling errors."
+      }
+    }
+  ]
+}

@@ -1,0 +1,283 @@
+{
+  "IP": "core_soc_gpio",
+  "Assets": [
+    {
+      "Asset_Name": "GPIO output enable control pins (gpio_output_enable_o)",
+      "Functionality": "Drives per-bit output-enable for GPIO pins based on the direction register.",
+      "Security Objective": "Integrity",
+      "Justification": "Mis-setting enables can force pins to drive when they should be inputs, causing contention or unintended actuation in the system. This signal is the direct hardware gate between internal state and pad drivers.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the GPIO register interface could allow unauthorized modification of the gpio_output_enable_o, leading to unintended pin actuation.",
+        "CWE-1220": "Insufficient granularity in access control could allow unauthorized agents to modify the gpio_output_enable_o, compromising the integrity of GPIO operations.",
+        "CWE-1221": "Incorrect register defaults could lead to insecure initial states for gpio_output_enable_o, allowing pins to drive incorrectly upon reset."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "By exploiting CWE-1262, CAPEC-680 can manipulate the GPIO output enable control pins (gpio_output_enable_o) to improperly set the direction register, compromising the integrity of the system by causing unintended pin actuation.",
+            "CAPEC-74": "CAPEC-74 leverages CWE-1262 to alter the GPIO output enable control pins (gpio_output_enable_o), potentially overriding the intended direction settings and violating the integrity of the system by enabling outputs when they should be inputs."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the GPIO output enable control pins (gpio_output_enable_o) to override the intended direction settings, compromising the integrity of the system by forcing pins to drive outputs when they should be inputs.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1220 by injecting malicious data into the configuration registers, altering the gpio_output_enable_o signals to disrupt the intended operation and integrity of the GPIO module by enabling outputs incorrectly."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "By exploiting CWE-1221, an attacker could use CAPEC-166 to manipulate the GPIO output enable control pins (gpio_output_enable_o) to improperly set the direction register, compromising the integrity of the system by causing unintended pin actuation.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1221 by injecting malicious data into the GPIO configuration interface, altering the gpio_output_enable_o signal to violate the integrity of the system by enabling outputs when they should be inputs."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-180",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] By exploiting CWE-1262, CAPEC-680 can manipulate the GPIO output enable control pins (gpio_output_enable_o) to improperly set the direction register, compromising the integrity of the system by causing unintended pin actuation.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 leverages CWE-1262 to alter the GPIO output enable control pins (gpio_output_enable_o), potentially overriding the intended direction settings and violating the integrity of the system by enabling outputs when they should be inputs. [CWE-1220] CAPEC-74 can exploit CWE-1220 by injecting malicious data into the configuration registers, altering the gpio_output_enable_o signals to disrupt the intended operation and integrity of the GPIO module by enabling outputs incorrectly. [CWE-1221] CAPEC-74 can exploit CWE-1221 by injecting malicious data into the GPIO configuration interface, altering the gpio_output_enable_o signal to violate the integrity of the system by enabling outputs when they should be inputs.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the GPIO output enable control pins (gpio_output_enable_o) to override the intended direction settings, compromising the integrity of the system by forcing pins to drive outputs when they should be inputs.",
+        "CAPEC-166": "[CWE-1221] By exploiting CWE-1221, an attacker could use CAPEC-166 to manipulate the GPIO output enable control pins (gpio_output_enable_o) to improperly set the direction register, compromising the integrity of the system by causing unintended pin actuation."
+      }
+    },
+    {
+      "Asset_Name": "Interrupt request output (intr_o)",
+      "Functionality": "Aggregated interrupt signal derived from raw interrupt status and mask configuration.",
+      "Security Objective": "Availability",
+      "Justification": "If unavailable, system software will not be notified of GPIO events, breaking interrupt-driven operation. The signal is asserted when any unmasked interrupt bit is set.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1276",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The intr_o signal could be exploited if the GPIO module's interrupt management logic deviates from its specification, potentially causing denial of service by failing to notify system software of GPIO events.",
+        "CWE-1276": "If the intr_o signal is incorrectly connected or left unconnected to the parent system, it could result in the system failing to receive critical interrupt notifications, leading to a breakdown in interrupt-driven operations.",
+        "CWE-1221": "Incorrect default settings in the GPIO module's interrupt configuration registers could lead to the intr_o signal being improperly masked or disabled, preventing the system from responding to GPIO events as intended."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-440 by manipulating the GPIO module's register interface to cause a denial of service on the interrupt request output (intr_o), thereby compromising the availability of interrupt-driven operations by preventing the system software from being notified of GPIO events."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1276 by manipulating the GPIO module's interrupt configuration registers to create a denial of service, thereby preventing the 'intr_o' signal from notifying the system software of critical GPIO events, compromising the availability of interrupt-driven operations."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the GPIO module's register interface to cause a race condition, potentially leading to the unavailability of the interrupt request output (intr_o), thereby compromising the system's ability to handle GPIO events in a timely manner.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1221 by inducing a race condition through the rapid toggling of configuration signals, which may disrupt the synchronization of the interrupt request output (intr_o), affecting its availability and the system's interrupt-driven operations."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-440] CAPEC-74 can exploit CWE-440 by manipulating the GPIO module's register interface to cause a denial of service on the interrupt request output (intr_o), thereby compromising the availability of interrupt-driven operations by preventing the system software from being notified of GPIO events. [CWE-1276] CAPEC-74 can exploit CWE-1276 by manipulating the GPIO module's interrupt configuration registers to create a denial of service, thereby preventing the 'intr_o' signal from notifying the system software of critical GPIO events, compromising the availability of interrupt-driven operations. [CWE-1221] CAPEC-74 can exploit CWE-1221 by inducing a race condition through the rapid toggling of configuration signals, which may disrupt the synchronization of the interrupt request output (intr_o), affecting its availability and the system's interrupt-driven operations.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the GPIO module's register interface to cause a race condition, potentially leading to the unavailability of the interrupt request output (intr_o), thereby compromising the system's ability to handle GPIO events in a timely manner."
+      }
+    },
+    {
+      "Asset_Name": "GPIO direction register (output enables) (gpio_direction_output_q)",
+      "Functionality": "Holds per-bit direction (output enable) configuration for GPIO pins.",
+      "Security Objective": "Integrity",
+      "Justification": "This register determines whether pins drive or listen; unintended changes can cause bus contention or incorrect system behavior. It directly drives gpio_output_enable_o.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the GPIO direction register could allow unauthorized software to modify the output enable configuration, leading to bus contention or incorrect system behavior.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to modify the GPIO direction register, affecting the integrity of the output enable settings.",
+        "CWE-1221": "Incorrect register defaults for the GPIO direction register could lead to insecure states upon reset, potentially allowing unintended changes to output enable configurations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the GPIO direction register (gpio_direction_output_q) to alter pin configurations, compromising the integrity of the system by causing unintended output enablement.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1262 by injecting malicious data into the GPIO direction register (gpio_direction_output_q), leading to unauthorized changes in pin direction and violating the integrity of the output enable configuration."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the GPIO direction register (gpio_direction_output_q) through unauthorized write operations, compromising the integrity of the output enable configuration and potentially causing bus contention or incorrect system behavior.",
+            "CAPEC-74": "CAPEC-74 leverages CWE-1220 by injecting malicious data into the GPIO direction register (gpio_direction_output_q) via improper input validation, undermining the integrity of the pin direction settings and leading to unintended system operations."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "By exploiting CWE-1221, an attacker could use CAPEC-166 to manipulate the GPIO direction register (gpio_direction_output_q) through unauthorized write operations, compromising the integrity of the output enable configuration and potentially causing bus contention or incorrect system behavior.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1221 by leveraging improper input validation to inject malicious data into the GPIO direction register (gpio_direction_output_q), thereby altering the integrity of the output enable settings and leading to unintended pin behavior."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-180",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the GPIO direction register (gpio_direction_output_q) to alter pin configurations, compromising the integrity of the system by causing unintended output enablement.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 can exploit CWE-1262 by injecting malicious data into the GPIO direction register (gpio_direction_output_q), leading to unauthorized changes in pin direction and violating the integrity of the output enable configuration. [CWE-1220] CAPEC-74 leverages CWE-1220 by injecting malicious data into the GPIO direction register (gpio_direction_output_q) via improper input validation, undermining the integrity of the pin direction settings and leading to unintended system operations. [CWE-1221] CAPEC-74 can exploit CWE-1221 by leveraging improper input validation to inject malicious data into the GPIO direction register (gpio_direction_output_q), thereby altering the integrity of the output enable settings and leading to unintended pin behavior.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the GPIO direction register (gpio_direction_output_q) through unauthorized write operations, compromising the integrity of the output enable configuration and potentially causing bus contention or incorrect system behavior.",
+        "CAPEC-166": "[CWE-1221] By exploiting CWE-1221, an attacker could use CAPEC-166 to manipulate the GPIO direction register (gpio_direction_output_q) through unauthorized write operations, compromising the integrity of the output enable configuration and potentially causing bus contention or incorrect system behavior."
+      }
+    },
+    {
+      "Asset_Name": "GPIO interrupt mask register (gpio_int_mask_enable_q)",
+      "Functionality": "Holds interrupt mask bits to enable/disable per-pin interrupt generation.",
+      "Security Objective": "Integrity",
+      "Justification": "If modified, interrupts can be spuriously suppressed or enabled, affecting event reporting. The mask is applied to raw interrupts before asserting intr_o.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1224"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the GPIO interrupt mask register could allow unauthorized modification, leading to unintended interrupt behavior.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to modify the interrupt mask register, affecting system integrity.",
+        "CWE-1224": "Improper restriction of write-once bit fields could allow the interrupt mask register to be reprogrammed, compromising interrupt handling."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the GPIO interrupt mask register (gpio_int_mask_enable_q) to improperly configure interrupt masking, thereby compromising the integrity of interrupt handling and allowing unauthorized suppression or triggering of interrupts.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1262 by injecting malicious data into the GPIO configuration interface, leading to unauthorized modifications of the interrupt mask register (gpio_int_mask_enable_q) and affecting the integrity of interrupt event reporting."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the GPIO interrupt mask register (gpio_int_mask_enable_q) through unauthorized write operations, compromising the integrity of interrupt handling by enabling or disabling interrupts without proper authorization.",
+            "CAPEC-74": "CAPEC-74 exploits CWE-1220 by leveraging improper access control to modify the GPIO interrupt mask register (gpio_int_mask_enable_q), potentially allowing an attacker to alter interrupt settings and disrupt the intended event reporting mechanism."
+          }
+        },
+        "CWE-1224": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1224 by manipulating the GPIO interrupt mask register (gpio_int_mask_enable_q) to improperly enable or disable interrupts, thereby compromising the integrity of event reporting by altering the intended interrupt behavior.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1224 by injecting unauthorized write operations to the GPIO interrupt mask register (gpio_int_mask_enable_q), leading to unauthorized changes in interrupt settings that undermine the integrity of the system's interrupt handling."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the GPIO interrupt mask register (gpio_int_mask_enable_q) to improperly configure interrupt masking, thereby compromising the integrity of interrupt handling and allowing unauthorized suppression or triggering of interrupts. [CWE-1224] CAPEC-680 can exploit CWE-1224 by manipulating the GPIO interrupt mask register (gpio_int_mask_enable_q) to improperly enable or disable interrupts, thereby compromising the integrity of event reporting by altering the intended interrupt behavior.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 can exploit CWE-1262 by injecting malicious data into the GPIO configuration interface, leading to unauthorized modifications of the interrupt mask register (gpio_int_mask_enable_q) and affecting the integrity of interrupt event reporting. [CWE-1220] CAPEC-74 exploits CWE-1220 by leveraging improper access control to modify the GPIO interrupt mask register (gpio_int_mask_enable_q), potentially allowing an attacker to alter interrupt settings and disrupt the intended event reporting mechanism. [CWE-1224] CAPEC-74 can exploit CWE-1224 by injecting unauthorized write operations to the GPIO interrupt mask register (gpio_int_mask_enable_q), leading to unauthorized changes in interrupt settings that undermine the integrity of the system's interrupt handling.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the GPIO interrupt mask register (gpio_int_mask_enable_q) through unauthorized write operations, compromising the integrity of interrupt handling by enabling or disabling interrupts without proper authorization."
+      }
+    },
+    {
+      "Asset_Name": "Read valid state (rvalid_q)",
+      "Functionality": "Holds the read valid state until the master asserts RREADY.",
+      "Security Objective": "Availability",
+      "Justification": "If it fails to assert or clear, read channels either never complete or remain blocked, preventing new reads. It directly drives cfg_rvalid_o and arready gating.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1276",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The read valid state (rvalid_q) could be exploited if it behaves differently from its specification, leading to denial of service by blocking read operations.",
+        "CWE-1276": "Incorrect connections between the GPIO module and its parent system could prevent the read valid state from properly signaling readiness, causing availability issues.",
+        "CWE-1245": "Improper FSM handling in the GPIO module could lead to the read valid state being stuck or incorrectly transitioned, resulting in blocked read channels and availability loss."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-440 by manipulating the read valid state (rvalid_q) to remain asserted indefinitely, thereby blocking the read channel and violating the availability objective of the GPIO module's read operations."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1276 by manipulating the read valid state (rvalid_q) to remain asserted indefinitely, thereby blocking the read channel and violating the availability of the GPIO module's read operations."
+          }
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "By exploiting CWE-1245, an attacker could manipulate the read valid state (rvalid_q) using CAPEC-74's forced deadlock pattern, causing the GPIO module to indefinitely assert cfg_rvalid_o, thereby blocking new read operations and compromising the availability of the read channel."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-440] CAPEC-74 can exploit CWE-440 by manipulating the read valid state (rvalid_q) to remain asserted indefinitely, thereby blocking the read channel and violating the availability objective of the GPIO module's read operations. [CWE-1276] CAPEC-74 can exploit CWE-1276 by manipulating the read valid state (rvalid_q) to remain asserted indefinitely, thereby blocking the read channel and violating the availability of the GPIO module's read operations. [CWE-1245] By exploiting CWE-1245, an attacker could manipulate the read valid state (rvalid_q) using CAPEC-74's forced deadlock pattern, causing the GPIO module to indefinitely assert cfg_rvalid_o, thereby blocking new read operations and compromising the availability of the read channel."
+      }
+    }
+  ]
+}

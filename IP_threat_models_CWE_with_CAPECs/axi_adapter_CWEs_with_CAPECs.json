@@ -1,0 +1,393 @@
+{
+  "IP": "axi_adapter",
+  "Assets": [
+    {
+      "Asset_Name": "Address input (addr_i)",
+      "Functionality": "Carries the target address for AXI read/write transactions and is used to compute burst base and offsets.",
+      "Security Objective": "Integrity",
+      "Justification": "If the address is tampered, data may be read from or written to the wrong location. Integrity of addresses is essential to prevent redirection of memory traffic.",
+      "CWE-IDs": [
+        "CWE-1318",
+        "CWE-1220",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1318": "The axi_adapter's addr_i input could be exploited if the AXI bus lacks proper security features, allowing unauthorized access to memory regions by manipulating address inputs.",
+        "CWE-1220": "Insufficient granularity in access control for addr_i could allow unauthorized agents to manipulate memory addresses, leading to data redirection or corruption.",
+        "CWE-1262": "If physical access controls are inadequate, an attacker could manipulate the addr_i input to redirect memory transactions, compromising the integrity of data transfers."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1318 by manipulating the addr_i input to inject incorrect addresses into the axi_adapter, compromising the integrity of memory transactions by redirecting data flows to unintended locations.",
+            "CAPEC-682": "CAPEC-682 leverages CWE-1318 by intercepting and altering the addr_i signal during AXI transactions, undermining the integrity of address inputs and potentially causing unauthorized access or data corruption in the axi_adapter module."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the addr_i input to cause the axi_adapter module to perform unauthorized memory accesses, thereby compromising the integrity of the address input and redirecting memory traffic.",
+            "CAPEC-682": "CAPEC-682 leverages CWE-1220 by injecting malicious data into the addr_i input, which can alter the intended address computations for burst transactions, undermining the integrity of the address input and leading to incorrect data being read or written."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the addr_i input to introduce incorrect address values, thereby compromising the integrity of the address and redirecting memory traffic to unintended locations within the axi_adapter module.",
+            "CAPEC-682": "CAPEC-682 targets CWE-1262 by injecting malicious address values into addr_i, potentially altering the computation of burst base and offsets, which undermines the integrity of address handling in the axi_adapter module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-682",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1318] CAPEC-180 exploits CWE-1318 by manipulating the addr_i input to inject incorrect addresses into the axi_adapter, compromising the integrity of memory transactions by redirecting data flows to unintended locations. [CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the addr_i input to cause the axi_adapter module to perform unauthorized memory accesses, thereby compromising the integrity of the address input and redirecting memory traffic.",
+        "CAPEC-682": "[CWE-1318] CAPEC-682 leverages CWE-1318 by intercepting and altering the addr_i signal during AXI transactions, undermining the integrity of address inputs and potentially causing unauthorized access or data corruption in the axi_adapter module. [CWE-1220] CAPEC-682 leverages CWE-1220 by injecting malicious data into the addr_i input, which can alter the intended address computations for burst transactions, undermining the integrity of the address input and leading to incorrect data being read or written. [CWE-1262] CAPEC-682 targets CWE-1262 by injecting malicious address values into addr_i, potentially altering the computation of burst base and offsets, which undermines the integrity of address handling in the axi_adapter module.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the addr_i input to introduce incorrect address values, thereby compromising the integrity of the address and redirecting memory traffic to unintended locations within the axi_adapter module."
+      }
+    },
+    {
+      "Asset_Name": "Write enable (we_i)",
+      "Functionality": "Selects between read (0) and write (1) transactions at request time.",
+      "Security Objective": "Integrity",
+      "Justification": "Manipulating the read/write direction changes whether the adapter modifies memory or only reads it. Ensuring correctness prevents unintended writes or blocked reads.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "The write enable (we_i) signal could be exploited if improper access control allows unauthorized modification of memory-mapped registers, leading to unintended writes.",
+        "CWE-1220": "Insufficient granularity in access control could allow unauthorized agents to manipulate the write enable (we_i) signal, compromising the integrity of memory operations.",
+        "CWE-1280": "If access control checks are implemented after the write enable (we_i) signal is accessed, unauthorized writes could occur before the system enforces the necessary permissions."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "By exploiting CWE-1262, an attacker could manipulate the axi_adapter's write enable signal (we_i) to improperly configure the FSM, leading to unauthorized memory writes, thus compromising the integrity of the system.",
+            "CAPEC-74": "An attacker could exploit CWE-1262 by tampering with the axi_adapter's write enable signal (we_i) during state transitions, causing the FSM to execute unintended write operations, thereby violating the integrity of the memory transactions."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "By exploiting CWE-1220, CAPEC-180 can manipulate the axi_adapter's write enable signal (we_i) to improperly switch between read and write operations, compromising the integrity of memory transactions by causing unintended writes.",
+            "CAPEC-121": "CAPEC-121 leverages CWE-1220 by altering the axi_adapter's we_i signal timing, potentially leading to unauthorized write operations that violate the intended integrity of the read/write transaction flow."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1280 by manipulating the write enable signal (we_i) to alter the intended read/write operations, potentially compromising the integrity of the axi_adapter by causing unauthorized memory modifications.",
+            "CAPEC-74": "CAPEC-74 targets CWE-1280 by intercepting and modifying the we_i signal to switch transaction types, thereby undermining the axi_adapter's integrity by enabling unintended data writes or blocking necessary reads."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-180",
+        "CAPEC-121"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] By exploiting CWE-1262, an attacker could manipulate the axi_adapter's write enable signal (we_i) to improperly configure the FSM, leading to unauthorized memory writes, thus compromising the integrity of the system.",
+        "CAPEC-74": "[CWE-1262] An attacker could exploit CWE-1262 by tampering with the axi_adapter's write enable signal (we_i) during state transitions, causing the FSM to execute unintended write operations, thereby violating the integrity of the memory transactions. [CWE-1280] CAPEC-74 targets CWE-1280 by intercepting and modifying the we_i signal to switch transaction types, thereby undermining the axi_adapter's integrity by enabling unintended data writes or blocking necessary reads.",
+        "CAPEC-180": "[CWE-1220] By exploiting CWE-1220, CAPEC-180 can manipulate the axi_adapter's write enable signal (we_i) to improperly switch between read and write operations, compromising the integrity of memory transactions by causing unintended writes. [CWE-1280] CAPEC-180 exploits CWE-1280 by manipulating the write enable signal (we_i) to alter the intended read/write operations, potentially compromising the integrity of the axi_adapter by causing unauthorized memory modifications.",
+        "CAPEC-121": "[CWE-1220] CAPEC-121 leverages CWE-1220 by altering the axi_adapter's we_i signal timing, potentially leading to unauthorized write operations that violate the intended integrity of the read/write transaction flow."
+      }
+    },
+    {
+      "Asset_Name": "Grant output (gnt_o)",
+      "Functionality": "Indicates the adapter has accepted the request and is ready to proceed with the transaction.",
+      "Security Objective": "Availability",
+      "Justification": "If this signal is suppressed or asserted incorrectly, upstream logic may stall indefinitely or proceed prematurely. Correct operation prevents denial-of-service or deadlock conditions.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1245",
+        "CWE-1429"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The grant output signal (gnt_o) could be incorrectly connected, leading to improper transaction handling and potential denial-of-service if the signal is not correctly asserted or suppressed.",
+        "CWE-1245": "Improper FSM handling in the axi_adapter could lead to incorrect state transitions, causing the grant output signal to be asserted or suppressed incorrectly, resulting in system stalls or deadlocks.",
+        "CWE-1429": "If the axi_adapter fails to provide feedback for unexecuted operations, the grant output signal may not reflect the true state of transaction readiness, leading to upstream logic stalling or proceeding incorrectly."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the state transitions of the axi_adapter's FSM to incorrectly assert the gnt_o signal, potentially causing a denial-of-service by stalling upstream logic and violating the availability objective."
+          }
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the state transitions of the axi_adapter's FSM to incorrectly assert the gnt_o signal, potentially causing a denial-of-service by stalling upstream logic and violating the availability objective."
+      }
+    },
+    {
+      "Asset_Name": "Write data bus (wdata_i)",
+      "Functionality": "Provides the payload data for AXI write beats (single or burst).",
+      "Security Objective": "Integrity",
+      "Justification": "Corruption of write data directly corrupts memory contents. Protecting this bus ensures only intended values are committed.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the write data bus (wdata_i) could allow unauthorized modification of data being written to memory, compromising data integrity.",
+        "CWE-1220": "Insufficient granularity of access control on the write data bus (wdata_i) may allow unauthorized agents to modify write data, leading to corruption of memory contents.",
+        "CWE-1280": "If access control checks are implemented after data is written via the write data bus (wdata_i), unauthorized data modifications could occur before checks are enforced, violating data integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the parameterization of the axi_adapter module to alter the DATA_WIDTH or AXI_DATA_WIDTH, potentially leading to integrity violations on the wdata_i bus by allowing unintended data widths that corrupt memory contents."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the axi_adapter's finite state machine to improperly handle state transitions, leading to unauthorized modifications of the write data bus (wdata_i), thus compromising the integrity of the data being written to memory."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the finite state machine (FSM) of the axi_adapter to alter the integrity of the write data bus (wdata_i), potentially corrupting memory contents by injecting unauthorized data during AXI write operations."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the parameterization of the axi_adapter module to alter the DATA_WIDTH or AXI_DATA_WIDTH, potentially leading to integrity violations on the wdata_i bus by allowing unintended data widths that corrupt memory contents.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the axi_adapter's finite state machine to improperly handle state transitions, leading to unauthorized modifications of the write data bus (wdata_i), thus compromising the integrity of the data being written to memory. [CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the finite state machine (FSM) of the axi_adapter to alter the integrity of the write data bus (wdata_i), potentially corrupting memory contents by injecting unauthorized data during AXI write operations."
+      }
+    },
+    {
+      "Asset_Name": "Byte enable mask for writes (be_i)",
+      "Functionality": "Specifies which bytes within each write beat are active, controlling partial writes.",
+      "Security Objective": "Integrity",
+      "Justification": "If the byte mask is altered, unintended bytes can be overwritten or intended bytes skipped. Correctness of masks is required for precise updates.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "The byte enable mask (be_i) could be improperly accessed or modified if access controls on the memory-mapped I/O registers are insufficient, leading to unauthorized data modification.",
+        "CWE-1220": "Insufficient granularity in access control could allow unauthorized agents to modify the byte enable mask, resulting in unintended data writes and compromising data integrity.",
+        "CWE-1280": "If access control checks are implemented after the byte enable mask is accessed, unauthorized modifications could occur before the system verifies permissions, leading to integrity violations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the byte enable mask (be_i) to alter the integrity of write operations in the axi_adapter, leading to unauthorized modification of data by enabling or disabling specific bytes during a transaction."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the byte enable mask (be_i) to bypass integrity checks, allowing unauthorized modification of specific bytes during write operations in the axi_adapter module."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the byte enable mask (be_i) to alter the integrity of write operations in the axi_adapter, leading to unauthorized modification of data by enabling or disabling specific bytes during a transaction."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the byte enable mask (be_i) to alter the integrity of write operations in the axi_adapter, leading to unauthorized modification of data by enabling or disabling specific bytes during a transaction.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the byte enable mask (be_i) to bypass integrity checks, allowing unauthorized modification of specific bytes during write operations in the axi_adapter module. [CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the byte enable mask (be_i) to alter the integrity of write operations in the axi_adapter, leading to unauthorized modification of data by enabling or disabling specific bytes during a transaction."
+      }
+    },
+    {
+      "Asset_Name": "Read data valid (valid_o)",
+      "Functionality": "Signals that read data (or atomic result) is available and valid on rdata_o.",
+      "Security Objective": "Availability",
+      "Justification": "Incorrect valid signaling can cause consumers to wait forever or consume invalid data, blocking forward progress. Availability depends on accurate ready/valid style handshaking.",
+      "CWE-IDs": [
+        "CWE-1245",
+        "CWE-1276",
+        "CWE-1429"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1245": "Improper FSMs in the axi_adapter could lead to incorrect valid_o signaling, causing denial of service by blocking data flow.",
+        "CWE-1276": "Incorrect connections in the axi_adapter could disrupt valid_o signaling, leading to availability issues by causing consumers to wait indefinitely.",
+        "CWE-1429": "Missing feedback for unexecuted operations in the axi_adapter could result in silent failures of valid_o signaling, leading to undetected data availability issues."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the state machine transitions in the axi_adapter to incorrectly signal valid_o, causing a denial of service by preventing the availability of valid read data on rdata_o."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the state machine transitions in the axi_adapter to incorrectly signal valid_o, causing a denial of service by preventing the availability of valid read data on rdata_o."
+      }
+    },
+    {
+      "Asset_Name": "Read data bus (rdata_o)",
+      "Functionality": "Returns read data (single or assembled burst) or atomic results to the requester.",
+      "Security Objective": "Availability",
+      "Justification": "If the data path is blocked or not produced, upstream logic cannot complete loads and may stall. Delivering read data is essential for making progress in the system.",
+      "CWE-IDs": [
+        "CWE-1318",
+        "CWE-1276",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1318": "The axi_adapter's rdata_o could be exploited if the AXI bus lacks proper security features, leading to unauthorized data access and potential denial of service.",
+        "CWE-1276": "Incorrect connections in the axi_adapter could lead to improper data flow on rdata_o, causing system stalls or unauthorized data access.",
+        "CWE-1245": "Improper FSM handling in the axi_adapter could disrupt the availability of rdata_o, leading to system stalls or unintended data access."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-682"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating the finite state machine of the axi_adapter to induce a denial of service, thereby blocking the rdata_o path and violating the availability objective by stalling upstream logic.",
+            "CAPEC-682": "CAPEC-682 can exploit CWE-1318 by introducing malicious data into the axi_adapter's read operations, causing incorrect state transitions that disrupt the rdata_o output, thus impacting the availability of read data to the requester."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the finite state machine (FSM) of the axi_adapter to cause a denial of service on the read data bus (rdata_o), thereby violating the availability objective by stalling upstream logic and preventing the completion of load operations."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-682",
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating the finite state machine of the axi_adapter to induce a denial of service, thereby blocking the rdata_o path and violating the availability objective by stalling upstream logic.",
+        "CAPEC-682": "[CWE-1318] CAPEC-682 can exploit CWE-1318 by introducing malicious data into the axi_adapter's read operations, causing incorrect state transitions that disrupt the rdata_o output, thus impacting the availability of read data to the requester.",
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the finite state machine (FSM) of the axi_adapter to cause a denial of service on the read data bus (rdata_o), thereby violating the availability objective by stalling upstream logic and preventing the completion of load operations."
+      }
+    },
+    {
+      "Asset_Name": "Critical word valid (critical_word_valid_o)",
+      "Functionality": "Indicates when critical_word_o is valid during a burst read.",
+      "Security Objective": "Availability",
+      "Justification": "Incorrect assertion prevents consumers from using early data or causes consumption of invalid data, degrading performance or causing waits. Proper validity gating is required for forward progress.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1245",
+        "CWE-440"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connections in the AXI adapter could lead to invalid assertion of critical_word_valid_o, causing availability issues by preventing correct data usage.",
+        "CWE-1245": "Improper FSM handling in the axi_adapter could result in incorrect state transitions, leading to invalid critical_word_valid_o signals and availability degradation.",
+        "CWE-440": "Deviations from expected behavior in the axi_adapter could cause critical_word_valid_o to be asserted incorrectly, impacting system availability by allowing invalid data consumption."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the state transitions in the axi_adapter's FSM to incorrectly assert critical_word_valid_o, thereby disrupting the availability of valid critical word data during burst reads and causing performance degradation or unnecessary waits."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the state transitions in the axi_adapter's FSM to incorrectly assert critical_word_valid_o, thereby disrupting the availability of valid critical word data during burst reads and causing performance degradation or unnecessary waits."
+      }
+    }
+  ]
+}

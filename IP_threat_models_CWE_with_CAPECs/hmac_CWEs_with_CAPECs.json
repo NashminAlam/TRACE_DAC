@@ -1,0 +1,1219 @@
+{
+  "IP": "hmac",
+  "Assets": [
+    {
+      "Asset_Name": "HMAC operation complete interrupt (intr_hmac_done_o) in hmac module",
+      "Functionality": "Interrupt to software indicating completion of an HMAC operation.",
+      "Security Objective": "Availability",
+      "Justification": "System software relies on this signal to know when results are ready. If blocked or spoofed, software may wait indefinitely or consume stale data, impacting liveness of higher-level flows.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1429"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "If the HMAC operation complete interrupt is incorrectly connected, the system may not receive the signal, causing indefinite waiting and impacting availability.",
+        "CWE-440": "A deviation from expected behavior in the HMAC module could lead to the interrupt not being triggered as specified, causing software to wait indefinitely and affecting availability.",
+        "CWE-1429": "If the HMAC operation complete interrupt is silently discarded without feedback, the system may not detect the completion, leading to potential denial of service."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1276 by manipulating the HMAC operation complete interrupt (intr_hmac_done_o) to either delay or prevent its assertion, thereby impacting the availability of the interrupt signal and causing the system software to wait indefinitely for HMAC operation completion, which aligns with the security objective of ensuring availability."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-150": "CAPEC-150 can exploit CWE-440 by manipulating the HMAC operation complete interrupt (intr_hmac_done_o) to create a race condition, potentially blocking or spoofing the signal and impacting the availability of the system software's ability to detect when HMAC operations are complete."
+          }
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1429 by manipulating the HMAC operation complete interrupt (intr_hmac_done_o) to either delay or prevent its assertion, thereby impacting the availability of the interrupt signal and causing the system software to wait indefinitely for HMAC operation completion, which aligns with the security objective of ensuring availability."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-150"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-150": "[CWE-1276] CAPEC-150 can exploit CWE-1276 by manipulating the HMAC operation complete interrupt (intr_hmac_done_o) to either delay or prevent its assertion, thereby impacting the availability of the interrupt signal and causing the system software to wait indefinitely for HMAC operation completion, which aligns with the security objective of ensuring availability. [CWE-440] CAPEC-150 can exploit CWE-440 by manipulating the HMAC operation complete interrupt (intr_hmac_done_o) to create a race condition, potentially blocking or spoofing the signal and impacting the availability of the system software's ability to detect when HMAC operations are complete. [CWE-1429] CAPEC-150 can exploit CWE-1429 by manipulating the HMAC operation complete interrupt (intr_hmac_done_o) to either delay or prevent its assertion, thereby impacting the availability of the interrupt signal and causing the system software to wait indefinitely for HMAC operation completion, which aligns with the security objective of ensuring availability."
+      }
+    },
+    {
+      "Asset_Name": "HMAC error interrupt (intr_hmac_err_o) in hmac module",
+      "Functionality": "Interrupt that signals software-visible HMAC error conditions detected by the block.",
+      "Security Objective": "Integrity",
+      "Justification": "It reports protocol and misuse errors (e.g., start when disabled, key update during processing). Suppressing or forging this signal can hide faulty states or cause incorrect recovery, compromising trusted operation.",
+      "CWE-IDs": [
+        "CWE-1429",
+        "CWE-440",
+        "CWE-1276"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1429": "The HMAC error interrupt could be suppressed or not generated, leading to undetected errors and compromising the integrity of the system by allowing faulty states to persist without alert.",
+        "CWE-440": "If the HMAC error interrupt behaves differently from its specification, it could allow attackers to bypass error detection mechanisms, leading to potential integrity violations.",
+        "CWE-1276": "Incorrect connections of the HMAC error interrupt signal could prevent error conditions from being reported, allowing attackers to exploit unreported faults and compromise system integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1429": {
+          "CAPEC-IDs": [
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1429 by manipulating the HMAC error interrupt (intr_hmac_err_o) to suppress or forge error signals, thereby compromising the integrity of the system by hiding faulty states or causing incorrect recovery in the HMAC-SHA256 module."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1276 by manipulating the HMAC error interrupt (intr_hmac_err_o) to suppress or forge error signals, thereby compromising the integrity of the system by hiding protocol misuse or faulty states in the HMAC-SHA256 module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-150"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-150": "[CWE-1429] CAPEC-150 can exploit CWE-1429 by manipulating the HMAC error interrupt (intr_hmac_err_o) to suppress or forge error signals, thereby compromising the integrity of the system by hiding faulty states or causing incorrect recovery in the HMAC-SHA256 module. [CWE-1276] CAPEC-150 can exploit CWE-1276 by manipulating the HMAC error interrupt (intr_hmac_err_o) to suppress or forge error signals, thereby compromising the integrity of the system by hiding protocol misuse or faulty states in the HMAC-SHA256 module."
+      }
+    },
+    {
+      "Asset_Name": "Secret key storage (secret_key) in hmac module",
+      "Functionality": "256-bit internal storage for the HMAC secret key used in inner and outer hash pads.",
+      "Security Objective": "Confidentiality",
+      "Justification": "The secret key is the root of HMAC security and must not be exposed. Any leakage enables forgeries of message authentication codes.",
+      "CWE-IDs": [
+        "CWE-1431",
+        "CWE-1262",
+        "CWE-1258"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1431": "The secret_key storage could be exposed if intermediate cryptographic states are inadvertently driven to output interfaces, compromising confidentiality.",
+        "CWE-1262": "Improper access control on the register interface could allow unauthorized access to the secret_key, leading to potential key leakage.",
+        "CWE-1258": "If access control checks are implemented after accessing the secret_key, unauthorized components could temporarily access this sensitive information, violating confidentiality."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1431 by leveraging improper handling of sensitive data in the HMAC module's secret_key storage, potentially allowing an attacker to access or extract the secret key, thereby compromising the confidentiality of the HMAC operation."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 could exploit CWE-1262 by manipulating the HMAC module's register interface to improperly handle endian swapping, potentially exposing the secret_key and compromising its confidentiality.",
+            "CAPEC-150": "CAPEC-150 could exploit CWE-1262 by inducing errors in the FIFO Management's buffering process, leading to improper endian conversion and leakage of the secret_key, thus violating its confidentiality."
+          }
+        },
+        "CWE-1258": {
+          "CAPEC-IDs": [
+            "CAPEC-37",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-37": "CAPEC-37 could exploit CWE-1258 by manipulating the HMAC module's control signals to improperly access or leak the secret_key, compromising its confidentiality and enabling unauthorized message authentication code forgeries.",
+            "CAPEC-150": "CAPEC-150 could exploit CWE-1258 by inducing a fault in the HMAC module's state machine, potentially causing the secret_key to be exposed or improperly handled, thus violating its confidentiality and undermining the integrity of the HMAC process."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-150",
+        "CAPEC-680",
+        "CAPEC-37"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-150": "[CWE-1431] CAPEC-150 can exploit CWE-1431 by leveraging improper handling of sensitive data in the HMAC module's secret_key storage, potentially allowing an attacker to access or extract the secret key, thereby compromising the confidentiality of the HMAC operation. [CWE-1262] CAPEC-150 could exploit CWE-1262 by inducing errors in the FIFO Management's buffering process, leading to improper endian conversion and leakage of the secret_key, thus violating its confidentiality. [CWE-1258] CAPEC-150 could exploit CWE-1258 by inducing a fault in the HMAC module's state machine, potentially causing the secret_key to be exposed or improperly handled, thus violating its confidentiality and undermining the integrity of the HMAC process.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 could exploit CWE-1262 by manipulating the HMAC module's register interface to improperly handle endian swapping, potentially exposing the secret_key and compromising its confidentiality.",
+        "CAPEC-37": "[CWE-1258] CAPEC-37 could exploit CWE-1258 by manipulating the HMAC module's control signals to improperly access or leak the secret_key, compromising its confidentiality and enabling unauthorized message authentication code forgeries."
+      }
+    },
+    {
+      "Asset_Name": "HMAC enable configuration (hmac_en) in hmac module",
+      "Functionality": "Configuration bit that enables HMAC functionality in the core.",
+      "Security Objective": "Integrity",
+      "Justification": "This gate controls whether the HMAC core participates in operations. Unauthorized changes can cause operations to run or halt unexpectedly, violating intended security modes.",
+      "CWE-IDs": [
+        "CWE-1221",
+        "CWE-1262",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1221": "The hmac_en configuration bit, if set incorrectly by default, could enable or disable HMAC operations unintentionally, leading to a degradation of system integrity.",
+        "CWE-1262": "Improper access control on the hmac_en register could allow unauthorized entities to enable or disable HMAC functionality, compromising the integrity of cryptographic operations.",
+        "CWE-1280": "If access control checks for the hmac_en configuration are performed after enabling HMAC operations, unauthorized access could occur before the system verifies permissions, leading to potential misuse of the HMAC core."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "By exploiting CWE-1221, an attacker could manipulate the HMAC enable configuration (hmac_en) to improperly activate or deactivate the HMAC core, undermining the integrity of cryptographic operations by causing unauthorized state transitions.",
+            "CAPEC-150": "An attacker leveraging CWE-1221 could alter the HMAC enable configuration (hmac_en) to disrupt the intended operational state of the HMAC core, compromising the integrity of the system by enabling or disabling cryptographic functions without authorization."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the hmac_en configuration bit to enable or disable the HMAC core without authorization, thereby compromising the integrity of the cryptographic operations intended to be controlled by this configuration.",
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1262 by injecting unauthorized control signals to alter the hmac_en state, leading to unintended activation or deactivation of the HMAC core, which undermines the integrity of the system's security objectives."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the hmac_en configuration bit to enable or disable the HMAC functionality without authorization, thereby compromising the integrity of the cryptographic operations intended to be controlled by this gate.",
+            "CAPEC-150": "CAPEC-150 could exploit CWE-1280 by injecting unauthorized control signals to alter the hmac_en configuration, leading to unexpected activation or deactivation of the HMAC core, thus violating the integrity of the system's security objectives."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-166",
+        "CAPEC-150",
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-166": "[CWE-1221] By exploiting CWE-1221, an attacker could manipulate the HMAC enable configuration (hmac_en) to improperly activate or deactivate the HMAC core, undermining the integrity of cryptographic operations by causing unauthorized state transitions.",
+        "CAPEC-150": "[CWE-1221] An attacker leveraging CWE-1221 could alter the HMAC enable configuration (hmac_en) to disrupt the intended operational state of the HMAC core, compromising the integrity of the system by enabling or disabling cryptographic functions without authorization. [CWE-1262] CAPEC-150 can exploit CWE-1262 by injecting unauthorized control signals to alter the hmac_en state, leading to unintended activation or deactivation of the HMAC core, which undermines the integrity of the system's security objectives. [CWE-1280] CAPEC-150 could exploit CWE-1280 by injecting unauthorized control signals to alter the hmac_en configuration, leading to unexpected activation or deactivation of the HMAC core, thus violating the integrity of the system's security objectives.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the hmac_en configuration bit to enable or disable the HMAC core without authorization, thereby compromising the integrity of the cryptographic operations intended to be controlled by this configuration.",
+        "CAPEC-180": "[CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the hmac_en configuration bit to enable or disable the HMAC functionality without authorization, thereby compromising the integrity of the cryptographic operations intended to be controlled by this gate."
+      }
+    },
+    {
+      "Asset_Name": "SHA enable configuration (sha_en) in hmac module",
+      "Functionality": "Configuration bit that enables the SHA256 engine.",
+      "Security Objective": "Integrity",
+      "Justification": "Starting HMAC requires SHA to be enabled and is enforced by internal checks. Tampering with this bit can bypass checks or prevent legitimate operations, undermining correct sequencing.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1280",
+        "CWE-1276"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the sha_en configuration bit could allow unauthorized tampering, enabling or disabling the SHA256 engine without proper checks, compromising the integrity of HMAC operations.",
+        "CWE-1280": "If access control checks for the sha_en bit are implemented after enabling the SHA256 engine, unauthorized components might temporarily gain access to cryptographic operations, leading to potential misuse or data corruption.",
+        "CWE-1276": "Incorrect connections or misconfigurations in the HMAC module could lead to improper handling of the sha_en signal, allowing unauthorized bypass of security checks and compromising the integrity of cryptographic processes."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the 'sha_en' configuration bit to disable the SHA256 engine, thereby bypassing internal integrity checks and disrupting the correct sequencing of HMAC operations.",
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1262 by injecting unauthorized commands to alter the 'sha_en' configuration bit, potentially enabling or disabling the SHA256 engine inappropriately, which compromises the integrity of the HMAC process."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1280 by manipulating the 'sha_en' configuration bit in the HMAC module to disable the SHA256 engine, thereby compromising the integrity of the cryptographic process by bypassing internal checks that ensure correct sequencing.",
+            "CAPEC-150": "CAPEC-150 targets CWE-1280 by injecting unauthorized commands to alter the 'sha_en' configuration bit, potentially enabling or disabling the SHA256 engine at inappropriate times, which undermines the integrity of the HMAC operation by disrupting its intended control flow."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1276 by manipulating the 'sha_en' configuration bit in the HMAC module to disable the SHA256 engine, thereby compromising the integrity of the cryptographic operations and bypassing internal checks that rely on this configuration for correct sequencing."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-150",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the 'sha_en' configuration bit to disable the SHA256 engine, thereby bypassing internal integrity checks and disrupting the correct sequencing of HMAC operations.",
+        "CAPEC-150": "[CWE-1262] CAPEC-150 can exploit CWE-1262 by injecting unauthorized commands to alter the 'sha_en' configuration bit, potentially enabling or disabling the SHA256 engine inappropriately, which compromises the integrity of the HMAC process. [CWE-1280] CAPEC-150 targets CWE-1280 by injecting unauthorized commands to alter the 'sha_en' configuration bit, potentially enabling or disabling the SHA256 engine at inappropriate times, which undermines the integrity of the HMAC operation by disrupting its intended control flow. [CWE-1276] CAPEC-150 can exploit CWE-1276 by manipulating the 'sha_en' configuration bit in the HMAC module to disable the SHA256 engine, thereby compromising the integrity of the cryptographic operations and bypassing internal checks that rely on this configuration for correct sequencing.",
+        "CAPEC-180": "[CWE-1280] CAPEC-180 exploits CWE-1280 by manipulating the 'sha_en' configuration bit in the HMAC module to disable the SHA256 engine, thereby compromising the integrity of the cryptographic process by bypassing internal checks that ensure correct sequencing."
+      }
+    },
+    {
+      "Asset_Name": "Hash start command (CSR-driven) (reg_hash_start) in hmac module",
+      "Functionality": "Start command sampled from CSRs to initiate an HMAC operation.",
+      "Security Objective": "Integrity",
+      "Justification": "It defines the start of an operation and triggers configuration locking. Spurious or blocked starts can desynchronize the protocol and processing stages.",
+      "CWE-IDs": [
+        "CWE-1280",
+        "CWE-1262",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1280": "The hash start command could be exploited if access control checks are performed after the command is issued, allowing unauthorized initiation of HMAC operations.",
+        "CWE-1262": "Improper access control on the register interface could allow unauthorized entities to trigger the hash start command, compromising the integrity of HMAC operations.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to initiate the hash start command, leading to potential desynchronization and integrity issues."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the 'reg_hash_start' command to trigger unauthorized HMAC operations, compromising the integrity of the cryptographic process by causing desynchronization and misconfiguration in the HMAC module."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the 'reg_hash_start' command to trigger unauthorized HMAC operations, potentially compromising the integrity of the cryptographic process by causing desynchronization in the protocol stages.",
+            "CAPEC-150": "CAPEC-150 could exploit CWE-1262 by intercepting and altering the 'reg_hash_start' command, leading to unauthorized initiation or blocking of HMAC operations, thereby undermining the integrity objective by disrupting the expected configuration locking and processing sequence."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the 'reg_hash_start' command to initiate unauthorized HMAC operations, potentially compromising the integrity of the cryptographic process by causing desynchronization in the protocol and processing stages."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-680",
+        "CAPEC-150"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the 'reg_hash_start' command to trigger unauthorized HMAC operations, compromising the integrity of the cryptographic process by causing desynchronization and misconfiguration in the HMAC module. [CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the 'reg_hash_start' command to initiate unauthorized HMAC operations, potentially compromising the integrity of the cryptographic process by causing desynchronization in the protocol and processing stages.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the 'reg_hash_start' command to trigger unauthorized HMAC operations, potentially compromising the integrity of the cryptographic process by causing desynchronization in the protocol stages.",
+        "CAPEC-150": "[CWE-1262] CAPEC-150 could exploit CWE-1262 by intercepting and altering the 'reg_hash_start' command, leading to unauthorized initiation or blocking of HMAC operations, thereby undermining the integrity objective by disrupting the expected configuration locking and processing sequence."
+      }
+    },
+    {
+      "Asset_Name": "Effective start gating (hash_start) in hmac module",
+      "Functionality": "Start condition after checks (e.g., sha_en and cfg not blocked) that actually arms the operation.",
+      "Security Objective": "Integrity",
+      "Justification": "This signal is the trusted start gate that enforces preconditions and locks configuration. Forging or suppressing it bypasses intended protections and sequencing.",
+      "CWE-IDs": [
+        "CWE-1280",
+        "CWE-1279",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1280": "The hash_start signal could be exploited if access control checks are performed after the operation is armed, allowing unauthorized initiation of HMAC operations.",
+        "CWE-1279": "If the hash_start signal is not properly protected across all interfaces, an attacker could exploit alternate paths to bypass the start gating mechanism.",
+        "CWE-1262": "Improper access control on the register interface could allow unauthorized manipulation of the hash_start signal, compromising the integrity of HMAC operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 could exploit CWE-1280 by manipulating the 'hash_start' signal in the HMAC module to bypass integrity checks and initiate unauthorized operations, compromising the integrity of the cryptographic process.",
+            "CAPEC-150": "CAPEC-150 could exploit CWE-1280 by intercepting and altering the 'hash_start' signal to disrupt the intended sequence of operations, thereby undermining the integrity enforcement mechanisms of the HMAC module."
+          }
+        },
+        "CWE-1279": {
+          "CAPEC-IDs": [
+            "CAPEC-97"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "CAPEC-97 can exploit CWE-1279 by manipulating the 'hash_start' signal in the HMAC module to bypass integrity checks and configuration locks, thereby compromising the trusted start gating mechanism and undermining the integrity objective of the system."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the 'hash_start' signal in the HMAC module to bypass integrity checks and configuration locks, thereby undermining the integrity objective by initiating unauthorized operations.",
+            "CAPEC-150": "CAPEC-150 targets CWE-1262 by intercepting and altering the 'hash_start' signal to suppress or forge its activation, effectively bypassing the enforced preconditions and compromising the integrity of the HMAC operation sequence."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-150",
+        "CAPEC-97",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1280] CAPEC-180 could exploit CWE-1280 by manipulating the 'hash_start' signal in the HMAC module to bypass integrity checks and initiate unauthorized operations, compromising the integrity of the cryptographic process.",
+        "CAPEC-150": "[CWE-1280] CAPEC-150 could exploit CWE-1280 by intercepting and altering the 'hash_start' signal to disrupt the intended sequence of operations, thereby undermining the integrity enforcement mechanisms of the HMAC module. [CWE-1262] CAPEC-150 targets CWE-1262 by intercepting and altering the 'hash_start' signal to suppress or forge its activation, effectively bypassing the enforced preconditions and compromising the integrity of the HMAC operation sequence.",
+        "CAPEC-97": "[CWE-1279] CAPEC-97 can exploit CWE-1279 by manipulating the 'hash_start' signal in the HMAC module to bypass integrity checks and configuration locks, thereby compromising the trusted start gating mechanism and undermining the integrity objective of the system.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the 'hash_start' signal in the HMAC module to bypass integrity checks and configuration locks, thereby undermining the integrity objective by initiating unauthorized operations."
+      }
+    },
+    {
+      "Asset_Name": "Hash done (core-to-top) status (reg_hash_done) in hmac module",
+      "Functionality": "Status from hmac_core indicating the operation is complete and configuration can unlock.",
+      "Security Objective": "Availability",
+      "Justification": "Accurate completion status is necessary to release resources and raise interrupts. If falsified, software may hang or prematurely proceed, disrupting operation.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1429"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connections between the hmac_core and the top module could lead to the reg_hash_done signal being improperly transmitted, causing the system to hang or proceed incorrectly.",
+        "CWE-440": "If the reg_hash_done signal behaves differently than specified, it could lead to premature or delayed resource release, affecting system availability.",
+        "CWE-1429": "Lack of feedback for unexecuted operations related to the reg_hash_done signal could result in undetected errors, causing the system to hang or proceed incorrectly."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-150": "CAPEC-150 could exploit CWE-1429 by manipulating the 'hash_done' status signal in the hmac module to falsely indicate operation completion, thereby compromising the availability of the system by causing premature resource release or interrupt generation, leading to potential software hang or operational disruption."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-150"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-150": "[CWE-1429] CAPEC-150 could exploit CWE-1429 by manipulating the 'hash_done' status signal in the hmac module to falsely indicate operation completion, thereby compromising the availability of the system by causing premature resource release or interrupt generation, leading to potential software hang or operational disruption."
+      }
+    },
+    {
+      "Asset_Name": "SHA start control (sha_hash_start) in hmac module",
+      "Functionality": "Control from hmac_core to the SHA2 engine to start hashing.",
+      "Security Objective": "Integrity",
+      "Justification": "Coordinates SHA processing phases with HMAC rounds. Tampering causes out-of-order or unintended execution, invalidating results.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1262",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The sha_hash_start control signal could be incorrectly connected, leading to unintended SHA operations, which can compromise the integrity of the HMAC process.",
+        "CWE-1262": "Improper access control on the sha_hash_start signal could allow unauthorized initiation of SHA operations, leading to potential tampering with the HMAC process.",
+        "CWE-1280": "If access control checks for the sha_hash_start signal are performed after the SHA operation begins, it could allow unauthorized access to cryptographic operations, compromising data integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the sha_hash_start control signal timing, causing the SHA2 engine to initiate hashing at incorrect phases, thereby compromising the integrity of the HMAC operation.",
+            "CAPEC-150": "CAPEC-150 targets CWE-1262 by injecting faults into the sha_hash_start control signal, leading to unintended execution sequences in the SHA2 engine, which undermines the integrity of the cryptographic process."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the 'sha_hash_start' control signal to induce race conditions, leading to out-of-order execution of SHA processing phases, thereby compromising the integrity of the HMAC operation.",
+            "CAPEC-150": "CAPEC-150 targets CWE-1280 by intercepting and altering the 'sha_hash_start' signal, causing unauthorized initiation of SHA hashing that disrupts the intended sequence of HMAC rounds, undermining the integrity of the cryptographic process."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-150",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the sha_hash_start control signal timing, causing the SHA2 engine to initiate hashing at incorrect phases, thereby compromising the integrity of the HMAC operation.",
+        "CAPEC-150": "[CWE-1262] CAPEC-150 targets CWE-1262 by injecting faults into the sha_hash_start control signal, leading to unintended execution sequences in the SHA2 engine, which undermines the integrity of the cryptographic process. [CWE-1280] CAPEC-150 targets CWE-1280 by intercepting and altering the 'sha_hash_start' signal, causing unauthorized initiation of SHA hashing that disrupts the intended sequence of HMAC rounds, undermining the integrity of the cryptographic process.",
+        "CAPEC-180": "[CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the 'sha_hash_start' control signal to induce race conditions, leading to out-of-order execution of SHA processing phases, thereby compromising the integrity of the HMAC operation."
+      }
+    },
+    {
+      "Asset_Name": "SHA done status (sha_hash_done) in hmac module",
+      "Functionality": "Status from SHA2 engine indicating current hash phase is complete.",
+      "Security Objective": "Availability",
+      "Justification": "Downstream logic and interrupts depend on timely and accurate completion. Incorrect status can stall the pipeline or free resources too early.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connections between the SHA done status signal and downstream logic could lead to failure in signaling the completion of hash operations, stalling the pipeline and affecting availability.",
+        "CWE-440": "If the SHA done status signal behaves differently from its specification, it could lead to unexpected system behavior, causing denial of service by not properly indicating the completion of hash operations.",
+        "CWE-1245": "Improper FSM handling in the SHA done status logic could lead to incorrect state transitions, causing the system to not recognize the completion of hash operations, impacting availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-150": "CAPEC-150 could exploit CWE-1276 by manipulating the 'sha_hash_done' status signal in the HMAC module to falsely indicate the completion of the SHA-256 hashing process, thereby disrupting the availability of the system by causing premature resource release or pipeline stalling."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the 'sha_hash_done' status signal in the HMAC module to falsely indicate completion, thereby disrupting the availability of the SHA2 engine's accurate status and potentially stalling downstream processes dependent on this signal."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-150",
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-150": "[CWE-1276] CAPEC-150 could exploit CWE-1276 by manipulating the 'sha_hash_done' status signal in the HMAC module to falsely indicate the completion of the SHA-256 hashing process, thereby disrupting the availability of the system by causing premature resource release or pipeline stalling.",
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the 'sha_hash_done' status signal in the HMAC module to falsely indicate completion, thereby disrupting the availability of the SHA2 engine's accurate status and potentially stalling downstream processes dependent on this signal."
+      }
+    },
+    {
+      "Asset_Name": "FIFO write valid (fifo_wvalid) in hmac module",
+      "Functionality": "Indicates a valid write beat to the internal message/digest FIFO.",
+      "Security Objective": "Availability",
+      "Justification": "Proper assertion ensures data progresses through the pipeline. If stuck or spoofed, data flow stalls or overruns, causing operational loss.",
+      "CWE-IDs": [
+        "CWE-1248",
+        "CWE-1276",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1248": "Semiconductor defects could cause the fifo_wvalid signal to be stuck, leading to data flow stalls or overruns, impacting availability.",
+        "CWE-1276": "Incorrect connections of the fifo_wvalid signal could result in improper data flow, causing operational loss and availability issues.",
+        "CWE-1245": "Improper FSM handling in the HMAC module could lead to incorrect fifo_wvalid signal transitions, causing data flow disruptions and availability loss."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1248": {
+          "CAPEC-IDs": [
+            "CAPEC-624"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-624": "CAPEC-624 can exploit CWE-1248 by manipulating the fifo_wvalid signal to create a race condition, disrupting the availability of the HMAC module by causing data flow stalls or overruns, thereby preventing proper data progression through the pipeline."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the FIFO write valid (fifo_wvalid) signal in the HMAC module to create a denial of service condition, thereby compromising the availability of the data flow through the pipeline by causing it to stall or overrun."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-624",
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-624": "[CWE-1248] CAPEC-624 can exploit CWE-1248 by manipulating the fifo_wvalid signal to create a race condition, disrupting the availability of the HMAC module by causing data flow stalls or overruns, thereby preventing proper data progression through the pipeline.",
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the FIFO write valid (fifo_wvalid) signal in the HMAC module to create a denial of service condition, thereby compromising the availability of the data flow through the pipeline by causing it to stall or overrun."
+      }
+    },
+    {
+      "Asset_Name": "FIFO write ready (fifo_wready) in hmac module",
+      "Functionality": "Back-pressure from the FIFO indicating space for a new write beat.",
+      "Security Objective": "Availability",
+      "Justification": "Accurate readiness is essential to prevent drops and stalls. Incorrect values can throttle throughput or lead to data loss.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1245",
+        "CWE-1429"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connections between the FIFO and the parent system could lead to data loss or stalls, violating the availability objective of the FIFO write ready signal.",
+        "CWE-1245": "Improper FSMs in the FIFO management could lead to incorrect handling of write readiness signals, causing data drops or stalls, impacting availability.",
+        "CWE-1429": "Lack of feedback for unexecuted FIFO operations could result in undetected data loss or stalls, compromising the availability of the FIFO write ready signal."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the FIFO write ready signal (fifo_wready) to falsely indicate readiness, thereby causing data loss or throughput throttling, which undermines the availability objective of the HMAC module."
+          }
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the FIFO write ready signal (fifo_wready) to falsely indicate readiness, thereby causing data loss or throughput throttling, which undermines the availability objective of the HMAC module."
+      }
+    },
+    {
+      "Asset_Name": "Secret key for HMAC (secret_key) in hmac_core module",
+      "Functionality": "256-bit secret used to derive i_pad and o_pad and to seed the inner and outer SHA-256 operations.",
+      "Security Objective": "Confidentiality",
+      "Justification": "This input directly contains cryptographic key material. Any disclosure compromises the security of HMAC authentication and enables forgery.",
+      "CWE-IDs": [
+        "CWE-1431",
+        "CWE-1262",
+        "CWE-1258"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1431": "The secret_key in the hmac_core module could be exposed if intermediate cryptographic states are inadvertently driven to hardware outputs, compromising confidentiality.",
+        "CWE-1262": "Improper access control for the register interface could allow unauthorized access to the secret_key, leading to potential key exposure and compromise of HMAC operations.",
+        "CWE-1258": "If debug information is not properly cleared, the secret_key could be exposed through debug interfaces, violating the confidentiality of cryptographic operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1431": {
+          "CAPEC-IDs": [
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1431 by leveraging improper handling of sensitive information in the HMAC module to extract the secret_key, compromising its confidentiality and enabling unauthorized access to cryptographic operations."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 exploits CWE-1262 by manipulating the HMAC module's register interface to improperly handle the secret_key, potentially exposing it through unauthorized read operations, thus compromising its confidentiality.",
+            "CAPEC-150": "CAPEC-150 leverages CWE-1262 by inducing errors in the HMAC module's state machines, causing improper handling of the secret_key during transitions, which could lead to its unintended disclosure and breach of confidentiality."
+          }
+        },
+        "CWE-1258": {
+          "CAPEC-IDs": [
+            "CAPEC-37",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-37": "CAPEC-37 can exploit CWE-1258 by manipulating the HMAC module's FIFO Management to cause a buffer overflow, potentially exposing the secret_key used in HMAC operations, thereby compromising its confidentiality.",
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1258 by inducing a race condition in the HMAC Core's state machines, leading to unauthorized access or leakage of the secret_key, thus violating its confidentiality."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-150",
+        "CAPEC-680",
+        "CAPEC-37"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-150": "[CWE-1431] CAPEC-150 can exploit CWE-1431 by leveraging improper handling of sensitive information in the HMAC module to extract the secret_key, compromising its confidentiality and enabling unauthorized access to cryptographic operations. [CWE-1262] CAPEC-150 leverages CWE-1262 by inducing errors in the HMAC module's state machines, causing improper handling of the secret_key during transitions, which could lead to its unintended disclosure and breach of confidentiality. [CWE-1258] CAPEC-150 can exploit CWE-1258 by inducing a race condition in the HMAC Core's state machines, leading to unauthorized access or leakage of the secret_key, thus violating its confidentiality.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 exploits CWE-1262 by manipulating the HMAC module's register interface to improperly handle the secret_key, potentially exposing it through unauthorized read operations, thus compromising its confidentiality.",
+        "CAPEC-37": "[CWE-1258] CAPEC-37 can exploit CWE-1258 by manipulating the HMAC module's FIFO Management to cause a buffer overflow, potentially exposing the secret_key used in HMAC operations, thereby compromising its confidentiality."
+      }
+    },
+    {
+      "Asset_Name": "HMAC mode enable (hmac_en) in hmac_core module",
+      "Functionality": "Selects HMAC mode vs. pass-through SHA control; gates whether internal state machine drives sha_hash_start/process and data muxing.",
+      "Security Objective": "Integrity",
+      "Justification": "Manipulating this control changes the operational mode and bypasses required HMAC sequencing, corrupting the computed MAC semantics.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1221",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the hmac_en register could allow unauthorized manipulation of HMAC mode, bypassing integrity checks.",
+        "CWE-1221": "Incorrect default settings for the hmac_en control could lead to insecure states, allowing bypass of HMAC sequencing and compromising integrity.",
+        "CWE-1280": "If access control checks for the hmac_en signal are implemented after enabling HMAC mode, it could allow unauthorized access to modify the operational mode, affecting integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the hmac_en signal to bypass the HMAC mode, thereby altering the intended control flow and compromising the integrity of the MAC computation.",
+            "CAPEC-150": "CAPEC-150 targets CWE-1262 by injecting faults into the hmac_en control logic, potentially forcing the system into an unintended operational mode that undermines the integrity of the HMAC process."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "By exploiting CWE-1221, an attacker could manipulate the 'hmac_en' control in the hmac_core module to improperly switch between HMAC and SHA modes, thereby bypassing the intended HMAC sequencing and compromising the integrity of the computed message authentication code."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180, which involves exploiting incorrect privilege assignment, can target CWE-1280 by manipulating the hmac_en control in the hmac_core module to improperly switch between HMAC and SHA modes, thereby compromising the integrity of the message authentication process."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-150",
+        "CAPEC-166",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the hmac_en signal to bypass the HMAC mode, thereby altering the intended control flow and compromising the integrity of the MAC computation.",
+        "CAPEC-150": "[CWE-1262] CAPEC-150 targets CWE-1262 by injecting faults into the hmac_en control logic, potentially forcing the system into an unintended operational mode that undermines the integrity of the HMAC process.",
+        "CAPEC-166": "[CWE-1221] By exploiting CWE-1221, an attacker could manipulate the 'hmac_en' control in the hmac_core module to improperly switch between HMAC and SHA modes, thereby bypassing the intended HMAC sequencing and compromising the integrity of the computed message authentication code.",
+        "CAPEC-180": "[CWE-1280] CAPEC-180, which involves exploiting incorrect privilege assignment, can target CWE-1280 by manipulating the hmac_en control in the hmac_core module to improperly switch between HMAC and SHA modes, thereby compromising the integrity of the message authentication process."
+      }
+    },
+    {
+      "Asset_Name": "Host start of hash operation (reg_hash_start) in hmac_core module",
+      "Functionality": "External control to kick off the HMAC sequence (drives state machine entry and sha_hash_start when hmac_en is set).",
+      "Security Objective": "Integrity",
+      "Justification": "Spurious or blocked start assertions alter the sequence of operations, leading to incomplete or incorrect hashing.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1280",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Incorrect connections between the hmac_core module and its parent system could allow unauthorized manipulation of the reg_hash_start signal, leading to incorrect or incomplete hashing operations.",
+        "CWE-1280": "If access control checks for the reg_hash_start signal are implemented after the asset is accessed, unauthorized components could initiate hashing operations before permission is verified, compromising integrity.",
+        "CWE-1262": "Improper access control on the reg_hash_start interface could allow unauthorized entities to initiate hashing operations, leading to potential integrity violations in the HMAC process."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the 'reg_hash_start' signal to induce unauthorized state transitions in the hmac_core module, compromising the integrity of the HMAC operation by causing incomplete or incorrect hashing sequences.",
+            "CAPEC-150": "CAPEC-150 targets CWE-1280 by intercepting and altering the 'reg_hash_start' control signal, potentially blocking or delaying the start of the HMAC sequence, which disrupts the intended integrity of the hashing process in the hmac_core module."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the 'reg_hash_start' signal to trigger unauthorized or incorrect HMAC operations, compromising the integrity of the hashing process in the hmac_core module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-150",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the 'reg_hash_start' signal to induce unauthorized state transitions in the hmac_core module, compromising the integrity of the HMAC operation by causing incomplete or incorrect hashing sequences.",
+        "CAPEC-150": "[CWE-1280] CAPEC-150 targets CWE-1280 by intercepting and altering the 'reg_hash_start' control signal, potentially blocking or delaying the start of the HMAC sequence, which disrupts the intended integrity of the hashing process in the hmac_core module.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the 'reg_hash_start' signal to trigger unauthorized or incorrect HMAC operations, compromising the integrity of the hashing process in the hmac_core module."
+      }
+    },
+    {
+      "Asset_Name": "HMAC operation done status (hash_done) in hmac_core module",
+      "Functionality": "Output status signaling completion of the HMAC operation.",
+      "Security Objective": "Availability",
+      "Justification": "Downstream logic relies on this to proceed; if withheld or stuck, the system can hang waiting for completion.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1248",
+        "CWE-440"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The HMAC operation done status signal could be improperly connected, leading to the downstream logic not receiving the completion signal, causing a system hang.",
+        "CWE-1248": "Semiconductor defects could cause the hash_done signal to be stuck, preventing the system from recognizing the completion of HMAC operations, leading to a denial of service.",
+        "CWE-440": "If the hash_done signal behaves differently from its specification, it could cause the system to hang by not signaling the completion of HMAC operations as expected."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1248": {
+          "CAPEC-IDs": [
+            "CAPEC-624"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-624": "CAPEC-624 can exploit CWE-1248 by manipulating the HMAC operation's completion status (hash_done) in the hmac_core module, potentially causing the system to hang by preventing the signal from indicating completion, thereby impacting the availability of downstream processes that rely on this status."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-624"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-624": "[CWE-1248] CAPEC-624 can exploit CWE-1248 by manipulating the HMAC operation's completion status (hash_done) in the hmac_core module, potentially causing the system to hang by preventing the signal from indicating completion, thereby impacting the availability of downstream processes that rely on this status."
+      }
+    },
+    {
+      "Asset_Name": "SHA data valid towards SHA engine (sha_rvalid) in hmac_core module",
+      "Functionality": "Output handshake indicating sha_rdata is valid for SHA to consume.",
+      "Security Objective": "Availability",
+      "Justification": "Misdriving this blocks the data stream to SHA or causes protocol violations, leading to stalling of the hash operation.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1248",
+        "CWE-440"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Misdriving the sha_rvalid signal could result in incorrect connections between the HMAC core and SHA engine, blocking data flow and stalling hash operations, impacting availability.",
+        "CWE-1248": "Semiconductor defects affecting the sha_rvalid signal could cause it to be stuck, leading to a denial of service by preventing the SHA engine from processing valid data.",
+        "CWE-440": "If the sha_rvalid signal behaves differently than specified, it could lead to unexpected stalling of the hash operation, violating expected behavior and impacting availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1276 by manipulating the 'sha_rvalid' signal in the hmac_core module to create a denial of service condition, thereby violating the availability of the SHA data stream and stalling the hash operation."
+          }
+        },
+        "CWE-1248": {
+          "CAPEC-IDs": [
+            "CAPEC-624",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-624": "CAPEC-624 can exploit CWE-1248 by manipulating the sha_rvalid signal to create a race condition, disrupting the availability of the SHA engine by causing data stream blockages or protocol violations.",
+            "CAPEC-150": "CAPEC-150 targets CWE-1248 by injecting faults into the sha_rvalid signal, leading to incorrect handshake signals that compromise the availability of the SHA engine by stalling hash operations."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-150",
+        "CAPEC-624"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-150": "[CWE-1276] CAPEC-150 can exploit CWE-1276 by manipulating the 'sha_rvalid' signal in the hmac_core module to create a denial of service condition, thereby violating the availability of the SHA data stream and stalling the hash operation. [CWE-1248] CAPEC-150 targets CWE-1248 by injecting faults into the sha_rvalid signal, leading to incorrect handshake signals that compromise the availability of the SHA engine by stalling hash operations.",
+        "CAPEC-624": "[CWE-1248] CAPEC-624 can exploit CWE-1248 by manipulating the sha_rvalid signal to create a race condition, disrupting the availability of the SHA engine by causing data stream blockages or protocol violations."
+      }
+    },
+    {
+      "Asset_Name": "Integrity error alert output (intg_err_o) in hmac_reg_top module",
+      "Functionality": "Aggregates integrity violations and spurious write-enable detection for alert signaling to the system.",
+      "Security Objective": "Integrity",
+      "Justification": "Tampering could suppress real error alerts or trigger false ones, undermining fault detection and system response policies.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-440",
+        "CWE-1429"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the register interface could allow unauthorized agents to manipulate the integrity error alert output, leading to false alerts or suppression of real alerts.",
+        "CWE-440": "Violations of expected behavior in the integrity error alert output could allow attackers to bypass security mechanisms by triggering or suppressing alerts unexpectedly.",
+        "CWE-1429": "Missing security-relevant feedback for unexecuted operations could result in the integrity error alert output failing to report critical errors, allowing attacks to go undetected."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the integrity error alert output (intg_err_o) in the hmac_reg_top module to bypass or falsify integrity checks, thereby compromising the system's ability to detect and respond to genuine integrity violations.",
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1262 by injecting unauthorized commands or data into the hmac_reg_top module, potentially altering the integrity error alert output (intg_err_o) to either suppress legitimate alerts or generate false ones, thus undermining the integrity of the system's fault detection mechanisms."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1429 by manipulating the integrity error alert output (intg_err_o) in the hmac_reg_top module to inject false integrity violations or suppress genuine alerts, thereby compromising the system's ability to detect and respond to integrity breaches."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-150"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the integrity error alert output (intg_err_o) in the hmac_reg_top module to bypass or falsify integrity checks, thereby compromising the system's ability to detect and respond to genuine integrity violations.",
+        "CAPEC-150": "[CWE-1262] CAPEC-150 can exploit CWE-1262 by injecting unauthorized commands or data into the hmac_reg_top module, potentially altering the integrity error alert output (intg_err_o) to either suppress legitimate alerts or generate false ones, thus undermining the integrity of the system's fault detection mechanisms. [CWE-1429] CAPEC-150 can exploit CWE-1429 by manipulating the integrity error alert output (intg_err_o) in the hmac_reg_top module to inject false integrity violations or suppress genuine alerts, thereby compromising the system's ability to detect and respond to integrity breaches."
+      }
+    },
+    {
+      "Asset_Name": "SHA enable control (sha_en) in sha2 module",
+      "Functionality": "Gates the SHA-256 engine; when low, internal content is cleared and operation is disabled.",
+      "Security Objective": "Integrity",
+      "Justification": "This control directly determines whether the core operates or is cleared. Unauthorized modification can corrupt control flow or erase state mid-operation, violating the correctness of the cryptographic computation.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1262",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The sha_en control signal in the sha2 module could be improperly connected, leading to unauthorized enabling or disabling of the SHA-256 engine, which could compromise the integrity of cryptographic operations.",
+        "CWE-1262": "Improper access control on the sha_en signal could allow unauthorized modification, enabling attackers to disrupt the integrity of the SHA-256 operations by clearing or disabling the engine unexpectedly.",
+        "CWE-1220": "Insufficient granularity in access control for the sha_en signal could allow unauthorized agents to manipulate the SHA-256 engine's operational state, potentially leading to integrity violations in cryptographic computations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1276 by manipulating the 'sha_en' control signal in the sha2 module to improperly disable the SHA-256 engine, thereby compromising the integrity of cryptographic operations by allowing unauthorized clearing of internal states."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the 'sha_en' control signal to improperly clear or disable the SHA-256 engine, thereby compromising the integrity of cryptographic operations by disrupting the intended control flow.",
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1262 by injecting unauthorized control signals to alter the 'sha_en' state, leading to unintended clearing of internal content and violating the integrity of the cryptographic computation process."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the 'sha_en' control signal to unauthorizedly disable the SHA-256 engine, thereby compromising the integrity of cryptographic operations by interrupting or clearing the internal state mid-process.",
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1220 by injecting malicious control inputs to alter the 'sha_en' signal, leading to unauthorized clearing of the SHA-256 engine's internal state, which undermines the integrity of the cryptographic computation."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-150",
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-150": "[CWE-1276] CAPEC-150 can exploit CWE-1276 by manipulating the 'sha_en' control signal in the sha2 module to improperly disable the SHA-256 engine, thereby compromising the integrity of cryptographic operations by allowing unauthorized clearing of internal states. [CWE-1262] CAPEC-150 can exploit CWE-1262 by injecting unauthorized control signals to alter the 'sha_en' state, leading to unintended clearing of internal content and violating the integrity of the cryptographic computation process. [CWE-1220] CAPEC-150 can exploit CWE-1220 by injecting malicious control inputs to alter the 'sha_en' signal, leading to unauthorized clearing of the SHA-256 engine's internal state, which undermines the integrity of the cryptographic computation.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the 'sha_en' control signal to improperly clear or disable the SHA-256 engine, thereby compromising the integrity of cryptographic operations by disrupting the intended control flow.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the 'sha_en' control signal to unauthorizedly disable the SHA-256 engine, thereby compromising the integrity of cryptographic operations by interrupting or clearing the internal state mid-process."
+      }
+    },
+    {
+      "Asset_Name": "Hash start control (hash_start) in sha2 module",
+      "Functionality": "Initiates a new hash operation, clears digest, and transitions FSMs to load and compress states.",
+      "Security Objective": "Integrity",
+      "Justification": "If toggled prematurely or suppressed, the hash sequence can be mis-ordered (e.g., stale digest or missed initialization), yielding incorrect results. As a control that sequences the operation, it must be protected from unintended modification.",
+      "CWE-IDs": [
+        "CWE-1279",
+        "CWE-1262",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1279": "The hash_start control could be toggled before the SHA-256 module is fully initialized, leading to incorrect cryptographic operations and compromising data integrity.",
+        "CWE-1262": "Improper access control on the hash_start control signal could allow unauthorized modification, disrupting the sequence of hash operations and affecting the integrity of the results.",
+        "CWE-1280": "If access control checks for the hash_start signal are implemented after the signal is accessed, it could allow unauthorized initiation of hash operations, leading to potential data integrity issues."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1279": {
+          "CAPEC-IDs": [
+            "CAPEC-97",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-97": "By exploiting CWE-1279, CAPEC-97 can manipulate the 'hash_start' control in the sha2 module to prematurely initiate or suppress hash operations, compromising the integrity of the HMAC-SHA256 process by causing mis-ordered hash sequences.",
+            "CAPEC-150": "CAPEC-150 leverages CWE-1279 by intercepting or altering the 'hash_start' signal in the sha2 module, potentially leading to stale digest usage or missed initialization, thus violating the integrity objective of the HMAC-SHA256 operation."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the 'hash_start' control in the sha2 module to prematurely initiate or suppress hash operations, thereby compromising the integrity of the hash sequence and resulting in incorrect cryptographic outputs."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the 'hash_start' control in the sha2 module to prematurely initiate or suppress hash operations, thereby compromising the integrity of the hash sequence and resulting in incorrect digest outputs."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-97",
+        "CAPEC-150",
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-97": "[CWE-1279] By exploiting CWE-1279, CAPEC-97 can manipulate the 'hash_start' control in the sha2 module to prematurely initiate or suppress hash operations, compromising the integrity of the HMAC-SHA256 process by causing mis-ordered hash sequences.",
+        "CAPEC-150": "[CWE-1279] CAPEC-150 leverages CWE-1279 by intercepting or altering the 'hash_start' signal in the sha2 module, potentially leading to stale digest usage or missed initialization, thus violating the integrity objective of the HMAC-SHA256 operation.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the 'hash_start' control in the sha2 module to prematurely initiate or suppress hash operations, thereby compromising the integrity of the hash sequence and resulting in incorrect cryptographic outputs.",
+        "CAPEC-180": "[CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the 'hash_start' control in the sha2 module to prematurely initiate or suppress hash operations, thereby compromising the integrity of the hash sequence and resulting in incorrect digest outputs."
+      }
+    },
+    {
+      "Asset_Name": "Hash done status (hash_done) in sha2 module",
+      "Functionality": "Signals completion of processing a chunk and alignment of digest update.",
+      "Security Objective": "Availability",
+      "Justification": "System software/logic uses this to determine completion and to schedule subsequent operations. If suppressed or spoofed, the system may hang waiting or move on prematurely, disrupting service.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1429"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The hash_done signal in the sha2 module could be incorrectly connected, leading to a failure in signaling the completion of hash operations, causing the system to hang or proceed incorrectly, impacting availability.",
+        "CWE-440": "If the hash_done signal does not behave as expected, it could lead to system software misinterpreting the completion status, causing premature or delayed operations, thus violating expected behavior and affecting availability.",
+        "CWE-1429": "The absence of feedback for unexecuted operations related to the hash_done signal could lead to undetected failures, causing the system to hang or proceed incorrectly, impacting availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1276 by manipulating the 'hash_done' signal in the sha2 module to falsely indicate completion, thereby disrupting the availability of the system by causing premature or delayed scheduling of subsequent operations."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-150": "CAPEC-150, which involves exploiting race conditions, could exploit CWE-440 by manipulating the timing of the hash_done signal in the sha2 module, potentially causing the system to misinterpret the completion status and disrupt the availability of subsequent operations."
+          }
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-150"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-150": "[CWE-1276] CAPEC-150 can exploit CWE-1276 by manipulating the 'hash_done' signal in the sha2 module to falsely indicate completion, thereby disrupting the availability of the system by causing premature or delayed scheduling of subsequent operations. [CWE-440] CAPEC-150, which involves exploiting race conditions, could exploit CWE-440 by manipulating the timing of the hash_done signal in the sha2 module, potentially causing the system to misinterpret the completion status and disrupt the availability of subsequent operations."
+      }
+    },
+    {
+      "Asset_Name": "SHA sub-system enable (sha_en) in sha2_pad module",
+      "Functionality": "Top-level enable for entering the padding flow; StIdle transitions only when sha_en and hash_start are asserted.",
+      "Security Objective": "Integrity",
+      "Justification": "As a control that gates operation, unauthorized modification can prematurely start or block padding, altering the intended control sequence and undermining correct operation.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1280",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The sha_en signal in the sha2_pad module could be improperly connected, allowing unauthorized activation of the padding flow, thus compromising the integrity of the HMAC operation.",
+        "CWE-1280": "If access control checks for the sha_en signal are implemented after the padding flow starts, unauthorized components could manipulate the padding process before checks are enforced, leading to integrity violations.",
+        "CWE-1262": "Improper access control on the sha_en signal could allow unauthorized software to enable or disable the padding flow, potentially altering the intended control sequence and undermining the integrity of the cryptographic operation."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-150": "CAPEC-150, which involves exploiting shared resource manipulation, could exploit CWE-1276 by tampering with the 'sha_en' signal in the 'sha2_pad' module, potentially causing unauthorized transitions in the padding flow and compromising the integrity of the HMAC-SHA256 operation."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the sha_en signal in the sha2_pad module to disrupt the integrity of the padding process, potentially allowing unauthorized control over the transition from StIdle and compromising the intended cryptographic operation.",
+            "CAPEC-150": "CAPEC-150 could exploit CWE-1280 by intercepting and altering the sha_en control signal, thereby enabling or disabling the padding flow at inappropriate times, which undermines the integrity of the SHA-256 hashing process by altering the control sequence."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the sha_en signal in the sha2_pad module to bypass integrity checks, allowing unauthorized control over the padding process and compromising the integrity of the HMAC operation.",
+            "CAPEC-150": "CAPEC-150 targets CWE-1262 by injecting faults into the sha_en control signal, potentially causing unauthorized transitions in the padding flow, which undermines the integrity of the cryptographic process by altering the intended control sequence."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-150",
+        "CAPEC-180",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-150": "[CWE-1276] CAPEC-150, which involves exploiting shared resource manipulation, could exploit CWE-1276 by tampering with the 'sha_en' signal in the 'sha2_pad' module, potentially causing unauthorized transitions in the padding flow and compromising the integrity of the HMAC-SHA256 operation. [CWE-1280] CAPEC-150 could exploit CWE-1280 by intercepting and altering the sha_en control signal, thereby enabling or disabling the padding flow at inappropriate times, which undermines the integrity of the SHA-256 hashing process by altering the control sequence. [CWE-1262] CAPEC-150 targets CWE-1262 by injecting faults into the sha_en control signal, potentially causing unauthorized transitions in the padding flow, which undermines the integrity of the cryptographic process by altering the intended control sequence.",
+        "CAPEC-180": "[CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the sha_en signal in the sha2_pad module to disrupt the integrity of the padding process, potentially allowing unauthorized control over the transition from StIdle and compromising the intended cryptographic operation.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the sha_en signal in the sha2_pad module to bypass integrity checks, allowing unauthorized control over the padding process and compromising the integrity of the HMAC operation."
+      }
+    },
+    {
+      "Asset_Name": "Hash operation start control (hash_start) in sha2_pad module",
+      "Functionality": "Starts a new message padding sequence and clears tx_count and hash_process_flag.",
+      "Security Objective": "Integrity",
+      "Justification": "Tampering can reset or retrigger the sequence mid-operation, corrupting control state and causing incorrect padding or dropped data relative to the intended use case.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1280",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections between the sha2_pad module and its parent system could allow tampering with the hash_start control signal, leading to incorrect padding sequences and compromised integrity.",
+        "CWE-1280": "If access control checks are performed after the hash_start signal is triggered, unauthorized components could manipulate the padding sequence before checks are enforced, compromising data integrity.",
+        "CWE-1262": "Improper access control on the hash_start control signal could allow unauthorized tampering, leading to incorrect padding sequences and potential data corruption."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the hash_start control in the sha2_pad module to induce incorrect padding sequences, thereby compromising the integrity of the hash operation by causing unexpected state transitions.",
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1280 by intercepting and altering the hash_start signal to reset or retrigger the padding process, leading to integrity violations through corrupted control states and potential data loss."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the hash_start control in the sha2_pad module to improperly reset or retrigger the padding sequence, thereby compromising the integrity of the hash operation by causing incorrect padding or data loss.",
+            "CAPEC-150": "CAPEC-150 targets CWE-1262 by injecting unauthorized control signals into the hash_start mechanism of the sha2_pad module, potentially altering the intended sequence and undermining the integrity of the cryptographic process."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-150",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the hash_start control in the sha2_pad module to induce incorrect padding sequences, thereby compromising the integrity of the hash operation by causing unexpected state transitions.",
+        "CAPEC-150": "[CWE-1280] CAPEC-150 can exploit CWE-1280 by intercepting and altering the hash_start signal to reset or retrigger the padding process, leading to integrity violations through corrupted control states and potential data loss. [CWE-1262] CAPEC-150 targets CWE-1262 by injecting unauthorized control signals into the hash_start mechanism of the sha2_pad module, potentially altering the intended sequence and undermining the integrity of the cryptographic process.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the hash_start control in the sha2_pad module to improperly reset or retrigger the padding sequence, thereby compromising the integrity of the hash operation by causing incorrect padding or data loss."
+      }
+    },
+    {
+      "Asset_Name": "Hash completion indicator from engine (hash_done) in sha2_pad module",
+      "Functionality": "Clears hash_process_flag when the compression engine completes a block.",
+      "Security Objective": "Availability",
+      "Justification": "False assertion can prematurely change internal phase and stall further transfers; suppressing it can prevent phase transition to idle and block subsequent operations.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1245"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The hash_done signal could be incorrectly connected, leading to false assertions that disrupt the HMAC operation flow, affecting availability.",
+        "CWE-440": "A deviation in the expected behavior of the hash_done signal could lead to premature or delayed phase transitions, causing denial of service.",
+        "CWE-1245": "Improper FSM handling in the sha2_pad module could cause the hash_done signal to transition incorrectly, stalling operations and affecting availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-150": "CAPEC-150, which involves exploiting race conditions, could exploit CWE-1276 by manipulating the timing of the hash_done signal in the sha2_pad module to falsely assert completion, thereby violating the availability objective by stalling further operations and preventing the system from transitioning to the idle state."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-150": "CAPEC-150, which involves exploiting race conditions, can be used to exploit CWE CWE-440 by manipulating the timing of the hash_done signal in the sha2_pad module, potentially causing a false assertion that disrupts the availability of the hash completion indicator and stalls further operations."
+          }
+        },
+        "CWE-1245": {
+          "CAPEC-IDs": [
+            "CAPEC-74",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1245 by manipulating the hash_done signal in the sha2_pad module to falsely indicate completion, thereby disrupting the availability of the hash process by prematurely transitioning the system to an idle state.",
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1245 by intercepting and altering the hash_done signal to suppress its assertion, preventing the phase transition to idle and blocking subsequent operations, thus impacting the availability of the hash completion indicator."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-150",
+        "CAPEC-74"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-150": "[CWE-1276] CAPEC-150, which involves exploiting race conditions, could exploit CWE-1276 by manipulating the timing of the hash_done signal in the sha2_pad module to falsely assert completion, thereby violating the availability objective by stalling further operations and preventing the system from transitioning to the idle state. [CWE-440] CAPEC-150, which involves exploiting race conditions, can be used to exploit CWE CWE-440 by manipulating the timing of the hash_done signal in the sha2_pad module, potentially causing a false assertion that disrupts the availability of the hash completion indicator and stalls further operations. [CWE-1245] CAPEC-150 can exploit CWE-1245 by intercepting and altering the hash_done signal to suppress its assertion, preventing the phase transition to idle and blocking subsequent operations, thus impacting the availability of the hash completion indicator.",
+        "CAPEC-74": "[CWE-1245] CAPEC-74 can exploit CWE-1245 by manipulating the hash_done signal in the sha2_pad module to falsely indicate completion, thereby disrupting the availability of the hash process by prematurely transitioning the system to an idle state."
+      }
+    }
+  ]
+}

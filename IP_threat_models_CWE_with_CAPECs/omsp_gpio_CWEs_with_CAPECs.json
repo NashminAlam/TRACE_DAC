@@ -1,0 +1,1167 @@
+{
+  "IP": "omsp_gpio",
+  "Assets": [
+    {
+      "Asset_Name": "Peripheral enable (per_en)",
+      "Functionality": "Qualifies peripheral bus access and gates register read/write within the GPIO address space.",
+      "Security Objective": "Integrity",
+      "Justification": "If an attacker can assert/deassert the enable at the wrong time, writes could be dropped or unintended registers accessed. Preserving the correctness of bus qualification is essential to keep GPIO configuration state from being corrupted.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1280",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the peripheral enable signal could allow unauthorized manipulation of GPIO register access, compromising integrity.",
+        "CWE-1280": "If access control checks for the peripheral enable are delayed, unauthorized access to GPIO registers could occur before validation, risking integrity.",
+        "CWE-1220": "Insufficient granularity in access control for the peripheral enable could allow unauthorized agents to access or modify GPIO registers, violating integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the 'per_en' signal timing to cause incorrect peripheral bus access, compromising the integrity of the GPIO configuration state by allowing unintended register writes or reads.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1262 by inducing a race condition on the 'per_en' signal, leading to unauthorized access or modification of GPIO registers, thereby violating the integrity of the peripheral bus qualification process."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1280 by manipulating the 'per_en' signal to improperly qualify peripheral bus access, potentially leading to unauthorized register writes and compromising the integrity of the GPIO configuration state.",
+            "CAPEC-74": "CAPEC-74 targets CWE-1280 by intercepting and altering the 'per_en' signal timing, causing unintended register access and undermining the integrity of the GPIO module's configuration."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "By exploiting CWE-1220, an attacker using CAPEC-180 could manipulate the 'per_en' signal timing to cause unauthorized register access, compromising the integrity of the GPIO configuration state.",
+            "CAPEC-74": "Through CWE-1220, CAPEC-74 enables an attacker to disrupt the 'per_en' signal, leading to incorrect bus qualification and potential corruption of the GPIO configuration state, thus violating its integrity."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the 'per_en' signal timing to cause incorrect peripheral bus access, compromising the integrity of the GPIO configuration state by allowing unintended register writes or reads.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 can exploit CWE-1262 by inducing a race condition on the 'per_en' signal, leading to unauthorized access or modification of GPIO registers, thereby violating the integrity of the peripheral bus qualification process. [CWE-1280] CAPEC-74 targets CWE-1280 by intercepting and altering the 'per_en' signal timing, causing unintended register access and undermining the integrity of the GPIO module's configuration. [CWE-1220] Through CWE-1220, CAPEC-74 enables an attacker to disrupt the 'per_en' signal, leading to incorrect bus qualification and potential corruption of the GPIO configuration state, thus violating its integrity.",
+        "CAPEC-180": "[CWE-1280] CAPEC-180 exploits CWE-1280 by manipulating the 'per_en' signal to improperly qualify peripheral bus access, potentially leading to unauthorized register writes and compromising the integrity of the GPIO configuration state. [CWE-1220] By exploiting CWE-1220, an attacker using CAPEC-180 could manipulate the 'per_en' signal timing to cause unauthorized register access, compromising the integrity of the GPIO configuration state."
+      }
+    },
+    {
+      "Asset_Name": "Peripheral write enable byte strobes (per_we)",
+      "Functionality": "Selects which byte(s) of the targeted register are written (high/low) during a bus transaction.",
+      "Security Objective": "Integrity",
+      "Justification": "Manipulating write strobes can partially overwrite control registers, leading to inconsistent configuration. Correct write granularity is required to preserve register integrity.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1224"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for register interfaces can allow unauthorized manipulation of the peripheral write enable byte strobes, leading to partial overwrites and inconsistent configuration.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to manipulate the peripheral write enable byte strobes, compromising the integrity of register writes.",
+        "CWE-1224": "Improper restriction of write-once bit fields could allow repeated manipulation of the peripheral write enable byte strobes, leading to unauthorized reconfiguration of control registers."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 exploits CWE-1262 by manipulating the 'per_we' byte strobes to selectively overwrite parts of control registers in the omsp_gpio module, compromising the integrity of the register configuration.",
+            "CAPEC-74": "CAPEC-74 leverages CWE-1262 by inducing errors in the 'per_we' signals to cause partial writes to control registers, leading to inconsistent states and violating the integrity objective of the omsp_gpio module."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the 'per_we' signals to selectively overwrite specific bytes of control registers in the omsp_gpio module, compromising the integrity of the configuration by causing inconsistent register states.",
+            "CAPEC-74": "CAPEC-74 leverages CWE-1220 by intercepting and altering the 'per_we' byte strobes during bus transactions, leading to partial and unauthorized modifications of control registers, thereby violating the integrity of the omsp_gpio module's configuration."
+          }
+        },
+        "CWE-1224": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1224 by manipulating the 'per_we' signals to selectively disable byte strobes, leading to partial overwrites of control registers in the omsp_gpio module, thus compromising the integrity of the register configuration.",
+            "CAPEC-74": "CAPEC-74 targets CWE-1224 by inducing faults in the 'per_we' signals during bus transactions, causing unintended byte-level writes that result in inconsistent and potentially harmful register states, undermining the integrity of the omsp_gpio module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 exploits CWE-1262 by manipulating the 'per_we' byte strobes to selectively overwrite parts of control registers in the omsp_gpio module, compromising the integrity of the register configuration. [CWE-1224] CAPEC-680 can exploit CWE-1224 by manipulating the 'per_we' signals to selectively disable byte strobes, leading to partial overwrites of control registers in the omsp_gpio module, thus compromising the integrity of the register configuration.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 leverages CWE-1262 by inducing errors in the 'per_we' signals to cause partial writes to control registers, leading to inconsistent states and violating the integrity objective of the omsp_gpio module. [CWE-1220] CAPEC-74 leverages CWE-1220 by intercepting and altering the 'per_we' byte strobes during bus transactions, leading to partial and unauthorized modifications of control registers, thereby violating the integrity of the omsp_gpio module's configuration. [CWE-1224] CAPEC-74 targets CWE-1224 by inducing faults in the 'per_we' signals during bus transactions, causing unintended byte-level writes that result in inconsistent and potentially harmful register states, undermining the integrity of the omsp_gpio module.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the 'per_we' signals to selectively overwrite specific bytes of control registers in the omsp_gpio module, compromising the integrity of the configuration by causing inconsistent register states."
+      }
+    },
+    {
+      "Asset_Name": "Port 1 output enable mask (p1_dout_en)",
+      "Functionality": "Output enable for each Port 1 bit (derived from direction), controlling tri-state behavior.",
+      "Security Objective": "Integrity",
+      "Justification": "Improper enable can force-drive lines or leave them floating, potentially damaging hardware or violating protocol. The correctness of drive enable must be preserved.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1276",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the p1_dout_en register could allow unauthorized modification of the output enable mask, leading to incorrect tri-state behavior and potential hardware damage.",
+        "CWE-1276": "Incorrect connections between the omsp_gpio module and its parent system could result in improper signal handling for the p1_dout_en, violating security policies and causing unintended behavior.",
+        "CWE-1221": "Incorrect default settings for the p1_dout_en register could lead to insecure states upon reset, allowing unauthorized software to manipulate the output enable mask."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the configuration of the p1_dout_en signal to improperly enable or disable output drivers, compromising the integrity of Port 1's output enable mask and potentially causing hardware damage or protocol violations."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the p1_dout_en signal to improperly enable or disable Port 1 outputs, compromising the integrity of the GPIO module by forcing incorrect tri-state behavior and potentially causing hardware damage or protocol violations."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the configuration of the p1_dout_en signal to improperly enable or disable output drivers, compromising the integrity of Port 1's output enable mask and potentially causing hardware damage or protocol violations.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the p1_dout_en signal to improperly enable or disable Port 1 outputs, compromising the integrity of the GPIO module by forcing incorrect tri-state behavior and potentially causing hardware damage or protocol violations."
+      }
+    },
+    {
+      "Asset_Name": "Port 2 output enable mask (p2_dout_en)",
+      "Functionality": "Output enable for each Port 2 bit (derived from direction).",
+      "Security Objective": "Integrity",
+      "Justification": "Unauthorized changes can cause bus contention or unintended signal assertion, compromising system correctness.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the p2_dout_en register could allow unauthorized changes, leading to bus contention or unintended signal assertion.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to modify the p2_dout_en register, compromising system integrity.",
+        "CWE-1221": "Incorrect default settings for the p2_dout_en register could lead to insecure states, allowing unauthorized modifications that affect system correctness."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the configuration of the omsp_gpio module to alter the p2_dout_en signal, thereby compromising the integrity of Port 2's output enable mask and potentially causing unauthorized signal assertions or bus contention."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the peripheral address decoding logic to improperly enable or disable the p2_dout_en signal, thereby compromising the integrity of Port 2's output enable functionality and potentially causing bus contention.",
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1220 by injecting malicious input data that alters the synchronization logic of p2_dout_en, leading to unauthorized changes in the output enable state of Port 2 and violating the integrity of the system's signal assertions."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the peripheral address decoding logic to alter the p2_dout_en register, thereby compromising the integrity of Port 2's output enable mask and potentially causing unauthorized signal assertions."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the configuration of the omsp_gpio module to alter the p2_dout_en signal, thereby compromising the integrity of Port 2's output enable mask and potentially causing unauthorized signal assertions or bus contention. [CWE-1220] CAPEC-680 can exploit CWE-1220 by injecting malicious input data that alters the synchronization logic of p2_dout_en, leading to unauthorized changes in the output enable state of Port 2 and violating the integrity of the system's signal assertions.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the peripheral address decoding logic to improperly enable or disable the p2_dout_en signal, thereby compromising the integrity of Port 2's output enable functionality and potentially causing bus contention.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the peripheral address decoding logic to alter the p2_dout_en register, thereby compromising the integrity of Port 2's output enable mask and potentially causing unauthorized signal assertions."
+      }
+    },
+    {
+      "Asset_Name": "Port 3 output enable mask (p3_dout_en)",
+      "Functionality": "Output enable for each Port 3 bit (derived from direction).",
+      "Security Objective": "Integrity",
+      "Justification": "Correct direction/enable settings are critical to safe pin driving; tampering compromises signal integrity.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1221",
+        "CWE-1263"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the register interface could allow unauthorized modification of the p3_dout_en, compromising signal integrity.",
+        "CWE-1221": "Incorrect defaults for the p3_dout_en could lead to insecure states upon reset, allowing unauthorized signal driving.",
+        "CWE-1263": "Physical access to the hardware could allow manipulation of the p3_dout_en, affecting the integrity of the output signals."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the register address decoding logic to alter the p3_dout_en signal, compromising the integrity of Port 3's output enable settings and potentially allowing unauthorized control over GPIO direction."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the register access logic to alter the p3_dout_en mask, thereby compromising the integrity of Port 3's output enable settings and allowing unauthorized control over signal direction."
+          }
+        },
+        "CWE-1263": {
+          "CAPEC-IDs": [
+            "CAPEC-401"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-401": "CAPEC-401 can exploit CWE-1263 by manipulating the register access logic to alter the p3_dout_en signal, thereby compromising the integrity of Port 3's output enable settings and potentially causing incorrect signal driving."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-166",
+        "CAPEC-401"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the register address decoding logic to alter the p3_dout_en signal, compromising the integrity of Port 3's output enable settings and potentially allowing unauthorized control over GPIO direction.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the register access logic to alter the p3_dout_en mask, thereby compromising the integrity of Port 3's output enable settings and allowing unauthorized control over signal direction.",
+        "CAPEC-401": "[CWE-1263] CAPEC-401 can exploit CWE-1263 by manipulating the register access logic to alter the p3_dout_en signal, thereby compromising the integrity of Port 3's output enable settings and potentially causing incorrect signal driving."
+      }
+    },
+    {
+      "Asset_Name": "Port 4 output enable mask (p4_dout_en)",
+      "Functionality": "Output enable for each Port 4 bit (derived from direction).",
+      "Security Objective": "Integrity",
+      "Justification": "Misconfiguration allows unintended driving or tri-stating of lines, breaking expected operation.",
+      "CWE-IDs": [
+        "CWE-1221",
+        "CWE-1262",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1221": "The default configuration of the p4_dout_en could be incorrect, leading to unintended enabling or disabling of Port 4 outputs, compromising integrity.",
+        "CWE-1262": "Improper access control on the p4_dout_en register could allow unauthorized software to alter the output enable state, affecting the integrity of Port 4 operations.",
+        "CWE-1220": "Insufficient granularity in access control for the p4_dout_en could allow unauthorized agents to modify the output enable state, leading to integrity violations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the register access logic to alter the p4_dout_en mask, compromising the integrity of Port 4's output enable functionality and potentially causing unintended driving or tri-stating of lines."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the configuration of the omsp_gpio module to alter the Port 4 output enable mask (p4_dout_en), thereby compromising the integrity of the output enable functionality and allowing unauthorized control over the port's driving state."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the configuration of the omsp_gpio module to alter the p4_dout_en signal, compromising the integrity of Port 4's output enable functionality and potentially causing unintended driving or tri-stating of lines."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-166",
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the register access logic to alter the p4_dout_en mask, compromising the integrity of Port 4's output enable functionality and potentially causing unintended driving or tri-stating of lines.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the configuration of the omsp_gpio module to alter the Port 4 output enable mask (p4_dout_en), thereby compromising the integrity of the output enable functionality and allowing unauthorized control over the port's driving state.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the configuration of the omsp_gpio module to alter the p4_dout_en signal, compromising the integrity of Port 4's output enable functionality and potentially causing unintended driving or tri-stating of lines."
+      }
+    },
+    {
+      "Asset_Name": "Port 5 output enable mask (p5_dout_en)",
+      "Functionality": "Output enable for each Port 5 bit (derived from direction).",
+      "Security Objective": "Integrity",
+      "Justification": "Ensures only intended pins drive; corruption endangers correct I/O behavior and external interfaces.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1221",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the p5_dout_en register could allow unauthorized modification, compromising the integrity of Port 5's output enable functionality.",
+        "CWE-1221": "Incorrect defaults for the p5_dout_en register could lead to insecure states, allowing unintended pins to drive outputs and compromising system integrity.",
+        "CWE-1220": "Insufficient granularity of access control for the p5_dout_en register could allow unauthorized agents to modify the output enable state, affecting the integrity of Port 5 operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the configuration of the omsp_gpio module to alter the p5_dout_en signal, compromising the integrity of Port 5's output enable mask and potentially allowing unauthorized data to drive the pins."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the register decoder logic to improperly enable or disable the p5_dout_en signal, compromising the integrity of Port 5's output enable functionality and potentially allowing unauthorized control over the GPIO pins."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the peripheral address decoding logic to improperly enable or disable the p5_dout_en signal, compromising the integrity of Port 5's output enable functionality and potentially allowing unauthorized control over the GPIO pins."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-166",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the configuration of the omsp_gpio module to alter the p5_dout_en signal, compromising the integrity of Port 5's output enable mask and potentially allowing unauthorized data to drive the pins.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the register decoder logic to improperly enable or disable the p5_dout_en signal, compromising the integrity of Port 5's output enable functionality and potentially allowing unauthorized control over the GPIO pins.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the peripheral address decoding logic to improperly enable or disable the p5_dout_en signal, compromising the integrity of Port 5's output enable functionality and potentially allowing unauthorized control over the GPIO pins."
+      }
+    },
+    {
+      "Asset_Name": "Port 6 output enable mask (p6_dout_en)",
+      "Functionality": "Output enable for each Port 6 bit (derived from direction).",
+      "Security Objective": "Integrity",
+      "Justification": "Prevents unintended drive conditions that could violate system-level correctness.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the register interface could allow unauthorized modification of the p6_dout_en, compromising the integrity of Port 6's output enable functionality.",
+        "CWE-1220": "Insufficient granularity of access control may allow unauthorized agents to modify the p6_dout_en, leading to unintended drive conditions and violating system-level correctness.",
+        "CWE-1221": "Incorrect register defaults or module parameters could lead to insecure states for p6_dout_en upon reset, potentially allowing unintended drive conditions that compromise system integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 could exploit CWE-1262 by manipulating the peripheral address decoding logic to improperly enable or disable the p6_dout_en signal, thereby compromising the integrity of Port 6's output enable functionality and potentially causing unintended drive conditions."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the peripheral address decoding logic to improperly enable or disable the p6_dout_en signal, thereby compromising the integrity of Port 6's output enable functionality and potentially causing unintended drive conditions."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 could exploit CWE-1221 by manipulating the peripheral address decoding logic to improperly enable or disable the p6_dout_en signal, thereby compromising the integrity of Port 6's output enable functionality and leading to unintended drive conditions."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 could exploit CWE-1262 by manipulating the peripheral address decoding logic to improperly enable or disable the p6_dout_en signal, thereby compromising the integrity of Port 6's output enable functionality and potentially causing unintended drive conditions.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the peripheral address decoding logic to improperly enable or disable the p6_dout_en signal, thereby compromising the integrity of Port 6's output enable functionality and potentially causing unintended drive conditions.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 could exploit CWE-1221 by manipulating the peripheral address decoding logic to improperly enable or disable the p6_dout_en signal, thereby compromising the integrity of Port 6's output enable functionality and leading to unintended drive conditions."
+      }
+    },
+    {
+      "Asset_Name": "Port 1 function select (p1_sel)",
+      "Functionality": "Chooses GPIO vs. alternate function for each Port 1 pin.",
+      "Security Objective": "Integrity",
+      "Justification": "Unauthorised switching of pin function can reroute signals and break higher-level protocols. Maintaining correct selection protects system behavior.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1263",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the p1_sel register could allow unauthorized software to change the function of Port 1 pins, compromising system integrity.",
+        "CWE-1263": "If physical access controls are inadequate, an attacker could manipulate the p1_sel register to switch pin functions, undermining system integrity.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to modify the p1_sel register, leading to unauthorized function switching of Port 1 pins."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the 'p1_sel' register to unauthorized values, compromising the integrity of Port 1's function selection and potentially rerouting signals to disrupt system protocols.",
+            "CAPEC-74": "CAPEC-74 targets CWE-1262 by injecting malicious data into the 'p1_sel' register, altering the intended GPIO configuration and undermining the integrity of signal routing for Port 1."
+          }
+        },
+        "CWE-1263": {
+          "CAPEC-IDs": [
+            "CAPEC-401",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-401": "CAPEC-401 can exploit CWE-1263 by manipulating the 'p1_sel' register to unauthorizedly switch Port 1's function, compromising the integrity of signal routing and potentially disrupting higher-level protocols.",
+            "CAPEC-74": "CAPEC-74 could exploit CWE-1263 by injecting malicious data into the 'p1_sel' register, altering the intended GPIO function selection and undermining the integrity of the system's operational behavior."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the 'p1_sel' register to unauthorizedly switch Port 1's function, compromising the integrity of signal routing and potentially disrupting higher-level protocols.",
+            "CAPEC-74": "CAPEC-74 targets CWE-1220 by injecting malicious data into the 'p1_sel' register, altering the intended GPIO configuration and undermining the integrity of the system's functional behavior."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-401",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the 'p1_sel' register to unauthorized values, compromising the integrity of Port 1's function selection and potentially rerouting signals to disrupt system protocols.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 targets CWE-1262 by injecting malicious data into the 'p1_sel' register, altering the intended GPIO configuration and undermining the integrity of signal routing for Port 1. [CWE-1263] CAPEC-74 could exploit CWE-1263 by injecting malicious data into the 'p1_sel' register, altering the intended GPIO function selection and undermining the integrity of the system's operational behavior. [CWE-1220] CAPEC-74 targets CWE-1220 by injecting malicious data into the 'p1_sel' register, altering the intended GPIO configuration and undermining the integrity of the system's functional behavior.",
+        "CAPEC-401": "[CWE-1263] CAPEC-401 can exploit CWE-1263 by manipulating the 'p1_sel' register to unauthorizedly switch Port 1's function, compromising the integrity of signal routing and potentially disrupting higher-level protocols.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the 'p1_sel' register to unauthorizedly switch Port 1's function, compromising the integrity of signal routing and potentially disrupting higher-level protocols."
+      }
+    },
+    {
+      "Asset_Name": "Port 2 function select (p2_sel)",
+      "Functionality": "Chooses GPIO vs. alternate function for each Port 2 pin.",
+      "Security Objective": "Integrity",
+      "Justification": "Wrong function routing can connect/disconnect critical signals, so selection must remain trustworthy.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1276",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the p2_sel register interface could allow unauthorized modification of the function selection, compromising the integrity of critical signal routing.",
+        "CWE-1276": "Incorrect connections or misconfigurations in the omsp_gpio module could lead to improper function selection for Port 2, violating security policies and affecting signal integrity.",
+        "CWE-1221": "Incorrect default settings for the p2_sel register could lead to insecure function routing upon reset, exposing the system to integrity risks."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the 'p2_sel' register to alter the function selection of Port 2, compromising the integrity of critical signal routing by forcing an unintended alternate function.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1262 by injecting unauthorized commands that modify the 'p2_sel' register, thereby undermining the integrity of Port 2's function selection and potentially disrupting critical signal paths."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 could exploit CWE-1276 by manipulating the p2_sel register to alter the function selection of Port 2, compromising the integrity of critical signal routing and potentially disconnecting essential GPIO functions."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 could exploit CWE-1221 by manipulating the 'p2_sel' register to alter the function routing of Port 2, compromising the integrity of critical signal connections.",
+            "CAPEC-74": "CAPEC-74 could exploit CWE-1221 by injecting malicious data into the 'p2_sel' register, leading to unauthorized function selection and undermining the integrity of Port 2's operation."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the 'p2_sel' register to alter the function selection of Port 2, compromising the integrity of critical signal routing by forcing an unintended alternate function. [CWE-1276] CAPEC-680 could exploit CWE-1276 by manipulating the p2_sel register to alter the function selection of Port 2, compromising the integrity of critical signal routing and potentially disconnecting essential GPIO functions.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 can exploit CWE-1262 by injecting unauthorized commands that modify the 'p2_sel' register, thereby undermining the integrity of Port 2's function selection and potentially disrupting critical signal paths. [CWE-1221] CAPEC-74 could exploit CWE-1221 by injecting malicious data into the 'p2_sel' register, leading to unauthorized function selection and undermining the integrity of Port 2's operation.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 could exploit CWE-1221 by manipulating the 'p2_sel' register to alter the function routing of Port 2, compromising the integrity of critical signal connections."
+      }
+    },
+    {
+      "Asset_Name": "Port 3 function select (p3_sel)",
+      "Functionality": "Chooses GPIO vs. alternate function for each Port 3 pin.",
+      "Security Objective": "Integrity",
+      "Justification": "Altering selection changes signal routing on the pad, potentially disrupting system operation.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1276"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the p3_sel register could allow unauthorized modification of the function selection, disrupting system operation.",
+        "CWE-1220": "Insufficient granularity of access control could allow untrusted components to modify the p3_sel register, affecting the integrity of signal routing.",
+        "CWE-1276": "Incorrect connections between the p3_sel register and the parent system could lead to unauthorized changes in function selection, violating expected security policies."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 could exploit CWE-1262 by manipulating the register access logic to alter the p3_sel configuration, thereby compromising the integrity of Port 3's function selection and disrupting the intended signal routing."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the 'p3_sel' register to alter the function selection of Port 3, thereby compromising the integrity of signal routing and potentially disrupting system operations."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 could exploit CWE-1262 by manipulating the register access logic to alter the p3_sel configuration, thereby compromising the integrity of Port 3's function selection and disrupting the intended signal routing.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the 'p3_sel' register to alter the function selection of Port 3, thereby compromising the integrity of signal routing and potentially disrupting system operations."
+      }
+    },
+    {
+      "Asset_Name": "Port 4 function select (p4_sel)",
+      "Functionality": "Chooses GPIO vs. alternate function for each Port 4 pin.",
+      "Security Objective": "Integrity",
+      "Justification": "Protecting this configuration prevents unintended re-mapping of pins that could break interfaces.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the p4_sel register could allow unauthorized modification of the function selection, compromising the integrity of Port 4's configuration.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to modify the p4_sel register, leading to unintended re-mapping of Port 4 pins.",
+        "CWE-1221": "Incorrect default settings for the p4_sel register could lead to insecure states upon reset, allowing unauthorized function selection changes for Port 4."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 could exploit CWE-1262 by manipulating the register access logic to alter the p4_sel configuration, compromising the integrity of Port 4's function selection and potentially remapping pins to unintended functions.",
+            "CAPEC-74": "CAPEC-74 could exploit CWE-1262 by injecting unauthorized commands through the peripheral address bus, leading to unauthorized changes in the p4_sel register and violating the integrity of Port 4's function selection."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the 'p4_sel' register to alter the function selection of Port 4, compromising the integrity of the GPIO configuration and potentially redirecting pin functions to unauthorized alternate uses.",
+            "CAPEC-74": "CAPEC-74 targets CWE-1220 by injecting unauthorized data into the 'p4_sel' register, thereby corrupting the integrity of the function selection for Port 4 and enabling unintended pin remapping that could disrupt critical interfaces."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "By exploiting CWE-1221, CAPEC-166 could manipulate the p4_sel register to alter the function selection of Port 4, compromising its integrity by remapping GPIO pins to unintended functions.",
+            "CAPEC-74": "CAPEC-74 could exploit CWE-1221 by injecting unauthorized data into the p4_sel register, thereby violating the integrity of Port 4's function selection and potentially disrupting critical interfaces."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-180",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 could exploit CWE-1262 by manipulating the register access logic to alter the p4_sel configuration, compromising the integrity of Port 4's function selection and potentially remapping pins to unintended functions.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 could exploit CWE-1262 by injecting unauthorized commands through the peripheral address bus, leading to unauthorized changes in the p4_sel register and violating the integrity of Port 4's function selection. [CWE-1220] CAPEC-74 targets CWE-1220 by injecting unauthorized data into the 'p4_sel' register, thereby corrupting the integrity of the function selection for Port 4 and enabling unintended pin remapping that could disrupt critical interfaces. [CWE-1221] CAPEC-74 could exploit CWE-1221 by injecting unauthorized data into the p4_sel register, thereby violating the integrity of Port 4's function selection and potentially disrupting critical interfaces.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the 'p4_sel' register to alter the function selection of Port 4, compromising the integrity of the GPIO configuration and potentially redirecting pin functions to unauthorized alternate uses.",
+        "CAPEC-166": "[CWE-1221] By exploiting CWE-1221, CAPEC-166 could manipulate the p4_sel register to alter the function selection of Port 4, compromising its integrity by remapping GPIO pins to unintended functions."
+      }
+    },
+    {
+      "Asset_Name": "Port 5 function select (p5_sel)",
+      "Functionality": "Chooses GPIO vs. alternate function for each Port 5 pin.",
+      "Security Objective": "Integrity",
+      "Justification": "Misrouting pins changes system connectivity; integrity of this control is essential.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1276"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the p5_sel register could allow unauthorized modification of the function selection, compromising system integrity.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to modify the p5_sel register, affecting the integrity of port function selection.",
+        "CWE-1276": "Incorrect connections or configurations in the omsp_gpio module could lead to misrouting of signals, affecting the integrity of the p5_sel function selection."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the peripheral address decoding logic to alter the p5_sel register, thereby compromising the integrity of Port 5's function selection and potentially misrouting GPIO connections."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the 'p5_sel' register to bypass input validation, potentially altering the intended GPIO functionality and compromising the integrity of Port 5's function selection."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the peripheral address decoding logic to alter the p5_sel register, thereby compromising the integrity of Port 5's function selection and potentially misrouting GPIO connections.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the 'p5_sel' register to bypass input validation, potentially altering the intended GPIO functionality and compromising the integrity of Port 5's function selection."
+      }
+    },
+    {
+      "Asset_Name": "Port 6 function select (p6_sel)",
+      "Functionality": "Chooses GPIO vs. alternate function for each Port 6 pin.",
+      "Security Objective": "Integrity",
+      "Justification": "Ensures intended signal routing; tampering could disconnect required signals or connect the wrong ones.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1262",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections between the omsp_gpio module and the parent system could lead to incorrect function selection for Port 6, allowing unauthorized signal routing.",
+        "CWE-1262": "If access controls for the p6_sel register are insufficient, an attacker could modify the function selection, compromising the integrity of signal routing.",
+        "CWE-1220": "Insufficient granularity in access control could allow unauthorized agents to alter the function selection of Port 6, leading to unintended signal routing."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 could exploit CWE-1262 by manipulating the 'p6_sel' register to alter the function selection of Port 6, compromising the integrity of signal routing and potentially causing unauthorized signal connections or disconnections."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the 'p6_sel' register to alter the function selection of Port 6, compromising the integrity of signal routing by enabling unauthorized alternate functions."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 could exploit CWE-1262 by manipulating the 'p6_sel' register to alter the function selection of Port 6, compromising the integrity of signal routing and potentially causing unauthorized signal connections or disconnections.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the 'p6_sel' register to alter the function selection of Port 6, compromising the integrity of signal routing by enabling unauthorized alternate functions."
+      }
+    },
+    {
+      "Asset_Name": "Port 1 interrupt request (irq_port1)",
+      "Functionality": "Interrupt signal for Port 1 generated from edge detection and control registers.",
+      "Security Objective": "Availability",
+      "Justification": "If this interrupt is suppressed or stuck, software cannot reliably respond to external events, causing service degradation.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1276",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The irq_port1 interrupt could be suppressed or mismanaged if the omsp_gpio module behaves differently from its specification, leading to denial of service.",
+        "CWE-1276": "Incorrect connections between the omsp_gpio module and the parent system could result in the irq_port1 signal not being properly routed, causing failure to handle interrupts.",
+        "CWE-1221": "Incorrect default settings in the omsp_gpio module's registers could lead to the irq_port1 interrupt being disabled or misconfigured, affecting system availability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-440 by manipulating the omsp_gpio's edge detection logic to cause the irq_port1 signal to become stuck, thereby compromising the availability of the interrupt service for Port 1."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1276 by manipulating the edge detection logic or control registers of the omsp_gpio module to cause the irq_port1 signal to become stuck or suppressed, thereby compromising the availability of the interrupt functionality for Port 1."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "By exploiting CWE-1221, an attacker could manipulate the omsp_gpio's register access logic to cause irq_port1 to become stuck or suppressed, thereby degrading the availability of the interrupt signal and preventing the system from responding to external events.",
+            "CAPEC-74": "An attacker could exploit CWE-1221 by injecting malicious data into the omsp_gpio's input synchronization logic, causing irq_port1 to fail in generating interrupts, thus impacting the availability of the interrupt signal and hindering the system's ability to handle external events."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-440] CAPEC-74 can exploit CWE-440 by manipulating the omsp_gpio's edge detection logic to cause the irq_port1 signal to become stuck, thereby compromising the availability of the interrupt service for Port 1. [CWE-1276] CAPEC-74 can exploit CWE-1276 by manipulating the edge detection logic or control registers of the omsp_gpio module to cause the irq_port1 signal to become stuck or suppressed, thereby compromising the availability of the interrupt functionality for Port 1. [CWE-1221] An attacker could exploit CWE-1221 by injecting malicious data into the omsp_gpio's input synchronization logic, causing irq_port1 to fail in generating interrupts, thus impacting the availability of the interrupt signal and hindering the system's ability to handle external events.",
+        "CAPEC-166": "[CWE-1221] By exploiting CWE-1221, an attacker could manipulate the omsp_gpio's register access logic to cause irq_port1 to become stuck or suppressed, thereby degrading the availability of the interrupt signal and preventing the system from responding to external events."
+      }
+    },
+    {
+      "Asset_Name": "Port 2 interrupt request (irq_port2)",
+      "Functionality": "Interrupt signal for Port 2 generated from edge detection and control registers.",
+      "Security Objective": "Availability",
+      "Justification": "Interrupt availability is necessary for timely event handling; loss or spurious assertion can cause denial-of-service or missed events.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1276",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The irq_port2 signal could be exploited if the omsp_gpio module's interrupt behavior deviates from its specification, potentially causing denial of service by allowing unauthorized manipulation of interrupt signals.",
+        "CWE-1276": "Incorrect connections between the omsp_gpio module and its parent system could lead to missed or spurious interrupts on irq_port2, affecting the availability of interrupt handling.",
+        "CWE-1221": "Incorrect default settings for the interrupt control registers in the omsp_gpio module could lead to insecure states, allowing unauthorized access or denial of service by misconfiguring irq_port2."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-440 by manipulating the edge detection logic or control registers of irq_port2 in the omsp_gpio module, potentially causing denial-of-service through the loss or spurious assertion of interrupts, thereby compromising the availability of timely event handling."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1276 by manipulating the edge detection logic of irq_port2 to cause spurious or missed interrupts, thereby compromising the availability of the interrupt signal necessary for timely event handling."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the omsp_gpio's register access logic to cause incorrect interrupt flag settings for irq_port2, potentially leading to denial-of-service by disrupting the availability of timely interrupt handling.",
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1221 by introducing race conditions in the omsp_gpio's edge detection logic, causing irq_port2 to miss critical events or generate spurious interrupts, thus affecting the availability of the interrupt service."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-440] CAPEC-680 can exploit CWE-440 by manipulating the edge detection logic or control registers of irq_port2 in the omsp_gpio module, potentially causing denial-of-service through the loss or spurious assertion of interrupts, thereby compromising the availability of timely event handling. [CWE-1276] CAPEC-680 can exploit CWE-1276 by manipulating the edge detection logic of irq_port2 to cause spurious or missed interrupts, thereby compromising the availability of the interrupt signal necessary for timely event handling. [CWE-1221] CAPEC-680 can exploit CWE-1221 by introducing race conditions in the omsp_gpio's edge detection logic, causing irq_port2 to miss critical events or generate spurious interrupts, thus affecting the availability of the interrupt service.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the omsp_gpio's register access logic to cause incorrect interrupt flag settings for irq_port2, potentially leading to denial-of-service by disrupting the availability of timely interrupt handling."
+      }
+    },
+    {
+      "Asset_Name": "Port 1 direction register (p1dir)",
+      "Functionality": "Controls per-bit direction (input/output) for Port 1; drives p1_dout_en.",
+      "Security Objective": "Integrity",
+      "Justification": "Compromising direction can force-drive buses or disable outputs, violating correct operation and risking contention.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the p1dir register could allow unauthorized modification of the port direction, compromising the integrity of GPIO operations.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to modify the p1dir register, leading to incorrect port configurations and potential system instability.",
+        "CWE-1221": "Incorrect defaults for the p1dir register could lead to insecure initial states, allowing unauthorized direction changes that violate the intended operation of the GPIO module."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the Port 1 direction register (p1dir) to alter the intended input/output configuration, thereby compromising the integrity of the GPIO operation and potentially causing bus contention or disabling outputs."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the Port 1 direction register (p1dir) to alter the intended input/output configuration, thereby compromising the integrity of the GPIO operation and potentially causing bus contention or disabling outputs."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the p1dir register to alter the directionality of Port 1, thereby compromising the integrity of the GPIO configuration and potentially causing bus contention or disabling outputs."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the Port 1 direction register (p1dir) to alter the intended input/output configuration, thereby compromising the integrity of the GPIO operation and potentially causing bus contention or disabling outputs.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the Port 1 direction register (p1dir) to alter the intended input/output configuration, thereby compromising the integrity of the GPIO operation and potentially causing bus contention or disabling outputs.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the p1dir register to alter the directionality of Port 1, thereby compromising the integrity of the GPIO configuration and potentially causing bus contention or disabling outputs."
+      }
+    },
+    {
+      "Asset_Name": "Port 2 direction register (p2dir)",
+      "Functionality": "Controls per-bit direction for Port 2; drives p2_dout_en.",
+      "Security Objective": "Integrity",
+      "Justification": "Direction integrity ensures safe interaction with external circuitry; tampering can create unsafe drive conditions.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the p2dir register could allow unauthorized modification of the port direction, compromising the integrity of external circuit interactions.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to modify the p2dir register, leading to unsafe drive conditions.",
+        "CWE-1221": "Incorrect default settings for the p2dir register could lead to insecure states upon reset, allowing unauthorized direction changes that affect external circuitry."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the Port 2 direction register (p2dir) to alter the intended directionality of GPIO pins, thereby compromising the integrity of the system's interaction with external circuitry and potentially leading to unsafe drive conditions."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "By exploiting CWE-1220, CAPEC-180 can manipulate the p2dir register to alter the directionality of Port 2, compromising its integrity and potentially causing unsafe drive conditions with external circuitry.",
+            "CAPEC-680": "CAPEC-680 leverages CWE-1220 to inject unauthorized changes into the p2dir register, undermining its integrity and leading to incorrect output enablement on Port 2, which can disrupt safe interactions with connected devices."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "By exploiting CWE-1221, an attacker could manipulate the p2dir register using CAPEC-166's forced parameter manipulation to alter the directionality of Port 2, compromising its integrity and potentially causing unsafe drive conditions with external circuitry.",
+            "CAPEC-680": "Leveraging CWE-1221, CAPEC-680's attack pattern could involve unauthorized register access to modify the p2dir register, undermining its integrity and leading to incorrect data direction settings that jeopardize safe interactions with connected devices."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the Port 2 direction register (p2dir) to alter the intended directionality of GPIO pins, thereby compromising the integrity of the system's interaction with external circuitry and potentially leading to unsafe drive conditions. [CWE-1220] CAPEC-680 leverages CWE-1220 to inject unauthorized changes into the p2dir register, undermining its integrity and leading to incorrect output enablement on Port 2, which can disrupt safe interactions with connected devices. [CWE-1221] Leveraging CWE-1221, CAPEC-680's attack pattern could involve unauthorized register access to modify the p2dir register, undermining its integrity and leading to incorrect data direction settings that jeopardize safe interactions with connected devices.",
+        "CAPEC-180": "[CWE-1220] By exploiting CWE-1220, CAPEC-180 can manipulate the p2dir register to alter the directionality of Port 2, compromising its integrity and potentially causing unsafe drive conditions with external circuitry.",
+        "CAPEC-166": "[CWE-1221] By exploiting CWE-1221, an attacker could manipulate the p2dir register using CAPEC-166's forced parameter manipulation to alter the directionality of Port 2, compromising its integrity and potentially causing unsafe drive conditions with external circuitry."
+      }
+    },
+    {
+      "Asset_Name": "Port 3 direction register (p3dir)",
+      "Functionality": "Controls per-bit direction for Port 3; drives p3_dout_en.",
+      "Security Objective": "Integrity",
+      "Justification": "Incorrect direction settings can break protocols and damage shared lines; must remain correct.",
+      "CWE-IDs": [
+        "CWE-1221",
+        "CWE-1262",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1221": "The Port 3 direction register (p3dir) could have incorrect default settings, leading to insecure states that compromise the integrity of GPIO operations.",
+        "CWE-1262": "Improper access control on the p3dir register could allow unauthorized modifications, compromising the integrity of the GPIO direction settings.",
+        "CWE-1220": "Insufficient granularity in access control for the p3dir register could allow unauthorized agents to modify critical direction settings, affecting protocol integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the Port 3 direction register (p3dir) to alter its integrity, potentially causing incorrect direction settings that disrupt protocols and damage shared lines in the omsp_gpio module."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the Port 3 direction register (p3dir) to alter its integrity, potentially causing incorrect direction settings that disrupt protocols and damage shared lines in the omsp_gpio module."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the peripheral address and data inputs to alter the p3dir register, compromising the integrity of Port 3's direction settings and potentially causing protocol violations or damage to shared lines."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-166",
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the Port 3 direction register (p3dir) to alter its integrity, potentially causing incorrect direction settings that disrupt protocols and damage shared lines in the omsp_gpio module.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the Port 3 direction register (p3dir) to alter its integrity, potentially causing incorrect direction settings that disrupt protocols and damage shared lines in the omsp_gpio module.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the peripheral address and data inputs to alter the p3dir register, compromising the integrity of Port 3's direction settings and potentially causing protocol violations or damage to shared lines."
+      }
+    },
+    {
+      "Asset_Name": "Port 4 direction register (p4dir)",
+      "Functionality": "Controls per-bit direction for Port 4; drives p4_dout_en.",
+      "Security Objective": "Integrity",
+      "Justification": "Controls output driving; corruption leads to unintended tri-stating or driving.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1221",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the p4dir register could allow unauthorized modification, leading to unintended tri-stating or driving of Port 4.",
+        "CWE-1221": "Incorrect default settings for the p4dir register could lead to insecure states upon reset, affecting the integrity of Port 4's output control.",
+        "CWE-1220": "Insufficient granularity in access control for the p4dir register could allow unauthorized agents to modify its settings, compromising the integrity of Port 4."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the Port 4 direction register (p4dir) to alter its integrity, potentially causing unauthorized changes in the direction control and leading to unintended tri-stating or driving of p4_dout_en."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the Port 4 direction register (p4dir) to alter its integrity, potentially causing unauthorized changes to the output driving state of p4_dout_en, leading to unintended tri-stating or driving conditions.",
+            "CAPEC-680": "CAPEC-680 targets CWE-1221 by injecting malicious data into the Port 4 direction register (p4dir), compromising its integrity and causing the module to incorrectly drive or tri-state outputs, thereby violating the intended control of p4_dout_en."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the Port 4 direction register (p4dir) to alter its integrity, potentially causing unauthorized changes in the direction control and leading to unintended tri-stating or driving of p4_dout_en.",
+            "CAPEC-680": "CAPEC-680 targets CWE-1220 by injecting malicious data into the Port 4 direction register (p4dir), compromising its integrity and resulting in incorrect output driving configurations that violate the intended security objective."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-166",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the Port 4 direction register (p4dir) to alter its integrity, potentially causing unauthorized changes in the direction control and leading to unintended tri-stating or driving of p4_dout_en. [CWE-1221] CAPEC-680 targets CWE-1221 by injecting malicious data into the Port 4 direction register (p4dir), compromising its integrity and causing the module to incorrectly drive or tri-state outputs, thereby violating the intended control of p4_dout_en. [CWE-1220] CAPEC-680 targets CWE-1220 by injecting malicious data into the Port 4 direction register (p4dir), compromising its integrity and resulting in incorrect output driving configurations that violate the intended security objective.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the Port 4 direction register (p4dir) to alter its integrity, potentially causing unauthorized changes to the output driving state of p4_dout_en, leading to unintended tri-stating or driving conditions.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the Port 4 direction register (p4dir) to alter its integrity, potentially causing unauthorized changes in the direction control and leading to unintended tri-stating or driving of p4_dout_en."
+      }
+    },
+    {
+      "Asset_Name": "Port 5 direction register (p5dir)",
+      "Functionality": "Controls per-bit direction for Port 5; drives p5_dout_en.",
+      "Security Objective": "Integrity",
+      "Justification": "Prevents inadvertent drive/floating states; critical for electrical correctness.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1221",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the p5dir register could allow unauthorized modification of the port direction, compromising the integrity of Port 5's electrical state.",
+        "CWE-1221": "Incorrect default settings for the p5dir register could lead to insecure initial states, allowing unintended drive/floating conditions that violate integrity.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to modify the p5dir register, leading to unintended changes in Port 5's direction settings."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the Port 5 direction register (p5dir) to alter its integrity, potentially causing incorrect drive or floating states that compromise electrical correctness in the omsp_gpio module."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the Port 5 direction register (p5dir) to alter its integrity, potentially causing incorrect drive states on p5_dout_en, which is critical for maintaining electrical correctness."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the peripheral address and data inputs to alter the p5dir register, compromising the integrity of Port 5's direction control and potentially causing incorrect electrical states."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-166",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the Port 5 direction register (p5dir) to alter its integrity, potentially causing incorrect drive or floating states that compromise electrical correctness in the omsp_gpio module.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the Port 5 direction register (p5dir) to alter its integrity, potentially causing incorrect drive states on p5_dout_en, which is critical for maintaining electrical correctness.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the peripheral address and data inputs to alter the p5dir register, compromising the integrity of Port 5's direction control and potentially causing incorrect electrical states."
+      }
+    },
+    {
+      "Asset_Name": "Port 6 direction register (p6dir)",
+      "Functionality": "Controls per-bit direction for Port 6; drives p6_dout_en.",
+      "Security Objective": "Integrity",
+      "Justification": "Improper changes lead to misbehavior at the pins; preserving integrity avoids contention and faults.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the p6dir register could allow unauthorized modification, compromising the integrity of Port 6's direction settings.",
+        "CWE-1220": "Insufficient granularity in access control could allow unauthorized agents to modify the p6dir register, leading to unintended GPIO behavior.",
+        "CWE-1221": "Incorrect default settings for the p6dir register could lead to insecure states upon reset, affecting the integrity of Port 6's operation."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the Port 6 direction register (p6dir) to improperly alter the directionality of GPIO pins, compromising the integrity of the system by causing unintended pin behavior and potential contention."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the Port 6 direction register (p6dir) to improperly alter the direction settings, compromising the integrity of p6_dout_en and potentially causing pin contention or faults."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the Port 6 direction register (p6dir) to improperly alter its integrity, leading to unauthorized changes in GPIO direction settings and potential misbehavior at the pins."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the Port 6 direction register (p6dir) to improperly alter the directionality of GPIO pins, compromising the integrity of the system by causing unintended pin behavior and potential contention.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the Port 6 direction register (p6dir) to improperly alter the direction settings, compromising the integrity of p6_dout_en and potentially causing pin contention or faults.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the Port 6 direction register (p6dir) to improperly alter its integrity, leading to unauthorized changes in GPIO direction settings and potential misbehavior at the pins."
+      }
+    }
+  ]
+}

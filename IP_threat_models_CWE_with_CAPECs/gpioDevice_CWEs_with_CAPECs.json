@@ -1,0 +1,375 @@
+{
+  "IP": "gpioDevice",
+  "Assets": [
+    {
+      "Asset_Name": "Peripheral device enable (peripheralEnable)",
+      "Functionality": "Top-level bus gating signal that allows the device to respond to peripheral bus transactions.",
+      "Security Objective": "Integrity",
+      "Justification": "This signal governs whether register read/write operations are permitted. If an attacker can alter it, they can cause unauthorized modifications or unintended access to the device\u2019s registers.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1262",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "The peripheralEnable signal, if incorrectly connected or configured, could allow unauthorized access to the GPIODevice registers, bypassing intended access controls.",
+        "CWE-1262": "Improper access control on the peripheralEnable signal could allow unauthorized software to manipulate the GPIODevice registers, compromising the integrity of the system.",
+        "CWE-1220": "Insufficient granularity in access control for the peripheralEnable signal could allow unauthorized agents to access and modify the GPIODevice registers, leading to integrity violations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the peripheralEnable signal to bypass the integrity checks of the GPIODevice, allowing unauthorized register access and compromising the device's intended security objective."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the 'peripheralEnable' signal to bypass the intended integrity controls, allowing unauthorized register access and modification within the GPIODevice module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the peripheralEnable signal to bypass the integrity checks of the GPIODevice, allowing unauthorized register access and compromising the device's intended security objective.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the 'peripheralEnable' signal to bypass the intended integrity controls, allowing unauthorized register access and modification within the GPIODevice module."
+      }
+    },
+    {
+      "Asset_Name": "Bus write enable (peripheralBus_we)",
+      "Functionality": "Controls whether writes occur to internal registers (OE, output data, IRQ enable).",
+      "Security Objective": "Integrity",
+      "Justification": "Corruption of this control can lead to unintended updates of configuration and output state, directly modifying sensitive control registers and GPIO behavior.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the peripheralBus_we register could allow unauthorized writes to critical GPIO configuration registers, compromising integrity.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to modify the peripheralBus_we register, leading to unintended updates of sensitive control registers.",
+        "CWE-1280": "If access control checks for the peripheralBus_we register are implemented after access, unauthorized writes could occur before the system verifies permissions, compromising integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the peripheralBus_we signal to improperly control write operations, compromising the integrity of the GPIODevice's configuration and output state.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1262 by causing unauthorized writes to the GPIODevice's internal registers through the peripheralBus_we signal, leading to unintended modifications of sensitive control registers and GPIO behavior."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the peripheralBus_we signal to bypass integrity checks, allowing unauthorized writes to critical registers such as OE and IRQ enable, thereby compromising the GPIODevice's intended configuration and behavior.",
+            "CAPEC-74": "CAPEC-74 leverages CWE-1220 by intercepting and altering the peripheralBus_we signal during bus transactions, leading to unauthorized modifications of internal registers that undermine the integrity of the GPIODevice's control mechanisms."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1280 by manipulating the peripheralBus_we signal to corrupt the integrity of the GPIODevice's internal registers, leading to unauthorized configuration changes and unintended GPIO behavior.",
+            "CAPEC-74": "CAPEC-74 targets CWE-1280 by intercepting and altering the peripheralBus_we signal, compromising the integrity of the GPIODevice's control registers and causing unauthorized state modifications."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the peripheralBus_we signal to improperly control write operations, compromising the integrity of the GPIODevice's configuration and output state.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 can exploit CWE-1262 by causing unauthorized writes to the GPIODevice's internal registers through the peripheralBus_we signal, leading to unintended modifications of sensitive control registers and GPIO behavior. [CWE-1220] CAPEC-74 leverages CWE-1220 by intercepting and altering the peripheralBus_we signal during bus transactions, leading to unauthorized modifications of internal registers that undermine the integrity of the GPIODevice's control mechanisms. [CWE-1280] CAPEC-74 targets CWE-1280 by intercepting and altering the peripheralBus_we signal, compromising the integrity of the GPIODevice's control registers and causing unauthorized state modifications.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the peripheralBus_we signal to bypass integrity checks, allowing unauthorized writes to critical registers such as OE and IRQ enable, thereby compromising the GPIODevice's intended configuration and behavior. [CWE-1280] CAPEC-180 exploits CWE-1280 by manipulating the peripheralBus_we signal to corrupt the integrity of the GPIODevice's internal registers, leading to unauthorized configuration changes and unintended GPIO behavior."
+      }
+    },
+    {
+      "Asset_Name": "Peripheral bus address (peripheralBus_address)",
+      "Functionality": "Selects which internal register is targeted for read/write operations.",
+      "Security Objective": "Integrity",
+      "Justification": "If the address is corrupted, writes or reads will target the wrong register (e.g., OE vs. output data), leading to incorrect configuration or behavior.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1276"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the peripheral bus address could allow unauthorized read/write operations to critical registers, compromising the integrity of GPIO configurations.",
+        "CWE-1220": "Insufficient granularity of access control on the peripheral bus address could enable unauthorized agents to access and modify security-sensitive registers, leading to incorrect GPIO behavior.",
+        "CWE-1276": "Incorrect connections between the GPIODevice and the peripheral bus could result in misrouted address signals, causing unintended register access and compromising system integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the peripheralBus_address to target incorrect internal registers, compromising the integrity of the GPIODevice's configuration and behavior."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the peripheralBus_address to target incorrect internal registers, compromising the integrity of the GPIODevice's configuration and behavior."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [],
+          "Justification of Related CAPEC-IDs": {}
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the peripheralBus_address to target incorrect internal registers, compromising the integrity of the GPIODevice's configuration and behavior.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the peripheralBus_address to target incorrect internal registers, compromising the integrity of the GPIODevice's configuration and behavior."
+      }
+    },
+    {
+      "Asset_Name": "Peripheral bus read data (peripheralBus_dataRead)",
+      "Functionality": "Carries data from the device registers (OE, output, input, IRQ enable) back to the bus.",
+      "Security Objective": "Availability",
+      "Justification": "If this read path is disrupted, software cannot obtain current device state, preventing correct operation and diagnostics, thus degrading service.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections between the GPIODevice and the peripheral bus could disrupt the peripheralBus_dataRead path, leading to a failure in obtaining device state, impacting availability.",
+        "CWE-440": "If the GPIODevice behaves differently from its specification, such as incorrect data read operations, it could prevent the peripheralBus_dataRead from functioning correctly, causing availability issues.",
+        "CWE-1221": "Incorrect default values in the GPIODevice registers could lead to an insecure state upon reset, affecting the availability of accurate data through peripheralBus_dataRead."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1276 by manipulating the peripheral bus interface to cause incorrect data to be read from the peripheralBus_dataRead path, thereby disrupting the availability of accurate device state information necessary for proper operation and diagnostics."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-440 by causing a denial of service through repeated peripheral bus read requests, overwhelming the GPIODevice's peripheralBus_dataRead path and compromising its availability, thus preventing the software from obtaining the current device state."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the peripheralBus_address to cause incorrect data to be read from the peripheralBus_dataRead, disrupting availability by preventing accurate state retrieval from the GPIODevice registers.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1221 by inducing a race condition in the peripheral bus interface, leading to inconsistent peripheralBus_dataRead outputs and compromising the availability of accurate device state information."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1276] CAPEC-74 can exploit CWE-1276 by manipulating the peripheral bus interface to cause incorrect data to be read from the peripheralBus_dataRead path, thereby disrupting the availability of accurate device state information necessary for proper operation and diagnostics. [CWE-440] CAPEC-74 can exploit CWE-440 by causing a denial of service through repeated peripheral bus read requests, overwhelming the GPIODevice's peripheralBus_dataRead path and compromising its availability, thus preventing the software from obtaining the current device state. [CWE-1221] CAPEC-74 can exploit CWE-1221 by inducing a race condition in the peripheral bus interface, leading to inconsistent peripheralBus_dataRead outputs and compromising the availability of accurate device state information.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the peripheralBus_address to cause incorrect data to be read from the peripheralBus_dataRead, disrupting availability by preventing accurate state retrieval from the GPIODevice registers."
+      }
+    },
+    {
+      "Asset_Name": "Peripheral bus write data (peripheralBus_dataWrite)",
+      "Functionality": "Carries write data from the bus to the device\u2019s internal registers.",
+      "Security Objective": "Integrity",
+      "Justification": "Corruption here directly alters register values (direction, outputs, IRQ mask), changing device behavior and control state.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1276"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the peripheralBus_dataWrite register interface could allow unauthorized modification of GPIO control registers, compromising device integrity.",
+        "CWE-1220": "Insufficient granularity of access control may allow unauthorized agents to modify the peripheralBus_dataWrite register, leading to unintended changes in GPIO behavior.",
+        "CWE-1276": "Incorrect connections between the GPIODevice and the peripheral bus could lead to unauthorized access or modification of the peripheralBus_dataWrite register, affecting system integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the peripheralBus_dataWrite signal to introduce unauthorized data into the GPIODevice's internal registers, compromising the integrity of the device's configuration and control state.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1262 by intercepting and altering the peripheralBus_dataWrite data flow, leading to unauthorized changes in the GPIODevice's register values, thereby violating the integrity of the device's operational parameters."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the peripheralBus_dataWrite signal to inject unauthorized data into the GPIODevice's internal registers, compromising the integrity of the device's configuration and control state.",
+            "CAPEC-74": "CAPEC-74 leverages CWE-1220 by intercepting and altering the peripheralBus_dataWrite data stream, leading to unauthorized modification of register values and undermining the integrity of the GPIODevice's operational parameters."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1276 by manipulating the peripheralBus_dataWrite signal to introduce incorrect data into the GPIODevice's internal registers, thereby compromising the integrity of the device's configuration and control state."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the peripheralBus_dataWrite signal to introduce unauthorized data into the GPIODevice's internal registers, compromising the integrity of the device's configuration and control state.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 can exploit CWE-1262 by intercepting and altering the peripheralBus_dataWrite data flow, leading to unauthorized changes in the GPIODevice's register values, thereby violating the integrity of the device's operational parameters. [CWE-1220] CAPEC-74 leverages CWE-1220 by intercepting and altering the peripheralBus_dataWrite data stream, leading to unauthorized modification of register values and undermining the integrity of the GPIODevice's operational parameters. [CWE-1276] CAPEC-74 can exploit CWE-1276 by manipulating the peripheralBus_dataWrite signal to introduce incorrect data into the GPIODevice's internal registers, thereby compromising the integrity of the device's configuration and control state.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the peripheralBus_dataWrite signal to inject unauthorized data into the GPIODevice's internal registers, compromising the integrity of the device's configuration and control state."
+      }
+    },
+    {
+      "Asset_Name": "GPIO output enables (gpio_oe)",
+      "Functionality": "Direction control for each GPIO pin (output enable for driving pins).",
+      "Security Objective": "Integrity",
+      "Justification": "Tampering with direction can force pins into unintended drive/tri-state modes, enabling unauthorized driving or disabling outputs, altering system behavior.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1221",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the GPIO output enable registers could allow unauthorized software to alter the direction control, leading to unintended drive modes and compromising system integrity.",
+        "CWE-1221": "Incorrect default values for the GPIO output enable registers could initialize the system in an insecure state, allowing unauthorized driving or disabling of GPIO pins upon reset.",
+        "CWE-1220": "Insufficient granularity in access control for GPIO output enable registers may allow unauthorized agents to modify the direction control, affecting the integrity of the system's operation."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the peripheral bus interface to alter the gpio_oe register, compromising the integrity of GPIO direction control and potentially forcing pins into unintended states.",
+            "CAPEC-74": "CAPEC-74 targets CWE-1262 by injecting malicious data into the peripheral bus, which can corrupt the gpio_oe register, leading to unauthorized changes in GPIO pin direction and violating the integrity of the system's output control."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 exploits CWE-1221 by manipulating the peripheralBus_address to access and alter the gpio_oe register, compromising the integrity of GPIO direction control and potentially forcing pins into unintended states.",
+            "CAPEC-74": "CAPEC-74 targets CWE-1221 by injecting malicious data into the peripheralBus_dataWrite, which can corrupt the gpio_oe register, leading to unauthorized changes in GPIO pin direction and violating the integrity of the system's output control."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the peripheral bus interface to alter the gpio_oe register, compromising the integrity of GPIO direction control and potentially forcing pins into unintended states.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1220 by injecting malicious data into the peripheral bus, targeting the gpio_oe register to disrupt the intended direction control of GPIO pins, thereby violating the integrity of the system's output configuration."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-166",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the peripheral bus interface to alter the gpio_oe register, compromising the integrity of GPIO direction control and potentially forcing pins into unintended states.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 targets CWE-1262 by injecting malicious data into the peripheral bus, which can corrupt the gpio_oe register, leading to unauthorized changes in GPIO pin direction and violating the integrity of the system's output control. [CWE-1221] CAPEC-74 targets CWE-1221 by injecting malicious data into the peripheralBus_dataWrite, which can corrupt the gpio_oe register, leading to unauthorized changes in GPIO pin direction and violating the integrity of the system's output control. [CWE-1220] CAPEC-74 can exploit CWE-1220 by injecting malicious data into the peripheral bus, targeting the gpio_oe register to disrupt the intended direction control of GPIO pins, thereby violating the integrity of the system's output configuration.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 exploits CWE-1221 by manipulating the peripheralBus_address to access and alter the gpio_oe register, compromising the integrity of GPIO direction control and potentially forcing pins into unintended states.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the peripheral bus interface to alter the gpio_oe register, compromising the integrity of GPIO direction control and potentially forcing pins into unintended states."
+      }
+    },
+    {
+      "Asset_Name": "Interrupt request output (gpio_irq)",
+      "Functionality": "Aggregated interrupt request based on enabled pins and input state.",
+      "Security Objective": "Availability",
+      "Justification": "If this signal is suppressed or forced, software cannot reliably service GPIO events; either missed interrupts or interrupt storms disrupt system availability.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-440",
+        "CWE-1320"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connection of the gpio_irq signal could lead to missed or unhandled interrupts, disrupting system availability.",
+        "CWE-440": "Deviations in the gpio_irq behavior from its specification could allow attackers to suppress or generate false interrupts, affecting system availability.",
+        "CWE-1320": "If gpio_irq is not adequately protected, attackers could manipulate interrupt signals, causing denial-of-service through interrupt storms or suppression."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1276 by manipulating the peripheral bus interface to alter the interrupt enable register, causing either suppression or flooding of the gpio_irq signal, thereby compromising the availability of the interrupt request output."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 exploits CWE-440 by manipulating the peripheral bus interface to either suppress or flood the gpio_irq signal, thereby compromising the availability of the interrupt request output and disrupting the system's ability to handle GPIO events reliably."
+          }
+        },
+        "CWE-1320": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1320 by manipulating the peripheral bus interface to alter the gpio_irq signal, causing either missed interrupts or interrupt storms, thereby compromising the availability of the GPIODevice's interrupt handling functionality.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1320 by injecting malicious data into the peripheral bus, which could suppress or force the gpio_irq signal, disrupting the system's ability to reliably service GPIO events and affecting the availability of the interrupt request output."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1276] CAPEC-74 can exploit CWE-1276 by manipulating the peripheral bus interface to alter the interrupt enable register, causing either suppression or flooding of the gpio_irq signal, thereby compromising the availability of the interrupt request output. [CWE-440] CAPEC-74 exploits CWE-440 by manipulating the peripheral bus interface to either suppress or flood the gpio_irq signal, thereby compromising the availability of the interrupt request output and disrupting the system's ability to handle GPIO events reliably. [CWE-1320] CAPEC-74 can exploit CWE-1320 by injecting malicious data into the peripheral bus, which could suppress or force the gpio_irq signal, disrupting the system's ability to reliably service GPIO events and affecting the availability of the interrupt request output.",
+        "CAPEC-180": "[CWE-1320] CAPEC-180 can exploit CWE-1320 by manipulating the peripheral bus interface to alter the gpio_irq signal, causing either missed interrupts or interrupt storms, thereby compromising the availability of the GPIODevice's interrupt handling functionality."
+      }
+    }
+  ]
+}

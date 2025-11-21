@@ -1,0 +1,166 @@
+{
+  "IP": "gpio_s",
+  "Assets": [
+    {
+      "Asset_Name": "Register address bus used to select internal registers (addr)",
+      "Functionality": "Selects which internal register (e.g., IO_DIR, IO_OUT, INTMASK, INTFLAGS, PINCTRL, IO readback) is accessed within the module\u2019s address window; used to generate cs_int and to decode rd/wr destinations.",
+      "Security Objective": "Integrity",
+      "Justification": "Incorrect or malicious addressing can direct reads/writes to the wrong control/state register, corrupting configuration or state. Protecting the address used for register access preserves the integrity of configuration and data paths.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1263",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "The addr bus in the gpio_s module could be vulnerable if the granularity of address regions protected by register locks is insufficient, allowing unauthorized modifications to critical configuration registers.",
+        "CWE-1263": "If physical access controls are inadequate, an attacker could manipulate the addr bus to access or modify internal registers, compromising the integrity of the gpio_s module's configuration.",
+        "CWE-1220": "The addr bus may suffer from insufficient granularity of access control, potentially allowing unauthorized agents to access or modify security-sensitive registers within the gpio_s module."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 exploits CWE-1262 by manipulating the register address bus (addr) to redirect read/write operations to unintended internal registers, thereby compromising the integrity of the gpio_s module's configuration and state."
+          }
+        },
+        "CWE-1263": {
+          "CAPEC-IDs": [
+            "CAPEC-401",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-401": "CAPEC-401 exploits CWE-1263 by manipulating the addr bus to redirect write operations to unintended registers, compromising the integrity of the gpio_s module's configuration and state.",
+            "CAPEC-74": "CAPEC-74 leverages CWE-1263 by intercepting and altering the addr bus signals to access unauthorized registers, thereby undermining the integrity of the gpio_s module's control and data paths."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the address bus to redirect reads/writes to incorrect registers, compromising the integrity of the gpio_s module's configuration and state."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-401",
+        "CAPEC-74",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 exploits CWE-1262 by manipulating the register address bus (addr) to redirect read/write operations to unintended internal registers, thereby compromising the integrity of the gpio_s module's configuration and state.",
+        "CAPEC-401": "[CWE-1263] CAPEC-401 exploits CWE-1263 by manipulating the addr bus to redirect write operations to unintended registers, compromising the integrity of the gpio_s module's configuration and state.",
+        "CAPEC-74": "[CWE-1263] CAPEC-74 leverages CWE-1263 by intercepting and altering the addr bus signals to access unauthorized registers, thereby undermining the integrity of the gpio_s module's control and data paths.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the address bus to redirect reads/writes to incorrect registers, compromising the integrity of the gpio_s module's configuration and state."
+      }
+    },
+    {
+      "Asset_Name": "I/O direction register (IO_DIR)",
+      "Functionality": "Defines per-bit pin direction; controls whether each io bit is driven by IO_OUT or left high-Z for input.",
+      "Security Objective": "Integrity",
+      "Justification": "Tampering with direction can cause contention or unintended data sourcing/sinking. Direction settings are control state that must remain correct to ensure safe and correct operation.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1221",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the IO_DIR register could allow untrusted software to alter pin directions, leading to contention or unintended data flows, compromising system integrity.",
+        "CWE-1221": "Incorrect default settings for the IO_DIR register could lead to insecure states upon reset, allowing unauthorized changes to pin directions and compromising system integrity.",
+        "CWE-1220": "Insufficient granularity in access control for the IO_DIR register could allow unauthorized agents to modify pin directions, leading to data contention or unintended operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 exploits CWE-1262 by manipulating the dynamic configuration parameters to alter the I/O direction settings in the IO_DIR register, compromising the integrity of the GPIO module by causing unintended data flow or contention.",
+            "CAPEC-74": "CAPEC-74 targets CWE-1262 by injecting unauthorized commands to modify the IO_DIR register, undermining the integrity of the GPIO module by altering pin directions and potentially leading to unsafe operational states."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166, which involves leveraging configuration manipulation, can exploit CWE-1221 by altering the IO_DIR register settings in the gpio_s module, compromising the integrity of the I/O direction and potentially causing data contention or unintended data flow."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "By exploiting CWE-1220, CAPEC-180 could manipulate the IO_DIR register to alter GPIO pin directions, compromising the integrity of the control state and potentially causing data contention or unintended data flow.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1220 by injecting unauthorized commands to modify the IO_DIR register, thereby undermining the integrity of the GPIO configuration and leading to incorrect or unsafe operation."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-166",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 exploits CWE-1262 by manipulating the dynamic configuration parameters to alter the I/O direction settings in the IO_DIR register, compromising the integrity of the GPIO module by causing unintended data flow or contention.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 targets CWE-1262 by injecting unauthorized commands to modify the IO_DIR register, undermining the integrity of the GPIO module by altering pin directions and potentially leading to unsafe operational states. [CWE-1220] CAPEC-74 can exploit CWE-1220 by injecting unauthorized commands to modify the IO_DIR register, thereby undermining the integrity of the GPIO configuration and leading to incorrect or unsafe operation.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166, which involves leveraging configuration manipulation, can exploit CWE-1221 by altering the IO_DIR register settings in the gpio_s module, compromising the integrity of the I/O direction and potentially causing data contention or unintended data flow.",
+        "CAPEC-180": "[CWE-1220] By exploiting CWE-1220, CAPEC-180 could manipulate the IO_DIR register to alter GPIO pin directions, compromising the integrity of the control state and potentially causing data contention or unintended data flow."
+      }
+    },
+    {
+      "Asset_Name": "Interrupt flags register (INTFLAGS)",
+      "Functionality": "Latches per-pin interrupt status; software clears bits by writing ones to this register; drives int via OR-reduction.",
+      "Security Objective": "Integrity",
+      "Justification": "Unauthorized setting/clearing can fabricate or hide events, disrupting system operation and diagnostics. Integrity of the flags is required to accurately reflect edge events and control int.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the INTFLAGS register could allow unauthorized software to manipulate interrupt flags, compromising the integrity of event detection.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to modify the INTFLAGS register, leading to fabricated or hidden interrupt events."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the dynamic configuration parameters to unauthorizedly alter the INTFLAGS register, compromising its integrity by fabricating or hiding interrupt events.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1262 by injecting malicious input through the addr and bus_in signals to improperly set or clear bits in the INTFLAGS register, undermining its integrity and disrupting accurate event reporting."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "By exploiting CWE-1220, CAPEC-180 can manipulate the dynamic configuration parameters of the gpio_s module to unauthorizedly alter the INTFLAGS register, compromising its integrity by fabricating or hiding interrupt events.",
+            "CAPEC-74": "CAPEC-74 leverages CWE-1220 by injecting malicious input through the gpio_s module's address and data buses to unauthorizedly set or clear bits in the INTFLAGS register, thus disrupting the integrity of interrupt status reporting."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-74",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the dynamic configuration parameters of the gpio_s module to unauthorizedly alter the INTFLAGS register, compromising its integrity by fabricating or hiding interrupt events. [CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the dynamic configuration parameters to unauthorizedly alter the INTFLAGS register, compromising its integrity by fabricating or hiding interrupt events.",
+        "CAPEC-74": "[CWE-1262] CAPEC-74 targets CWE-1262 by injecting malicious input through the addr and bus_in signals to improperly set or clear bits in the INTFLAGS register, undermining the integrity of interrupt status reporting. [CWE-1220] CAPEC-74 leverages CWE-1220 by injecting malicious input through the gpio_s module's address and data buses to unauthorizedly set or clear bits in the INTFLAGS register, thus disrupting the integrity of interrupt status reporting. [CWE-1262] CAPEC-74 can exploit CWE-1262 by injecting malicious input through the addr and bus_in signals to improperly set or clear bits in the INTFLAGS register, undermining its integrity and disrupting accurate event reporting.",
+        "CAPEC-180": "[CWE-1220] By exploiting CWE-1220, CAPEC-180 can manipulate the dynamic configuration parameters of the gpio_s module to unauthorizedly alter the INTFLAGS register, compromising its integrity by fabricating or hiding interrupt events."
+      }
+    }
+  ]
+}
