@@ -1,0 +1,163 @@
+{
+  "IP": "PCU",
+  "Assets": [
+    {
+      "Asset_Name": "Control Signals",
+      "Functionality": "Manage processor-level control functions and coordinate operations across cores and caches.",
+      "Security Objective": "Confidentiality",
+      "Justification": "Mismanagement of control signals could lead to unauthorized access to data or leakage of sensitive information.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1220",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The PCU's control signals could deviate from expected behavior, allowing attackers to manipulate processor operations and access sensitive data.",
+        "CWE-1220": "Insufficient granularity in access control for the PCU's control signals could allow unauthorized access to sensitive processor-level functions.",
+        "CWE-1262": "Improper access control on the PCU's register interfaces could enable unauthorized manipulation of control signals, compromising confidentiality."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-440 by manipulating the PCU's control signals to induce a state where unauthorized access to sensitive configuration data occurs, compromising the confidentiality of the control signals within the OpenPiton architecture."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating control signals within the PCU to cause unauthorized access to sensitive data, thereby compromising the confidentiality of processor-level operations.",
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1220 by injecting malicious control signals into the PCU, leading to the mismanagement of processor coordination and potential leakage of sensitive information, thus breaching confidentiality."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the PCU's control signals to induce incorrect processor state transitions, potentially leading to unauthorized access to sensitive data and compromising confidentiality."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-440] CAPEC-680 can exploit CWE-440 by manipulating the PCU's control signals to induce a state where unauthorized access to sensitive configuration data occurs, compromising the confidentiality of the control signals within the OpenPiton architecture. [CWE-1220] CAPEC-680 can exploit CWE-1220 by injecting malicious control signals into the PCU, leading to the mismanagement of processor coordination and potential leakage of sensitive information, thus breaching confidentiality. [CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the PCU's control signals to induce incorrect processor state transitions, potentially leading to unauthorized access to sensitive data and compromising confidentiality.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating control signals within the PCU to cause unauthorized access to sensitive data, thereby compromising the confidentiality of processor-level operations."
+      }
+    },
+    {
+      "Asset_Name": "Configuration Registers",
+      "Functionality": "Manage operational modes and control signal flows.",
+      "Security Objective": "Integrity",
+      "Justification": "Flaws in configuration registers could corrupt control paths or data flow, impacting system integrity.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1268"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for configuration registers could allow untrusted software to modify operational modes and control signal flows, compromising system integrity.",
+        "CWE-1220": "Insufficient granularity of access control could enable unauthorized agents to access or modify configuration registers, leading to potential data leakage or unauthorized modifications.",
+        "CWE-1268": "Inconsistent assignment of privileges between control and data agents could allow unauthorized modification of configuration registers, impacting the integrity of control paths and data flow."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the configuration registers of the PCU to introduce unauthorized state changes, thereby compromising the integrity of control signal flows and potentially leading to system instability or incorrect processor operations."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the configuration registers of the PCU to introduce state corruption, thereby compromising the integrity of control signal flows within the OpenPiton system.",
+            "CAPEC-680": "CAPEC-680 targets CWE-1220 by injecting malicious configurations into the PCU's registers, leading to mismanagement of operational modes and undermining the integrity of processor control operations."
+          }
+        },
+        "CWE-1268": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1268 by manipulating configuration registers in the PCU to introduce unauthorized state changes, thereby compromising the integrity of control signal flows within the OpenPiton architecture.",
+            "CAPEC-680": "CAPEC-680 leverages CWE-1268 by injecting malicious configurations into the PCU's registers, leading to corrupted control paths and undermining the integrity of processor operations in the OpenPiton system."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the configuration registers of the PCU to introduce unauthorized state changes, thereby compromising the integrity of control signal flows and potentially leading to system instability or incorrect processor operations. [CWE-1220] CAPEC-680 targets CWE-1220 by injecting malicious configurations into the PCU's registers, leading to mismanagement of operational modes and undermining the integrity of processor control operations. [CWE-1268] CAPEC-680 leverages CWE-1268 by injecting malicious configurations into the PCU's registers, leading to corrupted control paths and undermining the integrity of processor operations in the OpenPiton system.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the configuration registers of the PCU to introduce state corruption, thereby compromising the integrity of control signal flows within the OpenPiton system. [CWE-1268] CAPEC-180 exploits CWE-1268 by manipulating configuration registers in the PCU to introduce unauthorized state changes, thereby compromising the integrity of control signal flows within the OpenPiton architecture."
+      }
+    },
+    {
+      "Asset_Name": "Interrupt Handling",
+      "Functionality": "Handle interrupts within the tile architecture.",
+      "Security Objective": "Availability",
+      "Justification": "Misconfiguration could lead to deadlocks or denial of service, affecting system availability.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1318",
+        "CWE-1429"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The PCU's interrupt handling could be exploited if it behaves differently from its expected specification, leading to denial of service by manipulating interrupt signals.",
+        "CWE-1318": "If the PCU's interrupt handling relies on on-chip fabrics or buses that lack proper security features, it could result in unauthorized access or denial of service by misconfiguring interrupt control registers.",
+        "CWE-1429": "The PCU's interrupt handling might fail to provide feedback for unexecuted operations, allowing attackers to cause system instability or denial of service by exploiting silent failures in interrupt management."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE CWE-440 by manipulating the PCU's interrupt handling configuration to create a denial-of-service condition, thereby compromising the availability of the system by causing deadlocks or interrupt storms within the tile architecture."
+          }
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating interrupt handling configurations in the PCU, potentially causing denial-of-service through interrupt mismanagement, thereby compromising the availability of the system.",
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1318 by introducing malicious modifications to the PCU's interrupt handling logic, leading to deadlocks or system unavailability, thus directly impacting the availability objective of the asset."
+          }
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1429 by manipulating interrupt handling configurations in the PCU, leading to denial-of-service conditions that compromise the availability of the system by causing deadlocks or interrupt storms."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-440] CAPEC-680 can exploit CWE CWE-440 by manipulating the PCU's interrupt handling configuration to create a denial-of-service condition, thereby compromising the availability of the system by causing deadlocks or interrupt storms within the tile architecture. [CWE-1318] CAPEC-680 can exploit CWE-1318 by introducing malicious modifications to the PCU's interrupt handling logic, leading to deadlocks or system unavailability, thus directly impacting the availability objective of the asset. [CWE-1429] CAPEC-680 can exploit CWE-1429 by manipulating interrupt handling configurations in the PCU, leading to denial-of-service conditions that compromise the availability of the system by causing deadlocks or interrupt storms.",
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating interrupt handling configurations in the PCU, potentially causing denial-of-service through interrupt mismanagement, thereby compromising the availability of the system."
+      }
+    }
+  ]
+}

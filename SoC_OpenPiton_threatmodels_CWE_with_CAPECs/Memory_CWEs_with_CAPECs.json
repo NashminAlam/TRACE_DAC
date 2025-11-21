@@ -1,0 +1,433 @@
+{
+  "IP": "Memory",
+  "Assets": [
+    {
+      "Asset_Name": "Configuration Registers",
+      "Functionality": "Store settings for enabling/disabling functionalities, configuring cache sizes, and modes of operation.",
+      "Security Objective": "Confidentiality",
+      "Justification": "Unauthorized access to configuration registers could reveal sensitive settings that control the operation of the memory subsystem.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1299"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the configuration registers could allow unauthorized access to sensitive settings, compromising confidentiality.",
+        "CWE-1220": "Insufficient granularity of access control may allow unauthorized agents to access configuration registers, leading to data leakage.",
+        "CWE-1299": "Missing protection mechanisms for alternate interfaces could allow attackers to bypass access controls on configuration registers, compromising confidentiality."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "By exploiting CWE-1262, an attacker could manipulate the configuration registers via CAPEC-680 to alter cache settings, leading to unauthorized disclosure of sensitive memory operations and compromising confidentiality.",
+            "CAPEC-122": "Through CWE-1262, CAPEC-122 could be used to intercept and modify configuration register settings, resulting in the exposure of critical cache configuration details and violating the confidentiality of the memory subsystem."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "By exploiting CWE-1220, an attacker could leverage CAPEC-180 to manipulate the configuration registers of the Memory IP, leading to unauthorized disclosure of sensitive cache settings and compromising confidentiality.",
+            "CAPEC-122": "Through CWE-1220, CAPEC-122 could be used to intercept and alter configuration register settings in the Memory IP, resulting in unauthorized access and potential information leakage, thus breaching confidentiality."
+          }
+        },
+        "CWE-1299": {
+          "CAPEC-IDs": [
+            "CAPEC-456",
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-456": "CAPEC-456 can exploit CWE-1299 by manipulating the configuration registers to alter cache settings, leading to unauthorized disclosure of sensitive memory operations and compromising confidentiality.",
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1299 by intercepting and modifying control signals to the configuration registers, resulting in unauthorized access to sensitive settings and potential information leakage."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-122",
+        "CAPEC-180",
+        "CAPEC-456"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] By exploiting CWE-1262, an attacker could manipulate the configuration registers via CAPEC-680 to alter cache settings, leading to unauthorized disclosure of sensitive memory operations and compromising confidentiality.",
+        "CAPEC-122": "[CWE-1262] Through CWE-1262, CAPEC-122 could be used to intercept and modify configuration register settings, resulting in the exposure of critical cache configuration details and violating the confidentiality of the memory subsystem. [CWE-1220] Through CWE-1220, CAPEC-122 could be used to intercept and alter configuration register settings in the Memory IP, resulting in unauthorized access and potential information leakage, thus breaching confidentiality. [CWE-1299] CAPEC-122 can exploit CWE-1299 by intercepting and modifying control signals to the configuration registers, resulting in unauthorized access to sensitive settings and potential information leakage.",
+        "CAPEC-180": "[CWE-1220] By exploiting CWE-1220, an attacker could leverage CAPEC-180 to manipulate the configuration registers of the Memory IP, leading to unauthorized disclosure of sensitive cache settings and compromising confidentiality.",
+        "CAPEC-456": "[CWE-1299] CAPEC-456 can exploit CWE-1299 by manipulating the configuration registers to alter cache settings, leading to unauthorized disclosure of sensitive memory operations and compromising confidentiality."
+      }
+    },
+    {
+      "Asset_Name": "Control Registers",
+      "Functionality": "Manage cache operations, coherence states, and interfacing with other components.",
+      "Security Objective": "Integrity",
+      "Justification": "Modification of control registers could disrupt cache operations and coherence states, leading to incorrect data handling.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1299",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the control registers could allow unauthorized modification, disrupting cache operations and coherence states.",
+        "CWE-1220": "Insufficient granularity of access control could permit unauthorized agents to modify control registers, compromising cache integrity.",
+        "CWE-1299": "Missing protection mechanisms for alternate interfaces could allow bypassing of access controls on control registers, leading to unauthorized modifications.",
+        "CWE-1280": "Access control checks implemented after access could allow temporary unauthorized modifications to control registers, affecting cache operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 exploits CWE-1262 by manipulating control registers to alter cache operation modes, thereby corrupting coherence states and compromising the integrity of data handling within the Memory IP module.",
+            "CAPEC-122": "CAPEC-122 leverages CWE-1262 by injecting unauthorized commands into control registers, disrupting cache management and coherence protocols, leading to potential data corruption and integrity breaches in the Memory IP."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE CWE-1220 by manipulating control registers to alter cache coherence states, leading to data integrity violations within the Memory IP module of OpenPiton.",
+            "CAPEC-122": "CAPEC-122 leverages CWE CWE-1220 by injecting unauthorized commands into control registers, disrupting cache operations and compromising the integrity of data handling in the Memory IP."
+          }
+        },
+        "CWE-1299": {
+          "CAPEC-IDs": [
+            "CAPEC-456",
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-456": "CAPEC-456 can exploit CWE-1299 by manipulating control registers to introduce unauthorized state transitions in the cache coherence protocol, compromising the integrity of cache operations within the Memory IP module.",
+            "CAPEC-122": "CAPEC-122 targets CWE-1299 by injecting malicious inputs through configuration interfaces to alter control register settings, leading to incorrect cache coherence states and disrupting the integrity of data handling in the Memory IP."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the control registers to alter cache operation modes, leading to integrity violations in the memory hierarchy's coherence protocol within the OpenPiton architecture.",
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1280 by injecting unauthorized commands into the control registers, causing misconfiguration of cache operations and disrupting the integrity of data handling processes in the memory IP module."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-122",
+        "CAPEC-180",
+        "CAPEC-456"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 exploits CWE-1262 by manipulating control registers to alter cache operation modes, thereby corrupting coherence states and compromising the integrity of data handling within the Memory IP module.",
+        "CAPEC-122": "[CWE-1262] CAPEC-122 leverages CWE-1262 by injecting unauthorized commands into control registers, disrupting cache management and coherence protocols, leading to potential data corruption and integrity breaches in the Memory IP. [CWE-1220] CAPEC-122 leverages CWE CWE-1220 by injecting unauthorized commands into control registers, disrupting cache operations and compromising the integrity of data handling in the Memory IP. [CWE-1299] CAPEC-122 targets CWE-1299 by injecting malicious inputs through configuration interfaces to alter control register settings, leading to incorrect cache coherence states and disrupting the integrity of data handling in the Memory IP. [CWE-1280] CAPEC-122 can exploit CWE-1280 by injecting unauthorized commands into the control registers, causing misconfiguration of cache operations and disrupting the integrity of data handling processes in the memory IP module.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 exploits CWE CWE-1220 by manipulating control registers to alter cache coherence states, leading to data integrity violations within the Memory IP module of OpenPiton. [CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the control registers to alter cache operation modes, leading to integrity violations in the memory hierarchy's coherence protocol within the OpenPiton architecture.",
+        "CAPEC-456": "[CWE-1299] CAPEC-456 can exploit CWE-1299 by manipulating control registers to introduce unauthorized state transitions in the cache coherence protocol, compromising the integrity of cache operations within the Memory IP module."
+      }
+    },
+    {
+      "Asset_Name": "Status Registers",
+      "Functionality": "Store current states, error status, and counters for cache accesses and misses.",
+      "Security Objective": "Confidentiality",
+      "Justification": "Status registers may contain sensitive information about the operational state and errors, which could be exploited if accessed by unauthorized entities.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "The status registers in the Memory IP module could be accessed by unauthorized entities if proper access controls are not enforced, leading to potential breaches in confidentiality.",
+        "CWE-1220": "Insufficient granularity of access control could allow unauthorized agents to access sensitive status registers, compromising the confidentiality of operational states and error statuses.",
+        "CWE-1280": "If access control checks are implemented after access to status registers, unauthorized components could temporarily gain access to sensitive information before permissions are verified."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "By exploiting CWE-1262, an attacker could manipulate the configuration registers to disable security features, allowing unauthorized access to the status registers and compromising the confidentiality of sensitive operational state and error information.",
+            "CAPEC-122": "An attacker could leverage CWE-1262 by injecting malicious control signals that alter the coherence protocol operations, leading to unauthorized access to status registers and potential information disclosure of cache access and miss statistics."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "By exploiting CWE-1220, an attacker could manipulate the status registers to leak sensitive operational states and error information, compromising the confidentiality of the Memory IP module within the OpenPiton architecture.",
+            "CAPEC-122": "Exploiting CWE-1220, an attacker could intercept and alter control signals to access status registers, leading to unauthorized disclosure of sensitive cache access and error status information, thus breaching confidentiality."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the status registers to disclose sensitive operational states and error information, thereby breaching the confidentiality of the Memory IP module in the OpenPiton architecture.",
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1280 by intercepting and altering control signals to access status registers, leading to unauthorized disclosure of cache access and miss statistics, compromising the confidentiality of the system's operational data."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-122",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] By exploiting CWE-1262, an attacker could manipulate the configuration registers to disable security features, allowing unauthorized access to the status registers and compromising the confidentiality of sensitive operational state and error information.",
+        "CAPEC-122": "[CWE-1262] An attacker could leverage CWE-1262 by injecting malicious control signals that alter the coherence protocol operations, leading to unauthorized access to status registers and potential information disclosure of cache access and miss statistics. [CWE-1220] Exploiting CWE-1220, an attacker could intercept and alter control signals to access status registers, leading to unauthorized disclosure of sensitive cache access and error status information, thus breaching confidentiality. [CWE-1280] CAPEC-122 can exploit CWE-1280 by intercepting and altering control signals to access status registers, leading to unauthorized disclosure of cache access and miss statistics, compromising the confidentiality of the system's operational data.",
+        "CAPEC-180": "[CWE-1220] By exploiting CWE-1220, an attacker could manipulate the status registers to leak sensitive operational states and error information, compromising the confidentiality of the Memory IP module within the OpenPiton architecture. [CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the status registers to disclose sensitive operational states and error information, thereby breaching the confidentiality of the Memory IP module in the OpenPiton architecture."
+      }
+    },
+    {
+      "Asset_Name": "Error Status Register",
+      "Functionality": "Indicates correctable and uncorrectable errors.",
+      "Security Objective": "Integrity",
+      "Justification": "Incorrect error status could lead to improper error handling and system behavior.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1429",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control on the Error Status Register could allow unauthorized modification, leading to incorrect error handling and compromised system integrity.",
+        "CWE-1429": "Lack of feedback for unexecuted operations on the Error Status Register could result in undetected errors, leading to silent data corruption and system instability.",
+        "CWE-1220": "Insufficient granularity of access control on the Error Status Register could allow unauthorized agents to modify error status, compromising system integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "By exploiting CWE-1262, an attacker could manipulate the Error Status Register through CAPEC-680 to inject incorrect error states, compromising the integrity of error handling and potentially leading to improper system responses.",
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1262 by causing unauthorized modifications to the Error Status Register, resulting in corrupted error status information that undermines the integrity of system diagnostics and error management."
+          }
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "By exploiting CWE-1429, an attacker could manipulate the Error Status Register to falsely indicate correctable errors as uncorrectable, compromising the integrity of error handling and potentially leading to incorrect system responses or unnecessary system shutdowns."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the Error Status Register to inject false error states, compromising the integrity of error handling and potentially leading to incorrect system responses.",
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1220 by causing unauthorized modifications to the Error Status Register, resulting in corrupted error status information that undermines the integrity of system diagnostics and error management."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-122",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] By exploiting CWE-1262, an attacker could manipulate the Error Status Register through CAPEC-680 to inject incorrect error states, compromising the integrity of error handling and potentially leading to improper system responses.",
+        "CAPEC-122": "[CWE-1262] CAPEC-122 can exploit CWE-1262 by causing unauthorized modifications to the Error Status Register, resulting in corrupted error status information that undermines the integrity of system diagnostics and error management. [CWE-1429] By exploiting CWE-1429, an attacker could manipulate the Error Status Register to falsely indicate correctable errors as uncorrectable, compromising the integrity of error handling and potentially leading to incorrect system responses or unnecessary system shutdowns. [CWE-1220] CAPEC-122 can exploit CWE-1220 by causing unauthorized modifications to the Error Status Register, resulting in corrupted error status information that undermines the integrity of system diagnostics and error management.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the Error Status Register to inject false error states, compromising the integrity of error handling and potentially leading to incorrect system responses."
+      }
+    },
+    {
+      "Asset_Name": "L2 Cache",
+      "Functionality": "Distributed, shared cache that manages cache lines and coherence states.",
+      "Security Objective": "Availability",
+      "Justification": "Misconfiguration or design flaws in the L2 cache could lead to deadlocks or denial of service, affecting system throughput.",
+      "CWE-IDs": [
+        "CWE-1250",
+        "CWE-1251",
+        "CWE-1276",
+        "CWE-1281"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1250": "The L2 cache's role in maintaining coherence across multiple cores can be compromised by improper synchronization, leading to inconsistent cache states and potential system instability.",
+        "CWE-1251": "Mirrored regions within the L2 cache, if not properly synchronized, can lead to data inconsistencies, affecting system availability and potentially allowing unauthorized data access.",
+        "CWE-1276": "Incorrect connections between the L2 cache and other system components could lead to misconfigurations that affect cache coherence and system availability.",
+        "CWE-1281": "Specific sequences of operations in the L2 cache could lead to unexpected behavior, such as deadlocks, impacting system availability and throughput."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1250": {
+          "CAPEC-IDs": [
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "By exploiting CWE-1250, an attacker could use CAPEC-122 to manipulate the L2 cache's configuration registers, causing misconfigurations that lead to denial-of-service conditions, thereby compromising the availability of the memory subsystem in the OpenPiton architecture."
+          }
+        },
+        "CWE-1251": {
+          "CAPEC-IDs": [
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "By exploiting CWE-1251, an attacker could manipulate the L2 cache's configuration registers through CAPEC-122, leading to a denial-of-service by causing misconfigurations that disrupt cache coherence and availability."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "By exploiting CWE-1276, an attacker can manipulate the L2 cache's configuration registers to induce a denial-of-service condition, thereby compromising the availability of the memory subsystem within the OpenPiton architecture."
+          }
+        },
+        "CWE-1281": {
+          "CAPEC-IDs": [
+            "CAPEC-212",
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-212": "By exploiting CWE-1281, CAPEC-212 can manipulate the L2 cache's configuration registers to induce a denial-of-service condition, thereby compromising the availability of the memory subsystem within the OpenPiton architecture.",
+            "CAPEC-122": "CAPEC-122 leverages CWE-1281 by injecting malformed control signals into the L2 cache, potentially causing misconfiguration and leading to deadlocks that degrade system throughput and availability."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122",
+        "CAPEC-212"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1250] By exploiting CWE-1250, an attacker could use CAPEC-122 to manipulate the L2 cache's configuration registers, causing misconfigurations that lead to denial-of-service conditions, thereby compromising the availability of the memory subsystem in the OpenPiton architecture. [CWE-1251] By exploiting CWE-1251, an attacker could manipulate the L2 cache's configuration registers through CAPEC-122, leading to a denial-of-service by causing misconfigurations that disrupt cache coherence and availability. [CWE-1276] By exploiting CWE-1276, an attacker can manipulate the L2 cache's configuration registers to induce a denial-of-service condition, thereby compromising the availability of the memory subsystem within the OpenPiton architecture. [CWE-1281] CAPEC-122 leverages CWE-1281 by injecting malformed control signals into the L2 cache, potentially causing misconfiguration and leading to deadlocks that degrade system throughput and availability.",
+        "CAPEC-212": "[CWE-1281] By exploiting CWE-1281, CAPEC-212 can manipulate the L2 cache's configuration registers to induce a denial-of-service condition, thereby compromising the availability of the memory subsystem within the OpenPiton architecture."
+      }
+    },
+    {
+      "Asset_Name": "Data Signals",
+      "Functionality": "Facilitate data movement between caches and memory.",
+      "Security Objective": "Confidentiality",
+      "Justification": "Data signals could be intercepted to leak sensitive data being transferred across the memory hierarchy.",
+      "CWE-IDs": [
+        "CWE-1318",
+        "CWE-1331",
+        "CWE-1260"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1318": "The lack of security features in on-chip fabrics or buses could allow unauthorized access to data signals, compromising confidentiality as data moves between caches and memory.",
+        "CWE-1331": "Improper isolation of shared resources in the NoC could lead to side-channel attacks on data signals, allowing attackers to infer sensitive information during data transfers.",
+        "CWE-1260": "Improper handling of overlap between protected memory ranges could allow unauthorized access to data signals, leading to data leakage as signals traverse the memory hierarchy."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by leveraging unauthorized access to the data signals within the memory IP to intercept and disclose sensitive data being transferred, thereby compromising confidentiality.",
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1318 by manipulating the data signals to introduce errors in the cache coherence protocol, leading to potential data corruption and undermining the integrity of the memory subsystem."
+          }
+        },
+        "CWE-1331": {
+          "CAPEC-IDs": [
+            "CAPEC-124",
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-124": "CAPEC-124 exploits CWE-1331 by manipulating data signals to induce incorrect cache coherence states, potentially leading to unauthorized access and leakage of sensitive data, thus compromising confidentiality within the memory hierarchy.",
+            "CAPEC-122": "CAPEC-122 leverages CWE-1331 by intercepting and altering data signals during transmission, which can result in unauthorized data disclosure and breach of confidentiality in the memory IP's data movement processes."
+          }
+        },
+        "CWE-1260": {
+          "CAPEC-IDs": [
+            "CAPEC-679",
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-679": "CAPEC-679 can exploit CWE-1260 by intercepting data signals within the memory IP's hierarchical cache structure, leading to unauthorized access and potential leakage of sensitive data, thereby compromising confidentiality.",
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1260 by manipulating control signals to alter cache coherence states, potentially causing data corruption or unauthorized data access, which undermines the confidentiality of data signals."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-122",
+        "CAPEC-124",
+        "CAPEC-679"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by leveraging unauthorized access to the data signals within the memory IP to intercept and disclose sensitive data being transferred, thereby compromising confidentiality.",
+        "CAPEC-122": "[CWE-1318] CAPEC-122 can exploit CWE-1318 by manipulating the data signals to introduce errors in the cache coherence protocol, leading to potential data corruption and undermining the integrity of the memory subsystem. [CWE-1331] CAPEC-122 leverages CWE-1331 by intercepting and altering data signals during transmission, which can result in unauthorized data disclosure and breach of confidentiality in the memory IP's data movement processes. [CWE-1260] CAPEC-122 can exploit CWE-1260 by manipulating control signals to alter cache coherence states, potentially causing data corruption or unauthorized data access, which undermines the confidentiality of data signals.",
+        "CAPEC-124": "[CWE-1331] CAPEC-124 exploits CWE-1331 by manipulating data signals to induce incorrect cache coherence states, potentially leading to unauthorized access and leakage of sensitive data, thus compromising confidentiality within the memory hierarchy.",
+        "CAPEC-679": "[CWE-1260] CAPEC-679 can exploit CWE-1260 by intercepting data signals within the memory IP's hierarchical cache structure, leading to unauthorized access and potential leakage of sensitive data, thereby compromising confidentiality."
+      }
+    },
+    {
+      "Asset_Name": "Control Signals",
+      "Functionality": "Manage coherence protocol operations and cache control logic.",
+      "Security Objective": "Integrity",
+      "Justification": "Manipulation of control signals could disrupt coherence protocol operations, leading to data inconsistency.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1299",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for control registers could allow unauthorized manipulation of control signals, disrupting coherence protocol operations.",
+        "CWE-1299": "Missing protection mechanisms for alternate interfaces could allow attackers to bypass access controls on control signals, leading to data inconsistency.",
+        "CWE-1220": "Insufficient granularity of access control could permit unauthorized agents to manipulate control signals, compromising the integrity of coherence operations."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "By exploiting CWE-1262, an attacker could manipulate control signals to introduce faults in the coherence protocol operations, leading to data inconsistency and compromising the integrity of the Memory IP module.",
+            "CAPEC-122": "An attacker could exploit CWE-1262 by injecting malicious control signals that alter cache control logic, resulting in corrupted cache states and undermining the integrity of the coherence protocol within the Memory IP."
+          }
+        },
+        "CWE-1299": {
+          "CAPEC-IDs": [
+            "CAPEC-456",
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-456": "By exploiting CWE-1299, CAPEC-456 could manipulate control signals within the Memory IP's coherence protocol, leading to data inconsistency and integrity violations by altering cache control logic.",
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1299 by injecting erroneous control signals into the Memory IP, disrupting the coherence protocol and compromising the integrity of cache operations."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-122"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating control signals to introduce race conditions in the coherence protocol, leading to data inconsistency and compromising the integrity of the Memory IP module.",
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1220 by injecting malicious control signals that alter cache control logic, resulting in incorrect coherence state transitions and undermining the integrity of the system's memory operations."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-122",
+        "CAPEC-456",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] By exploiting CWE-1262, an attacker could manipulate control signals to introduce faults in the coherence protocol operations, leading to data inconsistency and compromising the integrity of the Memory IP module.",
+        "CAPEC-122": "[CWE-1262] An attacker could exploit CWE-1262 by injecting malicious control signals that alter cache control logic, resulting in corrupted cache states and undermining the integrity of the coherence protocol within the Memory IP. [CWE-1299] CAPEC-122 can exploit CWE-1299 by injecting erroneous control signals into the Memory IP, disrupting the coherence protocol and compromising the integrity of cache operations. [CWE-1220] CAPEC-122 can exploit CWE-1220 by injecting malicious control signals that alter cache control logic, resulting in incorrect coherence state transitions and undermining the integrity of the system's memory operations.",
+        "CAPEC-456": "[CWE-1299] By exploiting CWE-1299, CAPEC-456 could manipulate control signals within the Memory IP's coherence protocol, leading to data inconsistency and integrity violations by altering cache control logic.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating control signals to introduce race conditions in the coherence protocol, leading to data inconsistency and compromising the integrity of the Memory IP module."
+      }
+    }
+  ]
+}
