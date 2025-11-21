@@ -1,0 +1,329 @@
+{
+  "IP": "IU",
+  "Assets": [
+    {
+      "Asset_Name": "Data Buses",
+      "Functionality": "Transfer operands and results",
+      "Security Objective": "Confidentiality",
+      "Justification": "Data buses carry sensitive data such as instruction operands and computational results, which could be exposed if intercepted.",
+      "CWE-IDs": [
+        "CWE-1318",
+        "CWE-1262",
+        "CWE-319"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1318": "The data buses in the IU may lack support for security features, allowing unauthorized access to sensitive operands and results during transmission.",
+        "CWE-1262": "Physical access to the data buses could enable attackers to intercept sensitive data being transferred, compromising confidentiality.",
+        "CWE-319": "Sensitive data such as instruction operands and computational results may be transmitted in cleartext over the data buses, risking interception and unauthorized access."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by intercepting data buses within the IU to disclose sensitive operands and results, compromising confidentiality through unauthorized access to data in transit.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1318 by manipulating the configuration of data buses in the IU, leading to unauthorized data flow and potential exposure of sensitive computational results, thus breaching confidentiality."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by leveraging improper handling of data bus signals to intercept and disclose sensitive operands and results, compromising the confidentiality of data transferred within the IU of the OpenPiton architecture.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1262 by manipulating the configuration of data buses to induce unauthorized access to sensitive computational data, thereby breaching the confidentiality objective of the IU's data transfer operations."
+          }
+        },
+        "CWE-319": {
+          "CAPEC-IDs": [
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-121": "CAPEC-121 can exploit CWE-319 by intercepting unencrypted data transmissions on the data buses of the IU, leading to unauthorized access and disclosure of sensitive operands and computational results, thereby compromising confidentiality."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-121",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by intercepting data buses within the IU to disclose sensitive operands and results, compromising confidentiality through unauthorized access to data in transit.",
+        "CAPEC-121": "[CWE-1318] CAPEC-121 can exploit CWE-1318 by manipulating the configuration of data buses in the IU, leading to unauthorized data flow and potential exposure of sensitive computational results, thus breaching confidentiality. [CWE-1262] CAPEC-121 can exploit CWE-1262 by manipulating the configuration of data buses to induce unauthorized access to sensitive computational data, thereby breaching the confidentiality objective of the IU's data transfer operations. [CWE-319] CAPEC-121 can exploit CWE-319 by intercepting unencrypted data transmissions on the data buses of the IU, leading to unauthorized access and disclosure of sensitive operands and computational results, thereby compromising confidentiality.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by leveraging improper handling of data bus signals to intercept and disclose sensitive operands and results, compromising the confidentiality of data transferred within the IU of the OpenPiton architecture."
+      }
+    },
+    {
+      "Asset_Name": "Control Buses",
+      "Functionality": "Manage instruction decoding and control flow",
+      "Security Objective": "Integrity",
+      "Justification": "Control buses are critical for instruction execution control. Any modification could lead to incorrect execution of instructions.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-440"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for register interfaces can allow unauthorized modification of control buses, leading to incorrect instruction execution.",
+        "CWE-1220": "Insufficient granularity of access control can enable unauthorized agents to manipulate control buses, affecting instruction decoding and control flow.",
+        "CWE-440": "Expected behavior violation can occur if control buses do not adhere to specified control flow, allowing attackers to bypass security mechanisms."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the control buses within the IU to alter instruction decoding and control flow, leading to integrity violations through incorrect execution of instructions in the OpenPiton architecture."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the control buses to introduce incorrect instruction decoding, leading to state corruption and compromising the integrity of the IU's execution flow.",
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1220 by causing misconfigurations in the control buses, resulting in unauthorized alterations to instruction execution control and undermining the integrity of the IU's operations."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-440 by manipulating the control buses within the IU to alter instruction decoding and control flow, thereby compromising the integrity of instruction execution and potentially leading to incorrect computational results."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the control buses within the IU to alter instruction decoding and control flow, leading to integrity violations through incorrect execution of instructions in the OpenPiton architecture. [CWE-1220] CAPEC-680 can exploit CWE-1220 by causing misconfigurations in the control buses, resulting in unauthorized alterations to instruction execution control and undermining the integrity of the IU's operations. [CWE-440] CAPEC-680 can exploit CWE-440 by manipulating the control buses within the IU to alter instruction decoding and control flow, thereby compromising the integrity of instruction execution and potentially leading to incorrect computational results.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the control buses to introduce incorrect instruction decoding, leading to state corruption and compromising the integrity of the IU's execution flow."
+      }
+    },
+    {
+      "Asset_Name": "Status Buses",
+      "Functionality": "Indicate operation completion or errors",
+      "Security Objective": "Availability",
+      "Justification": "Status buses are essential for indicating the completion of operations. Malfunction could disrupt the pipeline and lead to stalls.",
+      "CWE-IDs": [
+        "CWE-440",
+        "CWE-1429",
+        "CWE-1276"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-440": "The status buses could be exploited if they deviate from expected behavior, leading to pipeline stalls and denial of service.",
+        "CWE-1429": "If the status buses fail to provide feedback on operation completion or errors, it could result in undetected pipeline disruptions, affecting system availability.",
+        "CWE-1276": "Incorrect connections of status buses to the parent system could lead to failure in signaling operation completion, causing pipeline stalls and availability issues."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-440 by manipulating the status buses to create a denial-of-service condition, disrupting the IU's pipeline operation and affecting system availability by causing stalls or deadlocks."
+          }
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1429 by manipulating the status buses to falsely indicate operation completion, leading to pipeline stalls and denial-of-service, thereby compromising the availability of the IU in the OpenPiton architecture."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "By exploiting CWE-1276, an attacker could manipulate the status buses to falsely indicate operation completion, leading to a denial-of-service by causing pipeline stalls and disrupting the availability of the IU in the OpenPiton architecture."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-440] CAPEC-680 can exploit CWE-440 by manipulating the status buses to create a denial-of-service condition, disrupting the IU's pipeline operation and affecting system availability by causing stalls or deadlocks. [CWE-1429] CAPEC-680 can exploit CWE-1429 by manipulating the status buses to falsely indicate operation completion, leading to pipeline stalls and denial-of-service, thereby compromising the availability of the IU in the OpenPiton architecture. [CWE-1276] By exploiting CWE-1276, an attacker could manipulate the status buses to falsely indicate operation completion, leading to a denial-of-service by causing pipeline stalls and disrupting the availability of the IU in the OpenPiton architecture."
+      }
+    },
+    {
+      "Asset_Name": "Configuration Registers",
+      "Functionality": "Manage operational modes and settings",
+      "Security Objective": "Integrity",
+      "Justification": "Configuration registers control the operational modes of the IU. Unauthorized modifications could affect the correctness of operations.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1280"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for the IU's configuration registers could allow unauthorized modifications, compromising the integrity of operational modes.",
+        "CWE-1220": "Insufficient granularity of access control on configuration registers may allow unauthorized agents to alter critical settings, affecting the IU's integrity.",
+        "CWE-1280": "If access control checks for configuration registers are implemented after access, unauthorized modifications could occur before verification, compromising integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the configuration registers of the IU to alter operational modes, leading to integrity violations through unauthorized state changes that affect the correctness of integer operations.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1262 by injecting malicious instructions that target configuration registers, resulting in state corruption and compromising the integrity of the IU's operational settings."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "By exploiting CWE-1220, an attacker could use CAPEC-180 to manipulate the configuration registers of the IU, leading to unauthorized changes in operational modes that compromise the integrity of integer operations.",
+            "CAPEC-121": "Through CWE-1220, CAPEC-121 could be leveraged to inject malicious instructions into the configuration registers, resulting in state corruption that undermines the integrity of the IU's execution processes."
+          }
+        },
+        "CWE-1280": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1280 by manipulating the configuration registers of the IU to introduce unauthorized operational modes, thereby compromising the integrity of integer operations within the OpenPiton architecture.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1280 by injecting malicious instructions that alter the configuration registers, leading to incorrect execution states and undermining the integrity of the IU's computational processes."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-121",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the configuration registers of the IU to alter operational modes, leading to integrity violations through unauthorized state changes that affect the correctness of integer operations.",
+        "CAPEC-121": "[CWE-1262] CAPEC-121 can exploit CWE-1262 by injecting malicious instructions that target configuration registers, resulting in state corruption and compromising the integrity of the IU's operational settings. [CWE-1220] Through CWE-1220, CAPEC-121 could be leveraged to inject malicious instructions into the configuration registers, resulting in state corruption that undermines the integrity of the IU's execution processes. [CWE-1280] CAPEC-121 can exploit CWE-1280 by injecting malicious instructions that alter the configuration registers, leading to incorrect execution states and undermining the integrity of the IU's computational processes.",
+        "CAPEC-180": "[CWE-1220] By exploiting CWE-1220, an attacker could use CAPEC-180 to manipulate the configuration registers of the IU, leading to unauthorized changes in operational modes that compromise the integrity of integer operations. [CWE-1280] CAPEC-180 can exploit CWE-1280 by manipulating the configuration registers of the IU to introduce unauthorized operational modes, thereby compromising the integrity of integer operations within the OpenPiton architecture."
+      }
+    },
+    {
+      "Asset_Name": "Control Registers",
+      "Functionality": "Handle instruction execution control",
+      "Security Objective": "Integrity",
+      "Justification": "Control registers are crucial for managing instruction execution. Alterations could lead to incorrect instruction processing.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-440",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for register interfaces could allow unauthorized modification of control registers, leading to incorrect instruction execution.",
+        "CWE-440": "Expected behavior violations in control registers can be exploited to bypass security mechanisms, resulting in incorrect instruction processing.",
+        "CWE-1220": "Insufficient granularity of access control may allow unauthorized agents to modify control registers, compromising instruction execution integrity."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the control registers of the IU to alter instruction execution paths, leading to integrity violations through incorrect processing of integer operations within the OpenPiton architecture."
+          }
+        },
+        "CWE-440": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-440 by manipulating the IU's control registers to introduce unauthorized state changes, compromising the integrity of instruction execution control within the OpenPiton architecture."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the IU's control registers to introduce unauthorized state changes, compromising the integrity of instruction execution control within the OpenPiton architecture.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1220 by injecting malicious data into the IU's control registers, leading to incorrect instruction processing and undermining the integrity of the system's execution flow."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180",
+        "CAPEC-121"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the control registers of the IU to alter instruction execution paths, leading to integrity violations through incorrect processing of integer operations within the OpenPiton architecture. [CWE-440] CAPEC-680 can exploit CWE-440 by manipulating the IU's control registers to introduce unauthorized state changes, compromising the integrity of instruction execution control within the OpenPiton architecture.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the IU's control registers to introduce unauthorized state changes, compromising the integrity of instruction execution control within the OpenPiton architecture.",
+        "CAPEC-121": "[CWE-1220] CAPEC-121 can exploit CWE-1220 by injecting malicious data into the IU's control registers, leading to incorrect instruction processing and undermining the integrity of the system's execution flow."
+      }
+    },
+    {
+      "Asset_Name": "Status Registers",
+      "Functionality": "Provide execution status and flags",
+      "Security Objective": "Confidentiality",
+      "Justification": "Status registers may contain sensitive information about the execution state, which could be exploited if accessed.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1220",
+        "CWE-1191"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control for register interfaces could allow unauthorized access to status registers, compromising confidentiality by exposing sensitive execution state information.",
+        "CWE-1220": "Insufficient granularity of access control may allow unauthorized agents to access status registers, leading to potential data leakage of sensitive execution states.",
+        "CWE-1191": "Improper access control on debug interfaces could allow attackers to access status registers, exposing sensitive execution state information and compromising confidentiality."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the IU's configuration registers to alter the execution flow, potentially leading to unauthorized access to the status registers and compromising the confidentiality of sensitive execution state information."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the IU's status registers to leak sensitive execution state information, compromising confidentiality within the OpenPiton architecture.",
+            "CAPEC-121": "CAPEC-121 targets CWE-1220 by inducing unauthorized access to the IU's status registers, leading to potential information disclosure of execution flags and compromising the confidentiality of the system's operational state."
+          }
+        },
+        "CWE-1191": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE CWE-1191 by manipulating the IU's instruction execution to cause unauthorized access to the status registers, leading to potential information disclosure of sensitive execution states, thus compromising confidentiality.",
+            "CAPEC-680": "CAPEC-680 targets CWE CWE-1191 by inducing erroneous operations in the IU that result in the exposure of status register contents, thereby breaching the confidentiality of execution status and flags."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-180",
+        "CAPEC-121"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the IU's configuration registers to alter the execution flow, potentially leading to unauthorized access to the status registers and compromising the confidentiality of sensitive execution state information. [CWE-1191] CAPEC-680 targets CWE CWE-1191 by inducing erroneous operations in the IU that result in the exposure of status register contents, thereby breaching the confidentiality of execution status and flags.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the IU's status registers to leak sensitive execution state information, compromising confidentiality within the OpenPiton architecture. [CWE-1191] CAPEC-180 can exploit CWE CWE-1191 by manipulating the IU's instruction execution to cause unauthorized access to the status registers, leading to potential information disclosure of sensitive execution states, thus compromising confidentiality.",
+        "CAPEC-121": "[CWE-1220] CAPEC-121 targets CWE-1220 by inducing unauthorized access to the IU's status registers, leading to potential information disclosure of execution flags and compromising the confidentiality of the system's operational state."
+      }
+    }
+  ]
+}

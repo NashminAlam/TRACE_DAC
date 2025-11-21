@@ -1,0 +1,309 @@
+{
+  "IP": "Tile",
+  "Assets": [
+    {
+      "Asset_Name": "Configuration Registers",
+      "Functionality": "Memory-mapped registers for extensibility and configuration.",
+      "Security Objective": "Integrity",
+      "Justification": "Misconfiguration of these registers could lead to incorrect operation of the Tile IP, affecting the correctness of the system.",
+      "CWE-IDs": [
+        "CWE-1262",
+        "CWE-1299",
+        "CWE-1221"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1262": "Improper access control on configuration registers could allow unauthorized modification, leading to incorrect operation of the Tile IP.",
+        "CWE-1299": "If alternate paths to configuration registers are not equally protected, attackers could bypass access control and misconfigure the Tile IP.",
+        "CWE-1221": "Incorrect default values for configuration registers could lead to insecure states upon power-up, affecting the integrity of the Tile IP."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the memory-mapped configuration registers to introduce unauthorized state changes, compromising the integrity of the Tile IP's operation and potentially leading to incorrect system behavior.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1262 by injecting malicious data into the configuration registers, resulting in misconfiguration that undermines the integrity of the Tile IP's cache coherence and memory management functions."
+          }
+        },
+        "CWE-1299": {
+          "CAPEC-IDs": [
+            "CAPEC-456",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-456": "CAPEC-456 can exploit CWE-1299 by manipulating the memory-mapped configuration registers to introduce unauthorized state changes, compromising the integrity of the Tile IP's operation and leading to potential misconfigurations that affect system correctness.",
+            "CAPEC-121": "CAPEC-121 targets CWE-1299 by injecting malformed data into the configuration registers, causing state corruption that undermines the integrity of the Tile IP, potentially disrupting cache coherence and memory management processes."
+          }
+        },
+        "CWE-1221": {
+          "CAPEC-IDs": [
+            "CAPEC-166",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-166": "CAPEC-166 can exploit CWE-1221 by manipulating the memory-mapped configuration registers to introduce unauthorized state changes, compromising the integrity of the Tile IP's operation and potentially leading to incorrect system behavior.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1221 by injecting malformed data into the configuration registers, resulting in misconfiguration that undermines the integrity of the Tile IP's cache coherence and memory management functions."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-680",
+        "CAPEC-121",
+        "CAPEC-456",
+        "CAPEC-166"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the memory-mapped configuration registers to introduce unauthorized state changes, compromising the integrity of the Tile IP's operation and potentially leading to incorrect system behavior.",
+        "CAPEC-121": "[CWE-1262] CAPEC-121 can exploit CWE-1262 by injecting malicious data into the configuration registers, resulting in misconfiguration that undermines the integrity of the Tile IP's cache coherence and memory management functions. [CWE-1299] CAPEC-121 targets CWE-1299 by injecting malformed data into the configuration registers, causing state corruption that undermines the integrity of the Tile IP, potentially disrupting cache coherence and memory management processes. [CWE-1221] CAPEC-121 can exploit CWE-1221 by injecting malformed data into the configuration registers, resulting in misconfiguration that undermines the integrity of the Tile IP's cache coherence and memory management functions.",
+        "CAPEC-456": "[CWE-1299] CAPEC-456 can exploit CWE-1299 by manipulating the memory-mapped configuration registers to introduce unauthorized state changes, compromising the integrity of the Tile IP's operation and leading to potential misconfigurations that affect system correctness.",
+        "CAPEC-166": "[CWE-1221] CAPEC-166 can exploit CWE-1221 by manipulating the memory-mapped configuration registers to introduce unauthorized state changes, compromising the integrity of the Tile IP's operation and potentially leading to incorrect system behavior."
+      }
+    },
+    {
+      "Asset_Name": "Data and Control Buses (PCX/CPX, NoC1/2/3)",
+      "Functionality": "Facilitate communication within the core and between tiles.",
+      "Security Objective": "Confidentiality",
+      "Justification": "Unauthorized access to these buses could lead to leakage of sensitive memory and coherence data.",
+      "CWE-IDs": [
+        "CWE-1331",
+        "CWE-1318",
+        "CWE-1317",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1331": "The NoC routers in the Tile IP can be exploited for side-channel attacks due to improper isolation of shared resources, leading to leakage of sensitive memory and coherence data.",
+        "CWE-1318": "The data and control buses may lack support for security features like access control, allowing unauthorized access to sensitive data during communication within the core and between tiles.",
+        "CWE-1317": "Improper access control in the fabric bridge can lead to unauthorized access to sensitive data on the buses, compromising confidentiality.",
+        "CWE-1262": "Improper access control for register interfaces can allow unauthorized access to sensitive data transmitted over the data and control buses, violating confidentiality."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1331": {
+          "CAPEC-IDs": [
+            "CAPEC-124",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-124": "By exploiting CWE-1331, an attacker could use CAPEC-124 to manipulate the configuration registers of the Tile IP, leading to unauthorized access to the data and control buses (PCX/CPX, NoC1/2/3) and compromising the confidentiality of sensitive memory and coherence data.",
+            "CAPEC-121": "Through CWE-1331, CAPEC-121 could be leveraged to alter the state of the NoC routers, resulting in the interception and unauthorized disclosure of confidential data traversing the data and control buses, thus breaching the confidentiality objective of the Tile IP."
+          }
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE CWE-1318 by intercepting and manipulating the data and control buses (PCX/CPX, NoC1/2/3) to disclose sensitive memory and coherence data, compromising the confidentiality of the Tile IP module in the OpenPiton SoC.",
+            "CAPEC-121": "CAPEC-121 leverages CWE CWE-1318 by injecting unauthorized control signals into the data and control buses (PCX/CPX, NoC1/2/3), leading to potential information disclosure and breach of confidentiality within the Tile IP module's communication framework."
+          }
+        },
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1317 by manipulating the configuration registers of the Tile IP to alter the routing logic of the NoC buses, leading to unauthorized access and potential leakage of sensitive memory and coherence data, thereby compromising confidentiality.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1317 by injecting malicious data into the control signals of the PCX/CPX buses, causing misrouting or unauthorized data access, which results in the exposure of confidential information within the Tile IP's communication infrastructure."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 exploits CWE-1262 by manipulating configuration registers to alter the routing logic of NoC1/2/3, potentially leading to unauthorized access and leakage of sensitive memory and coherence data, thus compromising confidentiality.",
+            "CAPEC-121": "CAPEC-121 exploits CWE-1262 by injecting malformed packets into the PCX/CPX buses, causing misinterpretation of coherence states and unauthorized data exposure, thereby breaching the confidentiality of the communication channels."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-124",
+        "CAPEC-121",
+        "CAPEC-180",
+        "CAPEC-122",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-124": "[CWE-1331] By exploiting CWE-1331, an attacker could use CAPEC-124 to manipulate the configuration registers of the Tile IP, leading to unauthorized access to the data and control buses (PCX/CPX, NoC1/2/3) and compromising the confidentiality of sensitive memory and coherence data.",
+        "CAPEC-121": "[CWE-1331] Through CWE-1331, CAPEC-121 could be leveraged to alter the state of the NoC routers, resulting in the interception and unauthorized disclosure of confidential data traversing the data and control buses, thus breaching the confidentiality objective of the Tile IP. [CWE-1318] CAPEC-121 leverages CWE CWE-1318 by injecting unauthorized control signals into the data and control buses (PCX/CPX, NoC1/2/3), leading to potential information disclosure and breach of confidentiality within the Tile IP module's communication framework. [CWE-1317] CAPEC-121 can exploit CWE-1317 by injecting malicious data into the control signals of the PCX/CPX buses, causing misrouting or unauthorized data access, which results in the exposure of confidential information within the Tile IP's communication infrastructure. [CWE-1262] CAPEC-121 exploits CWE-1262 by injecting malformed packets into the PCX/CPX buses, causing misinterpretation of coherence states and unauthorized data exposure, thereby breaching the confidentiality of the communication channels.",
+        "CAPEC-180": "[CWE-1318] CAPEC-180 exploits CWE CWE-1318 by intercepting and manipulating the data and control buses (PCX/CPX, NoC1/2/3) to disclose sensitive memory and coherence data, compromising the confidentiality of the Tile IP module in the OpenPiton SoC.",
+        "CAPEC-122": "[CWE-1317] CAPEC-122 can exploit CWE-1317 by manipulating the configuration registers of the Tile IP to alter the routing logic of the NoC buses, leading to unauthorized access and potential leakage of sensitive memory and coherence data, thereby compromising confidentiality.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 exploits CWE-1262 by manipulating configuration registers to alter the routing logic of NoC1/2/3, potentially leading to unauthorized access and leakage of sensitive memory and coherence data, thus compromising confidentiality."
+      }
+    },
+    {
+      "Asset_Name": "Status Signals",
+      "Functionality": "Indicate coherence status and cache state.",
+      "Security Objective": "Confidentiality",
+      "Justification": "These signals could reveal sensitive information about the state of the cache and coherence protocol.",
+      "CWE-IDs": [
+        "CWE-1276",
+        "CWE-1331",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1276": "Improper connections of status signals in the Tile module could lead to unauthorized access to coherence and cache state information, violating confidentiality.",
+        "CWE-1331": "Improper isolation of NoC resources could allow an attacker to infer coherence status and cache state through timing channels, compromising confidentiality.",
+        "CWE-1262": "Insufficient access control on status signals could allow unauthorized entities to access sensitive coherence and cache state information, leading to data leakage."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-121": "By exploiting CWE-1276, an attacker could manipulate the status signals to infer the coherence status and cache state, leading to unauthorized disclosure of sensitive information about the Tile IP's memory and coherence operations, thereby compromising confidentiality."
+          }
+        },
+        "CWE-1331": {
+          "CAPEC-IDs": [
+            "CAPEC-124",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-124": "CAPEC-124 exploits CWE-1331 by manipulating the status signals to infer cache coherence states, leading to unauthorized information disclosure and breaching the confidentiality of the Tile IP's cache operations.",
+            "CAPEC-121": "CAPEC-121 leverages CWE-1331 by intercepting and altering status signals to create false coherence states, potentially causing cache state corruption and compromising the confidentiality of the Tile IP's memory management."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "By exploiting CWE-1262, an attacker could manipulate the configuration registers to alter the status signals, leading to unauthorized disclosure of cache coherence states, thus compromising the confidentiality of the Tile IP's internal operations.",
+            "CAPEC-121": "Through CWE-1262, an attacker could intercept and modify the status signals during transmission over the NoC, resulting in information disclosure about the cache state and coherence protocol, thereby breaching the confidentiality of the system."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-121",
+        "CAPEC-124",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-121": "[CWE-1276] By exploiting CWE-1276, an attacker could manipulate the status signals to infer the coherence status and cache state, leading to unauthorized disclosure of sensitive information about the Tile IP's memory and coherence operations, thereby compromising confidentiality. [CWE-1331] CAPEC-121 leverages CWE-1331 by intercepting and altering status signals to create false coherence states, potentially causing cache state corruption and compromising the confidentiality of the Tile IP's memory management. [CWE-1262] Through CWE-1262, an attacker could intercept and modify the status signals during transmission over the NoC, resulting in information disclosure about the cache state and coherence protocol, thereby breaching the confidentiality of the system.",
+        "CAPEC-124": "[CWE-1331] CAPEC-124 exploits CWE-1331 by manipulating the status signals to infer cache coherence states, leading to unauthorized information disclosure and breaching the confidentiality of the Tile IP's cache operations.",
+        "CAPEC-680": "[CWE-1262] By exploiting CWE-1262, an attacker could manipulate the configuration registers to alter the status signals, leading to unauthorized disclosure of cache coherence states, thus compromising the confidentiality of the Tile IP's internal operations."
+      }
+    },
+    {
+      "Asset_Name": "NoC Routers",
+      "Functionality": "Facilitate inter-tile and inter-chip communication.",
+      "Security Objective": "Availability",
+      "Justification": "Malfunction or improper handling of NoC traffic could lead to deadlock or denial of service, disrupting the operation of the Tile IP.",
+      "CWE-IDs": [
+        "CWE-1331",
+        "CWE-1318",
+        "CWE-1276"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1331": "The NoC routers in the Tile IP could be exploited by an attacker to cause denial of service through improper isolation of shared resources, leading to contention and interference in network traffic.",
+        "CWE-1318": "The NoC routers may lack support for necessary security features, allowing an attacker to misconfigure or bypass access controls, leading to denial of service or unauthorized access.",
+        "CWE-1276": "Incorrect connections between the NoC routers and other components in the Tile IP could lead to improper handling of signals, resulting in denial of service or system instability."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1331": {
+          "CAPEC-IDs": [
+            "CAPEC-124"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-124": "By exploiting CWE-1331, an attacker could manipulate the NoC Routers' configuration registers to induce improper handling of NoC traffic, leading to a denial-of-service condition that compromises the availability of the Tile IP."
+          }
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating the NoC Routers' configuration registers to induce a denial-of-service condition, thereby compromising the availability of inter-tile communication within the Tile IP module.",
+            "CAPEC-121": "CAPEC-121 could exploit CWE-1318 by injecting malformed packets into the NoC Routers, leading to improper handling of network traffic and potential deadlock, thus affecting the availability of the Tile IP's communication infrastructure."
+          }
+        },
+        "CWE-1276": {
+          "CAPEC-IDs": [
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-121": "By exploiting CWE-1276, an attacker could manipulate the NoC routers' configuration registers to induce improper handling of network traffic, leading to a denial-of-service condition that disrupts the availability of inter-tile and inter-chip communication in the Tile IP."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-124",
+        "CAPEC-180",
+        "CAPEC-121"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-124": "[CWE-1331] By exploiting CWE-1331, an attacker could manipulate the NoC Routers' configuration registers to induce improper handling of NoC traffic, leading to a denial-of-service condition that compromises the availability of the Tile IP.",
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating the NoC Routers' configuration registers to induce a denial-of-service condition, thereby compromising the availability of inter-tile communication within the Tile IP module.",
+        "CAPEC-121": "[CWE-1318] CAPEC-121 could exploit CWE-1318 by injecting malformed packets into the NoC Routers, leading to improper handling of network traffic and potential deadlock, thus affecting the availability of the Tile IP's communication infrastructure. [CWE-1276] By exploiting CWE-1276, an attacker could manipulate the NoC routers' configuration registers to induce improper handling of network traffic, leading to a denial-of-service condition that disrupts the availability of inter-tile and inter-chip communication in the Tile IP."
+      }
+    },
+    {
+      "Asset_Name": "CCX Arbiter",
+      "Functionality": "Manages requests and responses between the core, L1.5, and FPU.",
+      "Security Objective": "Integrity",
+      "Justification": "Corruption of control signals managed by the CCX Arbiter could lead to incorrect data flow and system behavior.",
+      "CWE-IDs": [
+        "CWE-1317",
+        "CWE-1262",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1317": "The CCX Arbiter may fail to enforce proper access control when routing transactions between the core, L1.5, and FPU, allowing unauthorized access to sensitive resources.",
+        "CWE-1262": "Improper access control on the CCX Arbiter's register interface could allow untrusted software to tamper with control signals, compromising data flow integrity.",
+        "CWE-1220": "Insufficient granularity of access control in the CCX Arbiter may allow unauthorized agents to access or modify critical control signals, leading to incorrect data flow."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "By exploiting CWE-1317, CAPEC-122 could manipulate the CCX Arbiter's control signals to introduce state corruption, leading to incorrect data flow between the core, L1.5, and FPU, thereby compromising the integrity of the Tile IP module.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1317 by injecting malformed requests into the CCX Arbiter, causing misconfiguration of control signals and resulting in erroneous system behavior that undermines the integrity of data management within the Tile IP."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the configuration registers of the CCX Arbiter to introduce state corruption, thereby compromising the integrity of control signals and leading to incorrect data flow between the core, L1.5, and FPU.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1262 by injecting malformed coherence requests into the CCX Arbiter, causing misconfiguration and disrupting the integrity of the data management process between the core, L1.5, and FPU."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the CCX Arbiter's control signals to introduce state corruption, thereby compromising the integrity of data flow between the core, L1.5, and FPU in the Tile IP module.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1220 by causing misconfigurations in the CCX Arbiter's memory-mapped registers, leading to incorrect handling of requests and responses, which undermines the integrity of the system's operation."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-122",
+        "CAPEC-121",
+        "CAPEC-680",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-122": "[CWE-1317] By exploiting CWE-1317, CAPEC-122 could manipulate the CCX Arbiter's control signals to introduce state corruption, leading to incorrect data flow between the core, L1.5, and FPU, thereby compromising the integrity of the Tile IP module.",
+        "CAPEC-121": "[CWE-1317] CAPEC-121 can exploit CWE-1317 by injecting malformed requests into the CCX Arbiter, causing misconfiguration of control signals and resulting in erroneous system behavior that undermines the integrity of data management within the Tile IP. [CWE-1262] CAPEC-121 can exploit CWE-1262 by injecting malformed coherence requests into the CCX Arbiter, causing misconfiguration and disrupting the integrity of the data management process between the core, L1.5, and FPU. [CWE-1220] CAPEC-121 can exploit CWE-1220 by causing misconfigurations in the CCX Arbiter's memory-mapped registers, leading to incorrect handling of requests and responses, which undermines the integrity of the system's operation.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the configuration registers of the CCX Arbiter to introduce state corruption, thereby compromising the integrity of control signals and leading to incorrect data flow between the core, L1.5, and FPU.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the CCX Arbiter's control signals to introduce state corruption, thereby compromising the integrity of data flow between the core, L1.5, and FPU in the Tile IP module."
+      }
+    }
+  ]
+}

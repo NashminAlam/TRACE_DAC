@@ -1,0 +1,117 @@
+{
+  "IP": "FPU",
+  "Assets": [
+    {
+      "Asset_Name": "CCX Interface",
+      "Functionality": "Facilitates communication between the FPU and the core.",
+      "Security Objective": "Confidentiality",
+      "Justification": "If the CCX interface is susceptible to unauthorized access, there could be a risk of leaking computation results.",
+      "CWE-IDs": [
+        "CWE-1318",
+        "CWE-1262",
+        "CWE-1429"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1318": "The CCX interface may lack support for security features like access control, risking unauthorized access to floating-point computation results.",
+        "CWE-1262": "Improper access control on the CCX interface could allow unauthorized access to memory-mapped registers, leading to potential data leaks.",
+        "CWE-1429": "The CCX interface might silently discard unauthorized access attempts without feedback, allowing attackers to bypass security monitoring."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by intercepting and manipulating the CCX interface communications, leading to unauthorized access and potential leakage of sensitive floating-point computation results, thereby compromising confidentiality.",
+            "CAPEC-150": "CAPEC-150 could exploit CWE-1318 by inducing faults in the CCX interface's arbitration logic, potentially allowing unauthorized access to FPU data streams and resulting in information disclosure, thus breaching confidentiality."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the arbitration logic of the CCX interface to prioritize unauthorized access, potentially leading to the leakage of sensitive floating-point computation results, thus compromising confidentiality.",
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1262 by injecting malformed data packets into the CCX interface, causing misconfiguration and unauthorized access to floating-point computation results, thereby breaching confidentiality."
+          }
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1429 by intercepting and manipulating the CCX interface communications, leading to unauthorized access and potential leakage of sensitive floating-point computation results, thereby compromising confidentiality."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-150",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by intercepting and manipulating the CCX interface communications, leading to unauthorized access and potential leakage of sensitive floating-point computation results, thereby compromising confidentiality.",
+        "CAPEC-150": "[CWE-1318] CAPEC-150 could exploit CWE-1318 by inducing faults in the CCX interface's arbitration logic, potentially allowing unauthorized access to FPU data streams and resulting in information disclosure, thus breaching confidentiality. [CWE-1262] CAPEC-150 can exploit CWE-1262 by injecting malformed data packets into the CCX interface, causing misconfiguration and unauthorized access to floating-point computation results, thereby breaching confidentiality. [CWE-1429] CAPEC-150 can exploit CWE-1429 by intercepting and manipulating the CCX interface communications, leading to unauthorized access and potential leakage of sensitive floating-point computation results, thereby compromising confidentiality.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the arbitration logic of the CCX interface to prioritize unauthorized access, potentially leading to the leakage of sensitive floating-point computation results, thus compromising confidentiality."
+      }
+    },
+    {
+      "Asset_Name": "CCX Interface",
+      "Functionality": "Facilitates communication between the FPU and the core.",
+      "Security Objective": "Availability",
+      "Justification": "Misconfiguration or excessive arbitration delays on the CCX interface could potentially lead to reduced availability of the FPU, impacting system performance.",
+      "CWE-IDs": [
+        "CWE-1318",
+        "CWE-1429",
+        "CWE-1317"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1318": "The CCX interface may lack proper configuration to support security features, leading to potential denial of service if misconfigured, affecting FPU availability.",
+        "CWE-1429": "The CCX interface could silently discard operations without feedback, leading to undetected failures or delays, impacting FPU availability.",
+        "CWE-1317": "Improper access control in the CCX interface could allow unauthorized transactions, affecting the availability and performance of the FPU."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating the arbitration logic of the CCX interface to induce excessive delays, thereby reducing the availability of the FPU and impacting system performance.",
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1318 by causing misconfigurations in the CCX interface settings, leading to improper prioritization and reduced availability of the FPU, which affects the overall system throughput."
+          }
+        },
+        "CWE-1429": {
+          "CAPEC-IDs": [
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-150": "CAPEC-150 can exploit CWE-1429 by manipulating the arbitration logic of the CCX interface, causing excessive delays that reduce the availability of the FPU, thereby impacting system performance."
+          }
+        },
+        "CWE-1317": {
+          "CAPEC-IDs": [
+            "CAPEC-122",
+            "CAPEC-150"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-122": "CAPEC-122 can exploit CWE-1317 by manipulating the arbitration logic of the CCX interface to create excessive delays, thereby reducing the availability of the FPU and impacting system performance.",
+            "CAPEC-150": "CAPEC-150 could exploit CWE-1317 by introducing misconfigurations in the CCX interface settings, leading to improper prioritization and reduced availability of the FPU, affecting its performance."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-150",
+        "CAPEC-122"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating the arbitration logic of the CCX interface to induce excessive delays, thereby reducing the availability of the FPU and impacting system performance.",
+        "CAPEC-150": "[CWE-1318] CAPEC-150 can exploit CWE-1318 by causing misconfigurations in the CCX interface settings, leading to improper prioritization and reduced availability of the FPU, which affects the overall system throughput. [CWE-1429] CAPEC-150 can exploit CWE-1429 by manipulating the arbitration logic of the CCX interface, causing excessive delays that reduce the availability of the FPU, thereby impacting system performance. [CWE-1317] CAPEC-150 could exploit CWE-1317 by introducing misconfigurations in the CCX interface settings, leading to improper prioritization and reduced availability of the FPU, affecting its performance.",
+        "CAPEC-122": "[CWE-1317] CAPEC-122 can exploit CWE-1317 by manipulating the arbitration logic of the CCX interface to create excessive delays, thereby reducing the availability of the FPU and impacting system performance."
+      }
+    }
+  ]
+}

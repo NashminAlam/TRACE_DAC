@@ -1,0 +1,229 @@
+{
+  "IP": "NoC",
+  "Assets": [
+    {
+      "Asset_Name": "Data Signals",
+      "Functionality": "Transmit data across the NoC",
+      "Security Objective": "Confidentiality",
+      "Justification": "Data signals carry sensitive information such as memory addresses and cache line states, which could be intercepted if confidentiality is not maintained.",
+      "CWE-IDs": [
+        "CWE-1331",
+        "CWE-1318",
+        "CWE-319"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1331": "Improper isolation of shared resources in the NoC can lead to timing channels that allow attackers to infer sensitive data from data signals.",
+        "CWE-1318": "Missing support for security features in the NoC could result in unprotected data signals, allowing unauthorized access to sensitive information.",
+        "CWE-319": "Data signals transmitted in cleartext over the NoC can be intercepted, compromising the confidentiality of sensitive information."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1331": {
+          "CAPEC-IDs": [
+            "CAPEC-124",
+            "CAPEC-116"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-124": "CAPEC-124 exploits CWE-1331 by manipulating the credit-based flow control in the NoC to induce buffer overflow, leading to unauthorized access and potential interception of sensitive data signals, thus compromising confidentiality.",
+            "CAPEC-116": "CAPEC-116 exploits CWE-1331 by injecting malformed packets into the NoC, causing misrouting and potential exposure of data signals, thereby breaching the confidentiality of sensitive information transmitted across the network."
+          }
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-116"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1318 by intercepting and analyzing data signals within the NoC to extract sensitive memory addresses and cache line states, thereby compromising the confidentiality of the data being transmitted.",
+            "CAPEC-116": "CAPEC-116 leverages CWE-1318 by injecting malicious data packets into the NoC data signals, potentially leading to unauthorized access and disclosure of sensitive information, thus breaching the confidentiality of the transmitted data."
+          }
+        },
+        "CWE-319": {
+          "CAPEC-IDs": [
+            "CAPEC-116"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-116": "CAPEC-116 can exploit CWE-319 by intercepting unencrypted data signals within the NoC, leading to unauthorized access and potential information disclosure of sensitive memory addresses and cache line states, thereby compromising the confidentiality of the data being transmitted."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-124",
+        "CAPEC-116",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-124": "[CWE-1331] CAPEC-124 exploits CWE-1331 by manipulating the credit-based flow control in the NoC to induce buffer overflow, leading to unauthorized access and potential interception of sensitive data signals, thus compromising confidentiality.",
+        "CAPEC-116": "[CWE-1331] CAPEC-116 exploits CWE-1331 by injecting malformed packets into the NoC, causing misrouting and potential exposure of data signals, thereby breaching the confidentiality of sensitive information transmitted across the network. [CWE-1318] CAPEC-116 leverages CWE-1318 by injecting malicious data packets into the NoC data signals, potentially leading to unauthorized access and disclosure of sensitive information, thus breaching the confidentiality of the transmitted data. [CWE-319] CAPEC-116 can exploit CWE-319 by intercepting unencrypted data signals within the NoC, leading to unauthorized access and potential information disclosure of sensitive memory addresses and cache line states, thereby compromising the confidentiality of the data being transmitted.",
+        "CAPEC-180": "[CWE-1318] CAPEC-180 exploits CWE-1318 by intercepting and analyzing data signals within the NoC to extract sensitive memory addresses and cache line states, thereby compromising the confidentiality of the data being transmitted."
+      }
+    },
+    {
+      "Asset_Name": "Control Signals",
+      "Functionality": "Manage packet traversal and flow control",
+      "Security Objective": "Integrity",
+      "Justification": "Corruption of control signals could disrupt cache coherence and lead to data inconsistency, affecting the correctness of the system.",
+      "CWE-IDs": [
+        "CWE-1331",
+        "CWE-1318",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1331": "Improper isolation of shared resources in the NoC can lead to interference with control signals, disrupting cache coherence and data consistency.",
+        "CWE-1318": "Missing support for security features in the NoC can result in inadequate protection of control signals, allowing unauthorized modifications that affect system integrity.",
+        "CWE-1262": "Improper access control for register interfaces can allow unauthorized access to control signals, leading to potential corruption and disruption of packet traversal and flow control."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1331": {
+          "CAPEC-IDs": [
+            "CAPEC-124",
+            "CAPEC-116"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-124": "CAPEC-124 can exploit CWE-1331 by manipulating control signals to induce incorrect flow control decisions, leading to data packet misrouting and compromising the integrity of the NoC's cache coherence protocol.",
+            "CAPEC-116": "CAPEC-116 can exploit CWE-1331 by injecting malformed control signals that disrupt the credit-based flow control, causing buffer overflow or underflow conditions that compromise the integrity of data transmission across the NoC."
+          }
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-116"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1318 by manipulating control signals within the NoC to induce improper resource shutdowns, thereby corrupting the integrity of packet traversal and disrupting cache coherence.",
+            "CAPEC-116": "CAPEC-116 leverages CWE-1318 by injecting malicious control signals into the NoC, causing unauthorized state transitions that compromise the integrity of flow control and lead to data inconsistency."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the control signals within the NoC to introduce incorrect flow control information, leading to packet misrouting and potential cache coherence disruption, thereby compromising the integrity of the system."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-124",
+        "CAPEC-116",
+        "CAPEC-180",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-124": "[CWE-1331] CAPEC-124 can exploit CWE-1331 by manipulating control signals to induce incorrect flow control decisions, leading to data packet misrouting and compromising the integrity of the NoC's cache coherence protocol.",
+        "CAPEC-116": "[CWE-1331] CAPEC-116 can exploit CWE-1331 by injecting malformed control signals that disrupt the credit-based flow control, causing buffer overflow or underflow conditions that compromise the integrity of data transmission across the NoC. [CWE-1318] CAPEC-116 leverages CWE-1318 by injecting malicious control signals into the NoC, causing unauthorized state transitions that compromise the integrity of flow control and lead to data inconsistency.",
+        "CAPEC-180": "[CWE-1318] CAPEC-180 exploits CWE-1318 by manipulating control signals within the NoC to induce improper resource shutdowns, thereby corrupting the integrity of packet traversal and disrupting cache coherence.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the control signals within the NoC to introduce incorrect flow control information, leading to packet misrouting and potential cache coherence disruption, thereby compromising the integrity of the system."
+      }
+    },
+    {
+      "Asset_Name": "Credit-based Flow Control",
+      "Functionality": "Manage buffer space dynamically to prevent data loss",
+      "Security Objective": "Availability",
+      "Justification": "Malfunction or misconfiguration of flow control could lead to network congestion or deadlock, resulting in denial of service.",
+      "CWE-IDs": [
+        "CWE-1331",
+        "CWE-1318",
+        "CWE-1250"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1331": "Improper isolation of shared resources in the NoC can lead to interference and contention, causing network congestion or denial of service, directly impacting the availability of the credit-based flow control.",
+        "CWE-1318": "Missing support for security features in the NoC's on-chip fabric can result in misconfiguration, leading to network congestion or deadlock, thus affecting the availability of the credit-based flow control.",
+        "CWE-1250": "Improper preservation of consistency between independent representations of shared state in the NoC can lead to data inconsistency and network congestion, impacting the availability of the credit-based flow control."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1331": {
+          "CAPEC-IDs": [
+            "CAPEC-124"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-124": "By exploiting CWE-1331, an attacker could manipulate the credit-based flow control system in the NoC to induce buffer mismanagement, leading to network congestion or deadlock, thereby causing a denial-of-service and compromising the availability of the system."
+          }
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "By exploiting CWE-1318, an attacker could manipulate the credit-based flow control in the NoC to induce buffer mismanagement, leading to network congestion and potential denial-of-service, thereby compromising the availability of the system."
+          }
+        },
+        "CWE-1250": {
+          "CAPEC-IDs": [
+            "CAPEC-116"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-116": "By exploiting CWE-1250, an attacker could manipulate the credit-based flow control in the NoC to induce buffer overflow or underflow conditions, leading to network congestion or deadlock and resulting in a denial-of-service, thereby compromising the availability of the system."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-124",
+        "CAPEC-180",
+        "CAPEC-116"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-124": "[CWE-1331] By exploiting CWE-1331, an attacker could manipulate the credit-based flow control system in the NoC to induce buffer mismanagement, leading to network congestion or deadlock, thereby causing a denial-of-service and compromising the availability of the system.",
+        "CAPEC-180": "[CWE-1318] By exploiting CWE-1318, an attacker could manipulate the credit-based flow control in the NoC to induce buffer mismanagement, leading to network congestion and potential denial-of-service, thereby compromising the availability of the system.",
+        "CAPEC-116": "[CWE-1250] By exploiting CWE-1250, an attacker could manipulate the credit-based flow control in the NoC to induce buffer overflow or underflow conditions, leading to network congestion or deadlock and resulting in a denial-of-service, thereby compromising the availability of the system."
+      }
+    },
+    {
+      "Asset_Name": "NoC Routers",
+      "Functionality": "Connect caches to the on-chip network",
+      "Security Objective": "Availability",
+      "Justification": "Failure of NoC routers could disrupt communication between tiles, affecting the overall operation of the NoC.",
+      "CWE-IDs": [
+        "CWE-1331",
+        "CWE-1318",
+        "CWE-1220"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1331": "Improper isolation of shared resources in the NoC routers can lead to interference and contention, affecting availability by causing denial of service through network congestion.",
+        "CWE-1318": "Missing support for security features in the NoC routers can result in misconfiguration, leading to denial of service by allowing unauthorized access or data corruption.",
+        "CWE-1220": "Insufficient granularity of access control in NoC routers can allow unauthorized agents to disrupt communication, impacting availability by causing data transfer failures."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1331": {
+          "CAPEC-IDs": [
+            "CAPEC-124",
+            "CAPEC-116"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-124": "CAPEC-124 can exploit CWE-1331 by manipulating the NoC routers' flow control signals to induce buffer overflow, leading to network congestion and denial-of-service, thereby compromising the availability of the NoC.",
+            "CAPEC-116": "CAPEC-116 can exploit CWE-1331 by injecting malformed packets into the NoC routers, causing misrouting and potential deadlock, which disrupts communication and affects the availability of the NoC."
+          }
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-116"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1318 by manipulating the NoC routers' flow control signals to induce buffer overflow, leading to network congestion and denial-of-service, thus compromising the availability of the NoC.",
+            "CAPEC-116": "CAPEC-116 can exploit CWE-1318 by injecting malformed packets into the NoC routers, causing misrouting and potential deadlock, which disrupts communication and affects the availability of the NoC."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-116"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating the credit-based flow control in NoC routers to induce buffer overflow, leading to network congestion and denial-of-service, thereby compromising the availability of the NoC.",
+            "CAPEC-116": "CAPEC-116 exploits CWE-1220 by injecting malformed control signals into the NoC routers, causing misrouting of packets and potential deadlock, which disrupts communication and affects the availability of the NoC."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-124",
+        "CAPEC-116",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-124": "[CWE-1331] CAPEC-124 can exploit CWE-1331 by manipulating the NoC routers' flow control signals to induce buffer overflow, leading to network congestion and denial-of-service, thereby compromising the availability of the NoC.",
+        "CAPEC-116": "[CWE-1331] CAPEC-116 can exploit CWE-1331 by injecting malformed packets into the NoC routers, causing misrouting and potential deadlock, which disrupts communication and affects the availability of the NoC. [CWE-1318] CAPEC-116 can exploit CWE-1318 by injecting malformed packets into the NoC routers, causing misrouting and potential deadlock, which disrupts communication and affects the availability of the NoC. [CWE-1220] CAPEC-116 exploits CWE-1220 by injecting malformed control signals into the NoC routers, causing misrouting of packets and potential deadlock, which disrupts communication and affects the availability of the NoC.",
+        "CAPEC-180": "[CWE-1318] CAPEC-180 can exploit CWE-1318 by manipulating the NoC routers' flow control signals to induce buffer overflow, leading to network congestion and denial-of-service, thus compromising the availability of the NoC. [CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating the credit-based flow control in NoC routers to induce buffer overflow, leading to network congestion and denial-of-service, thereby compromising the availability of the NoC."
+      }
+    }
+  ]
+}

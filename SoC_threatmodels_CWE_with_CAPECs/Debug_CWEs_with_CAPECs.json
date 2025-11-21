@@ -1,0 +1,557 @@
+{
+  "IP": "Debug",
+  "Assets": [
+    {
+      "Asset_Name": "CoreID Register",
+      "Functionality": "Stores node ID and maximum core information.",
+      "Security Objective": "Confidentiality",
+      "Justification": "Misconfigured access to this register could expose sensitive system configuration information.",
+      "CWE-IDs": [
+        "CWE-1191",
+        "CWE-1244",
+        "CWE-1262",
+        "CWE-1263"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1191": "The CoreID Register in the Debug module could be accessed through improperly secured debug interfaces, allowing unauthorized access to sensitive system configuration information.",
+        "CWE-1244": "The CoreID Register may be exposed to unsafe debug access levels if the debug interface does not enforce correct access levels, leading to unauthorized access to sensitive configuration data.",
+        "CWE-1262": "Improper access control for the CoreID Register interface could allow unauthorized reads of sensitive node ID and core information, compromising confidentiality.",
+        "CWE-1263": "If physical access controls are insufficient, an attacker could exploit debug ports to access the CoreID Register, exposing sensitive system configuration information."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1191": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "By exploiting CWE CWE-1191, CAPEC-180 could manipulate the Debug IP's diagnostic access to the CoreID Register, leading to unauthorized disclosure of node ID and core configuration, thus compromising confidentiality.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE CWE-1191 by injecting erroneous control signals through the Debug IP, potentially altering the CoreID Register's data and breaching confidentiality by exposing sensitive system configuration."
+          }
+        },
+        "CWE-1244": {
+          "CAPEC-IDs": [
+            "CAPEC-114",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-114": "CAPEC-114 exploits CWE CWE-1244 by manipulating diagnostic access controls to the CoreID Register, potentially leading to unauthorized disclosure of node ID and core configuration, thereby compromising confidentiality.",
+            "CAPEC-121": "CAPEC-121 leverages CWE CWE-1244 by injecting erroneous control signals into the Debug IP, which could misconfigure access permissions to the CoreID Register, resulting in unauthorized exposure of sensitive system configuration data."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "By exploiting CWE-1262, an attacker could use CAPEC-680 to manipulate the Debug IP's diagnostic access controls, leading to unauthorized reads of the CoreID Register and compromising the confidentiality of node ID and core configuration information.",
+            "CAPEC-121": "Through CWE-1262, CAPEC-121 could be used to craft malicious diagnostic requests that bypass access restrictions, resulting in the exposure of sensitive CoreID Register data and violating its confidentiality objective."
+          }
+        },
+        "CWE-1263": {
+          "CAPEC-IDs": [
+            "CAPEC-401",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-401": "CAPEC-401 exploits CWE CWE-1263 by leveraging unauthorized access to the CoreID Register in the Debug IP module, potentially leading to information disclosure of sensitive node ID and core configuration data, thus compromising confidentiality.",
+            "CAPEC-121": "CAPEC-121 exploits CWE CWE-1263 by manipulating diagnostic access controls within the Debug IP, allowing an attacker to misconfigure the CoreID Register and expose sensitive system configuration information, thereby breaching confidentiality."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-121",
+        "CAPEC-114",
+        "CAPEC-680",
+        "CAPEC-401"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1191] By exploiting CWE CWE-1191, CAPEC-180 could manipulate the Debug IP's diagnostic access to the CoreID Register, leading to unauthorized disclosure of node ID and core configuration, thus compromising confidentiality.",
+        "CAPEC-121": "[CWE-1191] CAPEC-121 can exploit CWE CWE-1191 by injecting erroneous control signals through the Debug IP, potentially altering the CoreID Register's data and breaching confidentiality by exposing sensitive system configuration. [CWE-1244] CAPEC-121 leverages CWE CWE-1244 by injecting erroneous control signals into the Debug IP, which could misconfigure access permissions to the CoreID Register, resulting in unauthorized exposure of sensitive system configuration data. [CWE-1262] Through CWE-1262, CAPEC-121 could be used to craft malicious diagnostic requests that bypass access restrictions, resulting in the exposure of sensitive CoreID Register data and violating its confidentiality objective. [CWE-1263] CAPEC-121 exploits CWE CWE-1263 by manipulating diagnostic access controls within the Debug IP, allowing an attacker to misconfigure the CoreID Register and expose sensitive system configuration information, thereby breaching confidentiality.",
+        "CAPEC-114": "[CWE-1244] CAPEC-114 exploits CWE CWE-1244 by manipulating diagnostic access controls to the CoreID Register, potentially leading to unauthorized disclosure of node ID and core configuration, thereby compromising confidentiality.",
+        "CAPEC-680": "[CWE-1262] By exploiting CWE-1262, an attacker could use CAPEC-680 to manipulate the Debug IP's diagnostic access controls, leading to unauthorized reads of the CoreID Register and compromising the confidentiality of node ID and core configuration information.",
+        "CAPEC-401": "[CWE-1263] CAPEC-401 exploits CWE CWE-1263 by leveraging unauthorized access to the CoreID Register in the Debug IP module, potentially leading to information disclosure of sensitive node ID and core configuration data, thus compromising confidentiality."
+      }
+    },
+    {
+      "Asset_Name": "Error Status Register",
+      "Functionality": "Provides error information including correctable and uncorrectable errors.",
+      "Security Objective": "Confidentiality",
+      "Justification": "Contains sensitive error information that could be exploited if exposed.",
+      "CWE-IDs": [
+        "CWE-1191",
+        "CWE-1244",
+        "CWE-1262",
+        "CWE-1243"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1191": "The Error Status Register could be accessed through improperly secured debug interfaces, allowing unauthorized access to sensitive error information.",
+        "CWE-1244": "If the debug interface assigns incorrect access levels, attackers could exploit this to access the Error Status Register and extract sensitive error data.",
+        "CWE-1262": "Improper access control on the Error Status Register could allow unauthorized reads, exposing sensitive error information to untrusted software.",
+        "CWE-1243": "Sensitive error information in the Error Status Register may not be adequately protected during debug operations, risking unauthorized access."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1191": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "By exploiting CWE-1191, CAPEC-180 could manipulate the Debug IP's diagnostic access to the Error Status Register, leading to unauthorized disclosure of sensitive error information, thus compromising confidentiality.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1191 by injecting malicious control signals through the Debug IP, potentially altering the Error Status Register's data and undermining the confidentiality of error information."
+          }
+        },
+        "CWE-1244": {
+          "CAPEC-IDs": [
+            "CAPEC-114",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-114": "By exploiting CWE-1244, an attacker could use CAPEC-114 to manipulate the Debug IP's diagnostic access mechanisms to read the Error Status Register, leading to unauthorized disclosure of sensitive error information and compromising confidentiality.",
+            "CAPEC-121": "Through CWE-1244, CAPEC-121 could be leveraged to alter control signals within the Debug IP, allowing unauthorized access to the Error Status Register and resulting in the exposure of confidential error data."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the Debug IP's diagnostic access to the Error Status Register, leading to unauthorized disclosure of sensitive error information, thus compromising confidentiality.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1262 by injecting malicious control signals through the Debug IP, potentially altering the Error Status Register's data and undermining the confidentiality of error information."
+          }
+        },
+        "CWE-1243": {
+          "CAPEC-IDs": [
+            "CAPEC-116",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-116": "CAPEC-116 can exploit CWE-1243 by manipulating the Debug IP's diagnostic access to the Error Status Register, potentially leading to unauthorized disclosure of sensitive error information, thus breaching confidentiality.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1243 by injecting malformed control signals into the Debug IP, causing misconfiguration of the Error Status Register access controls and resulting in unauthorized exposure of confidential error data."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-121",
+        "CAPEC-114",
+        "CAPEC-680",
+        "CAPEC-116"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1191] By exploiting CWE-1191, CAPEC-180 could manipulate the Debug IP's diagnostic access to the Error Status Register, leading to unauthorized disclosure of sensitive error information, thus compromising confidentiality.",
+        "CAPEC-121": "[CWE-1191] CAPEC-121 can exploit CWE-1191 by injecting malicious control signals through the Debug IP, potentially altering the Error Status Register's data and undermining the confidentiality of error information. [CWE-1244] Through CWE-1244, CAPEC-121 could be leveraged to alter control signals within the Debug IP, allowing unauthorized access to the Error Status Register and resulting in the exposure of confidential error data. [CWE-1262] CAPEC-121 can exploit CWE-1262 by injecting malicious control signals through the Debug IP, potentially altering the Error Status Register's data and undermining the confidentiality of error information. [CWE-1243] CAPEC-121 can exploit CWE-1243 by injecting malformed control signals into the Debug IP, causing misconfiguration of the Error Status Register access controls and resulting in unauthorized exposure of confidential error data.",
+        "CAPEC-114": "[CWE-1244] By exploiting CWE-1244, an attacker could use CAPEC-114 to manipulate the Debug IP's diagnostic access mechanisms to read the Error Status Register, leading to unauthorized disclosure of sensitive error information and compromising confidentiality.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the Debug IP's diagnostic access to the Error Status Register, leading to unauthorized disclosure of sensitive error information, thus compromising confidentiality.",
+        "CAPEC-116": "[CWE-1243] CAPEC-116 can exploit CWE-1243 by manipulating the Debug IP's diagnostic access to the Error Status Register, potentially leading to unauthorized disclosure of sensitive error information, thus breaching confidentiality."
+      }
+    },
+    {
+      "Asset_Name": "L2 Control Register",
+      "Functionality": "Controls features like clumpy shared memory and access counters.",
+      "Security Objective": "Integrity",
+      "Justification": "Incorrect manipulation could alter system behavior and performance.",
+      "CWE-IDs": [
+        "CWE-1191",
+        "CWE-1262",
+        "CWE-1244"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1191": "The L2 Control Register could be exploited through improper access control in the debug interface, allowing unauthorized manipulation of system behavior.",
+        "CWE-1262": "Improper access control for the L2 Control Register interface could allow unauthorized software to alter critical cache control settings, compromising system integrity.",
+        "CWE-1244": "The L2 Control Register may be exposed to unsafe debug access levels, allowing attackers to manipulate cache control settings if debug protections are misconfigured."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1191": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE CWE-1191 by manipulating the L2 Control Register through unauthorized diagnostic access, leading to state corruption and compromising the integrity of cache operations in the Debug IP module.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE CWE-1191 by injecting malicious control signals into the Debug IP, altering the L2 Control Register settings and undermining the integrity of system performance and behavior."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the L2 Control Register's configuration settings, leading to unauthorized changes in cache behavior and compromising the integrity of system operations.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1262 by injecting malformed control signals into the Debug IP, resulting in unintended modifications to the L2 Control Register and potentially corrupting the integrity of cache management functions."
+          }
+        },
+        "CWE-1244": {
+          "CAPEC-IDs": [
+            "CAPEC-114",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-114": "By exploiting CWE-1244, CAPEC-114 could manipulate the L2 Control Register to inject unauthorized control signals, compromising the integrity of cache operations and altering system behavior.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1244 by leveraging unauthorized access to the L2 Control Register, leading to state corruption and unintended configuration changes that impact system integrity."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-121",
+        "CAPEC-680",
+        "CAPEC-114"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1191] CAPEC-180 can exploit CWE CWE-1191 by manipulating the L2 Control Register through unauthorized diagnostic access, leading to state corruption and compromising the integrity of cache operations in the Debug IP module.",
+        "CAPEC-121": "[CWE-1191] CAPEC-121 can exploit CWE CWE-1191 by injecting malicious control signals into the Debug IP, altering the L2 Control Register settings and undermining the integrity of system performance and behavior. [CWE-1262] CAPEC-121 can exploit CWE-1262 by injecting malformed control signals into the Debug IP, resulting in unintended modifications to the L2 Control Register and potentially corrupting the integrity of cache management functions. [CWE-1244] CAPEC-121 can exploit CWE-1244 by leveraging unauthorized access to the L2 Control Register, leading to state corruption and unintended configuration changes that impact system integrity.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the L2 Control Register's configuration settings, leading to unauthorized changes in cache behavior and compromising the integrity of system operations.",
+        "CAPEC-114": "[CWE-1244] By exploiting CWE-1244, CAPEC-114 could manipulate the L2 Control Register to inject unauthorized control signals, compromising the integrity of cache operations and altering system behavior."
+      }
+    },
+    {
+      "Asset_Name": "Data and ECC Signals",
+      "Functionality": "For diagnostic access to data and ECC bits in the L2 cache.",
+      "Security Objective": "Confidentiality",
+      "Justification": "Could expose sensitive data if accessed improperly.",
+      "CWE-IDs": [
+        "CWE-1191",
+        "CWE-1313",
+        "CWE-1244"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1191": "The Debug module's diagnostic access to data and ECC bits in the L2 cache can be exploited if improper access controls allow unauthorized access to sensitive data.",
+        "CWE-1313": "The ability to activate debug logic at runtime could allow unauthorized access to sensitive data in the L2 cache if the debug features are improperly secured.",
+        "CWE-1244": "If the Debug module assigns incorrect access levels to internal assets, it could expose sensitive data in the L2 cache to unauthorized debug agents."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1191": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1191 by manipulating the Debug IP's diagnostic access to Data and ECC Signals, potentially leading to unauthorized information disclosure and compromising the confidentiality of sensitive cache data.",
+            "CAPEC-121": "CAPEC-121 leverages CWE-1191 by injecting malicious control signals through the Debug IP, which could alter the integrity of the Data and ECC Signals, resulting in corrupted cache operations and unauthorized data exposure."
+          }
+        },
+        "CWE-1313": {
+          "CAPEC-IDs": [
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1313 by manipulating the Debug IP's diagnostic access to Data and ECC Signals, potentially leading to unauthorized disclosure of sensitive cache data, thereby compromising confidentiality."
+          }
+        },
+        "CWE-1244": {
+          "CAPEC-IDs": [
+            "CAPEC-114",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-114": "CAPEC-114 can exploit CWE-1244 by manipulating diagnostic access requests to the Data and ECC Signals, potentially leading to unauthorized disclosure of sensitive cache data, thereby compromising confidentiality.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1244 by injecting malformed control signals into the Debug IP, causing improper access to Data and ECC Signals and risking exposure of sensitive information, thus breaching confidentiality."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-121",
+        "CAPEC-114"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1191] CAPEC-180 exploits CWE-1191 by manipulating the Debug IP's diagnostic access to Data and ECC Signals, potentially leading to unauthorized information disclosure and compromising the confidentiality of sensitive cache data.",
+        "CAPEC-121": "[CWE-1191] CAPEC-121 leverages CWE-1191 by injecting malicious control signals through the Debug IP, which could alter the integrity of the Data and ECC Signals, resulting in corrupted cache operations and unauthorized data exposure. [CWE-1313] CAPEC-121 can exploit CWE-1313 by manipulating the Debug IP's diagnostic access to Data and ECC Signals, potentially leading to unauthorized disclosure of sensitive cache data, thereby compromising confidentiality. [CWE-1244] CAPEC-121 can exploit CWE-1244 by injecting malformed control signals into the Debug IP, causing improper access to Data and ECC Signals and risking exposure of sensitive information, thus breaching confidentiality.",
+        "CAPEC-114": "[CWE-1244] CAPEC-114 can exploit CWE-1244 by manipulating diagnostic access requests to the Data and ECC Signals, potentially leading to unauthorized disclosure of sensitive cache data, thereby compromising confidentiality."
+      }
+    },
+    {
+      "Asset_Name": "Control Signals",
+      "Functionality": "Generated for accessing various diagnostic and control features.",
+      "Security Objective": "Integrity",
+      "Justification": "Incorrect control signals could disrupt system operations.",
+      "CWE-IDs": [
+        "CWE-1191",
+        "CWE-1313",
+        "CWE-1244"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1191": "The Debug module's control signals could be exploited if access control is improperly configured, allowing unauthorized access to internal registers and potentially disrupting system operations.",
+        "CWE-1313": "The ability to activate debug logic at runtime through control signals could allow an attacker to alter system behavior or access sensitive data, compromising system integrity.",
+        "CWE-1244": "If the Debug module assigns incorrect access levels to control signals, it could allow unauthorized agents to manipulate sensitive resources, leading to potential system disruption."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1191": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1191 by manipulating control signals within the Debug IP to inject incorrect diagnostic commands, potentially corrupting the integrity of system operations by altering cache behavior or error reporting.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1191 by intercepting and modifying control signals in the Debug IP, leading to unauthorized changes in diagnostic access permissions and compromising the integrity of cache monitoring and control functions."
+          }
+        },
+        "CWE-1313": {
+          "CAPEC-IDs": [
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1313 by manipulating control signals within the Debug IP module to inject unauthorized commands, potentially leading to the corruption of system integrity by altering the intended diagnostic and control operations."
+          }
+        },
+        "CWE-1244": {
+          "CAPEC-IDs": [
+            "CAPEC-114",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-114": "By exploiting CWE-1244, CAPEC-114 could manipulate control signals within the Debug IP to inject unauthorized commands, potentially corrupting the integrity of system operations by altering diagnostic access permissions.",
+            "CAPEC-121": "CAPEC-121 could exploit CWE-1244 by intercepting and modifying control signals in the Debug IP, leading to unauthorized state changes that compromise the integrity of cache operations and system diagnostics."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-121",
+        "CAPEC-114"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1191] CAPEC-180 can exploit CWE-1191 by manipulating control signals within the Debug IP to inject incorrect diagnostic commands, potentially corrupting the integrity of system operations by altering cache behavior or error reporting.",
+        "CAPEC-121": "[CWE-1191] CAPEC-121 can exploit CWE-1191 by intercepting and modifying control signals in the Debug IP, leading to unauthorized changes in diagnostic access permissions and compromising the integrity of cache monitoring and control functions. [CWE-1313] CAPEC-121 can exploit CWE-1313 by manipulating control signals within the Debug IP module to inject unauthorized commands, potentially leading to the corruption of system integrity by altering the intended diagnostic and control operations. [CWE-1244] CAPEC-121 could exploit CWE-1244 by intercepting and modifying control signals in the Debug IP, leading to unauthorized state changes that compromise the integrity of cache operations and system diagnostics.",
+        "CAPEC-114": "[CWE-1244] By exploiting CWE-1244, CAPEC-114 could manipulate control signals within the Debug IP to inject unauthorized commands, potentially corrupting the integrity of system operations by altering diagnostic access permissions."
+      }
+    },
+    {
+      "Asset_Name": "Diagnostic Access to Data Array",
+      "Functionality": "Allows diagnostic access to the data array in the L2 cache.",
+      "Security Objective": "Confidentiality",
+      "Justification": "Could expose sensitive data stored in the cache.",
+      "CWE-IDs": [
+        "CWE-1191",
+        "CWE-1244",
+        "CWE-1313"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1191": "The Debug module's diagnostic access to the L2 cache data array could be exploited if improper access controls allow unauthorized access to sensitive data.",
+        "CWE-1244": "If the Debug module assigns incorrect access levels to internal assets, it could allow unauthorized access to sensitive data in the L2 cache data array.",
+        "CWE-1313": "The ability to activate debug logic at runtime could allow unauthorized access to sensitive data in the L2 cache data array, compromising confidentiality."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1191": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE CWE-1191 by leveraging unauthorized access to the Debug IP's diagnostic interfaces to manipulate control signals, potentially leading to the exposure of sensitive data from the L2 cache's data array, thus compromising confidentiality.",
+            "CAPEC-121": "CAPEC-121 exploits CWE CWE-1191 by injecting malicious commands into the Debug IP's diagnostic access paths, which could result in unauthorized data retrieval from the L2 cache's data array, thereby violating the confidentiality of sensitive information."
+          }
+        },
+        "CWE-1244": {
+          "CAPEC-IDs": [
+            "CAPEC-114",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-114": "CAPEC-114 exploits CWE-1244 by manipulating the Debug IP's diagnostic access to the L2 cache data array, potentially leading to unauthorized information disclosure and compromising the confidentiality of sensitive data stored in the cache.",
+            "CAPEC-121": "CAPEC-121 leverages CWE-1244 by injecting malicious control signals through the Debug IP, which could alter the diagnostic access configuration and expose confidential data from the L2 cache data array."
+          }
+        },
+        "CWE-1313": {
+          "CAPEC-IDs": [
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-121": "CAPEC-121 exploits CWE-1313 by leveraging unauthorized diagnostic access to the L2 cache's data array, potentially leading to information disclosure and compromising the confidentiality of sensitive data stored within the cache."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-121",
+        "CAPEC-114"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1191] CAPEC-180 exploits CWE CWE-1191 by leveraging unauthorized access to the Debug IP's diagnostic interfaces to manipulate control signals, potentially leading to the exposure of sensitive data from the L2 cache's data array, thus compromising confidentiality.",
+        "CAPEC-121": "[CWE-1191] CAPEC-121 exploits CWE CWE-1191 by injecting malicious commands into the Debug IP's diagnostic access paths, which could result in unauthorized data retrieval from the L2 cache's data array, thereby violating the confidentiality of sensitive information. [CWE-1244] CAPEC-121 leverages CWE-1244 by injecting malicious control signals through the Debug IP, which could alter the diagnostic access configuration and expose confidential data from the L2 cache data array. [CWE-1313] CAPEC-121 exploits CWE-1313 by leveraging unauthorized diagnostic access to the L2 cache's data array, potentially leading to information disclosure and compromising the confidentiality of sensitive data stored within the cache.",
+        "CAPEC-114": "[CWE-1244] CAPEC-114 exploits CWE-1244 by manipulating the Debug IP's diagnostic access to the L2 cache data array, potentially leading to unauthorized information disclosure and compromising the confidentiality of sensitive data stored in the cache."
+      }
+    },
+    {
+      "Asset_Name": "Diagnostic Access to Directory Array",
+      "Functionality": "Allows diagnostic access to the directory array in the L2 cache.",
+      "Security Objective": "Confidentiality",
+      "Justification": "Could expose sensitive directory information.",
+      "CWE-IDs": [
+        "CWE-1191",
+        "CWE-1244",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1191": "The Debug module's diagnostic access to the directory array could be exploited if improper access controls allow unauthorized access to sensitive internal registers.",
+        "CWE-1244": "If the Debug module assigns incorrect access levels to the directory array, it could allow unauthorized agents to access sensitive directory information, compromising confidentiality.",
+        "CWE-1262": "Improper access control for the Debug module's register interface could allow unauthorized access to sensitive directory information, leading to confidentiality breaches."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1191": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE CWE-1191 by manipulating diagnostic access to the directory array, potentially leading to unauthorized information disclosure and compromising the confidentiality of sensitive directory data within the Debug IP module.",
+            "CAPEC-121": "CAPEC-121 leverages CWE CWE-1191 by injecting malicious control signals through the Debug IP, which could alter the diagnostic access configuration and expose confidential directory information, violating the asset's confidentiality objective."
+          }
+        },
+        "CWE-1244": {
+          "CAPEC-IDs": [
+            "CAPEC-114",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-114": "CAPEC-114 can exploit CWE-1244 by manipulating diagnostic access requests to the directory array, potentially leading to unauthorized information disclosure and compromising the confidentiality of sensitive directory data.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1244 by injecting malicious control signals through the debug interface, resulting in unauthorized access to the directory array and exposing confidential cache directory information."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 can exploit CWE-1262 by manipulating the diagnostic access to the directory array, leading to unauthorized disclosure of sensitive directory information, thus compromising confidentiality.",
+            "CAPEC-121": "CAPEC-121 can exploit CWE-1262 by injecting erroneous control signals through the debug interface, potentially causing misconfiguration and unauthorized access to sensitive directory data, thereby breaching confidentiality."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-121",
+        "CAPEC-114",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1191] CAPEC-180 exploits CWE CWE-1191 by manipulating diagnostic access to the directory array, potentially leading to unauthorized information disclosure and compromising the confidentiality of sensitive directory data within the Debug IP module.",
+        "CAPEC-121": "[CWE-1191] CAPEC-121 leverages CWE CWE-1191 by injecting malicious control signals through the Debug IP, which could alter the diagnostic access configuration and expose confidential directory information, violating the asset's confidentiality objective. [CWE-1244] CAPEC-121 can exploit CWE-1244 by injecting malicious control signals through the debug interface, resulting in unauthorized access to the directory array and exposing confidential cache directory information. [CWE-1262] CAPEC-121 can exploit CWE-1262 by injecting erroneous control signals through the debug interface, potentially causing misconfiguration and unauthorized access to sensitive directory data, thereby breaching confidentiality.",
+        "CAPEC-114": "[CWE-1244] CAPEC-114 can exploit CWE-1244 by manipulating diagnostic access requests to the directory array, potentially leading to unauthorized information disclosure and compromising the confidentiality of sensitive directory data.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 can exploit CWE-1262 by manipulating the diagnostic access to the directory array, leading to unauthorized disclosure of sensitive directory information, thus compromising confidentiality."
+      }
+    },
+    {
+      "Asset_Name": "Diagnostic Access to Tag Array",
+      "Functionality": "Allows diagnostic access to the tag array in the L2 cache.",
+      "Security Objective": "Confidentiality",
+      "Justification": "Could expose sensitive tag information.",
+      "CWE-IDs": [
+        "CWE-1191",
+        "CWE-1244",
+        "CWE-1313"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1191": "The Debug module's diagnostic access to the tag array can be exploited if improper access controls allow unauthorized access to sensitive tag information.",
+        "CWE-1244": "The Debug module may expose the tag array to unsafe debug access levels, allowing attackers to access sensitive data if debug access levels are misconfigured.",
+        "CWE-1313": "The ability to activate debug logic at runtime could allow unauthorized access to the tag array, compromising confidentiality if debug features are improperly secured."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1191": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE CWE-1191 by manipulating diagnostic access to the tag array, potentially allowing unauthorized retrieval of sensitive tag information, thereby breaching confidentiality within the Debug IP module.",
+            "CAPEC-121": "CAPEC-121 leverages CWE CWE-1191 by injecting malicious control signals into the Debug IP, which could alter the diagnostic access to the tag array and expose confidential cache tag data."
+          }
+        },
+        "CWE-1244": {
+          "CAPEC-IDs": [
+            "CAPEC-114",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-114": "CAPEC-114 exploits CWE-1244 by manipulating diagnostic access to the tag array, potentially leading to unauthorized disclosure of sensitive tag information, thereby compromising confidentiality.",
+            "CAPEC-121": "CAPEC-121 leverages CWE-1244 by injecting erroneous control signals into the debug module, which could result in unauthorized access to the tag array and exposure of confidential cache tag data."
+          }
+        },
+        "CWE-1313": {
+          "CAPEC-IDs": [
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-121": "By exploiting CWE-1313, an attacker could leverage CAPEC-121 to manipulate diagnostic access controls, leading to unauthorized disclosure of sensitive tag information from the L2 cache's tag array, thereby compromising confidentiality."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-121",
+        "CAPEC-114"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1191] CAPEC-180 exploits CWE CWE-1191 by manipulating diagnostic access to the tag array, potentially allowing unauthorized retrieval of sensitive tag information, thereby breaching confidentiality within the Debug IP module.",
+        "CAPEC-121": "[CWE-1191] CAPEC-121 leverages CWE CWE-1191 by injecting malicious control signals into the Debug IP, which could alter the diagnostic access to the tag array and expose confidential cache tag data. [CWE-1244] CAPEC-121 leverages CWE-1244 by injecting erroneous control signals into the debug module, which could result in unauthorized access to the tag array and exposure of confidential cache tag data. [CWE-1313] By exploiting CWE-1313, an attacker could leverage CAPEC-121 to manipulate diagnostic access controls, leading to unauthorized disclosure of sensitive tag information from the L2 cache's tag array, thereby compromising confidentiality.",
+        "CAPEC-114": "[CWE-1244] CAPEC-114 exploits CWE-1244 by manipulating diagnostic access to the tag array, potentially leading to unauthorized disclosure of sensitive tag information, thereby compromising confidentiality."
+      }
+    },
+    {
+      "Asset_Name": "Diagnostic Access to State Array",
+      "Functionality": "Allows diagnostic access to the state array in the L2 cache.",
+      "Security Objective": "Confidentiality",
+      "Justification": "Could expose sensitive state information.",
+      "CWE-IDs": [
+        "CWE-1191",
+        "CWE-1244",
+        "CWE-1262"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1191": "The Debug module's diagnostic access to the state array could be exploited if improper access controls allow unauthorized access to sensitive internal registers.",
+        "CWE-1244": "If the Debug module assigns incorrect access levels to the state array, it could allow unauthorized agents to access sensitive state information, compromising confidentiality.",
+        "CWE-1262": "Improper access control on the Debug module's register interface could allow unauthorized access to the state array, leading to exposure of sensitive data."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1191": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1191 by leveraging unauthorized access to the Debug IP's diagnostic interface, allowing an attacker to read sensitive state information from the L2 cache's state array, thereby breaching confidentiality.",
+            "CAPEC-121": "CAPEC-121 exploits CWE-1191 by manipulating the Debug IP's control signals to alter the state array's diagnostic access, potentially leading to unauthorized disclosure of sensitive cache state information, compromising confidentiality."
+          }
+        },
+        "CWE-1244": {
+          "CAPEC-IDs": [
+            "CAPEC-114",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-114": "By exploiting CWE-1244, CAPEC-114 could manipulate the Debug IP's diagnostic access to the state array, leading to unauthorized disclosure of sensitive cache state information, thus compromising confidentiality.",
+            "CAPEC-121": "CAPEC-121 could exploit CWE-1244 by injecting malicious control signals into the Debug IP, potentially altering the state array's diagnostic access and exposing confidential system state data."
+          }
+        },
+        "CWE-1262": {
+          "CAPEC-IDs": [
+            "CAPEC-680",
+            "CAPEC-121"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-680": "CAPEC-680 exploits CWE-1262 by manipulating the Debug IP's diagnostic access to the state array, potentially leading to unauthorized disclosure of sensitive cache state information, thereby breaching confidentiality.",
+            "CAPEC-121": "CAPEC-121 leverages CWE-1262 by injecting malicious control signals through the Debug IP, which could alter the state array's integrity, resulting in corrupted cache state information and unauthorized data exposure."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-180",
+        "CAPEC-121",
+        "CAPEC-114",
+        "CAPEC-680"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-180": "[CWE-1191] CAPEC-180 exploits CWE-1191 by leveraging unauthorized access to the Debug IP's diagnostic interface, allowing an attacker to read sensitive state information from the L2 cache's state array, thereby breaching confidentiality.",
+        "CAPEC-121": "[CWE-1191] CAPEC-121 exploits CWE-1191 by manipulating the Debug IP's control signals to alter the state array's diagnostic access, potentially leading to unauthorized disclosure of sensitive cache state information, compromising confidentiality. [CWE-1244] CAPEC-121 could exploit CWE-1244 by injecting malicious control signals into the Debug IP, potentially altering the state array's diagnostic access and exposing confidential system state data. [CWE-1262] CAPEC-121 leverages CWE-1262 by injecting malicious control signals through the Debug IP, which could alter the state array's integrity, resulting in corrupted cache state information and unauthorized data exposure.",
+        "CAPEC-114": "[CWE-1244] By exploiting CWE-1244, CAPEC-114 could manipulate the Debug IP's diagnostic access to the state array, leading to unauthorized disclosure of sensitive cache state information, thus compromising confidentiality.",
+        "CAPEC-680": "[CWE-1262] CAPEC-680 exploits CWE-1262 by manipulating the Debug IP's diagnostic access to the state array, potentially leading to unauthorized disclosure of sensitive cache state information, thereby breaching confidentiality."
+      }
+    }
+  ]
+}

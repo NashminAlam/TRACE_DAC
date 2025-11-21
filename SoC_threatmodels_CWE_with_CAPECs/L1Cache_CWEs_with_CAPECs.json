@@ -1,0 +1,239 @@
+{
+  "IP": "L1Cache",
+  "Assets": [
+    {
+      "Asset_Name": "L1 Data Cache",
+      "Functionality": "Provides fast access to frequently used data, reducing the need to fetch from slower memory layers.",
+      "Security Objective": "Confidentiality",
+      "Justification": "Unauthorized access could potentially expose sensitive data patterns, although the L1Cache itself does not store persistent sensitive data beyond transient cache lines.",
+      "CWE-IDs": [
+        "CWE-1420",
+        "CWE-1303",
+        "CWE-1421",
+        "CWE-1342"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1420": "The L1 Data Cache can be exploited through speculative execution, leaving microarchitectural traces that expose sensitive data patterns.",
+        "CWE-1303": "The L1 Data Cache shares microarchitectural resources, which can be exploited for side-channel attacks to leak sensitive data.",
+        "CWE-1421": "Transient execution in shared microarchitectural structures like the L1 Data Cache can expose sensitive information before access control checks are resolved.",
+        "CWE-1342": "Microarchitectural state after transient execution in the L1 Data Cache can be exploited to infer sensitive information through side-channel attacks."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1420": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74, which involves manipulating cache behavior to extract sensitive information, can exploit CWE-1420 by leveraging the L1 Data Cache's lack of detailed configuration and control register documentation to induce cache state changes that reveal confidential data patterns, compromising the confidentiality objective of the asset."
+          }
+        },
+        "CWE-1303": {
+          "CAPEC-IDs": [
+            "CAPEC-663",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-663": "CAPEC-663 can exploit CWE-1303 by manipulating cache eviction policies in the L1 Data Cache to infer sensitive data patterns, thereby compromising confidentiality within the OpenPiton architecture.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1303 by inducing cache timing side-channel attacks on the L1 Data Cache, leading to unauthorized disclosure of transient data patterns and violating confidentiality."
+          }
+        },
+        "CWE-1421": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74, which involves manipulating timing to extract sensitive information, could exploit CWE-1421 by leveraging timing discrepancies in the L1 Data Cache's access patterns to infer confidential data, thereby compromising the confidentiality objective of the asset."
+          }
+        },
+        "CWE-1342": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74, which involves manipulating timing and state to extract information, could exploit CWE-1342 by leveraging timing discrepancies in the L1 Data Cache's access patterns to infer sensitive data, thus compromising confidentiality in the OpenPiton architecture."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-663"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1420] CAPEC-74, which involves manipulating cache behavior to extract sensitive information, can exploit CWE-1420 by leveraging the L1 Data Cache's lack of detailed configuration and control register documentation to induce cache state changes that reveal confidential data patterns, compromising the confidentiality objective of the asset. [CWE-1303] CAPEC-74 can exploit CWE-1303 by inducing cache timing side-channel attacks on the L1 Data Cache, leading to unauthorized disclosure of transient data patterns and violating confidentiality. [CWE-1421] CAPEC-74, which involves manipulating timing to extract sensitive information, could exploit CWE-1421 by leveraging timing discrepancies in the L1 Data Cache's access patterns to infer confidential data, thereby compromising the confidentiality objective of the asset. [CWE-1342] CAPEC-74, which involves manipulating timing and state to extract information, could exploit CWE-1342 by leveraging timing discrepancies in the L1 Data Cache's access patterns to infer sensitive data, thus compromising confidentiality in the OpenPiton architecture.",
+        "CAPEC-663": "[CWE-1303] CAPEC-663 can exploit CWE-1303 by manipulating cache eviction policies in the L1 Data Cache to infer sensitive data patterns, thereby compromising confidentiality within the OpenPiton architecture."
+      }
+    },
+    {
+      "Asset_Name": "L1 Instruction Cache",
+      "Functionality": "Provides fast access to frequently used instructions, reducing the need to fetch from slower memory layers.",
+      "Security Objective": "Confidentiality",
+      "Justification": "Unauthorized access could potentially expose sensitive instruction patterns, although the L1Cache itself does not store persistent sensitive data beyond transient cache lines.",
+      "CWE-IDs": [
+        "CWE-1420",
+        "CWE-1303",
+        "CWE-1421",
+        "CWE-1342"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1420": "The L1 Instruction Cache can be exploited through speculative execution, leaving microarchitectural side effects that expose sensitive instruction patterns via side-channel attacks.",
+        "CWE-1303": "The L1 Instruction Cache shares microarchitectural resources, which can be exploited by an attacker to recover sensitive instruction patterns through side-channel attacks.",
+        "CWE-1421": "Transient execution vulnerabilities in the L1 Instruction Cache can expose sensitive instruction data through shared microarchitectural structures, violating confidentiality.",
+        "CWE-1342": "The L1 Instruction Cache may retain microarchitectural state after transient execution, allowing attackers to infer sensitive instruction data through side-channel analysis."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1420": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1420 by manipulating the L1 Instruction Cache's transient cache lines to induce unauthorized access and disclosure of sensitive instruction patterns, thereby compromising confidentiality within the OpenPiton architecture."
+          }
+        },
+        "CWE-1303": {
+          "CAPEC-IDs": [
+            "CAPEC-663",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-663": "CAPEC-663 can exploit CWE-1303 by manipulating the L1 Instruction Cache's transient cache lines to infer instruction patterns, thereby compromising confidentiality by exposing sensitive instruction sequences through side-channel analysis.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1303 by causing the L1 Instruction Cache to thrash through crafted instruction sequences, leading to cache misses and potential denial-of-service, thus indirectly affecting the confidentiality of instruction access patterns by increasing the likelihood of observable side-channel effects."
+          }
+        },
+        "CWE-1421": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1421 by manipulating the L1 Instruction Cache's transient data handling to induce cache timing side-channel attacks, potentially leading to unauthorized disclosure of sensitive instruction patterns, thereby compromising confidentiality."
+          }
+        },
+        "CWE-1342": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1342 by manipulating the L1 Instruction Cache's transient data handling to induce cache timing side-channel attacks, potentially leading to unauthorized disclosure of instruction patterns, thereby compromising confidentiality."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-663"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1420] CAPEC-74 can exploit CWE-1420 by manipulating the L1 Instruction Cache's transient cache lines to induce unauthorized access and disclosure of sensitive instruction patterns, thereby compromising confidentiality within the OpenPiton architecture. [CWE-1303] CAPEC-74 can exploit CWE-1303 by causing the L1 Instruction Cache to thrash through crafted instruction sequences, leading to cache misses and potential denial-of-service, thus indirectly affecting the confidentiality of instruction access patterns by increasing the likelihood of observable side-channel effects. [CWE-1421] CAPEC-74 can exploit CWE-1421 by manipulating the L1 Instruction Cache's transient data handling to induce cache timing side-channel attacks, potentially leading to unauthorized disclosure of sensitive instruction patterns, thereby compromising confidentiality. [CWE-1342] CAPEC-74 can exploit CWE-1342 by manipulating the L1 Instruction Cache's transient data handling to induce cache timing side-channel attacks, potentially leading to unauthorized disclosure of instruction patterns, thereby compromising confidentiality.",
+        "CAPEC-663": "[CWE-1303] CAPEC-663 can exploit CWE-1303 by manipulating the L1 Instruction Cache's transient cache lines to infer instruction patterns, thereby compromising confidentiality by exposing sensitive instruction sequences through side-channel analysis."
+      }
+    },
+    {
+      "Asset_Name": "Cache Coherence Mechanism",
+      "Functionality": "Maintains cache coherence across the system using a directory-based MESI protocol.",
+      "Security Objective": "Integrity",
+      "Justification": "Misconfiguration or design flaws in the coherence mechanism could lead to incorrect data being stored or fetched, impacting computation results.",
+      "CWE-IDs": [
+        "CWE-1250",
+        "CWE-1220",
+        "CWE-1331"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1250": "The cache coherence mechanism could fail to maintain consistency between cache states across cores, leading to stale data being used, which directly impacts data integrity.",
+        "CWE-1220": "Insufficient granularity in access control could allow unauthorized agents to manipulate or access the cache coherence mechanism, compromising data integrity.",
+        "CWE-1331": "Improper isolation of shared resources in the NoC could allow interference with the cache coherence mechanism, leading to data integrity issues through side-channel attacks."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1250": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1250 by manipulating the cache coherence mechanism to introduce inconsistencies in the directory-based MESI protocol, leading to integrity violations through incorrect data being stored or fetched within the L1Cache of the OpenPiton architecture."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 can exploit CWE-1220 by manipulating the cache coherence mechanism to introduce stale or incorrect data into the L1Cache, thereby compromising the integrity of the system's computation results.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1220 by causing a misconfiguration in the cache coherence protocol, leading to incorrect data propagation across the cache hierarchy and undermining the integrity of data processing."
+          }
+        },
+        "CWE-1331": {
+          "CAPEC-IDs": [
+            "CAPEC-124",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-124": "CAPEC-124 can exploit CWE-1331 by manipulating the cache coherence mechanism to introduce stale data into the L1Cache, thereby corrupting the integrity of the data fetched by the core.",
+            "CAPEC-74": "CAPEC-74 can exploit CWE-1331 by causing a misconfiguration in the cache coherence protocol, leading to incorrect data being stored or fetched, which undermines the integrity of computation results."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-180",
+        "CAPEC-124"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1250] CAPEC-74 can exploit CWE-1250 by manipulating the cache coherence mechanism to introduce inconsistencies in the directory-based MESI protocol, leading to integrity violations through incorrect data being stored or fetched within the L1Cache of the OpenPiton architecture. [CWE-1220] CAPEC-74 can exploit CWE-1220 by causing a misconfiguration in the cache coherence protocol, leading to incorrect data propagation across the cache hierarchy and undermining the integrity of data processing. [CWE-1331] CAPEC-74 can exploit CWE-1331 by causing a misconfiguration in the cache coherence protocol, leading to incorrect data being stored or fetched, which undermines the integrity of computation results.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 can exploit CWE-1220 by manipulating the cache coherence mechanism to introduce stale or incorrect data into the L1Cache, thereby compromising the integrity of the system's computation results.",
+        "CAPEC-124": "[CWE-1331] CAPEC-124 can exploit CWE-1331 by manipulating the cache coherence mechanism to introduce stale data into the L1Cache, thereby corrupting the integrity of the data fetched by the core."
+      }
+    },
+    {
+      "Asset_Name": "Cache Line Management",
+      "Functionality": "Handles read and write requests from the core and forwards any misses to the L1.5 cache.",
+      "Security Objective": "Availability",
+      "Justification": "A design flaw or misconfiguration could result in cache line thrashing or stalls, affecting processor performance and potentially leading to denial of service.",
+      "CWE-IDs": [
+        "CWE-1250",
+        "CWE-1220",
+        "CWE-1318"
+      ],
+      "Justification of Related CWE-IDs": {
+        "CWE-1250": "Improper synchronization in cache coherence protocols could lead to inconsistent cache states, causing data integrity issues and potential denial of service.",
+        "CWE-1220": "Insufficient granularity in access control could allow unauthorized access to cache management functions, leading to cache thrashing and denial of service.",
+        "CWE-1318": "Missing support for security features in the interconnect fabric could result in unauthorized cache line access, affecting system availability and performance."
+      },
+      "CAPEC-Mapping-Per-CWE": {
+        "CWE-1250": {
+          "CAPEC-IDs": [
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-74": "CAPEC-74, which involves manipulating timing and state information, can exploit CWE-1250 by inducing cache line thrashing in the L1Cache's Cache Line Management, leading to denial-of-service and impacting the availability of the system by overwhelming the cache's ability to handle read and write requests efficiently."
+          }
+        },
+        "CWE-1220": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "CAPEC-180 exploits CWE-1220 by manipulating cache line management to induce cache line thrashing, leading to denial-of-service through excessive cache misses and stalls, thereby compromising the availability of the L1Cache in the OpenPiton architecture.",
+            "CAPEC-74": "CAPEC-74 exploits CWE-1220 by introducing malformed or unexpected inputs to the cache line management system, causing misconfiguration or state corruption that results in cache line thrashing and impacts the availability of the L1Cache."
+          }
+        },
+        "CWE-1318": {
+          "CAPEC-IDs": [
+            "CAPEC-180",
+            "CAPEC-74"
+          ],
+          "Justification of Related CAPEC-IDs": {
+            "CAPEC-180": "By exploiting CWE-1318, an attacker could use CAPEC-180 to manipulate cache line management in the L1Cache, causing cache line thrashing and denial-of-service by overwhelming the cache with excessive requests, thus impacting availability.",
+            "CAPEC-74": "Through CWE-1318, CAPEC-74 could be used to induce misconfigurations in the L1Cache's cache line management, leading to incorrect handling of read/write requests and potential denial-of-service due to cache stalls, thereby affecting availability."
+          }
+        }
+      },
+      "CAPEC-IDs": [
+        "CAPEC-74",
+        "CAPEC-180"
+      ],
+      "Justification of Related CAPEC-IDs": {
+        "CAPEC-74": "[CWE-1250] CAPEC-74, which involves manipulating timing and state information, can exploit CWE-1250 by inducing cache line thrashing in the L1Cache's Cache Line Management, leading to denial-of-service and impacting the availability of the system by overwhelming the cache's ability to handle read and write requests efficiently. [CWE-1220] CAPEC-74 exploits CWE-1220 by introducing malformed or unexpected inputs to the cache line management system, causing misconfiguration or state corruption that results in cache line thrashing and impacts the availability of the L1Cache. [CWE-1318] Through CWE-1318, CAPEC-74 could be used to induce misconfigurations in the L1Cache's cache line management, leading to incorrect handling of read/write requests and potential denial-of-service due to cache stalls, thereby affecting availability.",
+        "CAPEC-180": "[CWE-1220] CAPEC-180 exploits CWE-1220 by manipulating cache line management to induce cache line thrashing, leading to denial-of-service through excessive cache misses and stalls, thereby compromising the availability of the L1Cache in the OpenPiton architecture. [CWE-1318] By exploiting CWE-1318, an attacker could use CAPEC-180 to manipulate cache line management in the L1Cache, causing cache line thrashing and denial-of-service by overwhelming the cache with excessive requests, thus impacting availability."
+      }
+    }
+  ]
+}
